@@ -6,7 +6,7 @@
 * [Cycles System](#cycles-system)
 * [Play Time System](#play-time-system)
 * [Fading Macros](#fading-macros)
-* [First Macro](#first-macro-set)
+* [First Macro](#first-macro)
 * [Message Macro](#message-macro)
 * [Dialog API Macros](#dialog-api-macros)
 
