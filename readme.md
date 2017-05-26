@@ -2,13 +2,13 @@
 
 ## Contents
 
-+[Simple Inventory](#simple-inventory)
-+[Cycles System](#cycles-system)
-+[Play Time System](#play-time-system)
-+[Fading Macros](#fading-macros)
-+[First Macro](#first-macro-set)
-+[Message Macro](#message-macro)
-+[Dialog API Macros](#dialog-api-macros)
+*[Simple Inventory](#simple-inventory)
+*[Cycles System](#cycles-system)
+*[Play Time System](#play-time-system)
+*[Fading Macros](#fading-macros)
+*[First Macro](#first-macro-set)
+*[Message Macro](#message-macro)
+*[Dialog API Macros](#dialog-api-macros)
 
 ## Simple Inventory
 
@@ -309,10 +309,10 @@ Simply put, a way to introduce 'cycles' into your game without having to fiddle 
 
 Here's a few notes about how the system works that you should keep in mind:
 
-+Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle <<newcycle 'time' 'morning' 'noon' 'night' 3>> and then, after 2 turns, create the cycle <<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>, the two cycles will not line up: each new 'day' will start at the 'time' cycle's 'noon'. Generally, it's best to include all your <<newcycle>> statements in the same passage (StoryInit is a good candidate), or, if you need your cycles to line up, use the startTag (default: 'startcycles') or the <<resetallcycles>> macro to reset all of your cycles to zero upon adding a new one.
-+It is **not possible** to reclaim a cycle that has been deleted by the <<deletecycle>> macro.  Generally, it's better to simply hide the cycle's output than to delete it if you feel that you may need to use it again; you can always reset it via <<resetcycle>> if you need it to appear to have been 'stopped'.
-+You do not have to delete a cyle to reconfigue it.  You can use the <<newcycle>> macro to make alterations to an existing cycle; the old cycle will be overwritten by the new.  Note that, like with <<deletecycle>>, it is impossible to reclaim an overwritten cycle.
-+The macros that 'return' temporary variables (<<cycleIs>>, <<whereIsCycle>>, <<cycleArrayIs>>, <<cycleAtIs>> and <<defineCycle>>) are designed for debugging and extending the cycle system.  You will almost never need to resort to these macros if you are using the system as-is, though they can help you do some pretty dynamic things.
+*Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle <<newcycle 'time' 'morning' 'noon' 'night' 3>> and then, after 2 turns, create the cycle <<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>, the two cycles will not line up: each new 'day' will start at the 'time' cycle's 'noon'. Generally, it's best to include all your <<newcycle>> statements in the same passage (StoryInit is a good candidate), or, if you need your cycles to line up, use the startTag (default: 'startcycles') or the <<resetallcycles>> macro to reset all of your cycles to zero upon adding a new one.
+*It is **not possible** to reclaim a cycle that has been deleted by the <<deletecycle>> macro.  Generally, it's better to simply hide the cycle's output than to delete it if you feel that you may need to use it again; you can always reset it via <<resetcycle>> if you need it to appear to have been 'stopped'.
+*You do not have to delete a cyle to reconfigue it.  You can use the <<newcycle>> macro to make alterations to an existing cycle; the old cycle will be overwritten by the new.  Note that, like with <<deletecycle>>, it is impossible to reclaim an overwritten cycle.
+*The macros that 'return' temporary variables (<<cycleIs>>, <<whereIsCycle>>, <<cycleArrayIs>>, <<cycleAtIs>> and <<defineCycle>>) are designed for debugging and extending the cycle system.  You will almost never need to resort to these macros if you are using the system as-is, though they can help you do some pretty dynamic things.
 
 ### Options
 
