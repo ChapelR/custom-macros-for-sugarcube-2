@@ -342,7 +342,7 @@ The `pauseTag` value is a passage tag that will temporarily pause all cycles for
 The `menuTag` value is a passage tag that will prevent all cycles from collecting turns in both the tagged passage and the passage immediately following it.  The idea behind this tag is to use it for menu options, so that entering and exiting a menu-style passage will not cause cycles' turns to increment.  By default, the tag is `'menupause'`.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
 
 #### `tryGlobal` option
-There are several 'helper' functions included in these scripts: `setup.cycSystem.checkCycle()`, for example.  You can read more about these function below.  Obviously, this is a mouthful, so the function definitions gets copied over as global functions, i.e. `checkCycle()`.  These global functions are only created if their names are undefined, to prevent any potential compatibility issues.  However, if you'd prefer to keep the functions out of the global scope all together, you can set this value to false and they won't be sent to the global scope at all, even if their names are vailable.  You'll be forced to write out the longer `setup.cycSystem.checkCycle()` style functions, though.
+There are several 'helper' functions included in these scripts: `setup.cycSystem.checkCycle()`, for example.  You can read more about these function below.  Obviously, this is a mouthful, so the function definitions gets copied over as global functions, i.e. `checkCycle()`.  These global functions are only created if their names are undefined, to prevent any potential compatibility issues.  However, if you'd prefer to keep the functions out of the global scope all together, you can set this value to false and they won't be sent to the global scope at all, even if their names are available.  You'll be forced to write out the longer `setup.cycSystem.checkCycle()` style functions, though.
 
 ### Macros
 
@@ -527,7 +527,7 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 
 ### Functions
 
-*A note about the functions*:  The functions exists in both the `setup.cycSystem` namespace and as globals.  There is a very small chance that you'll need to use the nonglobal versions if the name of the functions are already taken.  The nonglobal versions are in the `setup.cycSystem` namespace.
+*A note about the functions*:  The functions exists in both the `setup.cycSystem` namespace and as globals.  There is a very small chance that you'll need to use the nonglobal versions if the name of a function is already taken.  The nonglobal versions are in the `setup.cycSystem` namespace.  You'll have to use the longer syntax if the `tryGlobal` option is set to false (see above).
 
 #### `checkCycle()` function
 
@@ -590,12 +590,12 @@ The `cycleCurrentTurns()` function returns the total number of turns that have p
 * cycle: the name of an existing cycle, passed as a quoted string.
 
 **Explanation**:
-The `cycleTotal()` function returns the number of turns the cycle takes to rotate completely through all its values and start over one time.  It can also be calculated by multiplying the number of turns a cycle take to change its value once and the total number of values it has.
+The `cycleTotal()` function returns the number of turns the cycle takes to rotate completely through all its values and start over one time.  It can also be calculated by multiplying the number of turns a cycle takes to change its value once and the total number of values it has.
 
 **Examples**:
 ```javascript
 // given <<newcycle 'time' 'early' 'late' 'night' 2>>:
-<<print cycleTotal('time')>> // prints 4 (2 values [early and time] * turn legnth 2)
+<<print cycleTotal('time')>> // prints 4 (2 values [early and time] * turn length 2)
 ```
 
 #### `cycleStatus()` function
@@ -646,7 +646,7 @@ The `getCycle()` function returns the value of one of the properties of the indi
  * `values`: an array of the cycle's possible values
  * `current`: the current value of the cycle
  * `length`: the total number of values in the value array
- * `turns`: the number of turns the cycle takes to change its value once
+ * `turns`: the number of turns the cycle takes to change its value once  
 You can usually use the other functions to return much of this information.
 
 **Examples**:
@@ -675,7 +675,7 @@ setup.playTime.options = {
 ```
 
 #### `storyVar` option
-The play time system script automatically creates a story variable object to hold the timer; this allows you to save and load the timer via SugarCube's built-in save system and it allows you to access the timer natively in the IDE using a `$variable`.  By default, the story variable is created with the name `'playTime'` and accessed via `$playTime` in the IDE.  You can change the name using the storyVar option.  Valid names are the same as all valid TwineScript variable names.
+The play time system script automatically creates a story variable object to hold the timer; this allows you to save and load the timer via SugarCube's built-in save system and it allows you to access the timer natively in the IDE using a `$variable`.  By default, the story variable is created with the name `'playTime'` and accessed via `$playTime` in the IDE.  You can change the name using the `storyVar` option.  Valid names are the same as all valid TwineScript variable names.
 
 #### `pauseTag` option
 The timer will not record time from a passage that is tagged with the `pauseTag`.  By default, the `pauseTag` is `'pausetimer'`, but you can configure it to your preference.  **Note**: passage tags should not include spaces.
