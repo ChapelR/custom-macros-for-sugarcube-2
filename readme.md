@@ -2,6 +2,7 @@
 
 ## Contents
 
+* [General Information](#general-information)
 * [Simple Inventory](#simple-inventory)
 * [Cycles System](#cycles-system)
 * [Play Time System](#play-time-system)
@@ -9,6 +10,30 @@
 * [First Macro](#first-macro)
 * [Message Macro](#message-macro)
 * [Dialog API Macros](#dialog-api-macros)
+
+## General Information
+
+Here's some general information about the provided scripts and how to use them.
+
+### Installation
+
+These scripts work with both Twine 1 and Twine 2.  They have been tested with SugarCube 2.18, and should be compatible with most recent versions of SugarCube 2.x, including most future versions.
+
+#### For Twine 2:
+
+Navigate to the script or scripts you want and copy the contents.  In Twine 2, paste the contents of each script you wish to install into your story's JavaScript area.
+
+#### For Twine 1:
+
+Create a new passage with the tag `script`, or right click on the editor and select `New Script Here`.  Paste the contents of the script or scripts you want into one or more of these script-tagged passages.
+
+### Story Variables
+
+Some of the scripts described below (Simple Inventory, Cycles System, and Play Time System) create new story variables.  If you create a variable with the same name somewhere in your story, the script will break.  To avoid this, all scripts that create story variables can be changed via that scripts options object.  See each specific script's documentation for more.
+
+### The Functions
+
+Some of the scripts (Simple Inventory and Cycles System) create functions for your use.  These functions are created in the `setup.(name of the system)` namespace to (hopefully) avoid any compatibility issue with other scripts.  These functions are then passed to the global (`window`) object as references.  The script checks for the function's name in the global scope and doesn't pass the reference if the name is already defined, to prevent any conflicts with other scripts.  If you'd prefer the functions stay out of the global scope all together, you can change the value of `tryGlobal` in the specific script's options object.  Note that the nonglobal versions will still work fine, regardless of the status of the global versions. 
 
 ## Simple Inventory
 
