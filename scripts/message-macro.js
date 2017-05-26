@@ -1,40 +1,14 @@
 // message macro, by chapel (with help from T.M. Edwards); for sugarcube 2
 // version 1.0
+// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#message-macro
 
 //intialize namespace
 setup.messageMacro = {};
 
 // default text option:
 setup.messageMacro.default = 'Help';
-// Change the above value to what you want the macro's default text to be if no link text is provided
 
-/*
-<<message>> macro
-
-Syntax:
-<<message (optional: link text) (optional: 'btn' keyword) (optional: id)>>
-
-	*link text: the text of the link.  if omitted, default text is displayed (the default text can be edited above)
-	*'btn' keyword: if 'btn' is included in the macro's arguments, a button is generated instead of a link
-	*id: if multiple messages are displayed on the same page with the same link text, you need to provide each one with a unique id.
-
-Explanation:
-Creates a link (or button) on the page.  When clicked, the content between the tags is displayed on the next line, reflowing the following text.  The player can click the same link again to 'collpase' the message.
-
-Styling Options:
-Message content (but not the link/button) is given the class '.help'; you can control the appearance of the message's content using this selector in your CSS. (For example: .help {color: green;} would render the text of all message macros in green).
-
-Examples:
-<<message>>Text<</message>>
-// creates a link that reads 'Help' (by default) and can be clicked to display the content between the tags and clicked again to collapse the content.
-
-<<message 'click me' btn>>Text<</message>>
-// creates the message with the link text 'click me' and renders it as a button element
-
-<<message 'Click here!' 'uniqueID'>>...<</message>>
-<<message 'Click here!' 'anotherUniqueID'>>...<</message>>
-// creates two messages with the same link text.  they must be given two different, unique IDs to appear in the same passage.
-*/
+// <<message>> macro
 Macro.add('message', {
 	tags    : null,
 	handler : function () {

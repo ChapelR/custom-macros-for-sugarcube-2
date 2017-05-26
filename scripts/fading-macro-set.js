@@ -1,23 +1,8 @@
 // fading macro set, by chapel; for SugarCube 2
 // version 1.0
+// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#fading-macros
 
-/*
-<<fadein>> macro
-
-syntax:
-<<fadein (optional: delay) (animation length)>>...<</fadein>>
-
-	*delay: the delay, in seconds, to wait before the animation starts.
-	*animation length: the length of the fading animation, in seconds.
-	
-description:
-<<fadein>> causes its content to fade in.  you can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  both values must be in seconds, but you can use floating point values to emulate ms.  note that only *output* is delayed by this macro; code will still execute on passage load, meaning it shouldn't be used in the same way as <<timed>>, but it can be paired with <<timed>> to achieve that sort of effect.
-
-examples:
-<<fadein 10>>Fade me in over the course of ten seconds.<</fadein>>
-<<fadein 0.2 0.5>>Fade me in over half a second, but give the passage transition a moment to finish.<</fadein>>
-<<fadein 20 0.2>>Hide the way [[forward]] for 20 seconds...<</fadein>>
-*/
+// <<fadein>> macro
 Macro.add('fadein', {
 	   tags : null,
 	handler : function () {
@@ -49,23 +34,7 @@ Macro.add('fadein', {
 	}
 });
 
-/*
-<<fadeout>> macro
-
-syntax:
-<<fadeout (optional: delay) (animation length)>>...<</fadein>>
-
-	*delay: the delay, in seconds, to wait before the animation starts.
-	*animation length: the length of the fading animation, in seconds.
-	
-description:
-<<fadeout>> causes its content to fade out.  you can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  both values must be in seconds, but you can use floating point values to emulate ms.  content is set to {display: none;} after the animation completes, so the page may reflow.
-
-examples:
-<<fadeout 10>>Fade me out over the course of ten seconds.<</fadeout>>
-<<fadeout 0.2 4>>Fade me out over four seconds, but give the passage transition a moment to finish.<</fadeout>>
-<<fadeout 20 2>>This text will disappear after 20 seconds...read fast!<</fadeout>>
-*/
+// <<fadeout>> macro
 Macro.add('fadeout', {
 	   tags : null,
 	handler : function () {

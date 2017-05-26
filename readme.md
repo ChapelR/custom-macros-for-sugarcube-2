@@ -309,7 +309,7 @@ Simply put, a way to introduce 'cycles' into your game without having to fiddle 
 
 Here's a few notes about how the system works that you should keep in mind:
 
-* Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle `<<newcycle 'time' 'morning' 'noon' 'night' 3>>` and then, after 1 turn (e.g. on the next passage), you create the cycle `<<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>`, the two cycles will not line up: each new `'day'` will start at the `'time'` cycle's `'noon'`. Generally, it's best to include all your `<<newcycle>>` macros in the same passage (`StoryInit` is a good candidate), or, if you need your cycles to line up, use the startTag (default: 'startcycles') or the `<<resetallcycles>>` macro to reset all of your cycles to zero upon adding a new one.
+* Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle `<<newcycle 'time' 'morning' 'noon' 'night' 3>>` and then, after 1 turn (e.g. on the next passage), you create the cycle `<<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>`, the two cycles will not line up: each new `'day'` will start at the `'time'` cycle's `'noon'`. Generally, it's best to include all your `<<newcycle>>` macros in the same passage (`StoryInit` is a good candidate), or, if you need your cycles to line up, use the `startTag` (default: `'startcycles'`) or the `<<resetallcycles>>` macro to reset all of your cycles to zero upon adding a new one.
 * It is **not possible** to reclaim a cycle that has been deleted by the `<<deletecycle>>` macro.  Generally, it's better to simply hide the cycle's output than to delete it if you feel that you may need to use it again; you can always reset it via `<<resetcycle>>` if you need it to appear to have been 'stopped'.
 * You do not have to delete a cycle to reconfigue it.  You can use the `<<newcycle>>` macro to make alterations to an existing cycle; the old cycle will be overwritten by the new.  Note that, like with `<<deletecycle>>`, it is impossible to reclaim an overwritten cycle.
 * The macros that 'return' temporary variables (`<<cycleIs>>`, `<<whereIsCycle>>`, `<<cycleArrayIs>>`, `<<cycleAtIs>>` and `<<defineCycle>>`) are designed for debugging and extending the cycle system.  You will almost never need to resort to these macros if you are using the system as-is, though they can help you do some pretty dynamic things.
@@ -342,7 +342,7 @@ The `pauseTag` value is a passage tag that will temporarily pause all cycles for
 The `menuTag` value is a passage tag that will prevent all cycles from collecting turns in both the tagged passage and the passage immediately following it.  The idea behind this tag is to use it for menu options, so that entering and exiting a menu-style passage will not cause cycles' turns to increment.  By default, the tag is `'menupause'`.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
 
 #### `tryGlobal` option
-There is one 'helper' functions included in these scripts: `setup.cycSystem.checkCycle()`.  You can read more about how to use this function below.  Obviously, this is a mouthful, so the function definition gets copied over as the global function `checkCycle()`.  This function is only created if its name is undefined, to prevent any potential compatibility issues.  However, if you'd prefer to keep this function out of the global scope, you can set this value to false and it won't be sent to the global scope at all, even if its name isn't taken.  You'll be forced to write out the longer `setup.cycSystem.checkCycle()` function, though.
+There are several 'helper' functions included in these scripts: `setup.cycSystem.checkCycle()`, for example.  You can read more about these function below.  Obviously, this is a mouthful, so the function definitions gets copied over as global functions, i.e. `checkCycle()`.  These global functions are only created if their names are undefined, to prevent any potential compatibility issues.  However, if you'd prefer to keep the functions out of the global scope all together, you can set this value to false and they won't be sent to the global scope at all, even if their names are vailable.  You'll be forced to write out the longer `setup.cycSystem.checkCycle()` style functions, though.
 
 ### Macros
 
@@ -363,7 +363,7 @@ The `<<newcycle>>` macro is used to construct a new cycle.  The cycle's definiti
  **Examples**:
 ```javascript
 <<newcycle 'timeOfDay' 'morning' 'afternoon' 'evening' 'night' 2>>
-// creates a new cycle called 'timeOfDay', and change the value every other turn
+// creates a new cycle called 'timeOfDay', and changes the value every other turn
 
 <<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 8>>
 // creates a new cycle called 'days' that changes the day of the week every 8 turns
@@ -412,7 +412,7 @@ The `<<resetcycle>>` macro resets all of the cycles provided to it back to their
  `<<resetallcycles>>`
  
  **Explanation**:
-Resets all currently running cycles to `0` turns.  Similar to `<<resetcycle>>`, but affects all cycles.  Functionally the same at the `startTag` passage tag; though the tag is the preferred method to accomplish this if at all possible.
+Resets all currently running cycles to `0` turns.  Similar to `<<resetcycle>>`, but affects all cycles.  Functionally the same as the `startTag` passage tag; though the tag is the preferred method to accomplish this if at all possible.
  
  **Examples**:
 ```javascript
@@ -482,7 +482,7 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 * cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
-`<<cycleIs>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the array of possible values of the indicated cycle.
+`<<cycleArrayIs>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the array of possible values of the indicated cycle.
 
 **Examples**:
 ```javascript
@@ -527,7 +527,7 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 
 ### Functions
 
-*A note about the function*:  The `checkCycle()` function exists in both the `setup.cycSystem` namespace and as a global.  There is a very small chance that you'll need to use the nonglobal version if the name of the function is already taken.  The nonglobal version is `setup.cycSystem.checkCycle()`.
+*A note about the functions*:  The functions exists in both the `setup.cycSystem` namespace and as globals.  There is a very small chance that you'll need to use the nonglobal versions if the name of the functions are already taken.  The nonglobal versions are in the `setup.cycSystem` namespace.
 
 #### `checkCycle()` function
 
@@ -550,6 +550,114 @@ The `checkCycle()` function returns true if the *current* value of the named cyc
 <</if>>
 ```
 
+#### `cycleTurns()` function
+
+**Syntax**:
+`cycleTurns(cycle)`
+
+* cycle: the name of an existing cycle, passed as a quoted string.
+
+**Explanation**:
+The `cycleTurns()` function returns the number of turns the cycle takes to change its value once.
+
+**Examples**:
+```javascript
+// given <<newcycle 'time' 'early' 'late' 'night' 2>>:
+<<print cycleTurns('time')>> // prints 2
+```
+
+#### `cycleCurrentTurns()` function
+
+**Syntax**:
+`cycleCurrentTurns(cycle)`
+
+* cycle: the name of an existing cycle, passed as a quoted string.
+
+**Explanation**:
+The `cycleCurrentTurns()` function returns the total number of turns that have passed since the indicated cycle was created or last reset.
+
+**Examples**:
+```javascript
+// given <<newcycle 'time' 'early' 'late' 'night' 2>>, turn 8:
+<<print cycleCurrentTurns('time')>> // prints 8
+```
+
+#### `cycleTotal()` function
+
+**Syntax**:
+`cycleTotal(cycle)`
+
+* cycle: the name of an existing cycle, passed as a quoted string.
+
+**Explanation**:
+The `cycleTotal()` function returns the number of turns the cycle takes to rotate completely through all its values and start over one time.  It can also be calculated by multiplying the number of turns a cycle take to change its value once and the total number of values it has.
+
+**Examples**:
+```javascript
+// given <<newcycle 'time' 'early' 'late' 'night' 2>>:
+<<print cycleTotal('time')>> // prints 4 (2 values [early and time] * turn legnth 2)
+```
+
+#### `cycleStatus()` function
+
+**Syntax**:
+`cycleStatus(cycle)`
+
+* cycle: the name of an existing cycle, passed as a quoted string.
+
+**Explanation**:
+The `cycleStatus()` function returns true if the cycle indicated currently exists, and returns false if the cycle cannot be found.
+
+**Examples**:
+```javascript
+// given <<newcycle 'time' 'early' 'late' 'night' 2>> and assuming it is the only cycle:
+<<if cycleStatus('time')>>True<<else>>False<</if>> // displays 'True'
+
+<<if cycleStatus('seasons')>>True<<else>>False<</if>> // displays 'False'
+```
+
+#### `cycleSinceLast()` function
+
+**Syntax**:
+`cycleSinceLast(cycle)`
+
+* cycle: the name of an existing cycle, passed as a quoted string.
+
+**Explanation**:
+The `cycleSinceLast()` function returns the number of turns that have passed since the last time the indicated cycle changed.
+
+**Examples**:
+```javascript
+// given <<newcycle 'time' 'early' 'late' 'night' 3>>, turn 7:
+<<print cycleSinceLast('time')>> // prints 1
+```
+
+#### `getCycle()` function
+
+**Syntax**:
+`getCycle(cycle, property)`
+
+* cycle: the name of an existing cycle, passed as a quoted string.
+* property: the name of the property to return, passed as a quoted string.
+
+**Explanation**:
+The `getCycle()` function returns the value of one of the properties of the indicated cycle.  Properties are a part of the cycle definition.  Here's some properties you might wish to return:
+ * `name`: the cycle's name
+ * `values`: an array of the cycle's possible values
+ * `current`: the current value of the cycle
+ * `length`: the total number of values in the value array
+ * `turns`: the number of turns the cycle takes to change its value once
+You can usually use the other functions to return much of this information.
+
+**Examples**:
+```javascript
+// given <<newcycle 'time' 'early' 'late' 'night' 3>>:
+<<print getCycle('time', 'name')>> // prints 'time'
+<<print getCycle('time', 'values').join('-')>> // prints 'early-late'
+<<print getCycle('time', 'length')>> // prints 2
+<<print getCycle('time', 'turns')>> // prints 3
+```
+
 ## Play Time System
 
 Records the player's total play time in hours, minutes, and seconds and formats it for display via the `<<playtime>>` macro. You can pause the timer with the `‘pause’` tag, and format your own output, if desired, using the `$playTime` story variable object. The play time will persist across passage navigation, saved games, etc.
@@ -567,7 +675,7 @@ setup.playTime.options = {
 ```
 
 #### `storyVar` option
-The play time system script automatically creates a story variable object to hold all the timer; this allows you to save and load the timer via SugarCube's built-in save system and it allows you to access the timer natively in the IDE using a `$variable`.  By default, the story variable is created with the name `'playTime'` and accessed via `$playTime` in the IDE.  You can change the name using the storyVar option.  Valid names are the same as all valid TwineScript variable names.
+The play time system script automatically creates a story variable object to hold the timer; this allows you to save and load the timer via SugarCube's built-in save system and it allows you to access the timer natively in the IDE using a `$variable`.  By default, the story variable is created with the name `'playTime'` and accessed via `$playTime` in the IDE.  You can change the name using the storyVar option.  Valid names are the same as all valid TwineScript variable names.
 
 #### `pauseTag` option
 The timer will not record time from a passage that is tagged with the `pauseTag`.  By default, the `pauseTag` is `'pausetimer'`, but you can configure it to your preference.  **Note**: passage tags should not include spaces.
@@ -736,7 +844,7 @@ There are two macros included in this script.
 **Syntax**:
 `<<dialog (optional: title) (optional: class list)>>...<</dialog>>`
 
-* title: the title of the resulting dialog box; if omitted, no title wil be shown.
+* title: the title of the resulting dialog box; if omitted, no title will be shown.
 * class list:  classes to add to the dialog box, for styling via CSS
 
 **Explanation**:
@@ -760,9 +868,9 @@ $name
 // displays a dialog box with no title and no additional classes:
 <<dialog>>Hello!<</dialog>>
 
-// displays a dialog box with no title and the classes '.tutorial':
+// displays a dialog box with no title and the classes '.tutorial' and '.help':
 <<button 'Show the Tutorial'>>
-	<<dialog '' 'tutorial'>>
+	<<dialog '' 'tutorial' 'help'>>
 		Tutorial content.
 	<</dialog>>
 <</button>>
@@ -771,10 +879,10 @@ $name
 #### `<<popup>>` macro
 
 **Syntax**:
-`<<popup (passage) (optional: title) (optional: class names)>>`
+`<<popup (passage) (optional: title) (optional: class list)>>`
 
 * passage: the name of the passage whose content you want to append to the dialog box
-* title: the title of the resulting dialog box; if omitted, no title wil be shown.
+* title: the title of the resulting dialog box; if omitted, no title will be shown.
 * class list:  classes to add to the dialog box, for styling via CSS
 	
 **Explanation**:

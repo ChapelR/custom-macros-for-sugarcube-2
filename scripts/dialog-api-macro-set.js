@@ -1,40 +1,8 @@
 // dialog API macro set, by chapel; for sugarcube 2
 // version 1.0
+// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#dialog-api-macros
 
-/*
-<<dialog>> macro
-
-syntax:
-<<dialog (optional: title) (optional: class list)>>...<</dialog>>
-
-	* title: the title of the resulting dialog box; if omitted, no title wil be shown.
-	* class list:  classes to add to the dialog box, for styling via CSS
-
-explanation:
-opens a dialog box and appends the content between the tags to its body.  should generally be paired with some interactive element (like a button or link), or the dialog box will open instantly when the passage loads.  the first argument should be the dialog's title.  all additional arguments will be set as classes for styling in the CSS.
-
-examples:
-// displays the content in between the tags in a dialog box with the title 'Character Sheet' and the class '.char-sheet':
-<<link 'Show Character Sheet'>>
-	<<dialog 'Character Sheet' 'char-sheet'>>\
-$name
-|!Stat|!Value|
-|Strength|$strength|
-|Agility|$agility|
-|Magic|$magic|
-	<</dialog>>
-<</link>>
-
-// displays a dialog box with no title and no additional classes:
-<<dialog>>Hello!<</dialog>>
-
-// displays a dialog box with no title and the classes '.tutorial':
-<<button 'Show the Tutorial'>>
-	<<dialog '' 'tutorial'>>
-		Tutorial content.
-	<</dialog>>
-<</button>>
-*/
+// <<dialog>> macro
 Macro.add('dialog', {
 	   tags : null,
 	handler : function () {
@@ -61,30 +29,8 @@ Macro.add('dialog', {
 	}
 
 });
-/*
-<<popup>> macro
 
-Syntax:
-<<popup (passage) (optional: title) (optional: class names)>>
-
-	* passage: the name of the passage whose content you want to append to the dialog box
-	* title: the title of the resulting dialog box; if omitted, no title wil be shown.
-	* class list:  classes to add to the dialog box, for styling via CSS
-	
-Explanation:
-<<popup 'passage' 'title' 'class'>> is essentially the same as <<dialog 'title' 'class'>><<inlcude 'passage'>><</dialog>>, and can be used as a shortcut for displaying a passage's content in a dialog box.
-
-Examples:
-<<link 'Show Character Sheet'>>
-	<<popup 'character sheet' 'Character Sheet' 'char-sheet'>>
-<</link>>
-// displays a dialog box that shows the content of passage 'character sheet', with the title 'Character Sheet', and the class '.char-sheet'
-
-<<button 'Help!'>>
-	<<popup 'help' '' '.help'>>
-<</button>>
-// displays the content of the passage 'help' in a dialog box with no title and the class '.help'.
-*/
+// <<popup>> macro
 Macro.add('popup', {
 	handler : function () {
 		

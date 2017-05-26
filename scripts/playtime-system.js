@@ -1,5 +1,6 @@
 // play time system, by chapel; for SugarCube 2
 // version 1.0
+// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#play-time-system
 
 // intialize namespace
 setup.playTime = {};
@@ -9,12 +10,6 @@ setup.playTime.options = {
 	storyVar : 'playTime',
 	pauseTag : 'pausetimer'
 };
-/* Explanation:
-	storyVar:
-		This system automatically creates a story variable object.  You can change the name of the created variable (default: '$playTime') to whatever you prefer.
-	pauseTag:
-		Tag passages with this tag to pause the timer.  !!!Should not inlcude spaces.  Defaults to 'pausetimer'.
-*/
 
 // create and initialize story variables
 State.variables[setup.playTime.options.storyVar] = {
@@ -64,17 +59,7 @@ prehistory["logTime"] = function (taskName) {
 	setup.playTime.timeCount(t);
 };
 
-/*
-<<playtime>> macro
-
-syntax: 
-<<playtime>>
-
-description:
-displays the formatted string of the current play time
-
-alternative: <<print $(storyVar).str>>
-*/
+// <<playtime>> macro
 Macro.add('playtime', {
 	handler : function () {
 

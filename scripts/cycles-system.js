@@ -1,5 +1,6 @@
 // cycles system, by chapel; for sugarcube 2
 // version 1.0
+// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#cycles-system
 
 // create namespace:
 setup.cycSystem = {};
@@ -12,30 +13,8 @@ setup.cycSystem.options = {
 	menuTag   : 'menupause',
 	tryGlobal : true
 };
-/* Explanation:
-	storyVar:
-		This system automatically creates a story variable object.  You can change the name of the created variable (default: '$cycles') to whatever you prefer.
-	startTag:
-		The startTag's value is a passage tag that will reset all cycles to 0 turns, and can be used instead of the <<resetallcycles>> macro.  By default, the tag is 'startcycles'.  You can configure the name of the tag to your liking with this option.  !!!Note: passage tags should not include spaces.
-	pauseTag:
-		The pauseTag's value is a passage tag that will temporarily pause all cycles for the given passage, preventing them from collecting a turn.  By default, the tag is 'pausecycles'.  You can configure the name of the tag to your liking with this option.  !!!Note: passage tags should not include spaces.
-	menuTag:
-		The menuTag's value is a passage tag that will prevent all cycles from collecting turns in both the tagged passage and the passage immediately following it.  The idea behind this tag is to use it for menu options, so that entering and exiting a menu will not cause cycles' turns to increment.  By default, the tag is 'menupause'.  You can configure the name of the tag to your liking with this option.  !!!Note: passage tags should not include spaces.
-	tryGlobal:
-		The functions included in this script are scoped into the setup.cycSystem namespace, and references to those functions are passed to the global scope as long as their names aren't taken.  Set this option to false to force the functions to remain in the setup.cycSystem namespace.
-*/
 
-/* A few notes:
-	1. Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle <<newcycle 'time' 'morning' 'noon' 'night' 3>> and then, after 2 turns, create the cycle <<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>, the two cycles will not line up: each new 'day' will start at the 'time' cycle's 'noon'. Generally, it's best to include all your <<newcycle>> statements in the same passage (StoryInit is a good candidate), or, if you need your cycles to line up, use the startTag (default: 'startcycles') or the <<resetallcycles>> macro to reset all of your cycles to zero upon adding a new one.
-	
-	2. It is **not possible** to reclaim a cycle that has been deleted by the <<deletecycle>> macro.  Generally, it's better to simply hide the cycle's output than to delete it if you feel that you may need to use it again; you can always reset it via <<resetcycle>> if you need it to appear to have been 'stopped'.
-	
-	3. You do not have to delete a cyle to reconfigue it.  You can use the <<newcycle>> macro to make alterations to an existing cycle; the old cycle will be overwritten.  Note that, like with <<deletecycle>>, it is impossible to reclaim an overwritten cycle.
-	
-	4. The macros that 'return' temporary variables (<<cycleIs>>, <<whereIsCycle>>, <<cycleArrayIs>>, <<cycleAtIs>> and <<defineCycle>>) are designed for debugging and extending the cycle system.  You will almost never need to resort to these macros if you are using the system as-is.
-*/
-
-// create the story variables
+// create the story variable and ref functions
 State.variables[setup.cycSystem.options.storyVar] = {
 	all  : [],
 };
@@ -50,8 +29,9 @@ setup.cycSystem.tag = function(type) {
 	}
 }
 
-// checkCycle() helper function
+// helper functions:
 setup.cycSystem.checkCycle = function(name, value) {
+	// returns true if value of named cycle === named cycle's current value
 	var cycles = setup.cycSystem.cycRef();
 	var check  = clone(cycles[name].current);
 	var check  = check.toLowerCase();
@@ -63,15 +43,75 @@ setup.cycSystem.checkCycle = function(name, value) {
 	return false;
 }
 
-// alias helper function in global scope, if name is free
-if (typeof window.checkCycle == 'undefined' && setup.cycSystem.options.tryGlobal) {
-	window.checkCycle = setup.cycSystem.checkCycle;
+setup.cycSystem.cycleTurns = function(name) {
+	// returns length of one cycle change
+	var cycles = setup.cycSystem.cycRef();
+	var turns  = clone(cycles[name].turns);
+	return turns;
 }
 
-/*
-global    : <<if checkCycle('name of cycle', 'value of cycle')>>...
-nonglobal : <<if setup.cycSytem.checkCycle('name of cycle', 'value of cycle')>>...
-*/
+setup.cycSystem.cycleCurrentTurns = function(name) {
+	// returns current *total* number of turns
+	var cycles = setup.cycSystem.cycRef();
+	var time   = clone(cycles[name].time);
+	return time;
+}
+
+setup.cycSystem.cycleTotal = function(name) {
+	// returns length of one complete cycle rotation
+	var cycles = setup.cycSystem.cycRef();
+	var turns  = clone(cycles[name].turns);
+	var length = clone(cycles[name].length);
+	return turns * length;
+}
+
+setup.cycSystem.cycleStatus = function(name) {
+	// returns true if cycle exists, false otherwise
+	var cycles = setup.cycSystem.cycRef();
+	var test   = cycles.all.includes(name);
+	return test;
+}
+
+setup.cycSystem.cycleSinceLast = function(name) {
+	// returns number of turns since last change
+	var cycles = setup.cycSystem.cycRef();
+	var time   = clone(cycles[name].time);
+	var turns  = clone(cycles[name].turns);
+	return (time % turns) + 1;
+}
+
+setup.cycSystem.getCycle = function(name, prop) {
+	// returns a property from cycle definition
+	var cycles   = setup.cycSystem.cycRef();
+	var property = clone(cycles[name][prop]);
+	return property;
+}
+
+// alias helper functions globally, if name is free
+if (setup.cycSystem.options.tryGlobal) {
+	// check tryGlobal option
+	if (typeof window.checkCycle == 'undefined') {
+		window.checkCycle = setup.cycSystem.checkCycle;
+	}
+	if (typeof window.cycleTurns == 'undefined') {
+		window.cycleTurns = setup.cycSystem.cycleTurns;
+	}
+	if (typeof window.cycleCurrentTurns == 'undefined') {
+		window.cycleCurrentTurns = setup.cycSystem.cycleCurrentTurns;
+	}
+	if (typeof window.cycleTotal == 'undefined') {
+		window.cycleTotal = setup.cycSystem.cycleTotal;
+	}
+	if (typeof window.cycleStatus == 'undefined') {
+		window.cycleStatus = setup.cycSystem.cycleStatus;
+	}
+	if (typeof window.cycleSinceLast == 'undefined') {
+		window.cycleSinceLast = setup.cycSystem.cycleSinceLast;
+	}
+	if (typeof window.getCycle == 'undefined') {
+		window.getCycle = setup.cycSystem.getCycle;
+	}
+}
 
 // set up predisplay task object to count turns:
 predisplay['cycleSystem'] = function (taskName) {
@@ -125,43 +165,23 @@ predisplay['cycleSystem'] = function (taskName) {
 	
 };
 
-/*
-<<newcycle>> macro
-
-syntax:
-<<newcycle (name) (list of values) (turns)>>
-
-	*name: the name of the new cycle to create, a string; should follow the rules for naming TwineScript variables
-	*list of values:  the values the cycle will rotate through
-	*turns: the number of turns it takes for the value of the cycle to change once
-
-explanation:
-the <<newcycle>> macro is used to contruct a new cycle.  the cycle's definition will be saved automatically to a story variable (default $cycles.nameOfCycle).  the first argument provided should be a valid name; the name will need to be written like a valid TwineScript variable, though without any kind of sigil.  the following arguments should be strings defining the values associated with the cycle.  the final argument should always be a number, and will represent how many turns it take the cycle to move from one value to the next.  when the last value is reached and the appropriate number of turns pass, the cycle will restart.
-
-examples:
-<<newcycle 'timeOfDay' 'morning' 'afternoon' 'evening' 'night' 2>>
-// creates a new cycle called 'timeOfDay', and change the value every other turn
-
-<<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 8>>
-// creates a new cycle called 'days' that changes the day of the week every 8 turns
-
-<<newcycle 'seasons' 'spring' 'summer' 'fall' 'winter' 100>>
-// creates a new cycle called 'seasons' that changes the season every 100 turns
-*/
+// <<newcycle>> macro
 Macro.add('newcycle', {
 	handler : function () {
 
+		// get basic defintion
 		var cycles      = setup.cycSystem.cycRef();
 		var length      = this.args.length;
-
 		var key         = clone(this.args[0]);
 		var turns       = clone(this.args[length-1]);
 
+		// get values
 		var cycleArray  = clone(this.args);
 		cycleArray.shift();
 		cycleArray.pop();
 		length = cycleArray.length;
 
+		// create cycle definition
 		cycles[key] = {
 			name    : key,
 			values  : cycleArray,
@@ -171,27 +191,14 @@ Macro.add('newcycle', {
 			time    : 0
 		};
 		
+		// add reference to $(storyVar).all array
 		cycles.all.push(key);
 
 	}
 
 });
 
-/*
-<<deletecycle>> macro
-
-syntax:
-<<deletecycle (list of cycles)>>
-
-	*list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
-
-explanation:
-the <<deletecycle>> macro deletes any and all of the cycles provided to it.  deleted cycles are no longer tracked and cannot be recovered.  if a cycle provided to the macro does not exist, the macro will raise an error.
-
-examples:
-<<deletecycle 'timeOfDay'>> // deletes the cycle named 'timeOfDay'
-<<deletecycle 'day' 'seasons'>> // deletes the cycles 'day' and 'seasons'
-*/
+// <<deletecycle>> macro
 Macro.add('deletecycle', {
 	handler : function () {
 	
@@ -202,10 +209,12 @@ Macro.add('deletecycle', {
 		var current;
 		var i;
 		
+		// throw error if no such cycle exists
 		if (!cycles.all.includesAll(keys)) {
 			return this.error('cannot find cycles with all of the given names');
 		}
 		
+		// find and delete indicated cycles
 		for (i = 0; i < length; i++) {
 			current = cycles.all[i];
 			if (keys.includes(current)) {
@@ -218,20 +227,7 @@ Macro.add('deletecycle', {
 	
 });
 
-/*
-<<resetcycle>> macro
-
-syntax:
-<<resetcycle 'list of cycles'>>
-
-	*list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
-
-explanation:
-the <<resetcycle>> macro resets all of the cycles provided to it back to their initial state, as though no turns had passed.  if a cycle provided to the macro does not exist, the macro will raise an error.
-
-<<resetcycle 'timeOfDay'>> // resets the cycle named 'timeOfDay' to 0 turns
-<<resetcycle 'day' 'seasons'>> // resets the cycles 'day' and 'seasons' to 0 turns
-*/
+// <<resetcycle>> macro
 Macro.add('resetcycle', {
 	handler : function () {
 
@@ -242,10 +238,12 @@ Macro.add('resetcycle', {
 		var current;
 		var i;
 		
+		// throw error if no such cycle exists
 		if (!cycles.all.includesAll(keys)) {
 			return this.error('cannot find cycles with all of the given names');
 		}
 		
+		// find and reset indicated cycles
 		for (i = 0; i < length; i++) {
 			current = cycles.all[i];
 			if (keys.includes(current)) {
@@ -257,18 +255,7 @@ Macro.add('resetcycle', {
 
 });
 
-/*
-<<resetallcycles>> macro
-
-syntax:
-<<resetallcycles>>
-
-explanation:
-resets all currently running cycles to 0 turns.  similar to <<resetcycle>>, but affects all cycles.  functionally the same at the startTag passage tag.
-
-examples:
-<<resetallcycles>>
-*/
+// <<resetallcycles>> macro
 Macro.add('resetallcycles', {
 	handler : function () {
 
@@ -277,6 +264,7 @@ Macro.add('resetallcycles', {
 		var i;
 		var key;
 		
+		// reset every cycle
 		for (i = 0; i < length; i++) {
 			key = cycles.all[i];
 			cycles[key].time = 0;
@@ -286,27 +274,7 @@ Macro.add('resetallcycles', {
 
 });
 
-/*
-<<showcycle>> macro
-
-syntax:
-<<showcycle (cycle) (optional: 'format' keyword)>>
-
-	*cycle: the name of an existing cycle, passed as a quoted string.
-	*'format' keyword: if the keyword 'format' is included, the cycle's current value will be displayed with the first letter upper-case and all other letters lower-case
-
-explanation:
-the <<showcycle>> macro outputs the current value of the indicated cycle, and optionally formats it for display.
-
-examples:
-//given <<newcycle 'time' 'early' 'late' 2>>, and turn 3:
-<<showcycle 'time'>> // outputs 'early'
-<<showcycle 'time' format>> // outputs 'Early'
-
-//given <<newcycle 'time' 'early' 'LATE' 2>>, and turn 4:
-<<showcycle 'time'>> // outputs 'LATE'
-<<showcycle 'time' format>> // outputs 'Late'
-*/
+// <<showcycle>> macro
 Macro.add('showcycle', {
 	handler : function () {
 
@@ -316,19 +284,23 @@ Macro.add('showcycle', {
 		var content;
 		
 		if (this.args.length > 2){
+			// check args
 			return this.error('incorrect number of arguments');
 		} else {
+			// does cycle exist?
 			var key = this.args[0];
 			if (!cycles.all.includes(key)) {
 				return this.error('no cycle named ' + key + ' exists');
 			}
 		}
 		
+		// format string if needed
 		if (this.args.length === 2) {
 			var check  = this.args[1].toLowerCase();
 			var format = (check === 'format') ? true : false;
 		}
 		
+		// set content and output
 		content = cycles[key].current;
 		content = (format) ? content.toLowerCase().toUpperFirst() : content;
 		
@@ -341,17 +313,7 @@ Macro.add('showcycle', {
 
 });
 
-/*
-<<cycleIs>> macro
-
-syntax:
-<<cycleIs (cycle)>>
-
-	*cycle: the name of an existing cycle, passed as a quoted string.
-	
-explanation:
-<<cycleIs>> is primarily for debugging/extending the system.  this macro sets the value of the temporary variable _is to the current value of the indicated cycle.
-*/
+// <<cycleIs>> macro
 Macro.add('cycleIs', {
 	handler : function () {
 
@@ -372,17 +334,7 @@ Macro.add('cycleIs', {
 
 });
 
-/*
-<<whereIsCycle>> macro
-
-syntax:
-<<whereIsCycle (cycle)>>
-
-	*cycle: the name of an existing cycle, passed as a quoted string.
-	
-explanation:
-<<whereIsCycle>> is primarily for debugging/extending the system.  this macro sets the value of the temporary variable _is to the current index of the indicated cycle in the $(storyVar).all array, an array that stores the name of all currently running cycles.
-*/
+// <<whereIsCycle>> macro
 Macro.add('whereIsCycle', {
 	handler : function () {
 
@@ -403,17 +355,7 @@ Macro.add('whereIsCycle', {
 
 });
 
-/*
-<<cycleArrayIs>> macro
-
-syntax:
-<<cycleArrayIs (cycle)>>
-
-	*cycle: the name of an existing cycle, passed as a quoted string.
-	
-explanation:
-<<cycleIs>> is primarily for debugging/extending the system.  this macro sets the value of the temporary variable _is to the array of possible values of the indicated cycle.
-*/
+// <<cycleArrayIs>> macro
 Macro.add('cycleArrayIs', {
 	handler : function () {
 
@@ -434,17 +376,7 @@ Macro.add('cycleArrayIs', {
 
 });
 
-/*
-<<cycleAtIs>> macro
-
-syntax:
-<<cycleAtIs (index)>>
-
-	*index: a numeric position in the $(storyVar).all array.
-	
-explanation:
-<<cycleAtIs>> is primarily for debugging/extending the system.  this macro sets the value of the temporary variable _is to the name of the cycle in the indicated index of the $(storyVar).all array. sets _is to undefined if no value exists in the provided index.
-*/
+// <<cycleAtIs>> macro
 Macro.add('cycleAtIs', {
 	handler : function () {
 
@@ -467,17 +399,7 @@ Macro.add('cycleAtIs', {
 
 });
 
-/*
-<<defineCycle>> macro
-
-syntax:
-<<defineCycle (cycle)>>
-
-	*cycle: the name of an existing cycle, passed as a quoted string.
-	
-explanation:
-<<defineCycle>> is primarily for debugging/extending the system.  this macro sets the value of the temporary variable _def to a deep copy of the indicated cycle object.  changes to the _def variable will not be reflected in the actual cycle.  you should generally treat cycles as read-only anyway, and overwrite cycles with new ones using the same name if you need to alter them.
-*/
+// <<defineCycle>> macro
 Macro.add('defineCycle', {
 	handler : function () {
 
@@ -492,6 +414,7 @@ Macro.add('defineCycle', {
 			}
 		}
 		
+		// make deep copy to preserve cycle definition
 		State.temporary.def = clone(cycles[key]);
 
 	}
