@@ -62,7 +62,7 @@ This is a list of the macros included in the simple inventory system.
 **Syntax**:
  `<<inventory (optional: separator)>>`
  
- *separator: a string to separate each item in the inventory.
+* separator: a string to separate each item in the inventory.
 
 **Explanation**:
 The `<<inventory>>` macro displays a list of the current items in the inventory array.  By default the items are listed on new lines, but you can provide a string as a separator instead.
@@ -88,7 +88,7 @@ The `<<inventory>>` macro displays a list of the current items in the inventory 
  **Syntax**:
  `<<pickup (list of items)>>`
  
- *list of items: a list of items, provided as quoted strings, each seperated by a space.
+* list of items: a list of items, provided as quoted strings, each seperated by a space.
  
  **Explanation**:
  The `<<pickup>>` macro adds new items to the inventory.  New items are added to the end of the inventory array.
@@ -102,10 +102,10 @@ The `<<inventory>>` macro displays a list of the current items in the inventory 
 
 #### `<<drop>>` macro
 
- **Syntax**:
- `<<drop (list of items)>>`
+**Syntax**:
+`<<drop (list of items)>>`
  
- *list of items: a list of items, provided as quoted strings, each seperated by a space.
+* list of items: a list of items, provided as quoted strings, each seperated by a space.
  
  **Explanation**:
  The `<<drop>>` macro removes items from the invenotory.  If an item provided to this macro cannot be found in the current inventory, nothing happens and no error is thrown.
@@ -127,7 +127,7 @@ The `<<inventory>>` macro displays a list of the current items in the inventory 
 <</has>>
 ```
 
-*list of items: a list of items, provided as quoted strings, each seperated by a space.
+* list of items: a list of items, provided as quoted strings, each seperated by a space.
 
 **Explanation**:
 The macros <<has>><<otherwise>><</has>> provide a simple alternative to <<if>><<else>><</if>> that specifically work within the inventory system.  If more than one item is passed to <<has>>, **all** of the items must be present for the <<has>> statement to be true.  If you need more control than that, use the helper functions invAll() and invAny() with normal <<if>> statements.
@@ -184,8 +184,8 @@ The `<<invSort>>` macro sorts the inventory alphabetically.  The default invento
 <<invWhereIs (item)>>
 ```
 
-*item: A single item, provided as a quoted string.
-*index: A positive integer (or zero) referring to a position within the inventory array.
+* item: A single item, provided as a quoted string.
+* index: A positive integer (or zero) referring to a position within the inventory array.
 
 **Explanation**:
 These two macros are for debugging/extending the system.  Both set the temporary variable `_is` to some value.  `<<invWhatIs>>` accepts an index from the array and sets `_is` to the item found in that index, or the string `'nothing'` if the index is empty or undefined.  `<<invWhereIs>>` accepts an item's name and sets the value of `_is` to that item's index in the array.  If the item isn't currently in the array, it sets `_is` to `-1`.
@@ -234,7 +234,7 @@ The last item in the inventory is <<print _is>>.
 **Syntax**:
 `invAll(item list)`
 
-*item list: a list of quoted strings, seperated by commas.
+* item list: a list of quoted strings, seperated by commas.
 
 **Explanation**:
 The `invAll()` function returns true only if **all** of the provided items are found in the inventory.  Most useful when paired with `<<if>>` macros.  The invAll() function is essentially the same as the <<has>> macro.
@@ -263,7 +263,7 @@ Flames explode out of the walls \
 **Syntax**:
 `invAny(item list)`
 
-*item list: a list of quoted strings, seperated by commas.
+* item list: a list of quoted strings, seperated by commas.
 
 **Explanation**:
 The `invAny()` function returns true if **any** of the provided items are found in the inventory.  Most useful when paired with `<<if>>` macros.
@@ -353,9 +353,9 @@ This is a list of the macros included in the cycle system.
  **Syntax**:
  `<<newcycle (name) (list of values) (turns)>>`
  
- *name: the name of the new cycle to create, a string; should follow the rules for naming TwineScript variables
-*list of values:  the values the cycle will rotate through
-*turns: the number of turns it takes for the value of the cycle to change once
+* name: the name of the new cycle to create, a string; should follow the rules for naming TwineScript variables
+* list of values:  the values the cycle will rotate through
+* turns: the number of turns it takes for the value of the cycle to change once
  
  **Explanation**:
 The `<<newcycle>>` macro is used to contruct a new cycle.  The cycle's definition will be saved automatically to a story variable (default `$cycles.nameOfCycle`).  The first argument provided should be a valid name; the name will need to be written like a valid TwineScript variable, though without any kind of sigil.  The following arguments should be strings defining the values associated with the cycle.  The final argument should always be a number, and will represent how many turns it take the cycle to move from one value to the next.  When the last value is reached and the appropriate number of turns pass, the cycle will restart.
@@ -377,7 +377,7 @@ The `<<newcycle>>` macro is used to contruct a new cycle.  The cycle's definitio
  **Syntax**:
  `<<deletecycle (list of cycles)>>`
 
-*list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
+* list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
  
  **Explanation**:
 The <<deletecycle>> macro deletes any and all of the cycles provided to it.  Deleted cycles are no longer tracked and cannot be recovered.  If a cycle provided to the macro does not exist, the macro will raise an error.
@@ -394,7 +394,7 @@ The <<deletecycle>> macro deletes any and all of the cycles provided to it.  Del
  **Syntax**:
  `<<resetcycle (list of cycles)>>`
 
-*list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
+* list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
  
  **Explanation**:
 The `<<resetcycle>>` macro resets all of the cycles provided to it back to their initial state, as though no turns had passed.  If a cycle provided to the macro does not exist, the macro will raise an error.
@@ -424,8 +424,8 @@ Resets all currently running cycles to 0 turns.  Similar to `<<resetcycle>>`, bu
 **Syntax**:
 `<<showcycle (cycle) (optional: 'format' keyword)>>`
 
-*cycle: the name of an existing cycle, passed as a quoted string.
-*'format' keyword: if the keyword 'format' is included, the cycle's current value will be displayed with the first letter upper-case and all other letters lower-case
+* cycle: the name of an existing cycle, passed as a quoted string.
+* 'format' keyword: if the keyword 'format' is included, the cycle's current value will be displayed with the first letter upper-case and all other letters lower-case
 
 **Explanation**:
 The `<<showcycle>>` macro outputs the current value of the indicated cycle, and optionally formats it for display.
@@ -446,7 +446,7 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 **Syntax**:
 `<<cycleIs (cycle)>>`
 
-*cycle: the name of an existing cycle, passed as a quoted string.
+* cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
 `<<cycleIs>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the current value of the indicated cycle.
@@ -463,7 +463,7 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 **Syntax**:
 `<<whereIsCycle (cycle)>>`
 
-*cycle: the name of an existing cycle, passed as a quoted string.
+* cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
 `<<whereIsCycle>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the current index of the indicated cycle in the `$(storyVar).all` array, an array that stores the name of all currently running cycles.
@@ -479,7 +479,7 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 **Syntax**:
 `<<cycleArrayIs (cycle)>>`
 
-*cycle: the name of an existing cycle, passed as a quoted string.
+* cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
 `<<cycleIs>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the array of possible values of the indicated cycle.
@@ -496,7 +496,7 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 **Syntax**:
 `<<cycleAtIs (index)>>`
 
-*index: a numeric position in the $(storyVar).all array.
+* index: a numeric position in the $(storyVar).all array.
 	
 **Explanation**:
 `<<cycleAtIs>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the name of the cycle in the indicated index of the `$(storyVar).all` array. Sets `_is` to undefined if no value exists in the provided index.
@@ -512,7 +512,7 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 **Syntax**:
 `<<defineCycle (cycle)>>`
 
-*cycle: the name of an existing cycle, passed as a quoted string.
+* cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
 `<<defineCycle>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_def` to a deep copy of the indicated cycle object.  Changes to the `_def` variable will not be reflected in the actual cycle.  You should generally treat cycles as read-only anyway, and overwrite cycles with new ones using the same name if you need to alter them.
@@ -534,8 +534,8 @@ The `<<showcycle>>` macro outputs the current value of the indicated cycle, and 
 **Syntax**:
 `checkCycle(cycle, value)`
 
-*cycle: the name of an existing cycle, passed as a quoted string.
-*value: the value to test for--should be one of the cycle's possible values
+* cycle: the name of an existing cycle, passed as a quoted string.
+* value: the value to test for--should be one of the cycle's possible values
 
 **Explanation**:
 The `checkCycle()` function returns true if the *current* value of the named cycle is equal to the test value.  Probably most useful in `<<if>>` macros.
@@ -600,8 +600,8 @@ A simple macro set that causes the text between its tags to fade in or out over 
 **Syntax**:
 `<<fadein (optional: delay) (animation length)>>...<</fadein>>`
 
-*delay: the delay, in seconds, to wait before the animation starts.
-*animation length: the length of the fading animation, in seconds.
+* delay: the delay, in seconds, to wait before the animation starts.
+* animation length: the length of the fading animation, in seconds.
 
 **Explanation**:
 The `<<fadein>>` macro causes its content to fade in (shocking).  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be in seconds, but you can use floating point values to emulate milliseconds.  Note that only *output* is delayed by this macro; code will still execute on passage load, meaning it shouldn't be used in the same way as `<<timed>>`, but it can be paired with `<<timed>>` to achieve that sort of effect.
@@ -620,8 +620,8 @@ The `<<fadein>>` macro causes its content to fade in (shocking).  You can delay 
 **Syntax**:
 `<<fadeout (optional: delay) (animation length)>>...<</fadein>>`
 
-*delay: the delay, in seconds, to wait before the animation starts.
-*animation length: the length of the fading animation, in seconds.
+* delay: the delay, in seconds, to wait before the animation starts.
+* animation length: the length of the fading animation, in seconds.
 
 **Explanation**:
 The `<<fadeout>>` macro causes its content to fade out.  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be in seconds, but you can use floating point values to emulate milliseconds.  Content is set to `{display: none;}` after the animation completes, so the page may reflow.
@@ -700,9 +700,9 @@ You can change the value of this option to change the default link text used by 
 **Syntax**:
 `<<message (optional: link text) (optional: 'btn' keyword) (optional: id)>>`
 
-*link text: the text of the link.  if omitted, default text is displayed (the default text can be edited above)
-*'btn' keyword: if 'btn' is included in the macro's arguments, a button is generated instead of a link
-*id: if multiple messages are displayed on the same page with the same link text, you need to provide each one with a unique id.
+* link text: the text of the link.  if omitted, default text is displayed (the default text can be edited above)
+* 'btn' keyword: if 'btn' is included in the macro's arguments, a button is generated instead of a link
+* id: if multiple messages are displayed on the same page with the same link text, you need to provide each one with a unique id.
 
 **Explanation**:
 Creates a link (or button) on the page.  When clicked, the content between the tags is displayed on the next line, reflowing the following text.  The player can click the same link again to 'collpase' the message.
