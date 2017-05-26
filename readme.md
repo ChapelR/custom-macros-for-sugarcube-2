@@ -646,7 +646,8 @@ The `getCycle()` function returns the value of one of the properties of the indi
  * `values`: an array of the cycle's possible values
  * `current`: the current value of the cycle
  * `length`: the total number of values in the value array
- * `turns`: the number of turns the cycle takes to change its value once  
+ * `turns`: the number of turns the cycle takes to change its value once
+ 
 You can usually use the other functions to return much of this information.
 
 **Examples**:
