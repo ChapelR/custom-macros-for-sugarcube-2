@@ -817,7 +817,7 @@ You can change the value of this option to change the default link text used by 
 Creates a link (or button) on the page.  When clicked, the content between the tags is displayed on the next line, reflowing the following text.  The player can click the same link again to 'collpase' the message.
 
 **Styling Options**:
-Message content (but not the link/button) is given the class `.help`; you can control the appearance of the message's content using this selector in your CSS. (For example: `.help {color: green;}` would render the text of all message macros in green).
+Message content is given the class `.message-text`; you can control the appearance of the message's content using this selector in your CSS. (For example: `.message-text {color: green;}` would render the text of all messages in green).
 
 **Examples**:
 ```javascript

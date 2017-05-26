@@ -36,7 +36,7 @@ Macro.add('message', {
 
 		$wrapper
 			.attr('id', 'macro-' + this.name + '-' + this.args.join('').replace(/[^A-Za-z0-9]/g, ''))
-			.addClass('help')
+			.addClass('message-text')
 			.append($link)
 			.append($content)
 			.appendTo(this.output);
