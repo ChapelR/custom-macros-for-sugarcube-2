@@ -305,14 +305,14 @@ Flames explode out of the walls \
 
 ## Cycles System
 
-Simply put, a way to introduce 'cycles' into your game without having to fiddle around too much. You can declare a <<newcycle>> and assign it a name, a number of values, and a number of turns it lasts. For example, <<newcycle ‘time’ 'morning’ ‘noon’ ‘night’ 5>> would create a new cycle called time that would change at a rate of every 5 turns. You can have multiple cycles running at once, like one as a day-night cycle and another for seasons, or one for hours and another for days of the week. You can control and access your cycles via  the following passage tags, story variables, macros, and functions, depending on what you want to do with them.
+Simply put, a way to introduce 'cycles' into your game without having to fiddle around too much. You can declare a `<<newcycle>>` and assign it a name, a number of values, and a number of turns it lasts. For example, `<<newcycle ‘time’ 'morning’ ‘noon’ ‘night’ 5>>` would create a new cycle called time that would change at a rate of every 5 turns. You can have multiple cycles running at once, like one as a day-night cycle and another for seasons, or one for hours and another for days of the week. You can control and access your cycles via  the following passage tags, story variables, macros, and functions, depending on what you want to do with them.
 
 Here's a few notes about how the system works that you should keep in mind:
 
-* Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle <<newcycle 'time' 'morning' 'noon' 'night' 3>> and then, after 2 turns, create the cycle <<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>, the two cycles will not line up: each new 'day' will start at the 'time' cycle's 'noon'. Generally, it's best to include all your <<newcycle>> statements in the same passage (StoryInit is a good candidate), or, if you need your cycles to line up, use the startTag (default: 'startcycles') or the <<resetallcycles>> macro to reset all of your cycles to zero upon adding a new one.
-* It is **not possible** to reclaim a cycle that has been deleted by the <<deletecycle>> macro.  Generally, it's better to simply hide the cycle's output than to delete it if you feel that you may need to use it again; you can always reset it via <<resetcycle>> if you need it to appear to have been 'stopped'.
-* You do not have to delete a cyle to reconfigue it.  You can use the <<newcycle>> macro to make alterations to an existing cycle; the old cycle will be overwritten by the new.  Note that, like with <<deletecycle>>, it is impossible to reclaim an overwritten cycle.
-* The macros that 'return' temporary variables (<<cycleIs>>, <<whereIsCycle>>, <<cycleArrayIs>>, <<cycleAtIs>> and <<defineCycle>>) are designed for debugging and extending the cycle system.  You will almost never need to resort to these macros if you are using the system as-is, though they can help you do some pretty dynamic things.
+* Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle `<<newcycle 'time' 'morning' 'noon' 'night' 3>>` and then, after 2 turns, create the cycle `<<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>`, the two cycles will not line up: each new 'day' will start at the 'time' cycle's 'noon'. Generally, it's best to include all your `<<newcycle>>` macros in the same passage (StoryInit is a good candidate), or, if you need your cycles to line up, use the startTag (default: 'startcycles') or the `<<resetallcycles>>` macro to reset all of your cycles to zero upon adding a new one.
+* It is **not possible** to reclaim a cycle that has been deleted by the `<<deletecycle>>` macro.  Generally, it's better to simply hide the cycle's output than to delete it if you feel that you may need to use it again; you can always reset it via `<<resetcycle>>` if you need it to appear to have been 'stopped'.
+* You do not have to delete a cyle to reconfigue it.  You can use the `<<newcycle>>` macro to make alterations to an existing cycle; the old cycle will be overwritten by the new.  Note that, like with `<<deletecycle>>`, it is impossible to reclaim an overwritten cycle.
+* The macros that 'return' temporary variables (`<<cycleIs>>`, `<<whereIsCycle>>`, `<<cycleArrayIs>>`, `<<cycleAtIs>>` and `<<defineCycle>>`) are designed for debugging and extending the cycle system.  You will almost never need to resort to these macros if you are using the system as-is, though they can help you do some pretty dynamic things.
 
 ### Options
 
@@ -333,7 +333,7 @@ setup.cycSystem.options = {
 The cycle system script automatically creates a story variable object to hold all the created cycles; this allows you to save and load the cycles via SugarCube's built-in save system and it allows you to access the cycles natively in the IDE using a $variable.  By default, the story variable is created with the name 'cycles' and accessed via '$cycles' in the IDE.  You can change the name using the storyVar option.  Valid names are the same as all valid TwineScript variable names.
 
 #### `startTag` option
-The `startTag` value is a passage tag that will reset all cycles to 0 turns, and can be used instead of the <<resetallcycles>> macro.  By default, the tag is 'startcycles'.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
+The `startTag` value is a passage tag that will reset all cycles to 0 turns, and can be used instead of the `<<resetallcycles>>` macro.  By default, the tag is 'startcycles'.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
 
 #### `pauseTag` option
 The `pauseTag` value is a passage tag that will temporarily pause all cycles for the given passage, preventing them from collecting a turn.  By default, the tag is 'pausecycles'.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
@@ -358,7 +358,7 @@ This is a list of the macros included in the cycle system.
 *turns: the number of turns it takes for the value of the cycle to change once
  
  **Explanation**:
-The <<newcycle>> macro is used to contruct a new cycle.  The cycle's definition will be saved automatically to a story variable (default $cycles.nameOfCycle).  The first argument provided should be a valid name; the name will need to be written like a valid TwineScript variable, though without any kind of sigil.  The following arguments should be strings defining the values associated with the cycle.  The final argument should always be a number, and will represent how many turns it take the cycle to move from one value to the next.  When the last value is reached and the appropriate number of turns pass, the cycle will restart.
+The `<<newcycle>>` macro is used to contruct a new cycle.  The cycle's definition will be saved automatically to a story variable (default `$cycles.nameOfCycle`).  The first argument provided should be a valid name; the name will need to be written like a valid TwineScript variable, though without any kind of sigil.  The following arguments should be strings defining the values associated with the cycle.  The final argument should always be a number, and will represent how many turns it take the cycle to move from one value to the next.  When the last value is reached and the appropriate number of turns pass, the cycle will restart.
  
  **Examples**:
 ```javascript
@@ -397,7 +397,7 @@ The <<deletecycle>> macro deletes any and all of the cycles provided to it.  Del
 *list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
  
  **Explanation**:
-The <<resetcycle>> macro resets all of the cycles provided to it back to their initial state, as though no turns had passed.  If a cycle provided to the macro does not exist, the macro will raise an error.
+The `<<resetcycle>>` macro resets all of the cycles provided to it back to their initial state, as though no turns had passed.  If a cycle provided to the macro does not exist, the macro will raise an error.
  
  **Examples**:
 ```javascript
@@ -412,7 +412,7 @@ The <<resetcycle>> macro resets all of the cycles provided to it back to their i
  `<<resetallcycles>>`
  
  **Explanation**:
-Resets all currently running cycles to 0 turns.  Similar to <<resetcycle>>, but affects all cycles.  Functionally the same at the startTag passage tag; though the tag is the preferred method to accomplish this if it al all possible.
+Resets all currently running cycles to 0 turns.  Similar to `<<resetcycle>>`, but affects all cycles.  Functionally the same at the `startTag` passage tag; though the tag is the preferred method to accomplish this if it al all possible.
  
  **Examples**:
 ```javascript
@@ -428,7 +428,7 @@ Resets all currently running cycles to 0 turns.  Similar to <<resetcycle>>, but 
 *'format' keyword: if the keyword 'format' is included, the cycle's current value will be displayed with the first letter upper-case and all other letters lower-case
 
 **Explanation**:
-The <<showcycle>> macro outputs the current value of the indicated cycle, and optionally formats it for display.
+The `<<showcycle>>` macro outputs the current value of the indicated cycle, and optionally formats it for display.
 
 **Examples**:
 ```javascript
@@ -449,7 +449,7 @@ The <<showcycle>> macro outputs the current value of the indicated cycle, and op
 *cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
-<<cycleIs>> is primarily for debugging/extending the system.  This macro sets the value of the temporary variable _is to the current value of the indicated cycle.
+`<<cycleIs>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the current value of the indicated cycle.
 
 **Examples**:
 ```javascript
@@ -466,7 +466,7 @@ The <<showcycle>> macro outputs the current value of the indicated cycle, and op
 *cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
-<<whereIsCycle>> is primarily for debugging/extending the system.  This macro sets the value of the temporary variable _is to the current index of the indicated cycle in the $(storyVar).all array, an array that stores the name of all currently running cycles.
+`<<whereIsCycle>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the current index of the indicated cycle in the `$(storyVar).all` array, an array that stores the name of all currently running cycles.
 
 **Example**:
 ```javascript
@@ -482,7 +482,7 @@ The <<showcycle>> macro outputs the current value of the indicated cycle, and op
 *cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
-<<cycleIs>> is primarily for debugging/extending the system.  This macro sets the value of the temporary variable _is to the array of possible values of the indicated cycle.
+`<<cycleIs>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the array of possible values of the indicated cycle.
 
 **Examples**:
 ```javascript
@@ -499,7 +499,7 @@ The <<showcycle>> macro outputs the current value of the indicated cycle, and op
 *index: a numeric position in the $(storyVar).all array.
 	
 **Explanation**:
-<<cycleAtIs>> is primarily for debugging/extending the system.  This macro sets the value of the temporary variable _is to the name of the cycle in the indicated index of the $(storyVar).all array. Sets _is to undefined if no value exists in the provided index.
+`<<cycleAtIs>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_is` to the name of the cycle in the indicated index of the `$(storyVar).all` array. Sets `_is` to undefined if no value exists in the provided index.
 
 **Example**:
 ```javascript
@@ -515,7 +515,7 @@ The <<showcycle>> macro outputs the current value of the indicated cycle, and op
 *cycle: the name of an existing cycle, passed as a quoted string.
 	
 **Explanation**:
-<<defineCycle>> is primarily for debugging/extending the system.  This macro sets the value of the temporary variable _def to a deep copy of the indicated cycle object.  Changes to the _def variable will not be reflected in the actual cycle.  You should generally treat cycles as read-only anyway, and overwrite cycles with new ones using the same name if you need to alter them.
+`<<defineCycle>>` is primarily for debugging/extending the system.  This macro sets the value of the temporary variable `_def` to a deep copy of the indicated cycle object.  Changes to the `_def` variable will not be reflected in the actual cycle.  You should generally treat cycles as read-only anyway, and overwrite cycles with new ones using the same name if you need to alter them.
 
 **Examples**:
 ```javascript
@@ -527,7 +527,7 @@ The <<showcycle>> macro outputs the current value of the indicated cycle, and op
 
 ### Functions
 
-*A note about the function*:  The checkCycle() function exists in both the `setup.cycSystem` namespace and as a global.  There is a very small chance that you'll need to use the nonglobal version if the name of the function is already taken.  The nonglobal version is `setup.cycSystem.checkCycle()`.
+*A note about the function*:  The `checkCycle()` function exists in both the `setup.cycSystem` namespace and as a global.  There is a very small chance that you'll need to use the nonglobal version if the name of the function is already taken.  The nonglobal version is `setup.cycSystem.checkCycle()`.
 
 #### `checkCycle()` function
 
@@ -538,7 +538,7 @@ The <<showcycle>> macro outputs the current value of the indicated cycle, and op
 *value: the value to test for--should be one of the cycle's possible values
 
 **Explanation**:
-The checkCycle() function returns true if the *current* value of the named cycle is equal to the test value.  Probably most useful in <<if>> macros.
+The `checkCycle()` function returns true if the *current* value of the named cycle is equal to the test value.  Probably most useful in `<<if>>` macros.
 
 **Examples**:
 ```javascript
@@ -579,13 +579,15 @@ This system only includes one macro and it's more of a shortcut.
 #### `<<playtime>>` macro
 
 **Syntax**: 
-<<playtime>>
+`<<playtime>>`
 
 **Explanation**:
 Displays the formatted string of the current play time.  You can use <<print $(storyVar).str>> as an alternative.
 
 **Examples**:
+```javascript
 <<playtime>>
+```
 
 ## Fading Macros
 
@@ -602,7 +604,7 @@ A simple macro set that causes the text between its tags to fade in or out over 
 *animation length: the length of the fading animation, in seconds.
 
 **Explanation**:
-The <<fadein>> macro causes its content to fade in (shocking).  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be in seconds, but you can use floating point values to emulate milliseconds.  Note that only *output* is delayed by this macro; code will still execute on passage load, meaning it shouldn't be used in the same way as <<timed>>, but it can be paired with <<timed>> to achieve that sort of effect.
+The `<<fadein>>` macro causes its content to fade in (shocking).  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be in seconds, but you can use floating point values to emulate milliseconds.  Note that only *output* is delayed by this macro; code will still execute on passage load, meaning it shouldn't be used in the same way as `<<timed>>`, but it can be paired with `<<timed>>` to achieve that sort of effect.
 
 **Examples**:
 ```javascript
@@ -622,7 +624,7 @@ The <<fadein>> macro causes its content to fade in (shocking).  You can delay th
 *animation length: the length of the fading animation, in seconds.
 
 **Explanation**:
-The <<fadeout>> macro causes its content to fade out.  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be in seconds, but you can use floating point values to emulate milliseconds.  Content is set to `{display: none;}` after the animation completes, so the page may reflow.
+The `<<fadeout>>` macro causes its content to fade out.  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be in seconds, but you can use floating point values to emulate milliseconds.  Content is set to `{display: none;}` after the animation completes, so the page may reflow.
 
 **Examples**:
 ```javascript
@@ -635,17 +637,17 @@ The <<fadeout>> macro causes its content to fade out.  You can delay the animati
 
 ## First Macro
 
-Based loosely on Leon's <<once>> macro and similar, <<first>>, <<then>>, and <<finally>> create code or text that is shown based on how many times the player has visited a particular passage. While it's nothing that couldn't be handled with variables or visited() and an <<if>> or <<switch>>, I believe this lightweight set of macros feel a bit better to use in some stories. 
+Based loosely on Leon's `<<once>>` macro and similar, `<<first>>`, `<<then>>`, and `<<finally>>` create code or text that is shown based on how many times the player has visited a particular passage. While it's nothing that couldn't be handled with variables or `visited()` and an `<<if>>` or `<<switch>>`, I believe this lightweight set of macros feel a bit better to use in some stories. 
 
 ### Macros
 
 #### `<<first>>` macro
 
 **Syntax**:
-<<first>>...<<then>>...<<finally>>...<</first>>
+`<<first>>...<<then>>...<<finally>>...<</first>>`
 
 **Explanation**:
-A simple, slightly sexier repalcement for <<if visited()>> and <<switch visited()>>, based loosely on Leon's <<once>> macro.  <<first>> shows text on the first visit to a passage, and you can use <<then>> to show different text on subsequent visits.  Use <<finally>> to show text that persists over *all* subsequent visits.  **Note**: Do not nest <<first>> macros inside each other; it won't cause an error, but it also likely won't work the way you expect.  If you need nesting, you'll need to use variables.
+A simple, slightly sexier repalcement for `<<if visited()>>` and `<<switch visited()>>`, based loosely on Leon's `<<once>>` macro.  `<<first>>` shows text on the first visit to a passage, and you can use `<<then>>` to show different text on subsequent visits.  Use `<<finally>>` to show text that persists over *all* subsequent visits.  **Note**: Do not nest `<<first>>` macros inside each other; it won't cause an error, but it also likely won't work the way you expect.  If you need nesting, you'll need to use variables.
 
 **Examples**:
 ```javascript
@@ -696,7 +698,7 @@ You can change the value of this option to change the default link text used by 
 #### `<<message>>` macro
 
 **Syntax**:
-<<message (optional: link text) (optional: 'btn' keyword) (optional: id)>>
+`<<message (optional: link text) (optional: 'btn' keyword) (optional: id)>>`
 
 *link text: the text of the link.  if omitted, default text is displayed (the default text can be edited above)
 *'btn' keyword: if 'btn' is included in the macro's arguments, a button is generated instead of a link
@@ -706,7 +708,7 @@ You can change the value of this option to change the default link text used by 
 Creates a link (or button) on the page.  When clicked, the content between the tags is displayed on the next line, reflowing the following text.  The player can click the same link again to 'collpase' the message.
 
 **Styling Options**:
-Message content (but not the link/button) is given the class '.help'; you can control the appearance of the message's content using this selector in your CSS. (For example: `.help {color: green;}` would render the text of all message macros in green).
+Message content (but not the link/button) is given the class `.help`; you can control the appearance of the message's content using this selector in your CSS. (For example: `.help {color: green;}` would render the text of all message macros in green).
 
 **Examples**:
 ```javascript
@@ -723,7 +725,7 @@ Message content (but not the link/button) is given the class '.help'; you can co
 
 ## Dialog API Macros
 
-Macros for dealing with the dialog API. <<dialog>>...<</dialog>> lets you set up a dialog box, assign it a title and class(es), and write the code you want to appear inside it directly into your passage. <<popup>> is similar, but accepts a passage name as an argument, and uses that passage’s content as the content of the box.
+Macros for dealing with the dialog API. `<<dialog>>...<</dialog>>` lets you set up a dialog box, assign it a title and class(es), and write the code you want to appear inside it directly into your passage. `<<popup>>` is similar, but accepts a passage name as an argument, and uses that passage’s content as the content of the box.
 
 ### Macros
 
@@ -768,8 +770,6 @@ $name
 
 #### `<<popup>>` macro
 
-<<popup>> macro
-
 **Syntax**:
 `<<popup (passage) (optional: title) (optional: class names)>>`
 
@@ -778,7 +778,7 @@ $name
 * class list:  classes to add to the dialog box, for styling via CSS
 	
 **Explanation**:
-<<popup 'passage' 'title' 'class'>> is essentially the same as <<dialog 'title' 'class'>><<inlcude 'passage'>><</dialog>>, and can be used as a shortcut for displaying a passage's content in a dialog box.
+`<<popup 'passage' 'title' 'class'>>` is essentially the same as `<<dialog 'title' 'class'>><<inlcude 'passage'>><</dialog>>`, and can be used as a shortcut for displaying a passage's content in a dialog box.
 
 **Examples**:
 ```javascript
