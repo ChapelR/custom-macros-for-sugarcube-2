@@ -5,13 +5,13 @@
 * [Installation](#installation)
 * [Quick Start](#quick-start)
 * [Detailed Documentation](#detailed-documentation)
- * [Simple Inventory](#simple-inventory)
- * [Cycles System](#cycles-system)
- * [Play Time System](#play-time-system)
- * [Fading Macros](#fading-macros)
- * [First Macro](#first-macro)
- * [Message Macro](#message-macro)
- * [Dialog API Macros](#dialog-api-macros)
+  * [Simple Inventory](#simple-inventory)
+  * [Cycles System](#cycles-system)
+  * [Play Time System](#play-time-system)
+  * [Fading Macros](#fading-macros)
+  * [First Macro](#first-macro)
+  * [Message Macro](#message-macro)
+  * [Dialog API Macros](#dialog-api-macros)
 * [Other Information](#other-information)
 
 # Installation
@@ -47,9 +47,11 @@ setup.cycSystem.options = {
 
 You can find these objects near the top of each scripts in which they are included.
 
-## Simple Inventory
+## Inventory
 
 The simple inventory system creates a story variable array (`$inventory` by default) and helps you manage it with the following functions and macros.
+
+[See the detailed documentation.](#simple-inventory)
 
 ### Macros
 
@@ -71,9 +73,11 @@ The simple inventory system creates a story variable array (`$inventory` by defa
 
 `invAny('list', 'of', 'items')`: Returns true if **any** of the listed items are in the inventory.
 
-## Cycles System
+## Cycles
 
 Used to create cycles.  A lot of things can be cycles: day/night, days of the week, months of the year, seasons, turns in an RPG game, etc.  Cycles are given a name, a list of values to cycle through, and a number of turns to wait before changing the value.  You can have multiple cycles running at once, but using a lot can cause a performance hit.  All cycle definitions are stored in a story variable (`$cycles` by default).
+
+[See the detailed documentation.](#cycles-system)
 
 ### Macros
 
@@ -113,9 +117,37 @@ Used to create cycles.  A lot of things can be cycles: day/night, days of the we
 
 `menupause`: Prevents all cycles from collecting a turn on the tagged passage and the one immediately following it.  The default name of the tag can be changed via the options object.
 
-## Play Time System
+## Play Time
+
+The play time system tracks the total time the player has been playing, even across passages and saved games.  It also formats a sting for display.  The play time system creates a story variable object to hold the timer (`$playTime` by default).
+
+[See the detailed documentation.](#play-time-system)
+
+### Macros
+
+`<<playtime>>`: Displays the formatted play time.  `<<print $playTime.str>>` also works and does the same thing.  You can use the `$playTime` object's `hr`, `min`, `sec`, and `ms` properties to create your own string for output if you'd prefer.
 
 ## Misc. Macros
+
+Here's a list of other macros included in this set of scripts.
+
+### Fading Macro Set
+
+[See the detailed documentation.](#fading-macros)
+
+`<<fadein (optional: delay) (animation length)>>...<</fadein>>` and `<<fadeout (optional: delay) (animation length)>>...<</fadeout>>`: Create text that fades in or out over a period of time, with an optional delay.  Times should be in seconds, but milliseconds can be approximated using floating-point values.
+
+### The First Macro
+
+[See the detailed documentation.](#first-macro)
+
+### The Message Macro
+
+[See the detailed documentation.](#message-macro)
+
+### Dialog API Macro Set
+
+[See the detailed documentation.](#dialog-api-macros)
 
 # Detailed Documentation
 
