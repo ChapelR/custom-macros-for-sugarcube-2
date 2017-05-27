@@ -141,13 +141,21 @@ Here's a list of other macros included in this set of scripts.
 
 [See the detailed documentation.](#first-macro)
 
+`<<first>>...(optional: <<then>>)...(optional: <<finally>>)...<</first>>`: 
+
 ### The Message Macro
 
 [See the detailed documentation.](#message-macro)
 
+`<<message (optional: link text) (optional: 'btn' keyword) (optional: unique id)>>...<</message>>`:
+
 ### Dialog API Macro Set
 
 [See the detailed documentation.](#dialog-api-macros)
+
+`<<dialog (optional: title) (optional: list of classes)>>...<</dialog>>`:
+
+`<<popup (passage name) (optional: title) (optional: list of classes)>>`:
 
 # Detailed Documentation
 
