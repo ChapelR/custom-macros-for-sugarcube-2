@@ -572,6 +572,8 @@ The `checkCycle()` function returns true if the *current* value of the named cyc
 	It's early. // will appear if the 'time' cycle's current value is 'early'
 <<elseif checkCycle('time', 'late')>>\
 	It's getting late. // will appear if the 'time' cycle's current value is 'late'
+<<else>>
+	It's late. // will appear if the 'time' cycle's current value is 'night'
 <</if>>
 ```
 
@@ -620,7 +622,7 @@ The `cycleTotal()` function returns the number of turns the cycle takes to rotat
 **Examples**:
 ```javascript
 // given <<newcycle 'time' 'early' 'late' 'night' 2>>:
-<<print cycleTotal('time')>> // prints 4 (2 values [early and time] * turn length 2)
+<<print cycleTotal('time')>> // prints 6 (3 values [early, late, and night] * turn length 2)
 ```
 
 #### `cycleStatus()` function
@@ -677,11 +679,11 @@ You can usually use the other functions to return much of this information.
 
 **Examples**:
 ```javascript
-// given <<newcycle 'time' 'early' 'late' 'night' 3>>:
+// given <<newcycle 'time' 'early' 'late' 'night' 2>>:
 <<print getCycle('time', 'name')>> // prints 'time'
-<<print getCycle('time', 'values').join('-')>> // prints 'early-late'
-<<print getCycle('time', 'length')>> // prints 2
-<<print getCycle('time', 'turns')>> // prints 3
+<<print getCycle('time', 'values').join('-')>> // prints 'early-late-night'
+<<print getCycle('time', 'length')>> // prints 3
+<<print getCycle('time', 'turns')>> // prints 2
 ```
 
 ## Play Time System
