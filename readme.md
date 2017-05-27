@@ -1,40 +1,125 @@
 # Chapel's Custom Macros for SugarCube
 
-## Contents
+# Contents
 
-* [General Information](#general-information)
-* [Simple Inventory](#simple-inventory)
-* [Cycles System](#cycles-system)
-* [Play Time System](#play-time-system)
-* [Fading Macros](#fading-macros)
-* [First Macro](#first-macro)
-* [Message Macro](#message-macro)
-* [Dialog API Macros](#dialog-api-macros)
+* [Installation](#installation)
+* [Quick Start](#quick-start)
+* [Detailed Documentation](#detailed-documentation)
+ * [Simple Inventory](#simple-inventory)
+ * [Cycles System](#cycles-system)
+ * [Play Time System](#play-time-system)
+ * [Fading Macros](#fading-macros)
+ * [First Macro](#first-macro)
+ * [Message Macro](#message-macro)
+ * [Dialog API Macros](#dialog-api-macros)
 * [Other Information](#other-information)
 
-## General Information
-
-Here's some general information about the provided scripts and how to use them.
-
-### Installation
+# Installation
 
 These scripts work with both Twine 1 and Twine 2.  They have been tested with SugarCube 2.18, and should be compatible with most recent versions of SugarCube 2.x, including most future versions.
 
-#### For Twine 2:
+### For Twine 2:
 
 Navigate to the script or scripts you want and copy the contents.  In Twine 2, paste the contents of each script you wish to install into your story's JavaScript area.
 
-#### For Twine 1:
+### For Twine 1:
 
 Create a new passage with the tag `script`, or right click on the editor and select `New Script Here`.  Paste the contents of the script or scripts you want into one or more of these script-tagged passages.
 
-### Story Variables
+# Quick Start
 
-Some of the scripts described below (Simple Inventory, Cycles System, and Play Time System) create new story variables.  If you create a variable with the same name somewhere in your story, the script will break.  To avoid this, all scripts that create story variables can be changed via that scripts options object.  See each specific script's documentation for more.
+This is just a fast and dirty look at what's included.  If you need more information or examples, you can find more detailed documentation further down.
 
-### The Functions
+## Story Variables and Passage Tags
 
-Some of the scripts (Simple Inventory and Cycles System) create functions for your use.  These functions are created in the `setup.(name of the system)` namespace to (hopefully) avoid any compatibility issue with other scripts.  These functions are then passed to the global (`window`) object as references.  The script checks for the function's name in the global scope and doesn't pass the reference if the name is already defined, to prevent any conflicts with other scripts.  If you'd prefer the functions stay out of the global scope all together, you can change the value of `tryGlobal` in the specific script's options object.  Note that the nonglobal versions will still work fine, regardless of the status of the global versions. 
+Some of the scripts do things like create story variables or assign meaning to passage tags.  You can control the names of the variables and tags through each script's options object.  They usually look something like this:
+
+```javascript
+// options object:
+setup.cycSystem.options = {
+	storyVar  : 'cycles',
+	startTag  : 'startcycles',
+	pauseTag  : 'pausecycles',
+	menuTag   : 'menupause',
+	tryGlobal : true
+};
+```
+
+You can find these objects near the top of each scripts in which they are included.
+
+## Simple Inventory
+
+The simple inventory system creates a story variable array (`$inventory` by default) and helps you manage it with the following functions and macros.
+
+### Macros
+
+`<<inventory (optional: separator)>>` : Displays the inventory.  If no separator is included, each item is listed on a new line.  The separator you provide should be a string (I imagine `', '` will be a popular choice, for example).
+
+`<<pickup (list of items)>>`: Adds items to the inventory.  Care must be taken to avoid doubles if you need to do so--the macro does not check.  You should provide one or more items as a space-separated list of quoted strings.
+
+`<<drop (list of items)>>`: Removes items from the inventory, if they can be found.  Does not raise an error if an item isn't found, just silently does nothing.
+
+`<<has (list of items)>>...(optional: <<otherwise>>)...<</has>>`: Just a simple `<<if>>`-style macro for checking the inventory.  Checks for the presence of **all** items if multiple items are provided.
+
+`<<invSort>>`: Sorts the inventory alphabetically.
+
+`<<invWhatIs (index)>> and <<invWhereIs (item)>>`:  Utility macros for debugging and extending the system.  See the detailed documentation below for more.
+
+### Functions
+
+`invAll('list', 'of', 'items')`: Returns true if **all** of the listed items are in the inventory.
+
+`invAny('list', 'of', 'items')`: Returns true if **any** of the listed items are in the inventory.
+
+## Cycles System
+
+Used to create cycles.  A lot of things can be cycles: day/night, days of the week, months of the year, seasons, turns in an RPG game, etc.  Cycles are given a name, a list of values to cycle through, and a number of turns to wait before changing the value.  You can have multiple cycles running at once, but using a lot can cause a performance hit.  All cycle definitions are stored in a story variable (`$cycles` by default).
+
+### Macros
+
+`<<newcycle (name) (list of values) (number of turns)>>`:  Creates a new cycle.  For example: `<<cycle 'time' 'day' 'night' 1>>` would create a cycle called `'time'` that changes between `'day'` and `'night'` every turn.
+
+`<<deletecycle (list of cycle names)>>`: Deletes all of the cycles provided to it.  Deleted cycles are gone for good.
+
+`<<resetcycle (list of cycle names)>>`: Cycles track the number turns that have passed since their creation.  You can reset this count using this macro.  The cycle will be like new again.
+
+`<<resetallcycles>>`: Does what it says and says what it means.
+
+`<<showcycle (name of cycle) (optional: 'format' keyword)>>`: Prints the indicated cycle's current value.  If the keyword `format` is included, it will format the output to be lower case with the first letter capitalized (i.e. `day` becomes `Day`, `NIGHT` becomes `Night`).
+
+`<<cycleIs>>, <<whereIsCycle>>, <<cycleArrayIs>>, <<cycleAtIs>>, and <<defineCycle>>`: Utility macros for debugging and extending the system.  See the detailed documentation below for more.
+
+### Functions
+
+`checkCycle('name of cycle', 'value')`: Returns true if the named cycle's current value is the same as the indicated value.
+
+`cycleTurns('name of cycle')`: Returns the number of turns it takes for the named cycle to change values once.
+
+`cycleCurrentTurns('name of cycle')`: Returns the total number of turns the cycle has collected since the time it was created or the last time it was reset.
+
+`cycleTotal('name of cycle')`: Returns the number of turns it takes for the named cycle to rotate through *all* of its values once.
+
+`cycleStatus('name of cycle')`: Returns true if the indicated cycle currently exists.
+
+`cycleSinceLast('name of cycle')`: Returns the number of turns that have passed since the cycle last changed values.
+
+`getCycle('name of cycle', 'name of property')`: Returns the value of the indicated property from the indicated cycle.
+
+### Passage Tags
+
+`startcycles`: Initializes all cycles, setting all of their turns to `0`.  Similar in function to `<<resetallcycles>>`.  The default name of the tag can be changed via the options object.
+
+`pausecycles`: Prevents all cycles from collecting a turn on the tagged passage.  The default name of the tag can be changed via the options object.
+
+`menupause`: Prevents all cycles from collecting a turn on the tagged passage and the one immediately following it.  The default name of the tag can be changed via the options object.
+
+## Play Time System
+
+## Misc. Macros
+
+# Detailed Documentation
+
+Detailed documentation on all the systems, macros, and functions can be found below, along with examples and syntax.
 
 ## Simple Inventory
 
@@ -930,7 +1015,7 @@ $name
 // displays the content of the passage 'help' in a dialog box with no title and the class '.help'.
 ```
 
-## Other Information
+# Other Information
 
 I decided to write this section like a FAQ since that seemed easier to me.
 
