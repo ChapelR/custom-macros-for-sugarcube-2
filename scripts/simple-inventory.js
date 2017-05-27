@@ -184,7 +184,7 @@ Macro.add('has', {
 		if (check) {
 			content = this.payload[0].contents;
 		} else {
-			content = (this.payload[1].contents) ? this.payload[1].contents : '';
+			content = (this.payload.length > 1) ? this.payload[1].contents : '';
 		}
 		
 		$wrapper
