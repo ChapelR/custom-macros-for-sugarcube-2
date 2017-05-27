@@ -28,7 +28,7 @@ Create a new passage with the tag `script`, or right click on the editor and sel
 
 # Quick Start
 
-This is just a fast and dirty look at what's included.  If you need more information or examples, you can find more detailed documentation further down.
+This is just a fast and dirty look at what's included.  If you need more information or examples, you can find detailed documentation further down.
 
 ## Story Variables and Passage Tags
 
@@ -47,11 +47,11 @@ setup.cycSystem.options = {
 
 You can find these objects near the top of each scripts in which they are included.
 
-## Inventory
-
-The simple inventory system creates a story variable array (`$inventory` by default) and helps you manage it with the following functions and macros.
+## The Simple Inventory System
 
 [See the detailed documentation.](#simple-inventory)
+
+The simple inventory system creates a story variable array (`$inventory` by default) and helps you manage it with the following functions and macros.
 
 ### Macros
 
@@ -73,11 +73,11 @@ The simple inventory system creates a story variable array (`$inventory` by defa
 
 `invAny('list', 'of', 'items')`: Returns true if **any** of the listed items are in the inventory.
 
-## Cycles
-
-Used to create cycles.  A lot of things can be cycles: day/night, days of the week, months of the year, seasons, turns in an RPG game, etc.  Cycles are given a name, a list of values to cycle through, and a number of turns to wait before changing the value.  You can have multiple cycles running at once, but using a lot can cause a performance hit.  All cycle definitions are stored in a story variable (`$cycles` by default).
+## The Cycles System
 
 [See the detailed documentation.](#cycles-system)
+
+Used to create cycles.  A lot of things can be cycles: day/night, days of the week, months of the year, seasons, turns in an RPG game, etc.  Cycles are given a name, a list of values to cycle through, and a number of turns to wait before changing the value.  You can have multiple cycles running at once, but using a lot can cause a performance hit.  All cycle definitions are stored in a story variable (`$cycles` by default).
 
 ### Macros
 
@@ -117,7 +117,7 @@ Used to create cycles.  A lot of things can be cycles: day/night, days of the we
 
 `menupause`: Prevents all cycles from collecting a turn on the tagged passage and the one immediately following it.  The default name of the tag can be changed via the options object.
 
-## Play Time
+## The Play Time System
 
 The play time system tracks the total time the player has been playing, even across passages and saved games.  It also formats a sting for display.  The play time system creates a story variable object to hold the timer (`$playTime` by default).
 
@@ -141,21 +141,21 @@ Here's a list of other macros included in this set of scripts.
 
 [See the detailed documentation.](#first-macro)
 
-`<<first>>...(optional: <<then>>)...(optional: <<finally>>)...<</first>>`: 
+`<<first>>...(optional: <<then>>)...(optional: <<finally>>)...<</first>>`: Creates text or code that runs according to the number of times a player has visited the passage.  The `<<first>>` tag only runs it's content on the first visit.  `<<then>>` tags will run their content on subsequent visits: you can include as many `<<then>>`s as you like.  The `<<finally>>` tag runs its content on its visit, like a `<<then>>`, and on **all** subsequent visits.
 
 ### The Message Macro
 
 [See the detailed documentation.](#message-macro)
 
-`<<message (optional: link text) (optional: 'btn' keyword) (optional: unique id)>>...<</message>>`:
+`<<message (optional: link text) (optional: 'btn' keyword) (optional: unique id)>>...<</message>>`: Creates a link (or button, if the 'btn' keyword is included).  When the link is clicked, the content between the tags is shown on the next line.  The content can be collapsed by clicking the link again.  You will need to provide unique identifiers to the macro if two or more `<<message>>`s exist on the same page with the same link text.  The default link text, if none is provided, can be altered using an option toward the top of the script.
 
 ### Dialog API Macro Set
 
 [See the detailed documentation.](#dialog-api-macros)
 
-`<<dialog (optional: title) (optional: list of classes)>>...<</dialog>>`:
+`<<dialog (optional: title) (optional: list of classes)>>...<</dialog>>`:  Creates a dialog box with the provided title and adds the list of classes to it for styling.  The content between the tags is parsed into the dialog box's body.
 
-`<<popup (passage name) (optional: title) (optional: list of classes)>>`:
+`<<popup (passage name) (optional: title) (optional: list of classes)>>`: Creates a dialog box with the provided title and adds the list of classes to it for styling.  The content in the indicated passage is parsed into the dialog box's body.
 
 # Detailed Documentation
 
