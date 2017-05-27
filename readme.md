@@ -932,7 +932,7 @@ $name
 
 ## Other Information
 
-I decided to right this section like a FAQ since that seemed easier to me.
+I decided to write this section like a FAQ since that seemed easier to me.
 
 ### Should I credit you if I use these macros or these scripts?
 
@@ -944,7 +944,7 @@ Yes.
 
 ### Can you write me a macro that does X?
 
-Probably. You might not need a macro, though--a lot of stuff can be handled via widgets and task objects. At any rate, I've been known to do requests, so let me know what you want and I'll see what I can do.
+I can certainly try. You might not need a macro, though--a lot of stuff can be handled via widgets and task objects. At any rate, I've been known to do requests, so let me know what you want and I'll see what I can do.
 
 ### Why did you make X macro when you could have just used Y macro/function/API?
 
