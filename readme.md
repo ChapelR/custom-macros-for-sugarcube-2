@@ -10,6 +10,7 @@
 * [First Macro](#first-macro)
 * [Message Macro](#message-macro)
 * [Dialog API Macros](#dialog-api-macros)
+* [Other Information](#other-information)
 
 ## General Information
 
@@ -929,5 +930,55 @@ $name
 // displays the content of the passage 'help' in a dialog box with no title and the class '.help'.
 ```
 
+## Other Information
+
+I decided to right this section like a FAQ since that seemed easier to me.
+
+### Should I credit you if I use these macros or these scripts?
+
+You are certainly allowed to if you for some reason feel that you need to. You absolutely don't have to.
+
+### Can I edit/repost/fork/fix this code?
+
+Yes.
+
+### Can you write me a macro that does X?
+
+Probably. You might not need a macro, though--a lot of stuff can be handled via widgets and task objects. At any rate, I've been known to do requests, so let me know what you want and I'll see what I can do.
+
+### Why did you make X macro when you could have just used Y macro/function/API?
+
+Macros are easier to implement for Twine creators because they're native to the IDE. In other words, they're sexier.
+
+It's really the same reason link markup exists. We could all write out <<link>> macros (or anchor elements, for that matter), but [[link]] is sexy, easy, and fast. These macros are designed to wrap up some often requested features into a scripting style that twine creators are already comfortable with.
+
+### Some of your macros seem easy to break/confuse?
+
+Some of them aren't quite as stable or flexible as I'd like.  If a macro seems to not be working the way you think it should, feel free to open an issue or drop me a line.
+
+### Some of these scripts seem to include more than just a macro definition.
+
+Some of the macros rely on external (in the sense of being outside of the macro definition) nuts-and-bolts scripting, functions, or task objects to work. These are included in the scripts when appropriate, and are required for their associated macros to function.
+
+### I have a suggestion/found a bug.
+
+Please alert me to any bugs or weirdness. I'm also open to suggestions, whether a feature request or an improvement to some of my stupidly written code. You can either open an issue or PM me on reddit (u/ChapelR).  I can also be located in various Twine communities under the name Chapel or ChapelR.
+
+### What's with `_is`?
+
+I use _is a lot as a lazy man's return value for a lot of my own widgets, macros, and code chunks, and saw no reason not to get rid of them. There's something that just seems very well-designed about code that reads: `<<isBoy>><<if _is>>...` 
+
+That might just be me though. Most of the `_is` parts of these macros can be ignored and are more for testing/debugging/extending the code than for actual day-to-day use.
 
 ->If you find any errors in this documentation, pease let me know.
+
+
+
+
+
+
+
+
+
+
+

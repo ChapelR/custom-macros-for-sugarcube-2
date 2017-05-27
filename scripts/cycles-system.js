@@ -328,7 +328,7 @@ Macro.add('cycleIs', {
 			}
 		}
 		
-		State.temporary.is = cycles[key].current;
+		State.temporary.is = clone(cycles[key].current);
 
 	}
 
@@ -349,7 +349,7 @@ Macro.add('whereIsCycle', {
 			}
 		}
 		
-		State.temporary.is = cycles.all.indexOf(key);
+		State.temporary.is = clone(cycles.all.indexOf(key));
 
 	}
 
@@ -370,7 +370,7 @@ Macro.add('cycleArrayIs', {
 			}
 		}
 		
-		State.temporary.is = cycles[key].values;
+		State.temporary.is = clone(cycles[key].values);
 
 	}
 
@@ -389,7 +389,7 @@ Macro.add('cycleAtIs', {
 			if (index >= cycles.all.length) {
 				return this.error('no cycle exists at index ' + index);
 			} else {
-				var key = cycles.all[index];
+				var key = clone(cycles.all[index]);
 			}
 		}
 		
