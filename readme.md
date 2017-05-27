@@ -950,7 +950,7 @@ I can certainly try. You might not need a macro, though--a lot of stuff can be h
 
 Macros are easier to implement for Twine creators because they're native to the IDE. In other words, they're sexier.
 
-It's really the same reason link markup exists. We could all write out <<link>> macros (or anchor elements, for that matter), but [[link]] is sexy, easy, and fast. These macros are designed to wrap up some often requested features into a scripting style that twine creators are already comfortable with.
+It's really the same reason link markup exists. We could all write out `<<link>>` macros (or anchor elements, for that matter), but `[[link]]` is sexy, easy, and fast. These macros are designed to wrap up some often requested features into a scripting style that twine creators are already comfortable with.
 
 ### Some of your macros seem easy to break/confuse?
 
@@ -966,7 +966,7 @@ Please alert me to any bugs or weirdness. I'm also open to suggestions, whether 
 
 ### What's with `_is`?
 
-I use _is a lot as a lazy man's return value for a lot of my own widgets, macros, and code chunks, and saw no reason not to get rid of them. There's something that just seems very well-designed about code that reads: `<<isBoy>><<if _is>>...` 
+I use `_is` a lot as a lazy man's return value for a lot of my own widgets, macros, and code chunks, and saw no reason to get rid of them. There's something that just seems very well-designed about code that reads: `<<isBoy>><<if _is>>...` 
 
 That might just be me though. Most of the `_is` parts of these macros can be ignored and are more for testing/debugging/extending the code than for actual day-to-day use.
 
