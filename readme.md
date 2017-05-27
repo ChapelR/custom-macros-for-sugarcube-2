@@ -970,15 +970,4 @@ I use _is a lot as a lazy man's return value for a lot of my own widgets, macros
 
 That might just be me though. Most of the `_is` parts of these macros can be ignored and are more for testing/debugging/extending the code than for actual day-to-day use.
 
-->If you find any errors in this documentation, pease let me know.
-
-
-
-
-
-
-
-
-
-
-
+**NOTE** ->If you find any errors in this documentation, pease let me know.
