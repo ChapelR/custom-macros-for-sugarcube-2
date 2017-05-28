@@ -119,13 +119,17 @@ Used to create cycles.  A lot of things can be cycles: day/night, days of the we
 
 ## The Play Time System
 
-The play time system tracks the total time the player has been playing, even across passages and saved games.  It also formats a sting for display.  The play time system creates a story variable object to hold the timer (`$playTime` by default).
-
 [See the detailed documentation.](#play-time-system)
+
+The play time system tracks the total time the player has been playing, even across passages and saved games.  It also formats a sting for display.  The play time system creates a story variable object to hold the timer (`$playTime` by default).
 
 ### Macros
 
 `<<playtime>>`: Displays the formatted play time.  `<<print $playTime.str>>` also works and does the same thing.  You can use the `$playTime` object's `hr`, `min`, `sec`, and `ms` properties to create your own string for output if you'd prefer.
+
+### Passage Tags
+
+`pausetimer`: Time will not increase in passages tagged `pausetimer`.
 
 ## Misc. Macros
 
@@ -814,7 +818,7 @@ You can usually use the other functions to return much of this information.
 
 ## Play Time System
 
-Records the player's total play time in hours, minutes, and seconds and formats it for display via the `<<playtime>>` macro. You can pause the timer with the `‘pause’` tag, and format your own output, if desired, using the `$playTime` story variable object. The play time will persist across passage navigation, saved games, etc.
+Records the player's total play time in hours, minutes, and seconds and formats it for display via the `<<playtime>>` macro. You can pause the timer with the `pausetimer` tag, and format your own output, if desired, using the `$playTime` story variable object. The play time will persist across passage navigation, saved games, etc.
 
 ### Options
 
