@@ -116,7 +116,7 @@ Used to create cycles.  A lot of things can be cycles: day/night, days of the we
 
 ### Passage Tags
 
-`startcycles`: Initializes all cycles, setting all of their turns to `0`.  Similar in function to `<<resetallcycles>>`.  The default name of the tag can be changed via the options object.
+`resetcycles`: Initializes all cycles, setting all of their turns to `0`.  Similar in function to `<<resetallcycles>>`.  The default name of the tag can be changed via the options object.
 
 `pausecycles`: Prevents all cycles from collecting a turn on the tagged passage.  The default name of the tag can be changed via the options object.
 
