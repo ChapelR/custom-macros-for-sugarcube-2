@@ -108,7 +108,7 @@ Used to create cycles.  A lot of things can be cycles: day/night, days of the we
 
 `cycleExists('name of cycle')`: Returns true if the indicated cycle currently exists.
 
-`cycleStatus('name of cycle')`: Returns 'running' (the named cycle is curren;ty counting), 'suspended' (the named cycle is currently suspended), or null (the named cycle doesn't exist).
+`cycleStatus('name of cycle')`: Returns 'running' (the named cycle is currenlty counting), 'suspended' (the named cycle is currently suspended), or null (the named cycle doesn't exist).
 
 `cycleSinceLast('name of cycle')`: Returns the number of turns that have passed since the cycle last changed values.
 
@@ -470,7 +470,7 @@ Simply put, a way to introduce 'cycles' into your game without having to fiddle 
 Here's a few notes about how the system works that you should keep in mind:
 
 * Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle `<<newcycle 'time' 'morning' 'noon' 'night' 3>>` and then, after 1 turn (e.g. on the next passage), you create the cycle `<<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>`, the two cycles will not line up: each new `'day'` will start at the `'time'` cycle's `'noon'`. Generally, it's best to include all your `<<newcycle>>` macros in the same passage (`StoryInit` is a good candidate), or, if you need your cycles to line up, use the `resetTag` (default: `'resetcycles'`) or the `<<resetallcycles>>` macro to reset all of your cycles to zero upon adding a new one.
-* It is **not possible** to reclaim a cycle that has been deleted by the `<<deletecycle>>` macro.  Generally, it's better to suspend a cycle via `<<suspendcycle>>` than to delete it if you feel that you may need to use it again; you can always reset it via `<<resetcycle>>` if you need it to appear to have be 'new'.
+* It is **not possible** to reclaim a cycle that has been deleted by the `<<deletecycle>>` macro.  Generally, it's better to suspend a cycle via `<<suspendcycle>>` than to delete it if you feel that you may need to use it again; you can always reset it via `<<resetcycle>>` if you need it to appear to be 'new'.
 * You do not have to delete a cycle to reconfigue it.  You can use the `<<newcycle>>` macro to make alterations to an existing cycle; the old cycle will be overwritten by the new.  Note that, like with `<<deletecycle>>`, it is impossible to reclaim an overwritten cycle.
 * The macros that 'return' temporary variables (`<<cycleIs>>`, `<<whereIsCycle>>`, `<<cycleArrayIs>>`, `<<cycleAtIs>>` and `<<defineCycle>>`) are designed for debugging and extending the cycle system.  You will almost never need to resort to these macros if you are using the system as-is, though they can help you do some pretty dynamic things.
 
@@ -494,7 +494,7 @@ setup.cycSystem.options = {
 The cycle system script automatically creates a story variable object to hold all the created cycles; this allows you to save and load the cycles via SugarCube's built-in save system and it allows you to access the cycles natively in the IDE using a `$variable`.  By default, the story variable is created with the name `'cycles'` and accessed via `$cycles` in the IDE.  You can change the name using the `storyVar` option.  Valid names are the same as all valid TwineScript variable names.
 
 #### `resetTag` option
-The `startTag` value is a passage tag that will reset all cycles to `0` turns, and can be used instead of the `<<resetallcycles>>` macro.  By default, the tag is `'startcycles'`.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
+The `resetTag` value is a passage tag that will reset all cycles to `0` turns, and can be used instead of the `<<resetallcycles>>` macro.  By default, the tag is `'resetcycles'`.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
 
 #### `pauseTag` option
 The `pauseTag` value is a passage tag that will temporarily pause all cycles for the given passage, preventing them from collecting a turn.  By default, the tag is `'pausecycles'`.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
@@ -607,10 +607,12 @@ The `<<resetcycle>>` macro resets all of the cycles provided to it back to their
 #### `<<resetallcycles>>` macro
 
  **Syntax**:
- `<<resetallcycles>>`
+ `<<resetallcycles (optional: group)>>`
+ 
+ * group: you can include the keyword `running` or `suspended` to target only cycles that are currently running or suspended
  
  **Explanation**:
-Resets all currently running cycles to `0` turns.  Similar to `<<resetcycle>>`, but affects all cycles.  Functionally the same as the `startTag` passage tag; though the tag is the preferred method to accomplish this if at all possible.
+Resets all currently running cycles to `0` turns.  Similar to `<<resetcycle>>`, but affects all cycles.  Functionally the same as the `resetTag` passage tag; though the tag is the preferred method to accomplish this if at all possible.  If you include one of the group keywords, only the cycles matching that status (running or suspended) will be affected.
  
  **Examples**:
 ```javascript
@@ -806,7 +808,7 @@ The `cycleTotal()` function returns the number of turns the cycle takes to rotat
 * cycle: the name of an existing cycle, passed as a quoted string.
 
 **Explanation**:
-The `cycleStatus()` function returns true if the indicated cycle exists, whether it is running or suspended.  If the cycle does not exist, returns false.
+The `cycleExists()` function returns true if the indicated cycle exists, whether it is running or suspended.  If the cycle does not exist, returns false.
 
 **Examples**:
 ```javascript
@@ -824,7 +826,7 @@ The `cycleStatus()` function returns true if the indicated cycle exists, whether
 * cycle: the name of an existing cycle, passed as a quoted string.
 
 **Explanation**:
-The `cycleStatus()` function returns 'running' if the indicated cycle is running, 'suspended' if the indicated cycle is suspended, or null if the indicated cycle cannot be found.
+The `cycleStatus()` function returns `'running'` if the indicated cycle is running, `'suspended'` if the indicated cycle is suspended, or `null` if the indicated cycle cannot be found.
 
 **Examples**:
 ```javascript
