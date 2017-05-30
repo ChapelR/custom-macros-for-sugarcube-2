@@ -38,9 +38,10 @@ Some of the scripts do things like create story variables or assign meaning to p
 // options object:
 setup.cycSystem.options = {
 	storyVar  : 'cycles',
-	startTag  : 'startcycles',
+	resetTag  : 'resetcycles',
 	pauseTag  : 'pausecycles',
 	menuTag   : 'menupause',
+	runNew    : true,
 	tryGlobal : true
 };
 ```
@@ -83,6 +84,8 @@ Used to create cycles.  A lot of things can be cycles: day/night, days of the we
 
 `<<newcycle (name) (list of values) (number of turns)>>`:  Creates a new cycle.  For example: `<<cycle 'time' 'day' 'night' 1>>` would create a cycle called `'time'` that changes between `'day'` and `'night'` every turn.
 
+`<<suspendcycle (list of cycle names)>>` and `<<resumecycle (list of cycle names)>>`: You can use these macros to target individual cycles and suspend them, preventing them from collecting turns until they are resumed.  Suspended cycles are essentially 'frozen' in place.
+
 `<<deletecycle (list of cycle names)>>`: Deletes all of the cycles provided to it.  Deleted cycles are gone for good.
 
 `<<resetcycle (list of cycle names)>>`: Cycles track the number turns that have passed since their creation.  You can reset this count using this macro.  The cycle will be like new again.
@@ -103,7 +106,9 @@ Used to create cycles.  A lot of things can be cycles: day/night, days of the we
 
 `cycleTotal('name of cycle')`: Returns the number of turns it takes for the named cycle to rotate through *all* of its values once.
 
-`cycleStatus('name of cycle')`: Returns true if the indicated cycle currently exists.
+`cycleExists('name of cycle')`: Returns true if the indicated cycle currently exists.
+
+`cycleStatus('name of cycle')`: Returns 'running' (the named cycle is curren;ty counting), 'suspended' (the named cycle is currently suspended), or null (the named cycle doesn't exist).
 
 `cycleSinceLast('name of cycle')`: Returns the number of turns that have passed since the cycle last changed values.
 
@@ -464,22 +469,23 @@ Simply put, a way to introduce 'cycles' into your game without having to fiddle 
 
 Here's a few notes about how the system works that you should keep in mind:
 
-* Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle `<<newcycle 'time' 'morning' 'noon' 'night' 3>>` and then, after 1 turn (e.g. on the next passage), you create the cycle `<<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>`, the two cycles will not line up: each new `'day'` will start at the `'time'` cycle's `'noon'`. Generally, it's best to include all your `<<newcycle>>` macros in the same passage (`StoryInit` is a good candidate), or, if you need your cycles to line up, use the `startTag` (default: `'startcycles'`) or the `<<resetallcycles>>` macro to reset all of your cycles to zero upon adding a new one.
-* It is **not possible** to reclaim a cycle that has been deleted by the `<<deletecycle>>` macro.  Generally, it's better to simply hide the cycle's output than to delete it if you feel that you may need to use it again; you can always reset it via `<<resetcycle>>` if you need it to appear to have been 'stopped'.
+* Cycles are independently tracked.  This means that cycles that are added later start their tracking later.  For example, if you create the cycle `<<newcycle 'time' 'morning' 'noon' 'night' 3>>` and then, after 1 turn (e.g. on the next passage), you create the cycle `<<newcycle 'days' 'Sunday' 'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 9>>`, the two cycles will not line up: each new `'day'` will start at the `'time'` cycle's `'noon'`. Generally, it's best to include all your `<<newcycle>>` macros in the same passage (`StoryInit` is a good candidate), or, if you need your cycles to line up, use the `resetTag` (default: `'resetcycles'`) or the `<<resetallcycles>>` macro to reset all of your cycles to zero upon adding a new one.
+* It is **not possible** to reclaim a cycle that has been deleted by the `<<deletecycle>>` macro.  Generally, it's better to suspend a cycle via `<<suspendcycle>>` than to delete it if you feel that you may need to use it again; you can always reset it via `<<resetcycle>>` if you need it to appear to have be 'new'.
 * You do not have to delete a cycle to reconfigue it.  You can use the `<<newcycle>>` macro to make alterations to an existing cycle; the old cycle will be overwritten by the new.  Note that, like with `<<deletecycle>>`, it is impossible to reclaim an overwritten cycle.
 * The macros that 'return' temporary variables (`<<cycleIs>>`, `<<whereIsCycle>>`, `<<cycleArrayIs>>`, `<<cycleAtIs>>` and `<<defineCycle>>`) are designed for debugging and extending the cycle system.  You will almost never need to resort to these macros if you are using the system as-is, though they can help you do some pretty dynamic things.
 
 ### Options
 
-This system includes five options.  You can find the options object near the top of the script.  It should look like this:
+This system includes six options.  You can find the options object near the top of the script.  It should look like this:
 
 ```javascript
 // options object:
 setup.cycSystem.options = {
 	storyVar  : 'cycles',
-	startTag  : 'startcycles',
+	resetTag  : 'resetcycles',
 	pauseTag  : 'pausecycles',
 	menuTag   : 'menupause',
+	runNew    : true,
 	tryGlobal : true
 };
 ```
@@ -487,7 +493,7 @@ setup.cycSystem.options = {
 #### `storyVar` option
 The cycle system script automatically creates a story variable object to hold all the created cycles; this allows you to save and load the cycles via SugarCube's built-in save system and it allows you to access the cycles natively in the IDE using a `$variable`.  By default, the story variable is created with the name `'cycles'` and accessed via `$cycles` in the IDE.  You can change the name using the `storyVar` option.  Valid names are the same as all valid TwineScript variable names.
 
-#### `startTag` option
+#### `resetTag` option
 The `startTag` value is a passage tag that will reset all cycles to `0` turns, and can be used instead of the `<<resetallcycles>>` macro.  By default, the tag is `'startcycles'`.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
 
 #### `pauseTag` option
@@ -495,6 +501,9 @@ The `pauseTag` value is a passage tag that will temporarily pause all cycles for
 
 #### `menuTag` option
 The `menuTag` value is a passage tag that will prevent all cycles from collecting turns in both the tagged passage and the passage immediately following it.  The idea behind this tag is to use it for menu options, so that entering and exiting a menu-style passage will not cause cycles' turns to increment.  By default, the tag is `'menupause'`.  You can configure the name of the tag to your liking with this option.  **Note**: passage tags should not include spaces.
+
+#### `runNew` option
+By default, newly declared cycles set up via `<<newcycle>>` automatically start counting turns as soon as they are created.  You can change this behavior to start new cycles suspended by turning this option to false.  If you do, you will need to use the `<<resumecycle>>` macro to get a newly created cycle counting. 
 
 #### `tryGlobal` option
 There are several 'helper' functions included in these scripts: `setup.cycSystem.checkCycle()`, for example.  You can read more about these function below.  Obviously, this is a mouthful, so the function definitions gets copied over as global functions, i.e. `checkCycle()`.  These global functions are only created if their names are undefined, to prevent any potential compatibility issues.  However, if you'd prefer to keep the functions out of the global scope all together, you can set this value to false and they won't be sent to the global scope at all, even if their names are available.  You'll be forced to write out the longer `setup.cycSystem.checkCycle()` style functions, though.
@@ -525,6 +534,40 @@ The `<<newcycle>>` macro is used to construct a new cycle.  The cycle's definiti
 
 <<newcycle 'seasons' 'spring' 'summer' 'fall' 'winter' 100>>
 // creates a new cycle called 'seasons' that changes the season every 100 turns
+```
+
+#### `<<suspendcycle>>` macro
+
+ **Syntax**:
+ `<<suspendcycle (list of cycles)>>`
+
+* list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
+ 
+ **Explanation**:
+The `<<suspendcycle>>` macro indefinitely stops the named cycle(s) from collecting turns, essentially freezing the indicated cycle or cycles in place at their current number of turns and at their current values.
+ 
+ **Examples**:
+```javascript
+<<suspendcycle 'timeOfDay'>> // suspends the cycle named 'timeOfDay'
+
+<<suspendcycle 'day' 'seasons'>> // suspends the cycles 'day' and 'seasons'
+```
+
+#### `<<resumecycle>>` macro
+
+ **Syntax**:
+ `<<resumecycle (list of cycles)>>`
+
+* list of cycles: a list of cycle names, provided as quoted strings and separated by spaces.
+ 
+ **Explanation**:
+The `<<resumecycle>>` macro resumes a cycle that is suspended by `<<suspendcycle>>`, allowing it to start collecting turns again.
+ 
+ **Examples**:
+```javascript
+<<resumecycle 'timeOfDay'>> // resumes the cycle named 'timeOfDay', if it is suspended
+
+<<resumecycle 'day' 'seasons'>> // resumes the cycles 'day' and 'seasons', if either is suspended
 ```
 
 #### `<<deletecycle>>` macro
@@ -755,6 +798,24 @@ The `cycleTotal()` function returns the number of turns the cycle takes to rotat
 <<print cycleTotal('time')>> // prints 6 (3 values [early, late, and night] * turn length 2)
 ```
 
+#### `cycleExists()` function
+
+**Syntax**:
+`cycleExists(cycle)`
+
+* cycle: the name of an existing cycle, passed as a quoted string.
+
+**Explanation**:
+The `cycleStatus()` function returns true if the indicated cycle exists, whether it is running or suspended.  If the cycle does not exist, returns false.
+
+**Examples**:
+```javascript
+// given <<newcycle 'time' 'early' 'late' 'night' 2>> and assuming it is the only cycle:
+<<if cycleExists('time')>>True<<else>>False<</if>> // displays 'True'
+
+<<if cycleExists('seasons')>>True<<else>>False<</if>> // displays 'False'
+```
+
 #### `cycleStatus()` function
 
 **Syntax**:
@@ -763,14 +824,14 @@ The `cycleTotal()` function returns the number of turns the cycle takes to rotat
 * cycle: the name of an existing cycle, passed as a quoted string.
 
 **Explanation**:
-The `cycleStatus()` function returns true if the cycle indicated currently exists, and returns false if the cycle cannot be found.
+The `cycleStatus()` function returns 'running' if the indicated cycle is running, 'suspended' if the indicated cycle is suspended, or null if the indicated cycle cannot be found.
 
 **Examples**:
 ```javascript
-// given <<newcycle 'time' 'early' 'late' 'night' 2>> and assuming it is the only cycle:
-<<if cycleStatus('time')>>True<<else>>False<</if>> // displays 'True'
+// given <<newcycle 'time' 'early' 'late' 'night' 2>><<suspendcycle 'time'>> and assuming it is the only cycle:
+<<if cycleStatus('time') is 'suspended'>>True<<else>>False<</if>> // displays 'True'
 
-<<if cycleStatus('seasons')>>True<<else>>False<</if>> // displays 'False'
+<<if cycleStatus('seasons') is 'running'>>True<<else>>False<</if>> // displays 'False'
 ```
 
 #### `cycleSinceLast()` function
@@ -781,7 +842,7 @@ The `cycleStatus()` function returns true if the cycle indicated currently exist
 * cycle: the name of an existing cycle, passed as a quoted string.
 
 **Explanation**:
-The `cycleSinceLast()` function returns the number of turns that have passed since the last time the indicated cycle changed.
+The `cycleSinceLast()` function returns the number of turns that have passed since the last time the indicated cycle changed.  Suspended cycles return -1.
 
 **Examples**:
 ```javascript

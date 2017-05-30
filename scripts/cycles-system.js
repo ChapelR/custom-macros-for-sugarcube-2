@@ -1,27 +1,33 @@
 // cycles system, by chapel; for sugarcube 2
-// version 1.0
+// version 1.1
 // see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#cycles-system
 
 // create namespace:
 setup.cycSystem = {};
 
 // options object:
+// v1.1b: added runNew option: if false, <<newcycle>>s start suspended; changes startTag to resetTag
 setup.cycSystem.options = {
 	storyVar  : 'cycles',
-	startTag  : 'startcycles',
+	resetTag  : 'resetcycles',
 	pauseTag  : 'pausecycles',
 	menuTag   : 'menupause',
+	runNew    : true,
 	tryGlobal : true
 };
 
 // create the story variable and ref functions
+// v1.1b: added $(storyVar).rng array and $(storyVar).spd array for running and suspended cylces;
+// v1.1b: $(storyVar).all still holds all defined cycles
 State.variables[setup.cycSystem.options.storyVar] = {
-	all  : [],
+	all : [],
+	rng : [],
+	spd : []
 };
 setup.cycSystem.cycRef = () => State.variables[setup.cycSystem.options.storyVar];
 setup.cycSystem.tag = function(type) { 
-	if (type === 'start') {
-		return setup.cycSystem.options.startTag;
+	if (type === 'reset') {
+		return setup.cycSystem.options.resetTag;
 	} else if (type === 'pause') {
 		return setup.cycSystem.options.pauseTag;
 	} else if (type === 'menu') {
@@ -66,18 +72,39 @@ setup.cycSystem.cycleTotal = function(name) {
 }
 
 setup.cycSystem.cycleStatus = function(name) {
-	// returns true if cycle exists, false otherwise
+	// returns cycle status
+	// v1.1b: added tests for 'running' and 'suspended' status; now returns null for nonexistant cycles
 	var cycles = setup.cycSystem.cycRef();
-	var test   = cycles.all.includes(name);
+	var test;
+	if (cycles.all.includes(name)) {
+		test = (cycles.spd.includes(name)) ? 'suspended' : 'running';
+	} else {
+		test = null;
+	}
 	return test;
+}
+
+// v1.1b: new function cycleExists()
+setup.cycSystem.cycleExists = function(name) {
+	// returns true if cycle exists, false if cycle cannot be found
+	var cycles = setup.cycSystem.cycRef();
+	if (cycles.all.includes(name)) {
+		return true
+	}
+	return false;
 }
 
 setup.cycSystem.cycleSinceLast = function(name) {
 	// returns number of turns since last change
+	// v1.1b: returns -1 on suspended cycles
 	var cycles = setup.cycSystem.cycRef();
-	var time   = clone(cycles[name].time);
-	var turns  = clone(cycles[name].turns);
-	return (time % turns) + 1;
+	if (cycles.rng.includes(name)){
+		var time   = clone(cycles[name].time);
+		var turns  = clone(cycles[name].turns);
+		return (time % turns) + 1;
+	} else if (cycles.spd.includes(name)) {
+		return -1;
+	}
 }
 
 setup.cycSystem.getCycle = function(name, prop) {
@@ -105,6 +132,9 @@ if (setup.cycSystem.options.tryGlobal) {
 	if (typeof window.cycleStatus == 'undefined') {
 		window.cycleStatus = setup.cycSystem.cycleStatus;
 	}
+	if (typeof window.cycleExists == 'undefined') {
+		window.cycleExists = setup.cycSystem.cycleExists;
+	}
 	if (typeof window.cycleSinceLast == 'undefined') {
 		window.cycleSinceLast = setup.cycSystem.cycleSinceLast;
 	}
@@ -117,10 +147,11 @@ if (setup.cycSystem.options.tryGlobal) {
 predisplay['cycleSystem'] = function (taskName) {
 
 	var cycles      = setup.cycSystem.cycRef();
-	var startTag    = setup.cycSystem.tag('start');
+	var resetTag    = setup.cycSystem.tag('reset');
 	var pauseTag    = setup.cycSystem.tag('pause');
 	var menuTag     = setup.cycSystem.tag('menu');
-	var totalCycles = cycles.all.length;
+	var totalCycles = cycles.rng.length;
+	var prev        = previous();
 	
 	var i;
 	var clock;
@@ -130,18 +161,20 @@ predisplay['cycleSystem'] = function (taskName) {
 	var current;
 	
 	// test for pause tag and existence of cycles
-	if (!tags().includes(pauseTag) && totalCycles) {
+	// v 1.1b: add tests for menuTag
+	if (totalCycles > 0 && 
+		!tags().includes(pauseTag) && 
+		!tags().includes(menuTag) && 
+		!tags(prev).includes(menuTag) ) {
 	
 		// main loop
+		// v1.1b: fixed repeat pause; pulls cycles from rng instead of all
 		for (i = 0; i < totalCycles; i++) {
-			// cycles through the cycles!
-			current = cycles.all[i];
+			// cycles through the (running) cycles!
+			current = cycles.rng[i];
 				
-			if (tags().includes(menuTag)) {
-			// test for repeat pause tag
-				cycles[current].time--;
-			} else if (tags().includes(startTag)) {
-			// test for start tag
+			if (tags().includes(resetTag)) {
+			// test for reset tag
 				cycles[current].time = 0;
 			} else {
 			// collect turn if tags are acceptable
@@ -166,22 +199,25 @@ predisplay['cycleSystem'] = function (taskName) {
 };
 
 // <<newcycle>> macro
+// v1.1b: improved overwriting features, added rng and spd tests, test for runNew option
 Macro.add('newcycle', {
 	handler : function () {
 
 		// get basic defintion
-		var cycles      = setup.cycSystem.cycRef();
-		var length      = this.args.length;
-		var key         = clone(this.args[0]);
-		var turns       = clone(this.args[length-1]);
+		var cycles = setup.cycSystem.cycRef();
+		var length = this.args.length;
+		var key    = clone(this.args[0]);        // deep copy
+		var turns  = clone(this.args[length-1]); // deep copy
+		var run    = setup.cycSystem.options.runNew;
+		var del;
 
 		// get values
-		var cycleArray  = clone(this.args);
+		var cycleArray  = clone(this.args);       // deep copy
 		cycleArray.shift();
 		cycleArray.pop();
 		length = cycleArray.length;
 
-		// create cycle definition
+		// create cycle definition (will overwrite cycles with same name)
 		cycles[key] = {
 			name    : key,
 			values  : cycleArray,
@@ -191,14 +227,35 @@ Macro.add('newcycle', {
 			time    : 0
 		};
 		
-		// add reference to $(storyVar).all array
+		// overwrite existing cycles if same name is provided, without duplicating in arrays;
+		// doubles will get counted twice, and eat processing power
+		if (cycles.all.includes(key)) {
+			del = cycles.all.indexOf(key);
+			cycles.all.deleteAt(del);
+			if (cycles.rng.includes(key)) {
+				del = cycles.rng.indexOf(key);
+				cycles.rng.deleteAt(del);
+			}
+			if (cycles.spd.includes(key)) {
+				del = cycles.spd.indexOf(key);
+				cycles.spd.deleteAt(del);
+			}
+		}
+		
+		// add references to $(storyVar).all array (and rng or spd arrays, conditionally)
 		cycles.all.push(key);
+		if (run) {
+			cycles.rng.push(key);
+		} else {
+			cycles.spd.push(key);
+		}
 
 	}
 
 });
 
 // <<deletecycle>> macro
+// v1.1b: added deletion fro rng and spd arrays
 Macro.add('deletecycle', {
 	handler : function () {
 	
@@ -209,17 +266,26 @@ Macro.add('deletecycle', {
 		var current;
 		var i;
 		
-		// throw error if no such cycle exists
+		// throw error if no such cycles exist
 		if (!cycles.all.includesAll(keys)) {
 			return this.error('cannot find cycles with all of the given names');
 		}
 		
-		// find and delete indicated cycles
+		// find and delete indicated cycles and all references to them 
 		for (i = 0; i < length; i++) {
 			current = cycles.all[i];
 			if (keys.includes(current)) {
-				cycles.all.deleteAt(i);
+				// remove reference from rng array
+				if (cycles.rng.includes(current)) {
+					cycles.rng.deleteAt(i);
+				}
+				// remove reference from spd array
+				if (cycles.spd.includes(current)) {
+					cycles.spd.deleteAt(i);
+				}
+				// delete cycle definition and reference from all array
 				delete cycles[current];
+				cycles.all.deleteAt(i);
 			}
 		}
 		
@@ -238,7 +304,7 @@ Macro.add('resetcycle', {
 		var current;
 		var i;
 		
-		// throw error if no such cycle exists
+		// throw error if no such cycles exist
 		if (!cycles.all.includesAll(keys)) {
 			return this.error('cannot find cycles with all of the given names');
 		}
@@ -256,19 +322,121 @@ Macro.add('resetcycle', {
 });
 
 // <<resetallcycles>> macro
+// v1.1b: you can now provide keyword 'running' or 'suspended' to target a group of cycles
 Macro.add('resetallcycles', {
 	handler : function () {
 
 		var cycles = setup.cycSystem.cycRef();
-		var length = cycles.all.length;
+		var length;
 		var i;
 		var key;
+		var group;
 		
-		// reset every cycle
+		// throw error if more than one argument is passed
+		if (this.args.length > 1) {
+			return this.error('incorrect number of arguments');
+		
+		// identify the group
+		} else if (this.args.length === 0 || this.args[0] === 'all') {
+			group = 'all';
+		} else if (this.args[0] === 'running' || this.args[0] === 'rng') {
+			group = 'rng';
+		} else if (this.args[0] === 'suspended' || this.args[0] === 'spd') {
+			group = 'spd';
+		
+		// throw error if argument is not a recognized group
+		} else {
+			return this.error('unknown cycle group: ' + this.args[0] +
+			'.  groups can be "running", "suspended", or "all". cannot reset.');
+		}
+		
+		// set up group array and get the length
+		group  = cycles[group];
+		length = group.length;
+		
+		// reset every cycle in the group
 		for (i = 0; i < length; i++) {
-			key = cycles.all[i];
+			key = group[i];
 			cycles[key].time = 0;
 		}
+
+	}
+
+});
+
+// <<suspendcycle>> macro [added: v1.1b]
+Macro.add('suspendcycle', {
+	handler : function () {
+
+		var cycles  = setup.cycSystem.cycRef();
+		var length  = cycles.all.length;
+		var keys    = this.args;
+		var running = true;
+		
+		var current;
+		var del;
+		var i;
+		
+		// check the cycles (save on processing)
+		if (!cycles.all.includesAny(keys)) {
+			running = false; // none of the provided cycles exists
+		} else if (cycles.spd.includesAll(keys)) {
+			running = false; // none of the provided cycles is running
+		}
+		
+		// find and suspend the indicated cycles
+		if (running) { // if any provided cycles can be suspended
+			// main loop
+			for (i = 0; i < length; i++) {
+				current = cycles.all[i];
+				// test for cycle
+				if (keys.includes(current) && cycles.rng.includes(current)) {
+					cycles.spd.push(current);
+					del = cycles.rng.indexOf(current);
+					cycles.rng.deleteAt(del);
+				}
+			}
+		}
+		// don't throw errors if cycle isn't found
+
+	}
+
+});
+
+// <<resumecycle>> macro [added: v1.1b]
+Macro.add('resumecycle', {
+	handler : function () {
+
+		var cycles = setup.cycSystem.cycRef();
+		var length = cycles.all.length;
+		var keys   = this.args;
+		var susp   = true;
+		
+		var current;
+		var del;
+		var i;
+		
+		// check the cycles (save on processing)
+		if (!cycles.all.includesAny(keys)) {
+			susp = false; // none of the provided cycles exists
+		} else if (cycles.rng.includesAll(keys)) {
+			susp = false; // none of the provided cycles is suspended
+		}
+		
+		// find and resume the indicated cycles
+		if (susp) { // if any provided cycles can be resumed
+			// main loop
+			for (i = 0; i < length; i++) {
+				current = cycles.all[i];
+				// test for cycle
+				if (keys.includes(current) && cycles.spd.includes(current)) {
+					cycles.rng.push(current);
+					del = cycles.spd.indexOf(current);
+					cycles.spd.deleteAt(del);
+				}
+			}
+		}
+		// don't throw errors if cycle isn't found
 
 	}
 
@@ -313,6 +481,8 @@ Macro.add('showcycle', {
 
 });
 
+					// utilities :
+
 // <<cycleIs>> macro
 Macro.add('cycleIs', {
 	handler : function () {
@@ -328,7 +498,7 @@ Macro.add('cycleIs', {
 			}
 		}
 		
-		State.temporary.is = clone(cycles[key].current);
+		State.temporary.is = clone(cycles[key].current); // deep copy
 
 	}
 
@@ -349,7 +519,7 @@ Macro.add('whereIsCycle', {
 			}
 		}
 		
-		State.temporary.is = clone(cycles.all.indexOf(key));
+		State.temporary.is = clone(cycles.all.indexOf(key)); // deep copy
 
 	}
 
@@ -370,7 +540,7 @@ Macro.add('cycleArrayIs', {
 			}
 		}
 		
-		State.temporary.is = clone(cycles[key].values);
+		State.temporary.is = clone(cycles[key].values); // deep copy
 
 	}
 
@@ -389,7 +559,7 @@ Macro.add('cycleAtIs', {
 			if (index >= cycles.all.length) {
 				return this.error('no cycle exists at index ' + index);
 			} else {
-				var key = clone(cycles.all[index]);
+				var key = clone(cycles.all[index]); // deep copy
 			}
 		}
 		
