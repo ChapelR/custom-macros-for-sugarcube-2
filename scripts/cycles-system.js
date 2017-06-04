@@ -265,6 +265,7 @@ Macro.add('deletecycle', {
 		
 		var current;
 		var i;
+		var del;
 		
 		// throw error if no such cycles exist
 		if (!cycles.all.includesAll(keys)) {
@@ -277,11 +278,13 @@ Macro.add('deletecycle', {
 			if (keys.includes(current)) {
 				// remove reference from rng array
 				if (cycles.rng.includes(current)) {
-					cycles.rng.deleteAt(i);
+					del = cycles.rng.indexOf(current)
+					cycles.rng.deleteAt(del);
 				}
 				// remove reference from spd array
 				if (cycles.spd.includes(current)) {
-					cycles.spd.deleteAt(i);
+					del = cycles.spd.indexOf(current)
+					cycles.spd.deleteAt(del);
 				}
 				// delete cycle definition and reference from all array
 				delete cycles[current];
