@@ -1,17 +1,21 @@
 # Chapel's Custom Macros for SugarCube
 
+Currently adding documentation for the new consumables system and the insert macro set.  Both scripts are done and fully tested, but I haven't had a chance to write the docs yet.  Please pardon the mess.
+
 # Contents
 
 * [Installation](#installation)
 * [Quick Start](#quick-start)
 * [Detailed Documentation](#detailed-documentation)
   * [Simple Inventory](#simple-inventory)
+  * [Consumables System](#consumables-system)
   * [Cycles System](#cycles-system)
   * [Play Time System](#play-time-system)
   * [Fading Macros](#fading-macros)
   * [First Macro](#first-macro)
   * [Message Macro](#message-macro)
   * [Dialog API Macros](#dialog-api-macros)
+  * [Insert Macros](#insert-macros)
 * [Other Information](#other-information)
 
 # Installation
@@ -74,6 +78,20 @@ The simple inventory system creates a story variable array (`$inventory` by defa
 
 `invAny('list', 'of', 'items')`: Returns true if **any** of the listed items are in the inventory.
 
+## Consumables
+
+[See the detailed documentation.](#consumables-system)
+
+Description
+
+### Macros
+
+Macros
+
+### Functions
+
+Functions
+
 ## The Cycles System
 
 [See the detailed documentation.](#cycles-system)
@@ -82,7 +100,7 @@ Used to create cycles.  A lot of things can be cycles: day/night, days of the we
 
 ### Macros
 
-`<<newcycle (name) (list of values) (number of turns)>>`:  Creates a new cycle.  For example: `<<cycle 'time' 'day' 'night' 1>>` would create a cycle called `'time'` that changes between `'day'` and `'night'` every turn.
+`<<newcycle (name) (list of values) (number of turns)>>`:  Creates a new cycle.  For example: `<<newcycle 'time' 'day' 'night' 1>>` would create a cycle called `'time'` that changes between `'day'` and `'night'` every turn.
 
 `<<suspendcycle (list of cycle names)>>` and `<<resumecycle (list of cycle names)>>`: You can use these macros to target individual cycles and suspend them, preventing them from collecting turns until they are resumed.  Suspended cycles are essentially 'frozen' in place.
 
@@ -165,6 +183,16 @@ Here's a list of other macros included in this set of scripts.
 `<<dialog (optional: title) (optional: list of classes)>>...<</dialog>>`:  Creates a dialog box with the provided title and adds the list of classes to it for styling.  The content between the tags is parsed into the dialog box's body.
 
 `<<popup (passage name) (optional: title) (optional: list of classes)>>`: Creates a dialog box with the provided title and adds the list of classes to it for styling.  The content in the indicated passage is parsed into the dialog box's body.
+
+### Insert Macro Set
+
+[See the detailed documentation.](#insert-macros)
+
+`<<insert (element)>>...<</insert>>`:  
+
+`<<insertappend (element)>>...<</insertappend>>`:  
+
+`<<clearelement (element)>>`:  
 
 # Detailed Documentation
 
@@ -462,6 +490,22 @@ Flames explode out of the walls \
 	<</if>>
 <</has>>
 ```
+
+## Consumables System
+
+Description
+
+### Options
+
+options
+
+### Macros
+
+macros
+
+### Functions
+
+functions
 
 ## Cycles System
 
@@ -1121,6 +1165,14 @@ $name
 <</button>>
 // displays the content of the passage 'help' in a dialog box with no title and the class '.help'.
 ```
+
+## Insert Macros
+
+Description
+
+### Macros
+
+macros
 
 # Other Information
 
