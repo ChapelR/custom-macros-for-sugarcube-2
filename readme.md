@@ -1,7 +1,5 @@
 # Chapel's Custom Macros for SugarCube
 
-Currently adding documentation for the new consumables system and the insert macro set.  Both scripts are done and fully tested, but I haven't had a chance to write the docs yet.  Please pardon the mess.
-
 # Contents
 
 * [Installation](#installation)
