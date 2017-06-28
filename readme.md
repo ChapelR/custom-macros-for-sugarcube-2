@@ -82,15 +82,57 @@ The simple inventory system creates a story variable array (`$inventory` by defa
 
 [See the detailed documentation.](#consumables-system)
 
-Description
+Used to create and track consumable items, like health potions, grenades or aything else.  Consumables differ from the "key" style items used by the simple inventory; consumables stack (meaning the player can carry more than one of each, and adding more consumables increases the count associated with each consumable) and can be set up to fire a bit of TwineScript code whenever they're used (sort of like widgets).  Each consumable item has to be defined before it can be manipulated, and these definitions are stored in a story variable (`$consumables` by default).
 
 ### Macros
 
-Macros
+`<<newconsumable (name) (optional: ID)>>(optional: TwineScript code)(optional: <<description (optional: passage name)>>(optional: TwineScript Code))<</newconsumable>>`: Creates a new consumable definition.  You must provide name your consumable, and you may optionally include an ID.  If no ID is provided the name is used.  If your consumables name includes spaces or non-aphlanumeric characters, it is highly recommended that you provide an ID.  You may associate your consumable with a chunk of valid TwineScript code that will be fired every time the consumable is used.  You may optionally provide a description for your consumable.  You can either give the description tag an argument corresponding to a passage name--the passage will be shown in a dialog box when the description is requested, or you can provide your own code.  You should only do one or the other.  Consumable  definitions are complicated, see the detailed documentation below for examples.
+
+`<<addconsumable (ID) (optional: positive integer)>>`: Adds a number of the ID'd consumable to the player's inventory.  If you don't provide a number, only one is added.  Will raise an error if a consumable with the given ID can't be found.
+
+`<<dropconsumable (ID) (optional: positive integer)>>`: Removes a number of the ID'd consumable from the player's inventory.  If you don't provide a number, only one is removed.  Will raise an error if a consumable with the given ID can't be found.
+
+`<<clearconsumables (list of consumables)>>`: Removes all instances of the ID'd consumables from the player's inventory.  You can provide any number of consumables and all will be removed.  Provide the IDs as a space-seperated list of quoted strings.
+
+`<<deleteconsumables (list of consumables)>>`: Deletes the definitions of the provided consumables.  If you pass this macro the keyword `all` as the only argument, it will delete all consumable definitions.  WARNING: It is impossible to recover deleted consumables.
+
+`<<useconsumable (ID) (optional: 'silent' or 'unsilent' keywords)>>`: 'Uses' the ID'd consumable.  One instance of said consumable will be removed from the player's inventory, and the code associated with the consumable definition will run silently (by default).  If you wish for this code to be run without being silenced, you can include the keyword `unsilent`, or change the option `silentCode` to false.  If the `silentCode` option is set to false, you can force code to run silently by including the `silent` keyword.
+
+`<<sortconsumables>>`: Sorts the consumable inventory alphabetically.
+
+`<<listconsumables (optional: separator)>>`: Creates and outputs a static list of consumables, including the name and amount of each consumable in the player's inventory.  By default the list is separated by new lines, but you can optionally include your own separator.
+
+`<<usableconsumables>>`: Similar to `<<listconsumables>>` except that each consumable's name can be clicked on, causing the description code to fire, and each consumable is supplied with a 'Use' link that fires `<<useconsumable>>` macro on that consumable when clicked.
+
+`<<consumable>>`: Same as `<<newconsumable>>`.
+
+`<<consumablemenu>>`: Same as `<<usableconsumables>>`.
 
 ### Functions
 
-Functions
+`getConsumable(ID)`: Returns an object: a deep copy of the indicated consumable's definition.
+
+`hasConsumable(ID, NUM)`: Returns a boolean: whether the player has an amount of the indicated consumables in the inventory that is greater than or equal to the provided number, or 1, if no number is provided.
+
+`amtOfConsumables(ID)`: Returns a number: how many of a given consumable the player has in the inventory, or 0, if there are none in the inventory, or -1 if the consumable doesn't exist.
+
+`consumableExists(ID)`: Returns a boolean: whether or not a consumable with the indicated ID is defined.
+
+`getConsumableName(ID)`: Returns a string: the name of the indicated consumable.
+
+`getConsumableCode(ID)`: Returns a string of TwineScript code: the indicated consumable's use code.
+
+`getConsumableDescr(ID)`: Returns a string array: the consumable's description type (`'passage'`, `'code'`, or `null`) is returned in the first index (`[0]`), and the passage name or code associated with the indicated consumables description is returned in the second index (`[1]`).
+
+`getAllConsumables()`: Returns a string array: all of the IDs of all of the currently defined consumables.
+
+`getCarriedConsumables()`: Returns a string array: all of the IDs of all of the consumables currently in the player's inventory.
+
+`findConsumableByIndex(index)`: Returns a string or null: the ID of the consumable in the indicated index of the `$consumables.all` array, or null if there are no consumable IDs in the indicated index.
+
+`findIndexOfConsumable(ID)`: Returns a number: returns the index of the indicated consumable in the `$consumables.all` array, or -1 if no such consumable exists.
+
+`deleteConsumable(ID)`: Deletes the indicated consumable definition; similar to the `<<deleteconsumables>>` macro.
 
 ## The Cycles System
 
@@ -188,11 +230,13 @@ Here's a list of other macros included in this set of scripts.
 
 [See the detailed documentation.](#insert-macros)
 
-`<<insert (element)>>...<</insert>>`:  
+This set of macros is similar to SugarCube's default DOM manipulation macros, except that they hold off and fire after the page is loaded, meaning you can manipulate the DOM without having to use interaction or the PassageDone special passage.  You should use SugarCube's default macros when you don't need this feature, and these otherwise.  See the detailed documentation for an example if that doesn't make sense to you.
 
-`<<insertappend (element)>>...<</insertappend>>`:  
+`<<insert (element)>>...<</insert>>`:  Similar in function to the default macro `<<replace>>`, except as noted above.
 
-`<<clearelement (element)>>`:  
+`<<insertappend (element)>>...<</insertappend>>`:  Similar in function to the default macro `<<append>>`, except as noted above.
+
+`<<clearelement (element)>>`:  Similar in function to an empty `<<insert>>` macro, simply clears an element of all content.
 
 # Detailed Documentation
 
