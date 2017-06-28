@@ -745,17 +745,16 @@ The `<<deleteconsumables>>` macro deletes the definitions of the consumables pro
 * output keyword: the keyword `silent` causes the output of the use code to be suppressed, while the `unsilent` keyword unsuppresses the output
 
 **Explanation**:
-The `<<useconsumable>>` macro fires the indicated consumable's code and reduces the amount of that consumable in the player's inventory by 1.  Care must be taken: this macro will fire when called even if the player doesn't have any of the indicated consumable, in which case the amount will not actually be reduced.  By default, the `silentCode` option is set to true, meaning that the code that is run by this macro does not output anything.  You can change the `silentCode` option in the options object, and override it regardless of its setting via the `silent` and `unsilent` keywords.
+The `<<useconsumable>>` macro fires the indicated consumable's code and reduces the amount of that consumable in the player's inventory by 1.  If the player doesn't have any consumables, the macro does nothing, but won't raise an error.  By default, the `silentCode` option is set to true, meaning that the code that is run by this macro does not output anything.  You can change the `silentCode` option in the options object, and override it regardless of its setting via the `silent` and `unsilent` keywords.
 
 **Examples**:
 ```
-<<if hasConsumable('hpPot')>>\
-	/% see the functions documentation below %/
-	<<link 'Use a health potion.'>>
-		<<useconsumable 'hpPot'>>
-		/% reduce stack of 'hpPot' by one and fire code %/
-	<</link>>\
-<</if>>
+
+<<link 'Use a health potion.'>>
+	<<useconsumable 'hpPot'>>
+	/% reduce stack of 'hpPot' by one and fire code %/
+<</link>>\
+
 
 <<useconsumable 'posion' silent>> 
 /% suppress output, regardless of silentCode option %/
