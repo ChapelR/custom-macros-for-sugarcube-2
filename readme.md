@@ -580,7 +580,7 @@ The consumables system script automatically creates a story variable object to h
 
 #### `emptyMsg` option
 
-When the you attempt to display a list of consumables currently in the player's inventory (through the `<<listconsumables>>` or `<<usableconsumables>>` macros) and the inventory is empty, this string is parsed (wikified).  You can use valid TwineScript code in the string; for example, you could change the option to `"<<inlcude 'no-items-passage'>>"` to display a passage called `no-items-passage` instead of printing a string.
+When the you attempt to display a list of consumables currently in the player's inventory (through the `<<listconsumables>>` or `<<usableconsumables>>` macros) and the inventory is empty, this string is parsed (wikified).  You can use valid TwineScript code in the string; for example, you could change the option to `"<<include 'no-items-passage'>>"` to display a passage called `no-items-passage` instead of printing a string.
 
 #### `tryGlobal` option
 
@@ -620,7 +620,7 @@ Also known as `<<consumable>>`.
  **Explanation**:
 The `<<newconsumable>>` macro is used to construct a new consumable definition.  A consumable needs to be given a name, and the name will be used as the ID if none is provided.  It is highly, highly recommended that you inlcude an ID if the consumables name would not function as a TwineScript variable (like, for example, if it starts with something other than a letter or if it includes spaces).  You'll use the ID (not the name) to interact with your consumable throughout the rest of the macros and functions.  
 
-Next, you can include TwineScript code after the `<<newconsumable>>` tag and before the `<<description>>` or closing tag.  This code will be run every time the consumable is used, making it somehwat like a widget.  (**WARNING**: Consumables should not be used as a repalcement for widgets.)  Finally, you can optionally include a description, either as a passage name (passed as an argument to the `<<description>>` tag), or as your own snippet of code following the `<<description>>` tag and before the closing tag.  The description it run when the player clicks on the name of the consumable in the `<<usableconsumables>>` macro.  If a passage is given, the passage is rendered and displayed by the Dialog API.  Note that you need to choose one or the other--do not include both a passage name and your own description code. 
+Next, you can include TwineScript code after the `<<newconsumable>>` tag and before the `<<description>>` or closing tag.  This code will be run every time the consumable is used, making it somewhat like a widget.  (**WARNING**: Consumables should not be used as a replacement for widgets.)  Finally, you can optionally include a description, either as a passage name (passed as an argument to the `<<description>>` tag), or as your own snippet of code following the `<<description>>` tag and before the closing tag.  The description it run when the player clicks on the name of the consumable in the `<<usableconsumables>>` macro.  If a passage is given, the passage is rendered and displayed by the Dialog API.  Note that you need to choose one or the other--do not include both a passage name and your own description code. 
 
 Note that if a consumable is created and given the ID of another consumable that already exists, the new consumable will overwrite the old without raising an error.  The `StoryInit` special passage is the best place to define consumables.
 
@@ -705,7 +705,7 @@ You can use the `<<dropconsumable>>` macro to remove consumables from the player
 * list of IDs: a list of consumable IDs passed as a space separated list of quoted strings.
 
 **Explanation**:
-The `<<clearconsumables>>` macro reduces the amount of consumables in the players inventory to zero for all the provided consumables, effectively removing them from the inventory, regardless of how many there are.  Functionally works as a 'drop all' command, except that the macro can except any number of consumable IDs.
+The `<<clearconsumables>>` macro reduces the amount of consumables in the players inventory to zero for all the provided consumables, effectively removing them from the inventory, regardless of how many there are.  Functionally works as a 'drop all' command, except that the macro can accept any number of consumable IDs.
 
 **Examples**:
 ```
@@ -742,7 +742,7 @@ The `<<deleteconsumables>>` macro deletes the definitions of the consumables pro
 `<<useconsumable (ID) (optional: output keyword)>>`
 
 * ID: the ID of a defined consumable.
-* output keyword: the keyword `silent` causes the output of the use code to be suppressed, while the `unsilent` keyword unsuppressed the output
+* output keyword: the keyword `silent` causes the output of the use code to be suppressed, while the `unsilent` keyword unsuppresses the output
 
 **Explanation**:
 The `<<useconsumable>>` macro fires the indicated consumable's code and reduces the amount of that consumable in the player's inventory by 1.  Care must be taken: this macro will fire when called even if the player doesn't have any of the indicated consumable, in which case the amount will not actually be reduced.  By default, the `silentCode` option is set to true, meaning that the code that is run by this macro does not output anything.  You can change the `silentCode` option in the options object, and override it regardless of its setting via the `silent` and `unsilent` keywords.
@@ -807,7 +807,7 @@ health potion: 1blahmana potion: 3blahphoenix down: 6
 %/
 ```
 
-#### <<usableconsumables>> macro
+#### `<<usableconsumables>>` macro
 
 Also known as `<<consumablemenu>>`.
 
@@ -836,7 +836,7 @@ The `<<usableconsumables>>` macro creates a dynamic, linked list of consumables.
 * ID: the ID of a defined consumable.
 
 **Explanation**:
-Returns a deep copy of the indicated consumable's definition object.  Changes to this conpy object will not be reflected in the consumable, so treat the resulting data as read-only.  Returns null if the consumable cannot be found.
+Returns a deep copy of the indicated consumable's definition object.  Changes to this copy object will not be reflected in the consumable, so treat the resulting data as read-only.  Returns null if the consumable cannot be found.
 
 A consumable has the following properties that you may wish to access:
 * **id**: the consumable's id (string)
@@ -844,9 +844,9 @@ A consumable has the following properties that you may wish to access:
 * **code**: the consumable's 'use' TwineScript code (string)
 * **descr**: the consumable's description type (string - either `'passage'` or `'code'`)
 * **dCode**: the consumable's description code, either a passage name or a chunk of user-defined TwineScript code (string)
-* **amt**: the consumable's current amount, i.e. how many the plater has in the inventory, or 0 if the consumable isn't currently in the inventory (number)
+* **amt**: the consumable's current amount, i.e. how many the player has in the inventory, or 0 if the consumable isn't currently in the inventory (number)
 
-You can also access the consumable's definition via the story variable and use it's ID as the first property (`Sconsumables[ID]` by default). 
+You can also access the consumable's definition via the story variable and use it's ID as the first property (`$consumables[ID]` by default). 
 
 **Examples**:
 ```
@@ -970,7 +970,7 @@ getCarriedConsumables()
 ```
 
 **Explanation**:
-The `getAllConsumables()` function returns a string array of all of the IDs of all of the currently defined consumables, while the `getCarriedConsumables()` function returns an array of the IDs of all the IDs of all the consumables currently in the player's inventory.
+The `getAllConsumables()` function returns a string array of all of the IDs of all of the currently defined consumables, while the `getCarriedConsumables()` function returns an array of the IDs of all the consumables currently in the player's inventory.
 
 **Examples**:
 ```
