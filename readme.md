@@ -239,7 +239,7 @@ This set of macros is similar to SugarCube's default DOM manipulation macros, ex
 
 ### Fullscreen Macro Set
 
-[See the detaield documentation.](#fullscreen-macros)
+[See the detailed documentation.](#fullscreen-macros)
 
 Macros for engaging fullscreen mode in browsers.
 
@@ -546,13 +546,13 @@ Flames explode out of the walls \
 
 ## Consumables System
 
-A system for adding consumable items to your game. Similar to the cycles system, a consumable must first be defined (using <<newconsumable>>). Once a consumable definition is created, the consumable item can be added to the player’s inventory, removed from it, used, and otherwise manipulated. Consumable definitions should go in your StoryInit special passage.
+A system for adding consumable items to your game. Similar to the cycles system, a consumable must first be defined (using `<<newconsumable>>`). Once a consumable definition is created, the consumable item can be added to the player’s inventory, removed from it, used, and otherwise manipulated. Consumable definitions should go in your StoryInit special passage.
 
 A consumable definition includes: 
 * A name, for displaying. 
 * An ID for manipulation. The ID should generally follow the rules of a normal TwineScript variable. If the name meets these conditions, you can omit the ID. 
 * A code snippet to run when the consumable is used. By default, output is suppressed (i.e. the code runs silently), though you can change this if you want. You can still use the dialog API or DOM macros for output, though. You can omit this, though it's the main draw of this system. 
-* A description. You can provide a second code chunk as a description, or a passage name. If you provide a passage name, that passage will be rendered in a dialog box as a description when used. You should either provide a passage name to the <<description>> tag as an argument or enter code following the tag, not both. Descriptions are completely optional. 
+* A description. You can provide a second code chunk as a description, or a passage name. If you provide a passage name, that passage will be rendered in a dialog box as a description when used. You should either provide a passage name to the `<<description>>` tag as an argument or enter code following the tag, not both. Descriptions are completely optional. 
 
 Some notes. 
 * This system works in two phases; you define a consumable, and then you manipulate it in relation to the player’s inventory. 
@@ -620,7 +620,7 @@ Also known as `<<consumable>>`.
  **Explanation**:
 The `<<newconsumable>>` macro is used to construct a new consumable definition.  A consumable needs to be given a name, and the name will be used as the ID if none is provided.  It is highly, highly recommended that you inlcude an ID if the consumables name would not function as a TwineScript variable (like, for example, if it starts with something other than a letter or if it includes spaces).  You'll use the ID (not the name) to interact with your consumable throughout the rest of the macros and functions.  
 
-Next, you can include TwineScript code after the `<<newconsumable>>` tag and before the `<<description>>` or closing tag.  This code will be run every time the consumable is used, making it somehwat like a widget.  (WARNING: Consumables should not be used as a repalcement for widgets.)  Finally, you can optionally include a description, either as a passage name (passed as an argument to the `<<description>>` tag), or as your own snippet of code following the `<<description>>` tag and before the closing tag.  The description it run when the player clicks on the name of the consumable in the `<<usableconsumables>>` macro.  If a passage is given, the passage is rendered and displayed by the Dialog API.  Note that you need to choose one or the other--do not include both a passage name and your own description code. 
+Next, you can include TwineScript code after the `<<newconsumable>>` tag and before the `<<description>>` or closing tag.  This code will be run every time the consumable is used, making it somehwat like a widget.  (**WARNING**: Consumables should not be used as a repalcement for widgets.)  Finally, you can optionally include a description, either as a passage name (passed as an argument to the `<<description>>` tag), or as your own snippet of code following the `<<description>>` tag and before the closing tag.  The description it run when the player clicks on the name of the consumable in the `<<usableconsumables>>` macro.  If a passage is given, the passage is rendered and displayed by the Dialog API.  Note that you need to choose one or the other--do not include both a passage name and your own description code. 
 
 Note that if a consumable is created and given the ID of another consumable that already exists, the new consumable will overwrite the old without raising an error.  The `StoryInit` special passage is the best place to define consumables.
 
@@ -725,7 +725,7 @@ The `<<clearconsumables>>` macro reduces the amount of consumables in the player
 * 'all' keyword: the keyword `all`.
 
 **Explanation**:
-The `<<deleteconsumables>>` macro deletes the definitions of the consumables provided to it.  These definitions cannot be recovered.  If the `all` keyword is used instead, all consumable definitions will be deleted.  **NOTE**: This literally deletes the definitions--it does not just remove them from the inventory.  The definitions set up by the `<<newconsumable>>` macro are gone and forgotten.  You probably won't ever need to use this macro.  (If you need to adjust a consumable definition, overwrite it with `<<newconsumable>>`.)
+The `<<deleteconsumables>>` macro deletes the definitions of the consumables provided to it.  These definitions cannot be recovered.  If the `all` keyword is used instead, all consumable definitions will be deleted.  **NOTE**: This literally deletes the definitions--it does not just remove consumables from the inventory.  The definitions set up by the `<<newconsumable>>` macro are gone and forgotten.  You probably won't ever need to use this macro.  (If you need to adjust a consumable definition, overwrite it with `<<newconsumable>>`.)
 
 **Examples**:
 ```
@@ -836,7 +836,17 @@ The `<<usableconsumables>>` macro creates a dynamic, linked list of consumables.
 * ID: the ID of a defined consumable.
 
 **Explanation**:
-Returns a deep copy of the indicated consumable's definition object.  Returns null if the consumable cannot be found.
+Returns a deep copy of the indicated consumable's definition object.  Changes to this conpy object will not be reflected in the consumable, so treat the resulting data as read-only.  Returns null if the consumable cannot be found.
+
+A consumable has the following properties that you may wish to access:
+* **id**: the consumable's id (string)
+* **name**: the consumable's name (string)
+* **code**: the consumable's 'use' TwineScript code (string)
+* **descr**: the consumable's description type (string - either `'passage'` or `'code'`)
+* **dCode**: the consumable's description code, either a passage name or a chunk of user-defined TwineScript code (string)
+* **amt**: the consumable's current amount, i.e. how many the plater has in the inventory, or 0 if the consumable isn't currently in the inventory (number)
+
+You can also access the consumable's definition via the story variable and use it's ID as the first property (`Sconsumables[ID]` by default). 
 
 **Examples**:
 ```
@@ -844,6 +854,14 @@ Returns a deep copy of the indicated consumable's definition object.  Returns nu
 <<print _item.name>>
 
 <<print getConsumable('hpPot').amt>>
+
+<<print $consumables['hpPot'].amt === getConsumable('hpPot').amt>> /% true %/
+/% accessing the individual properties compares their literal values, 
+   however accessing them as objects: %/
+<<print $consumables['hpPot'] === getConsumable('hpPot')>> /% false %/
+/% the getConsumable() function returns a copy, which is a different (though equivalent) object,
+   and objects are only equal if both they are the same... 
+   note that == would yield same result here as === %/
 ```
 
 #### `hasConsumable()` function
@@ -1732,7 +1750,7 @@ Macros for making your story fullscreen when used in a browser.  Note: these mac
 `<<fullscreen>>`
 
 **Explanation**:
-This macro cause the game to go into fullscreen mode, but it must be paired with some sort of interaction to work, like a link or a button.
+This macro causes the game to go into fullscreen mode, but it must be paired with some sort of interaction to work, like a link or a button.
 
 **Examples**:
 ```
