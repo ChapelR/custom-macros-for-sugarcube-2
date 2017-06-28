@@ -546,7 +546,20 @@ Flames explode out of the walls \
 
 ## Consumables System
 
-Descr
+A system for adding consumable items to your game. Similar to the cycles system, a consumable must first be defined (using <<newconsumable>>). Once a consumable definition is created, the consumable item can be added to the player’s inventory, removed from it, used, and otherwise manipulated. Consumable definitions should go in your StoryInit special passage.
+
+A consumable definition includes: 
+* A name, for displaying. 
+* An ID for manipulation. The ID should generally follow the rules of a normal TwineScript variable. If the name meets these conditions, you can omit the ID. 
+* A code snippet to run when the consumable is used. By default, output is suppressed (i.e. the code runs silently), though you can change this if you want. You can still use the dialog API or DOM macros for output, though. You can omit this, though it's the main draw of this system. 
+* A description. You can provide a second code chunk as a description, or a passage name. If you provide a passage name, that passage will be rendered in a dialog box as a description when used. You should either provide a passage name to the <<description>> tag as an argument or enter code following the tag, not both. Descriptions are completely optional. 
+
+Some notes. 
+* This system works in two phases; you define a consumable, and then you manipulate it in relation to the player’s inventory. 
+* Consumables are not widgets, though they fire code chunks on use. These code chunks are not as functional as widgets, so don't use them as a replacement for widgets. 
+* The consumable inventory is its own entity, and can be used alongside the the simple inventory, but they cannot be used to help manage each other (you can't use functions and macros from one system to effect the other).
+
+The consumables system could also be extended to help manage other things, such as spell systems or even rudimentary equipment systems.
 
 ### Options
 
