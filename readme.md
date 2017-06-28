@@ -16,6 +16,7 @@ Currently adding documentation for the new consumables system and the insert mac
   * [Message Macro](#message-macro)
   * [Dialog API Macros](#dialog-api-macros)
   * [Insert Macros](#insert-macros)
+  * [Fullscreen Macros](#fullscreen-macros)
 * [Other Information](#other-information)
 
 # Installation
@@ -86,11 +87,11 @@ Used to create and track consumable items, like health potions, grenades or ayth
 
 ### Macros
 
-`<<newconsumable (name) (optional: ID)>>(optional: TwineScript code)(optional: <<description (optional: passage name)>>(optional: TwineScript Code))<</newconsumable>>`: Creates a new consumable definition.  You must provide name your consumable, and you may optionally include an ID.  If no ID is provided the name is used.  If your consumables name includes spaces or non-aphlanumeric characters, it is highly recommended that you provide an ID.  You may associate your consumable with a chunk of valid TwineScript code that will be fired every time the consumable is used.  You may optionally provide a description for your consumable.  You can either give the description tag an argument corresponding to a passage name--the passage will be shown in a dialog box when the description is requested, or you can provide your own code.  You should only do one or the other.  Consumable  definitions are complicated, see the detailed documentation below for examples.
+`<<newconsumable (name) (optional: ID)>>(optional: TwineScript code)(optional: <<description (optional: passage name)>>(optional: TwineScript Code))<</newconsumable>>`: Creates a new consumable definition.  You must provide name your consumable, and you may optionally include an ID.  If no ID is provided the name is used as the ID.  If your consumable's name includes spaces or non-aphlanumeric characters, it is highly recommended that you provide an ID.  You may associate your consumable with a snippet of valid TwineScript code that will be fired every time the consumable is used.  You may optionally provide a description for your consumable.  You can either give the description tag an argument corresponding to a passage name--the passage will be shown in a dialog box when the description is requested, or you can provide your own code.  You should only do one or the other.  Consumable  definitions are complicated, see the [detailed documentation](#consumables-system) for examples.
 
-`<<addconsumable (ID) (optional: positive integer)>>`: Adds a number of the ID'd consumable to the player's inventory.  If you don't provide a number, only one is added.  Will raise an error if a consumable with the given ID can't be found.
+`<<addconsumable (ID) (optional: positive integer)>>`: Adds an amount of the ID'd consumable to the player's inventory.  If you don't provide a number, only one is added.  Will raise an error if a consumable with the given ID can't be found.
 
-`<<dropconsumable (ID) (optional: positive integer)>>`: Removes a number of the ID'd consumable from the player's inventory.  If you don't provide a number, only one is removed.  Will raise an error if a consumable with the given ID can't be found.
+`<<dropconsumable (ID) (optional: positive integer)>>`: Removes an amount of the ID'd consumable from the player's inventory.  If you don't provide a number, only one is removed.  Will raise an error if a consumable with the given ID can't be found.
 
 `<<clearconsumables (list of consumables)>>`: Removes all instances of the ID'd consumables from the player's inventory.  You can provide any number of consumables and all will be removed.  Provide the IDs as a space-seperated list of quoted strings.
 
@@ -237,6 +238,16 @@ This set of macros is similar to SugarCube's default DOM manipulation macros, ex
 `<<insertappend (element)>>...<</insertappend>>`:  Similar in function to the default macro `<<append>>`, except as noted above.
 
 `<<clearelement (element)>>`:  Similar in function to an empty `<<insert>>` macro, simply clears an element of all content.
+
+### Fullscreen Macro Set
+
+[See the detaield documentation.](#fullscreen-macros)
+
+Macros for engaging fullscreen mode in browsers.
+
+`<<fullscreen>>`: Enters fullscreen mode.  Needs to be paired with a user interaction, like a `<<link>>` or a `<<button>>`.
+
+`<<fullcreenlink (link text)>>`: Creates a link that, when clicked, enters fullscreen mode.
 
 # Detailed Documentation
 
@@ -537,19 +548,430 @@ Flames explode out of the walls \
 
 ## Consumables System
 
-Description
+Descr
 
 ### Options
 
-options
+This system includes five options.  You can find the options object near the top of the script.  It should look like this:
+
+```javascript
+setup.consumables.options = {
+	storyVar   : 'consumables',
+	emptyMsg   : 'Not carrying any consumables.',
+	tryGlobal  : true,
+	macroAlts  : true,
+	silentCode : true
+};
+```
+
+#### `storyVar` option
+The consumables system script automatically creates a story variable object to hold all of the created consumable definitions; this allows you to save and load the consumables via SugarCube's built-in save system and it allows you to access the consumables natively in the IDE using a `$variable`.  By default, the story variable is created with the name `'consumables'` and accessed via `$consumables` in the IDE.  You can change the name using the `storyVar` option.  Valid names are the same as all valid TwineScript variable names.
+
+#### `emptyMsg` option
+
+When the you attempt to display a list of consumables currently in the player's inventory (through the `<<listconsumables>>` or `<<usableconsumables>>` macros) and the inventory is empty, this string is parsed (wikified).  You can use valid TwineScript code in the string; for example, you could change the option to `"<<inlcude 'no-items-passage'>>"` to display a passage called `no-items-passage` instead of printing a string.
+
+#### `tryGlobal` option
+
+There are several 'helper' functions included in this script: `setup.consumables.getConsumable`, for example.  You can read more about these function below.  Obviously, this is a mouthful, so the function definitions get copied over as global functions, i.e. `getConsumable()`.  These global functions are only created if their names are undefined, to prevent any potential compatibility issues.  However, if you'd prefer to keep the functions out of the global scope all together, you can set this value to false and they won't be sent to the global scope at all, even if their names are available.  You'll be forced to write out the longer `setup.consumables.getConsumable()` style functions, though.
+
+#### `macroAlts` option
+
+This script includes two macros that can be called by different names: you can use the macro `<<consumable>>` instead of `<<newconsumable>>` and the macro `<<consumablemenu>>` instead of `<<usableconsumables>>`.  If you switch this option to false, these additional macro definitions are not inlcuded.
+
+#### `silentCode` option
+
+By default, the code associated with a consumable is silent, though you can override this in the `<<useconsumable>>` macro call.  Set this option to false to change this default behavior and allow code to output normally.  Note that the code run by the `<<usableconumables>>` macro is **always** run silently, regardless, as output would break the listing.  Note that you can still generate output using DOM macros or the dialog API, regardless of how you set this option.
 
 ### Macros
 
-macros
+This is a list of macros included in the consumables system.
+
+#### `<<newconsumable>>` macro
+
+Also known as `<<consumable>>`.
+
+ **Syntax**:
+ ```
+<<newconsumable (name) (optional: ID)>>
+	(optional: use code)
+(optional: <<description (optional: passage name)>>)
+	(optional: description code)
+<</newconsumable>>
+ ```
+ 
+* name: the name of the new consumable to create, a string for displaying to the end-user
+* ID:  an ID to refer to the consumable by, should be a valid TwineScript identifier.  if omitted, the name is used as the ID
+* use code: TwineScript code to fire when the consumable is used.
+* passage name: the name of a passage containing the consumable's description
+* description code: code to use when a description is requested, if a passage name isn't provided
+ 
+ **Explanation**:
+The `<<newconsumable>>` macro is used to construct a new consumable definition.  A consumable needs to be given a name, and the name will be used as the ID if none is provided.  It is highly, highly recommended that you inlcude an ID if the consumables name would not function as a TwineScript variable (like, for example, if it starts with something other than a letter or if it includes spaces).  You'll use the ID (not the name) to interact with your consumable throughout the rest of the macros and functions.  
+
+Next, you can include TwineScript code after the `<<newconsumable>>` tag and before the `<<description>>` or closing tag.  This code will be run every time the consumable is used, making it somehwat like a widget.  (WARNING: Consumables should not be used as a repalcement for widgets.)  Finally, you can optionally include a description, either as a passage name (passed as an argument to the `<<description>>` tag), or as your own snippet of code following the `<<description>>` tag and before the closing tag.  The description it run when the player clicks on the name of the consumable in the `<<usableconsumables>>` macro.  If a passage is given, the passage is rendered and displayed by the Dialog API.  Note that you need to choose one or the other--do not include both a passage name and your own description code. 
+
+Note that if a consumable is created and given the ID of another consumable that already exists, the new consumable will overwrite the old without raising an error.  The `StoryInit` special passage is the best place to define consumables.
+
+ **Examples**:
+```
+/% a health potion %/
+<<newconsumable 'health potion' 'hpPot'>>
+	<<if $hp gte 100>>
+		<<run UI.alert('Already at full health.')>>
+		<<addconsumable 'hpPot'>>
+	<<else>>
+		<<set $hp += 20>>
+		<<if $hp gte 100>>
+			<<set $hp to 100>>
+		<</if>>
+		<<run UI.alert('Recovered some health.')>>
+	<</if>>
+<<description 'health-potion-description'>>
+<</newconsumable>>
+
+/% mana potion %/
+<<newconsumable 'mana potion' 'mpPot'>>
+	<<set $mp++>>
+	<<set $mp.clamp(0, 10)
+<<description>>
+	<<run UI.alert('A mana potion.')>>
+<</newconsumable>>
+
+/% a poison vial %/
+<<consumable 'poison'>>
+	/% no ID needed %/
+	<<set $hp -= 10>>
+	/% no description %/
+<</consumable>>
+```
+
+#### `<<addconsumable>>` macro
+
+**Syntax**:
+`<<addconsumable (ID) (optional: number)>>`
+
+* ID: The ID of a defined consumable.
+* number: The number of said consumables you wish to add to the player's inventory.  If no number is provided, defaults to 1.
+
+**Explanation**:
+You can use the `<<addconsumable>>` macro to add consumables to the player's inventory, either one at a time, or in bulk.  If the consumable is already present in the inventory, it's amount will increase by the indicated number.  If the item isn't in the player's inventory at all, it will be added with the indicated number as the total amount.
+
+**Examples**:
+```
+<<addconsumable 'potion' 3>>
+/% adds three potions to the player's inventory %/
+
+<<addconsumable 'mpPot'>>
+/% adds one 'mpPot' consumable to the player's inventory %/
+```
+
+#### `<<dropconsumable>>` macro
+
+**Syntax**:
+`<<dropconsumable (ID) (optional: number)>>`
+
+* ID: The ID of a defined consumable.
+* number: The number of said consumables you wish to remove from the player's inventory.  If no number is provided, defaults to 1.
+
+**Explanation**:
+You can use the `<<dropconsumable>>` macro to remove consumables from the player's inventory, either one at a time, or in bulk.  If the consumable's amount reaches 0, it will be completely removed from the inventory.  If it would become less than zero, it will be set to 0 instead and removed.  If the item isn't in the player's inventory at all, nothing happens and no error is thrown.
+
+**Examples**:
+```
+<<dropconsumable 'potion' 3>>
+/% removes three potions from the player's inventory %/
+
+<<addconsumable 'mpPot'>>
+/% removes one 'mpPot' consumable from the player's inventory %/
+```
+
+#### `<<clearconsumables>>` macro
+
+**Syntax**:
+`<<clearconsumables (list of IDs)>>`
+
+* list of IDs: a list of consumable IDs passed as a space separated list of quoted strings.
+
+**Explanation**:
+The `<<clearconsumables>>` macro reduces the amount of consumables in the players inventory to zero for all the provided consumables, effectively removing them from the inventory, regardless of how many there are.  Functionally works as a 'drop all' command, except that the macro can except any number of consumable IDs.
+
+**Examples**:
+```
+<<clearconsumables 'mpPot' 'hpPot'>>
+/% removes all hp and mp potions from the player's inventory %/
+
+<<clearconsumables 'poison'>>
+/% removes all posion vials from the player's inventory %/
+```
+
+#### `<<deleteconsumables>>` macro
+
+**Syntax**:
+`<<deleteconsumables (list of IDs -OR- 'all' keyword)>>`
+
+* list of IDs: a list of consumable IDs passed as a space separated list of quoted strings.
+* 'all' keyword: the keyword `all`.
+
+**Explanation**:
+The `<<deleteconsumables>>` macro deletes the definitions of the consumables provided to it.  These definitions cannot be recovered.  If the `all` keyword is used instead, all consumable definitions will be deleted.  **NOTE**: This literally deletes the definitions--it does not just remove them from the inventory.  The definitions set up by the `<<newconsumable>>` macro are gone and forgotten.  You probably won't ever need to use this macro.  (If you need to adjust a consumable definition, overwrite it with `<<newconsumable>>`.)
+
+**Examples**:
+```
+<<deleteconsumables 'mpPot' 'hpPot'>>
+/% deletes the consumable definitions for 'hpPot' and 'mpPot' %/
+
+<<deleteconsumables all>>
+/% deletes all consumable definitions -- no earth like scorched earth %/
+```
+
+#### `<<useconsumable>>` macro
+
+**Syntax**:
+`<<useconsumable (ID) (optional: output keyword)>>`
+
+* ID: the ID of a defined consumable.
+* output keyword: the keyword `silent` causes the output of the use code to be suppressed, while the `unsilent` keyword unsuppressed the output
+
+**Explanation**:
+The `<<useconsumable>>` macro fires the indicated consumable's code and reduces the amount of that consumable in the player's inventory by 1.  Care must be taken: this macro will fire when called even if the player doesn't have any of the indicated consumable, in which case the amount will not actually be reduced.  By default, the `silentCode` option is set to true, meaning that the code that is run by this macro does not output anything.  You can change the `silentCode` option in the options object, and override it regardless of its setting via the `silent` and `unsilent` keywords.
+
+**Examples**:
+```
+<<if hasConsumable('hpPot')>>\
+	/% see the functions documentation below %/
+	<<link 'Use a health potion.'>>
+		<<useconsumable 'hpPot'>>
+		/% reduce stack of 'hpPot' by one and fire code %/
+	<</link>>\
+<</if>>
+
+<<useconsumable 'posion' silent>> 
+/% suppress output, regardless of silentCode option %/
+
+<<useconsumable 'mpPot' unsilent>> 
+/% display output, regardless of silentCode option %/
+```
+
+#### `<<sortconsumables>>` macro
+
+**Syntax**:
+`<<sortconsumables>>`
+
+**Explanation**:
+Sorts the list of consumables in the player's inventory (and only in the player's inventory) alphabetically.  The default order is chronological.
+
+#### `<<listconsumables>>` macro
+
+**Syntax**:
+`<<listconsumables (optional: separator)>>`
+
+* separator: a string to separate the consumables list; defaults to a new line if omitted.
+
+**Explanation**:
+Prints a static, text-only, non-interactive list of the consumables currently in the player's inventory, along with their amounts.  By default, each consumable is separated by a new line, but you can provide your own string as an argument to separate the list.
+
+**Examples**:
+```
+/% given an inventory containing 1 health potion, 3 mana potions, and 6 phoenix downs %/
+
+<<listconsumables>>
+/%
+yields:
+health potion: 1
+mana potion: 3
+phoenix down: 6
+%/
+
+<<listconsumables ', '>>
+/%
+yields:
+health potion: 1, mana potion: 3, phoenix down: 6
+%/
+
+<<listconsumables 'blah'>>
+/%
+yields:
+health potion: 1blahmana potion: 3blahphoenix down: 6
+%/
+```
+
+#### <<usableconsumables>> macro
+
+Also known as `<<consumablemenu>>`.
+
+**Syntax**:
+`<<usableconsumables>>`
+
+**Explanation**:
+The `<<usableconsumables>>` macro creates a dynamic, linked list of consumables.  The list is always separated by new lines, and otherwise is the same as the list generated by the `<<listconsumables>>` macro except that, (1) if the consumable has a description, the name of the consumable is clickable, and clicking on it will run the description code, and (2) a 'Use' link is added after the amount, and clicking on this link fires the `<<useconsumable>>` macro on the selected consumable (always in silent mode).  The displayed amount will be updated if a consumable is used.
+
+**Examples**:
+```
+<<usableconsumables>>
+
+<<consumablemenu>>
+```
 
 ### Functions
 
-functions
+*A note about the functions*:  The functions exists in both the `setup.consumables` namespace and as globals.  There is a very small chance that you'll need to use the nonglobal versions if the name of a function is already taken.  The nonglobal versions are in the `setup.consumables` namespace.  You'll have to use the longer syntax if the `tryGlobal` option is set to false (see above).
+
+#### `getConsumable()` function
+
+**Syntax**:
+`getConsumable(ID)`:
+
+* ID: the ID of a defined consumable.
+
+**Explanation**:
+Returns a deep copy of the indicated consumable's definition object.  Returns null if the consumable cannot be found.
+
+**Examples**:
+```
+<<set _item to getConsumable('hpPot')>>
+<<print _item.name>>
+
+<<print getConsumable('hpPot').amt>>
+```
+
+#### `hasConsumable()` function
+
+**Syntax**:
+`getConsumable(ID, [optional: number])`:
+
+* ID: the ID of a defined consumable.
+* number: the number to check against; defaults to 1 if omitted.
+
+**Explanation**:
+Returns true if the player has an amount of the indicated conusmable that is greater than or equal to the number provided.  If no number is provided, returns true if the player has at least one.
+
+**Examples**:
+```
+<<if hasConsumable('hpPot', 10)>>
+	You have more than ten potions.
+<<elseif hasConsumable('hpPot')>>
+	You have at least one potion.
+<</if>>
+
+<<if hasConsumable('hpPot')>>\
+	<<link 'Use a health potion.'>>
+		<<useconsumable 'hpPot'>>
+	<</link>>\
+<</if>>
+```
+
+#### `amtOfConsumable()` function
+
+**Syntax**:
+`amtOfConsumable(ID)`
+
+* ID: the ID of a defined consumable.
+
+**Explanation**:
+Returns the amount of the indicated consumable in the player's inventory.  If the consumable isn't in the player's inventroy, returns 0.  If the consumable cannot be found, returns -1.
+
+**Examples**:
+```
+<<if amtOfConsumable('hpPot') gte 20>>
+	You have enough potions to fight the dragon!
+<</if>>
+
+You have <<print amtOfConsumable('hpPot')>> potions.
+```
+
+#### `consumableExists()` function
+
+**Syntax**:
+`consumableExists(ID)`
+
+* ID: the ID of a defined consumable.
+
+**Explanation**:
+Returns true if the indicated consumable is defined.
+
+**Examples**:
+```
+<<if !consumableExists('hpPot')>>
+	<<newconsumable 'health potion' 'hpPot'>>...
+	
+<<if consumableExists('hpPot')>>
+	HEALTH POTIONS ARE REAL!!!!!!
+<</if>>
+```
+
+#### `getConsumableName()`, `getConsumableCode()`, and `getConsumableDescr()` functions
+
+**Syntax**:
+```
+getConsumableName(ID)
+getConsumableCode(ID)
+getConsumableDescr(ID)
+```
+
+* ID: the ID of a defined consumable.
+
+**Explanation**:
+Returns the indicated property of the consumable.  `getConsumableCode()` returns TwineScript code which may be parsed if you attempt to print it.  `getConsumableDescr()` returns a two part string array; the first index (0) is the type of code (`'passage'`, `'code'`, or `'null'`), and the second index (1) includes the code or passage name used by the description.  If the consumable is not defined, or if it doesn't include the property in question, these functions will return null.
+
+**Examples**:
+```
+<<print getConsumableName('hpPot')>>
+
+/% run a consumable's code without reducing it's amt: %/
+<<print getConsumableCode('hpPot')>>
+/% the code will be wikified by the print statement, if it's valid %/
+
+<<set _descr to getConsumableDescr('hpPot')>>
+<<if _descr[0] is 'passage'>>
+	<<goto _descr[0]>>
+<</if>>
+
+<<if getConsumableDescr('hpPot')[0] is null>>
+	No description.
+<</if>>
+```
+
+#### `getAllConsumables()` and `getCarriedConsumables()` functions
+
+**Syntax**:
+```
+getAllConsumables()
+getCarriedConsumables()
+```
+
+**Explanation**:
+The `getAllConsumables()` function returns a string array of all of the IDs of all of the currently defined consumables, while the `getCarriedConsumables()` function returns an array of the IDs of all the IDs of all the consumables currently in the player's inventory.
+
+**Examples**:
+```
+<<print getAllConsumables().join(', ')>>
+/% lists all the consumables in the game %/
+
+<<print getCarriedConsumables().join(', ')>>
+/% lists all the consumables in the player's inventory %/
+```
+
+#### `findConsumableByIndex()` and `findIndexOfConsumable()` functions
+
+**Syntax**:
+```
+findConsumableByIndex(index)
+findIndexOfConsumable(ID)
+```
+
+* index: an index in the `$consumables.all` array
+* ID: the ID of a defined consumable.
+
+**Explanation**:
+Primarily for debugging and extending the system, these functions are used to locate consumables in the `$(storyVar).all` array.  `findIndexOfConsumable()` returns the index of the indicated consumable, or -1 if it isn't defined.  `findConsumableByIndex()` returns the ID of the consumable in the indicated index, or null if there is no consumable in said index.
+
+**Example**:
+```
+<<set _index to findIndexOfConsumable('hpPot')>>
+<<print findConsumableByIndex(_index)>>
+/% prints 'hpPot' %/
+```
 
 ## Cycles System
 
@@ -594,7 +1016,7 @@ The `menuTag` value is a passage tag that will prevent all cycles from collectin
 By default, newly declared cycles set up via `<<newcycle>>` automatically start counting turns as soon as they are created.  You can change this behavior to start new cycles suspended by turning this option to false.  If you do, you will need to use the `<<resumecycle>>` macro to get a newly created cycle counting. 
 
 #### `tryGlobal` option
-There are several 'helper' functions included in these scripts: `setup.cycSystem.checkCycle()`, for example.  You can read more about these function below.  Obviously, this is a mouthful, so the function definitions gets copied over as global functions, i.e. `checkCycle()`.  These global functions are only created if their names are undefined, to prevent any potential compatibility issues.  However, if you'd prefer to keep the functions out of the global scope all together, you can set this value to false and they won't be sent to the global scope at all, even if their names are available.  You'll be forced to write out the longer `setup.cycSystem.checkCycle()` style functions, though.
+There are several 'helper' functions included in these scripts: `setup.cycSystem.checkCycle()`, for example.  You can read more about these function below.  Obviously, this is a mouthful, so the function definitions get copied over as global functions, i.e. `checkCycle()`.  These global functions are only created if their names are undefined, to prevent any potential compatibility issues.  However, if you'd prefer to keep the functions out of the global scope all together, you can set this value to false and they won't be sent to the global scope at all, even if their names are available.  You'll be forced to write out the longer `setup.cycSystem.checkCycle()` style functions, though.
 
 ### Macros
 
@@ -1212,11 +1634,120 @@ $name
 
 ## Insert Macros
 
-Description
+This set of macros is designed to solve a fairly specific problem.  Consider the following code:
+
+```
+<div id='box'></div>
+
+<<replace '#box'>>HELLO<</replace>>
+```
+
+This code will raise an error, as the TwineScript is parsed *before* the div we created ever renders.  You can solve this problem a few ways, but the easiest solution, in my book, is a set of macros that just does this:
+
+```
+<div id='box'></div>
+
+<<insert '#box'>>HELLO<</insert>>
+
+/% no errors, replacement successful %/
+```
+
+A quick note:  SugarCube 2's default DOM macros are faster and more stable than these ones.  This means that, as a rule of thumb, you should use those whenever you can, and only use these to address this particular issue.
 
 ### Macros
 
-macros
+#### `<<insert>>` macro
+
+**Syntax**:
+`<<insert (element)>>...<</insert>>`
+
+* element: a valid jQuery or CSS selector
+
+**Explanation**:
+Functionally the same as `<<replace>>`, except that the macro fires after the page has rendered.
+
+**Examples**:
+```
+<div id='box'></div>
+
+<<insert '#box'>>HELLO<</insert>>
+```
+
+#### `<<insertappend>>` macro
+
+**Syntax**:
+`<<insertappend (element)>>...<</insertappend>>`
+
+* element: a valid jQuery or CSS selector
+
+**Explanation**:
+Functionally the same as `<<append>>`, except that the macro fires after the page has rendered.
+
+**Examples**:
+```
+<div id='box'>Hello</div>
+
+<<insert '#box'>> GOODBYE<</insert>>
+
+/% renders as 'hello GOODBYE' %/
+```
+
+#### `<<clearelement>>` macro
+
+**Syntax**:
+`<<clearelement (element)>>`
+
+* element: a valid jQuery or CSS selector
+
+**Explanation**:
+Empties the content from an element--functionally similar to an empty `<<insert>>`, though marginally more efficient.
+
+**Examples**:
+```
+<div id='box'>HELLLLLLLOOOOOOOOO</div>
+
+<<clearelement '#box'>>
+```
+
+## Fullscreen Macros
+
+Macros for making your story fullscreen when used in a browser.  Note: these macros may not work in the downloadable release of Twine 2's test and play modes, and may or may not work with various wrappers like NW.js or Electron.  For normal in browser play, they should do fine.
+
+### Macros
+
+#### `<<fullscreen>>` macro
+
+**Syntax**:
+`<<fullscreen>>`
+
+**Explanation**:
+This macro cause the game to go into fullscreen mode, but it must be paired with some sort of interaction to work, like a link or a button.
+
+**Examples**:
+```
+<<link 'Fullscreen Mode'>>
+	<<fullscreen>>
+<</link>>
+
+<<button 'Fullscreen Mode'>>
+	<<fullscreen>>
+<</button>>
+```
+
+#### `<<fullscreenlink>>` macro
+
+**Syntax**:
+`<<fullscreenlink (link text)>>`
+
+* link text: the text of the link.
+
+**Explanation**:
+Creates a link with user-defined text that, when clicked, launches fullscreen mode.
+
+**Examples**:
+```
+<<fullscreenlink 'Fullscreen Mode'>>
+```
 
 # Other Information
 
