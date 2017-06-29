@@ -1680,7 +1680,7 @@ This code will raise an error, as the TwineScript is parsed *before* the div we 
 /% no errors, replacement successful %/
 ```
 
-A quick note:  SugarCube 2's default DOM macros are faster and more stable than these ones.  This means that, as a rule of thumb, you should use those whenever you can, and only use these to address this particular issue.
+There's a trade-off, though.  Because these macros hold off on execution until after the passage loads, their exectuion becomes tied to the passage transition.  This means that they can only be used during passage transition--not with links, or timed macros.
 
 ### Macros
 
@@ -1692,7 +1692,7 @@ A quick note:  SugarCube 2's default DOM macros are faster and more stable than 
 * element: a valid jQuery or CSS selector
 
 **Explanation**:
-Functionally the same as `<<replace>>`, except that the macro fires after the page has rendered.
+Functionally the same as `<<replace>>`, except that the macro fires after the page has rendered and only then.
 
 **Examples**:
 ```
@@ -1709,7 +1709,7 @@ Functionally the same as `<<replace>>`, except that the macro fires after the pa
 * element: a valid jQuery or CSS selector
 
 **Explanation**:
-Functionally the same as `<<append>>`, except that the macro fires after the page has rendered.
+Functionally the same as `<<append>>`, except that the macro fires after the page has rendered and only then.
 
 **Examples**:
 ```
