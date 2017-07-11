@@ -1,5 +1,5 @@
 // chapel's custom macros complete collection for sugarcube 2
-// version 1.3
+// version 1.4
 // see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2
 
 // create namespaces:
@@ -1364,9 +1364,11 @@ Macro.add('listconsumables', {
 		// check for consumables
 		if (conRef.carried.length > 0) {
 			// create list
-			conRef.carried.forEach( function (id) {
+			conRef.carried.forEach( function (id, idx, arr) {
 				var item = conRef[id];
-				content = content + item.name + ': ' + item.amt + sep;
+				content = content + item.name + ': ' + item.amt;
+				// omit separator if item is last consumable
+				content = (idx === arr.length - 1) ? content : content + sep;
 			});
 		} else {
 			// no carried consumables

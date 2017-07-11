@@ -1,5 +1,5 @@
 // consumables system, by chapel; for sugarcube 2
-// version 1.0
+// version 1.05
 
 // create namespace
 setup.consumables = {};
@@ -507,12 +507,15 @@ Macro.add('listconsumables', {
 			sep = '\n';
 		}
 		
+		//v1.05b: fixed display issue
 		// check for consumables
 		if (conRef.carried.length > 0) {
 			// create list
-			conRef.carried.forEach( function (id) {
+			conRef.carried.forEach( function (id, idx, arr) {
 				var item = conRef[id];
-				content = content + item.name + ': ' + item.amt + sep;
+				content = content + item.name + ': ' + item.amt;
+				// omit separator if item is last consumable
+				content = (idx === arr.length - 1) ? content : content + sep;
 			});
 		} else {
 			// no carried consumables
