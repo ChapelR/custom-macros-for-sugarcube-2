@@ -1393,11 +1393,12 @@ Macro.add('usableconsumables', {
 		
 		// check for consumables
 		if (conRef.carried.length > 0) {
-			conRef.carried.forEach( function (id) {
-				var $descr = $(document.createElement('a'));
-				var $link  = $(document.createElement('a'));
-				var item   = conRef[id];
-				var itemID = conRef[id].id.replace(/[^A-Za-z0-9]/g, '');
+			conRef.carried.forEach( function (id, i, arr) {
+				var $listing = $(document.createElement('span'));
+				var $descr   = $(document.createElement('a'));
+				var $link    = $(document.createElement('a'));
+				var item     = conRef[id];
+				var itemID   = conRef[id].id.replace(/[^A-Za-z0-9]/g, '');
 				var descrCode;
 				
 				if ((!item.descr) || (item.descr == null)) {
@@ -1432,15 +1433,26 @@ Macro.add('usableconsumables', {
 					.ariaClick( function () {
 						// on click, fire useconsumable macro in silent mode
 						new Wikifier(null, '<<useconsumable "' + item.id + '" "silent">>');
-						$('#' + itemID).empty().wiki(item.amt);
+						if (item.amt > 0) {
+							$('#' + itemID + '-amt').empty().wiki(item.amt);
+						} else {
+							$('#' + itemID).empty();
+						}
 					});
 				
-				// append to output
-				$wrapper
+				// append to listing (added v1.1)
+				$listing
+					.attr('id', itemID)
 					.append($descr)
-					.wiki(': <span id="' + itemID + '">' + item.amt + '</span> ')
-					.append($link)
-					.wiki('<br />');
+					.wiki(': <span id="' + itemID + '-amt">' + item.amt + '</span> ')
+					.append($link);
+				// separator
+				if (i < arr.length - 1) {
+					$listing.wiki('<br />');
+				}
+					
+				// append to output
+				$wrapper.append($listing);
 			});
 		} else {
 			// no carried consumables
