@@ -2,8 +2,8 @@
 // WARNING: this sytem is complicated, and has some pitfalls; it is recommended that you 
 // read the documentation at scripts/extensions/extensions-readme.md carefully
 
-// see the documentation: [URL]
-// v0.9 (final testing)
+// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/extensions/extensions-readme.md#containers
+// v1.0
 
 // check for simpleInv
 if (setup.simpleInv == null || !setup.simpleInv) {
