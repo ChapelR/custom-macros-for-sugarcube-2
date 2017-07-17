@@ -13,9 +13,7 @@ If you have any ideas for extensions, catch up with me on Reddit (u/ChapelR), or
 
 Refer to the documentation for the simple inventory system in the main `readme.md` file for more information on this system.
 
-## Containers 
-
-**NOTE:** This system is still undergoing a final round of testing, and will be available in the next day or two.
+## Containers
 
 The file `passage-containers.js` includes the containers system, which requires the Simple Inventory script to function.  The containers systems allows you to treat passages like rooms/containers with regard to your inventory.  For example, you can drop an item from your inventory into a room, or pickup an item from a room and place it in your inventory.  In this way, items are effectively 'passed' around to different inventories, so you can make sure that they won't magically reappear in their original locations when dropped, but they also won't simply vanish.
 
