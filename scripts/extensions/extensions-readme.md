@@ -23,7 +23,7 @@ There's some built-in support here for simple puzzles: you could, for example, c
 
 ### Installation:
 
-To install `passage-containers.js`, you must first install either `simple-inventory.js` or `complete-collection.js`.  Copy and paste the contents of `passage-containers.js` after one of these two scripts.  If you're using Twine 1, make sure to include this script in the same script-tagged passage as `simple-inventory.js` to ensure that the scripts load in the correct order.  If you've signifcantly alterd the code of the simple inventory script, you may need to change it back or reinstall it for this system to function.
+To install `passage-containers.js`, you must first install either `simple-inventory.js` or `complete-collection.js`.  Copy and paste the contents of `passage-containers.js` after one of these two scripts.  If you're using Twine 1, make sure to include this script in the same script-tagged passage as `simple-inventory.js` to ensure that the scripts load in the correct order.  If you've signifcantly altered the code of the simple inventory script, you may need to change it back or reinstall it for this system to function.
 
 ### Options
 
@@ -42,11 +42,11 @@ This script defines a story variable to hold the passage's inventories.  By defa
 
 #### `skipTags` option
 
-You can prevent passages from being registered as containers by adding one of the tags included in this array literal.  By default, if you tag a passage with `menu`, `skip`, or `widget`, it won't be included.  Note that you really, really should tag all non-container passages; registering the passages as containers is a computationally expensive process, and can dramatically increase startup load times for your game if you have a lot.
+You can prevent passages from being registered as containers by adding one of the tags included in this array literal.  By default, if you tag a passage with `menu`, `skip`, or `widget`, it won't be included.  Note that you really, really should tag all non-container passages; registering the passages as containers is a computationally expensive process, and can dramatically increase startup load times for your game.
 
 ### Macros
 
-The following macros are indluded in this script:
+The following macros are included in this script:
 
 #### `<<placeat>>` macro
 
@@ -135,6 +135,7 @@ This macro removes an item or a list of items from the indicated passage's inven
 <<takefrom 'some passage' 'sword' 'rusty key'>>
 <<takefrom 'the temple' 'the book of life'>>
 <<takefrom 'bedroom' 'keys' 'cell phone' 'wallet' 'notebook'>>
+```
 
 #### `<<pickupfromplace>>` macro
 
