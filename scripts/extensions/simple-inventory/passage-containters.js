@@ -169,7 +169,6 @@ prerender['reset-resgister'] = function (_, t) { // junk args
 	// we need to use a prerender here to reset the passage register 
 	// before the code is wikified, but after transition fires
 	setup.simpleInv.containers.register = passage();
-	setup.simpleInv.containers.disableDrop = false;
 };
 
 
