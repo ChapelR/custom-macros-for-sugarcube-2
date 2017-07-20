@@ -30,7 +30,8 @@ This system includes a few options, and its options object can be found at the t
 ```javascript
 setup.simpleInv.containers.options = {
 	storyVar : 'containers',
-	skipTags : ['skip', 'menu', 'widget']
+	skipTags : ['skip', 'menu', 'widget'],
+	setLimit : 0
 };
 ```
 
@@ -41,6 +42,10 @@ This script defines a story variable to hold the passage's inventories.  By defa
 #### `skipTags` option
 
 You can prevent passages from being registered as containers by adding one of the tags included in this array literal.  By default, if you tag a passage with `menu`, `skip`, or `widget`, it won't be included.  Note that you really, really should tag all non-container passages; registering the passages as containers is a computationally expensive process, and can dramatically increase startup load times for your game.
+
+#### `setLimit` option
+
+The `<<setcontainer>>` macro, when used without arguments, sets the container passage for all container macros to the last passage in the history that is registered as a container.  This functionality could potentially cause items to be placed in very distant passages, so you can set a limit on how far into the history to look.  By default, the value is set to 0, which is no limit.  If an appropriate passage can't be found within the limit, the player will be shown a generic message letting them no that they can't drop items right now.
 
 ### Macros
 
@@ -183,7 +188,7 @@ This macro works as a combination of `<<place>>` and `<<drop>>`; it simultaneous
 * passage: the name of a passage that is registered as a container.  If no passage is provided, this argument defaults to the previous passage.
 
 **Explanation**:
-Many of the macros use the current passage as a target for various actions.  For example, if, in your inventory menu, you inlcude the `<<dropinplace>>` macro, and dropped item will be added to the inventory menu's passage container, assuming it exists.  This is probably not what you want to have happen.  The `<<setcontainer>>` macro allows you to change this behavior for **all such macros** in a given passage--the passage indicated by the macro will act as the inventory for the current passage.  If you don't provide a passage name to the macro, it defaults to the previous passage, as provided by the `previous()` function.
+Many of the macros use the current passage as a target for various actions.  For example, if, in your inventory menu, you inlcude the `<<dropinplace>>` macro, and dropped item will be added to the inventory menu's passage container, assuming it exists.  This is probably not what you want to have happen.  The `<<setcontainer>>` macro allows you to change this behavior for **all such macros** in a given passage--the passage indicated by the macro will act as the inventory for the current passage.  If you don't provide a passage name to the macro, it defaults to the most recent passage in the history that is registered as a container.  You can use the `setLimit` option to limit how far back in the history the search goes.  If an appropriate passage that meets the requirements cannot be found, a generic "You can't drop items here." alert is shown.
 
 Some important usage notes:
 * You may only include **one** `<<setcontainer>>` macro in a single passage.  If more thatn one of these macros is found in the same passage, you will recieve an error.

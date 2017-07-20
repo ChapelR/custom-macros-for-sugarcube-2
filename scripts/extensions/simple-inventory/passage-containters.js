@@ -3,7 +3,7 @@
 // read the documentation at scripts/extensions/extensions-readme.md carefully
 
 // see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/extensions/extensions-readme.md#containers
-// v1.0
+// v1.1
 
 // check for simpleInv
 if (setup.simpleInv == null || !setup.simpleInv) {
@@ -18,7 +18,8 @@ setup.simpleInv.containers.passages = [];
 // tryGlobal for functions is set by setup.simpleInv.options.tryGlobal
 setup.simpleInv.containers.options = {
 	storyVar : 'containers',
-	skipTags : ['skip', 'menu', 'widget']
+	skipTags : ['skip', 'menu', 'widget'],
+	setLimit : 0
 };
 
 // story variable setup & ref function
@@ -141,10 +142,34 @@ setup.simpleInv.containers.removeItem = function (psg, item) {
 	return false; // unsuccessful
 }
 
+// added v1.1b: return last viable passage
+setup.simpleInv.containers.findLastViable = function () {
+	var containers = setup.simpleInv.containers;
+	var peekLimit  = containers.options.setLimit;
+	var viable     = containers.passages;
+	var i, check;
+	
+	if (peekLimit === 0) {
+		// check ALL of history
+		peekLimit = State.length - 1;
+	}
+	
+	for (i = 1; i <= peekLimit; i++) {
+		check = State.peek(i);
+		if (viable.includes(check.title)) {
+			return check.title;
+			break;
+		}
+	}
+	
+	return false; // no passage found within limit
+};
+
 prerender['reset-resgister'] = function (_, t) { // junk args
 	// we need to use a prerender here to reset the passage register 
 	// before the code is wikified, but after transition fires
 	setup.simpleInv.containers.register = passage();
+	setup.simpleInv.containers.disableDrop = false;
 };
 
 
@@ -335,6 +360,7 @@ Macro.add('setcontainer', {
 	handler : function () {
 		
 		var check    = (Story.get(passage()).text.match('<<setcontainer').length > 1);
+		var reg;
 		
 		// simple error checking
 		if (check) { 
@@ -355,7 +381,8 @@ Macro.add('setcontainer', {
 		if (this.args[0] != null) {
 			setup.simpleInv.containers.register = this.args[0];
 		} else {
-			setup.simpleInv.containers.register = previous();
+			// v1.1b: now finds last viable
+			setup.simpleInv.containers.register = setup.simpleInv.containers.findLastViable();
 		}
 		
 	}
@@ -380,8 +407,14 @@ Macro.add('dropinplace', {
 		}
 		
 		for (i = 0; i < length; i++) {
-			items.delete(this.args[i]);
-			setup.simpleInv.containers.addItem(psg, this.args[i]);
+			// updated v1.1b: now removes items only if passage drop is successful.
+			// returns alert on failure
+			c = setup.simpleInv.containers.addItem(psg, this.args[i]);
+			if (c) { 
+				items.delete(this.args[i]); 
+			} else {
+				UI.alert("You can't drop items here.");
+			}
 		}
 		
 	}
@@ -461,6 +494,7 @@ Macro.add('droplist', {
 		items.forEach( function (current, i) {
 			var $listing = $(document.createElement('span'));
 			var $drop    = $(document.createElement('a'));
+			var c;
 			
 			var itemID  = current.replace(/[^A-Za-z0-9]/g, '');
 			itemID  = itemID + '-' + i; // add index in case of doubled items
@@ -470,20 +504,25 @@ Macro.add('droplist', {
 				.wiki('Drop')
 				.addClass('droplist-link') // for user styling
 				.ariaClick( function () {
-					// remove item from inventory
-					items.delete(current);
 					// push into passage 
-					setup.simpleInv.containers.addItem(psg, current);
-					// delete listing
-					$('#' + itemID).empty();
+					c = setup.simpleInv.containers.addItem(psg, current);
+					// updated v1.1b: now displays alert if drop is impossible
+					if (c) {
+						// remove item from inventory
+						items.delete(current);
+						// delete listing
+						$('#' + itemID).empty();
+					} else {
+						UI.alert("You can't drop items here.");
+					}
 				});
 			
 			// now construct the listing
 			$listing
 				.addClass('droplist-item')
 				.attr('id', itemID) // for removal
-				.wiki(current + ' ') //item name
-				.append($drop); //drop link
+				.wiki(current + ' ') // item name
+				.append($drop); // drop link
 			if (i !== (length - 1)) {
 				// not last in list; include separator
 				$listing.wiki('\n');
