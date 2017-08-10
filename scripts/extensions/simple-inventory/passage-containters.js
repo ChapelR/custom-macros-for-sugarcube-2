@@ -111,7 +111,6 @@ setup.simpleInv.containers.getItems = function (psg) {
 	}
 	
 	// get items reference
-	console.log(psg + ': ' + contRef[psg]);
 	return contRef[psg];
 	
 };

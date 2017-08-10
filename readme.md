@@ -13,6 +13,7 @@
   * [First Macro](#first-macro)
   * [Message Macro](#message-macro)
   * [Dialog API Macros](#dialog-api-macros)
+  * [Simulated Typing Macro](#simulated-typing-macro)
   * [Insert Macros](#insert-macros)
   * [Fullscreen Macros](#fullscreen-macros)
 * [Other Information](#other-information)
@@ -224,6 +225,12 @@ Here's a list of other macros included in this set of scripts.
 `<<dialog (optional: title) (optional: list of classes)>>...<</dialog>>`:  Creates a dialog box with the provided title and adds the list of classes to it for styling.  The content between the tags is parsed into the dialog box's body.
 
 `<<popup (passage name) (optional: title) (optional: list of classes)>>`: Creates a dialog box with the provided title and adds the list of classes to it for styling.  The content in the indicated passage is parsed into the dialog box's body.
+
+### Typing Simulation Macro
+
+[See the detailed documentation.](#simulated-typing-macro)
+
+`<<typesim 'text'>>...<</typesim>>`:  Creates a text area that the user can type in; the actual text the user types is ignored, and a predefined message is typed out instead.  After the message is complete, any code or text between the tags is fired.
 
 ### Insert Macro Set
 
@@ -1658,6 +1665,29 @@ $name
 	<<popup 'help' '' 'help'>>
 <</button>>
 // displays the content of the passage 'help' in a dialog box with no title and the class '.help'.
+```
+
+## Simulated Typing Macro
+
+Some games, like Superhot, have a neat little feature where you can mash on the keyboard and no matter what you actually type in, a predefined message comes out.  This macro provides a similar function to Twine.
+
+### Macros
+
+#### `<<typesim>>` macro
+
+**Syntax**:
+`<<typesim (text)>>...<</typesim>>`
+
+* text: a string of text; a predefined message that is 'typed' out by the player.
+
+**Explanation**:
+The `<<typesim>>` macro creates a text area.  When focused, the users keystrokes generate a predefined message one letter at a time, simulating typing but ignoring the actual input.  After the message is finished, any text or code between the macro tags is displayed / run.  Any output is shown as a <div> beneath the text area; this means you'll need to watch your spacing.
+
+**Examples**:
+```
+You begin typing the email to your boss:
+
+<<typesim "Hey Jim, I won't be in to work today, sorry.">>[[Send the email.|next passage]]<</typesim>>
 ```
 
 ## Insert Macros
