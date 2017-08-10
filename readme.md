@@ -230,7 +230,7 @@ Here's a list of other macros included in this set of scripts.
 
 [See the detailed documentation.](#simulated-typing-macro)
 
-`<<typesim 'text'>>...<</typesim>>`:  Creates a text area that the user can type in; the actual text the user types is ignored, and a predefined message is typed out instead.  After the message is complete, any code or text between the tags is fired.
+`<<typesim (text)>>...<</typesim>>`:  Creates a text area that the user can type in; the actual text the user types is ignored, and a predefined message is typed out instead.  After the message is complete, any code or text between the tags is fired.
 
 ### Insert Macro Set
 
@@ -1681,7 +1681,10 @@ Some games, like Superhot, have a neat little feature where you can mash on the 
 * text: a string of text; a predefined message that is 'typed' out by the player.
 
 **Explanation**:
-The `<<typesim>>` macro creates a text area.  When focused, the users keystrokes generate a predefined message one letter at a time, simulating typing but ignoring the actual input.  After the message is finished, any text or code between the macro tags is displayed / run.  Any output is shown as a <div> beneath the text area; this means you'll need to watch your spacing.
+The `<<typesim>>` macro creates a text area.  When focused, the user's keystrokes generate a predefined message one letter at a time, simulating typing but ignoring the actual input.  After the message is finished, any text or code between the macro tags is displayed / run.  Any output is shown as a `<div>` beneath the text area; this means you'll need to watch your spacing.
+
+**Styling Options**:
+The text area generated will just use SugarCube's standard text area.  If you want to alter its appearance, it has the class `.macro-typesim`.
 
 **Examples**:
 ```

@@ -1,3 +1,4 @@
+// <<typesim>> macro
 Macro.add('typesim', {
 	   tags : null,
 	handler : function () {
