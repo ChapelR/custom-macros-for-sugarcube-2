@@ -1,6 +1,6 @@
 // event macro set, by chapel; for sugarcube 2
 // version 1.0
-// see the documentation: 
+// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#event-macros
 
 // the <<trigger>> macro
 Macro.add('trigger', {

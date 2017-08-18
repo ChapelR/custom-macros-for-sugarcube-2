@@ -203,27 +203,27 @@ The play time system tracks the total time the player has been playing, even acr
 
 [See the detailed documentation.](#event-macros)
 
-Descr.
+A set of macros for adding events to your game.  Events come in many types, but some of the most common are key presses and mouse clicks.  These macros allow you to define JavaScript/jQuery style events in TwineScript.
 
 ### Macros
 
-`<<event>><<which>><</event>>`:
+`<<event (type) (optional: selector)>>...(optional: <<which (code)>>)...<</event>>`: Allows you to create an event listener and respond to it with TwineScript code.  Events are attached to the document element by default, but you can provide a jQuery/CSS style selector to target instead.  You can additionally include various `<<which>>` child tags and use them to define events that respond to specific key strokes or mouse clicks.  By default, like `<<link>>`s, there is no output.
 
-`<<trigger>>`:
+`<<trigger (type) (optional: selector)>>`:  You can trigger events through code by using this macro by providing it a selector and event type.  If no selector is provided, it defaults to the document element.
 
 ## The Wikifier Macro Set
 
 [See the detailed documentation.](#wikifier-macros)
 
-Descr.
+This set of macros allows you to register a chunk of TwineScript to a variable to be parsed later.  Functionally similar to the `<<widget>>` and `<<include>>`/`<<display>>` macros, but allows for some additional functionality--like concatenating code chunks, passing the code chunks around, and other things.
 
 ### Macros
 
-`<<code>><</code>>`:
+`<<code (variable)>>(valid TwineScript)<</code>>`: Registers the TwineScript between the tags to the provided variable.  The variable must be passed as a string (i.e. `<<code '$var'>>...`, not `<<code $var>>...`).  It excepts both story variables (`$var`) and temporary variables (`_var`), but not JavaScript variables.
 
-`<<wiki>>`:
+`<<wiki (string of TwineScript)>>`: When passed a variable or string containing TwineScript code to be evaluated, this macro evaluated the code and displays any output.
 
-`<<eval>>`:
+`<<eval (string of TwineScript)>>`: Similar to `<<wiki>>`, but output is supressed.  Care must be taken, as errors in the code will also be suppressed.
 
 ## Misc. Macros
 
@@ -259,9 +259,9 @@ Here's a list of other macros included in this set of scripts.
 
 [See the detailed documentation.](#dripdown-macro)
 
-Descr.
+A simple macro for generating a dropdown list input.
 
-`<<dropdown (variable) (list of options)>>`:
+`<<dropdown (variable) (list of options)>>`: When passed a variable (as a string; that it `<<dropdown '$var'...`, not `<<dropdown $var...`) and a list of options, also as strings (requires at least one option), this macro creates a dropdown-style input.  The item from the list that is selected is set to the indicated variable.
 
 ### Typing Simulation Macro
 
@@ -1502,55 +1502,192 @@ Displays the formatted string of the current play time.  You can use `<<print $(
 
 ## Event Macros
 
-Descr.
+This macro set allows Twine authors to create eventful programming without needing to use JavaScript or jQuery.
 
 ### Macros
 
 #### `<<event>>` macro
 
 **Syntax**:
+```
+<<event (type) (optional: selector)>>
+    ...
+	<<which (keycode)>>
+	    ...
+	<<which (keycode)>>
+	    ...
+<</event>>
+```
+
+* type: a valid jQuery event type.  Some events that may be of interest:
+  * 'click': fires when an element is clicked on.
+  * 'dblclick': fires when an element is double-clicked on.
+  * 'keyup': fires when an key is pressed and released.
+  * 'keydown': fires immediately when a key is pressed.
+  * 'mouseup': fires when a mouse button is pressed and released.
+  * 'mousedown': fires when a mouse button is pressed.
+* selector: a valid jQuery/CSS selector.  with some events (such as keypresses), this checks for focus; with others it checks for the target element of the event (such as mouseclicks).  if no selector is provided, the event is bound to the document element.
+* keycode: an integer.  allows you to determine which key or mouse button triggered the event and react accordingly.  you can find keycodes [here](http://keycode.info/).
 
 **Explanation**:
+This macro set can be used to add more interaction to your game; things like keyboard hotkeys, controls, clickable non-link elements, and more.  Once registered, events are essentially permanent (though they can be removed via JavaScript and suppressed via code logic); therefore, the best place to create events is your StoryInit special passage.  Note that the element the even is tied to does not need to be rendered in order to attach a listener to it.
 
 **Examples**:
+```
+/% stow/unstow the ui-bar on double-click %/
+<<event 'dblclick' '#ui-bar'>>
+    <<toggleclass '#ui-bar' 'stowed'>>
+<</event>>
+
+/% set up some hotkeys %/
+<<event 'keyup'>>
+<<which 67>> /% the c key %/
+	<<if not tags().includes('menu')>> /% avoid menu loop %/
+		<<goto 'character-menu'>>
+	<</if>>
+<<which 83>> /% the s key %/
+	<<if not tags().includes('menu')>> /% avoid menu loop %/
+		<<goto 'spells-menu'>>
+	<</if>> 
+<<which 77>> /% the m key %/
+	<<masteraudio mute>>
+<</event>>
+```
 
 #### `<<trigger>>` macro
 
 **Syntax**:
+`<<trigger (type) (optional: selector)>>`
+
+* type: a valid jQuery event type
+* selector: a valid jQuery/CSS selector.  if omitted, defaults to the document element
 
 **Explanation**:
+Allows you to simulate any event on any element.  This macro is useful for triggering events you may not otherwise have access to.
 
 **Examples**:
+```
+/% close any dialog box when the player presses esc %/
+<<event 'keydown'>>
+<<which 27>>
+	<<trigger 'click' '#ui-dialog-close'>>
+<</event>>
+```
 
 ## Wikifier Macros
 
-Descr.
+These macros allow you to save any chunk of valid TwineScript code to a variable for later use, and allow you to parse any string or variable on demand.  This provides Twine authors with the ability to pass TwineScript code around in new and interesting ways.  These macros are not intended to replace `<<print>>`, `<<inlcude>>`/`<<display>>`, and `<<widget>>` for the things those macros are best at; intead, they are meant to provide more options for code reuse and dynamic programming.
 
 ### Macros
 
 #### `<<code>>` macro
 
 **Syntax**:
+```
+<<code (variable)>>
+	(TwineScript)
+<</code>>
+```
+
+* variable: a story ($var) or temporary (_var) variable, passed in quotes.
+* TwineScript: any amount of valid TwineScript code
 
 **Explanation**:
+The `<<code>>` macro allows you to save TwineScript code to a variable.
 
 **Examples**:
+```
+/% a pronoun switcher %/
+<<code '$pronoun'>>\
+	<<nobr>>
+		<<if $gender is 'boy'>>
+			he
+		<<elseif $gender is 'girl'>>
+			she
+		<<else>>
+			they
+		<</if>>
+	<</nobr>>\
+<</code>>
+
+/% a verb creator %/
+<<code '$verb'>>\
+    <<nobr>>
+		<<if $gender is 'boy' or $gender is 'girl'>>
+		    <<if $pastTense>>
+			    was
+			<<else>>
+			    is
+			<</if>>
+		<<else>>
+			<<if $pastTense>>
+				were
+			<<else>>
+				are
+		<</if>>
+	<</nobr>>\
+<</code>>
+
+/% concatenating TwineSctipt %/
+<<set $phrase to $pronoun + $verb>>
+```
 
 #### `<<wiki>>` macro
 
 **Syntax**:
+`<<wiki (string of TwineScript)>>`
+
+* string of TwineScript: a string or variable containing a string of valid TwineScript
 
 **Explanation**:
+The `<<wiki>>` macro parses and displays TwineScript code that is passed to it as a string.
 
 **Examples**:
+```
+/% continuing our <<code>> example %/
+<<wiki $phrase>> not here yet.
+
+<<code '$var'>>
+    <<set $otherVar++>>\
+	$otherVar has increased!
+<</code>>
+<<wiki $var>>
+```
 
 #### `<<eval>>` macro
 
 **Syntax**:
+`<<wiki (string of TwineScript)>>`
+
+* string of TwineScript: a string or variable containing a string of valid TwineScript
 
 **Explanation**:
+The `<<eval>>` macro parses TwineScript code that is passed to it as a string, but unlike the `<<wiki>>` macro, output is supressed.
 
 **Examples**:
+```
+<<code '$dontWorryAboutLineBreaks'>>
+	<<if $this is 'that'>>
+		<<set $that to 'this'>>
+		<<set $another++>>
+		<<set $var to 1000>>
+	<<else>>
+		<<switch $count>>
+		<<case 1>>
+			<<set $that to 'no'>>
+			<<set $var to false>>
+		<<case 2 3>>
+			<<set $that to 'never'>>
+		<<case 4>>
+			<<set $var to 500>>
+		<<default>>
+			<<set $var to 0>>
+		<</switch>>
+	<</if>>
+<</code>>
+
+<<eval $dontWorryAboutLineBreaks>>
+```
 
 ## Fading Macros
 
@@ -1758,17 +1895,33 @@ $name
 
 ## Dropdown Macro
 
-Descr.
+A simple macro for creating a drop-down list selection.  One of the only html inputs that is missing from SugarCube.
 
 ### Macros
 
 #### `<<dropdown>>` macro
 
 **Syntax**:
+`<<dropdown (variable) (list of options)>>`
+
+* variable: a TwineSctipt story (`$var`) or temproray (`_var`) variable, passed in quotes
+* list of options: a list of options to populate the dropdown, passed as space-separated quoted strings.  if no options are given, an error will be raised.
 
 **Explanation**:
+The `<<dropdown>>` macro creates a dropdown-style input.  When a selection is made, the option is saved to the provided variable as a string.
 
 **Examples**:
+```
+::some passage
+<<set $color to ''>>\
+<<dropdown '$color' 'red' 'blue' 'green' 'purple' 'yellow' 'white' 'black' 'pink' 'orange'>>
+
+[[continue|next passage]]
+
+::next passage
+<<run $(body).css('background-color', $color)>>
+<<- $color>>
+```
 
 ## Simulated Typing Macro
 
