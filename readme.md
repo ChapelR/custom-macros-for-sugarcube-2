@@ -1502,7 +1502,7 @@ Displays the formatted string of the current play time.  You can use `<<print $(
 
 ## Event Macros
 
-This macro set allows Twine authors to create eventful programming without needing to use JavaScript or jQuery.
+This macro set allows Twine authors to create event programming without needing to use JavaScript or jQuery.
 
 ### Macros
 
@@ -1526,11 +1526,11 @@ This macro set allows Twine authors to create eventful programming without needi
   * 'keydown': fires immediately when a key is pressed.
   * 'mouseup': fires when a mouse button is pressed and released.
   * 'mousedown': fires when a mouse button is pressed.
-* selector: a valid jQuery/CSS selector.  with some events (such as keypresses), this checks for focus; with others it checks for the target element of the event (such as mouseclicks).  if no selector is provided, the event is bound to the document element.
+* selector: a valid jQuery/CSS selector.  with some events (such as key presses), this checks for focus; with others it checks for the target element of the event (such as mouse clicks).  if no selector is provided, the event is bound to the document element.
 * keycode: an integer.  allows you to determine which key or mouse button triggered the event and react accordingly.  you can find keycodes [here](http://keycode.info/).
 
 **Explanation**:
-This macro set can be used to add more interaction to your game; things like keyboard hotkeys, controls, clickable non-link elements, and more.  Once registered, events are essentially permanent (though they can be removed via JavaScript and suppressed via code logic); therefore, the best place to create events is your StoryInit special passage.  Note that the element the even is tied to does not need to be rendered in order to attach a listener to it.
+This macro set can be used to add more interaction to your game; things like keyboard hotkeys, controls, clickable non-link elements, and more.  Once registered, events are essentially permanent (though they can be removed via JavaScript and suppressed via code logic); therefore, the best place to create events is your StoryInit special passage.  Note that the element the event is tied to does not need to be rendered (or currently on the page or in the passage) in order to attach an event to it.
 
 **Examples**:
 ```
@@ -1563,7 +1563,7 @@ This macro set can be used to add more interaction to your game; things like key
 * selector: a valid jQuery/CSS selector.  if omitted, defaults to the document element
 
 **Explanation**:
-Allows you to simulate any event on any element.  This macro is useful for triggering events you may not otherwise have access to.
+Allows you to simulate any event on any element.  This macro is useful for triggering events you may not otherwise have easy access to.
 
 **Examples**:
 ```
@@ -1589,11 +1589,11 @@ These macros allow you to save any chunk of valid TwineScript code to a variable
 <</code>>
 ```
 
-* variable: a story ($var) or temporary (_var) variable, passed in quotes.
+* variable: a story (`$var`) or temporary (`_var`) variable, passed in quotes.
 * TwineScript: any amount of valid TwineScript code
 
 **Explanation**:
-The `<<code>>` macro allows you to save TwineScript code to a variable.
+The `<<code>>` macro allows you to save TwineScript code to a variable as an unparsed string.
 
 **Examples**:
 ```
@@ -1657,7 +1657,7 @@ The `<<wiki>>` macro parses and displays TwineScript code that is passed to it a
 #### `<<eval>>` macro
 
 **Syntax**:
-`<<wiki (string of TwineScript)>>`
+`<<eval (string of TwineScript)>>`
 
 * string of TwineScript: a string or variable containing a string of valid TwineScript
 
@@ -1895,7 +1895,7 @@ $name
 
 ## Dropdown Macro
 
-A simple macro for creating a drop-down list selection.  One of the only html inputs that is missing from SugarCube.
+A simple macro for creating a drop-down list selection, one of the only html inputs that is missing from SugarCube.
 
 ### Macros
 
