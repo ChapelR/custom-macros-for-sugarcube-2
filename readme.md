@@ -9,10 +9,13 @@
   * [Consumables System](#consumables-system)
   * [Cycles System](#cycles-system)
   * [Play Time System](#play-time-system)
+  * [Event Macros](#event-macros)
+  * [Wikifier Macros](#wikifier-macros)
   * [Fading Macros](#fading-macros)
   * [First Macro](#first-macro)
   * [Message Macro](#message-macro)
   * [Dialog API Macros](#dialog-api-macros)
+  * [Dropdown Macro](#dropdown-macro)
   * [Simulated Typing Macro](#simulated-typing-macro)
   * [Insert Macros](#insert-macros)
   * [Fullscreen Macros](#fullscreen-macros)
@@ -196,6 +199,32 @@ The play time system tracks the total time the player has been playing, even acr
 
 `pausetimer`: Time will not increase in passages tagged `pausetimer`.
 
+## The Event Macro Set
+
+[See the detailed documentation.](#event-macros)
+
+Descr.
+
+### Macros
+
+`<<event>><<which>><</event>>`:
+
+`<<trigger>>`:
+
+## The Wikifier Macro Set
+
+[See the detailed documentation.](#wikifier-macros)
+
+Descr.
+
+### Macros
+
+`<<code>><</code>>`:
+
+`<<wiki>>`:
+
+`<<eval>>`:
+
 ## Misc. Macros
 
 Here's a list of other macros included in this set of scripts.
@@ -225,6 +254,14 @@ Here's a list of other macros included in this set of scripts.
 `<<dialog (optional: title) (optional: list of classes)>>...<</dialog>>`:  Creates a dialog box with the provided title and adds the list of classes to it for styling.  The content between the tags is parsed into the dialog box's body.
 
 `<<popup (passage name) (optional: title) (optional: list of classes)>>`: Creates a dialog box with the provided title and adds the list of classes to it for styling.  The content in the indicated passage is parsed into the dialog box's body.
+
+### The Dropdown Macro
+
+[See the detailed documentation.](#dripdown-macro)
+
+Descr.
+
+`<<dropdown (variable) (list of options)>>`:
 
 ### Typing Simulation Macro
 
@@ -1463,6 +1500,58 @@ Displays the formatted string of the current play time.  You can use `<<print $(
 <<playtime>>
 ```
 
+## Event Macros
+
+Descr.
+
+### Macros
+
+#### `<<event>>` macro
+
+**Syntax**:
+
+**Explanation**:
+
+**Examples**:
+
+#### `<<trigger>>` macro
+
+**Syntax**:
+
+**Explanation**:
+
+**Examples**:
+
+## Wikifier Macros
+
+Descr.
+
+### Macros
+
+#### `<<code>>` macro
+
+**Syntax**:
+
+**Explanation**:
+
+**Examples**:
+
+#### `<<wiki>>` macro
+
+**Syntax**:
+
+**Explanation**:
+
+**Examples**:
+
+#### `<<eval>>` macro
+
+**Syntax**:
+
+**Explanation**:
+
+**Examples**:
+
 ## Fading Macros
 
 A simple macro set that causes the text between its tags to fade in or out over a period of time specified by the user, with an optional delay. Nothing crazy, but a feature I see requested frequently.
@@ -1666,6 +1755,20 @@ $name
 <</button>>
 // displays the content of the passage 'help' in a dialog box with no title and the class '.help'.
 ```
+
+## Dropdown Macro
+
+Descr.
+
+### Macros
+
+#### `<<dropdown>>` macro
+
+**Syntax**:
+
+**Explanation**:
+
+**Examples**:
 
 ## Simulated Typing Macro
 

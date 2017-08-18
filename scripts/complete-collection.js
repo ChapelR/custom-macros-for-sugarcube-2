@@ -323,6 +323,59 @@ setup.fullscreen = function (element) {
     }
 }
 
+// wikifer helpers
+setup.selectStore = function (storyVar) {
+	var store, varName;
+	
+	if (storyVar.charAt(0) === '$') {
+		store = State.variables;
+	} else if (storyVar.charAt(0) === '_') {
+		store = State.temporary;
+	} else {
+		return false; // error
+	}
+	
+	varName = storyVar.slice(1);
+	
+	return [store, varName];
+};
+
+setup.storeCode = function (storyVar, code) {
+	var store, varName;
+	storyVar = setup.selectStore(storyVar);
+	
+	if (!storyVar) {
+		return false; // error
+	}
+	if (typeof code != 'string') {
+		return false; // error
+	}
+	
+	store   = storyVar[0];
+	varName = storyVar[1];
+	
+	store[varName] = code; // save TwineScript code
+	return true;
+};
+
+setup.evalCode = function (code, silent, $element, stream) {
+	if (typeof code != 'string') {
+		return false; // error
+	}
+	
+	if (silent) {
+		new Wikifier(null, code);
+		return true;
+	} else {
+		$element
+			.wiki(code)
+			.appendTo(stream);
+		return true;
+	}
+	
+	return false;
+};
+
 // alias helper functions globally, if name is free
 	// cycles
 if (setup.cycSystem.options.tryGlobal) {
@@ -1475,6 +1528,126 @@ if (setup.consumables.options.macroAlts) {
 	Macro.add('consumablemenu', 'usableconsumables');
 }
 
+			/* EVENT MACROS */
+			
+// the <<trigger>> macro
+Macro.add('trigger', {
+	handler : function () {
+		
+		// declare vars
+		var evt, $el;
+		
+		// check for errors
+		if (this.args.length > 2 || this.args.length === 0) {
+			return this.error('incorrect number of arguments');
+		}
+		if (typeof this.args[0] != 'string') {
+			return this.error('first argument should be a string and a valid event type');
+		}
+		
+		// some setup
+		evt = this.args[0];
+		$el = (this.args.length === 1) ? $(document) : $(this.args[1]);
+		
+		// fire the event
+		$el.trigger(evt);
+		
+	}
+});
+
+// the <<event>> macro
+Macro.add('event', {
+	   tags : ['which'],
+	handler : function () {
+		
+		var payload = this.payload;
+		var evt, sel = '', code = '', i;
+		
+		if (this.args.length > 2 || this.args.length === 0) {
+			return this.error('incorrect number of arguments');
+		}
+		if (typeof this.args[0] != 'string') {
+			return this.error('first argument should be a string and a valid event type');
+		}
+		if (this.args.length === 2 || typeof this.args[1] == 'string') {
+			sel = this.args[1];
+		}
+		
+		evt = this.args[0];
+		
+		$(document).on(evt, sel, function (e) {
+			code = code + payload[0].contents;
+			if (payload.length > 1) {
+				for (i = 1; i < payload.length; i++) {
+					if (e.which === payload[i].args[0]) {
+						code = code + payload[i].contents;
+					}
+				}
+			}
+			new Wikifier(null, code);
+		});
+		
+	}
+});
+
+			/* WIKIFIER MACROS */
+			
+// the <<code>> macro
+Macro.add('code', {
+	   tags : null,
+	handler : function () {
+		
+		var code, storyVar, check;
+		
+		// check for errors
+		if (this.args.length !== 1) {
+			return this.error('incorrect number of arguments');
+		} 
+		if (typeof this.args[0] != 'string') {
+			return this.error('first argument should be a quoted variable name');
+		}
+		
+		// store code chunk as string in variable
+		storyVar = this.args[0];
+		code     = this.payload[0].contents;
+		check    = setup.storeCode(storyVar, code);
+		
+		if (!check) {
+			return this.error('error in arguments');
+		}
+		
+	}
+});
+
+// the <<wiki>> and <<eval>> macros
+Macro.add(['wiki', 'eval'], {
+	handler : function () {
+		
+		var $wrapper = $(document.createElement('span'));
+		var code, silent, check;
+		
+		// check for errors
+		if (this.args.length !== 1) {
+			return this.error('incorrect number of arguments');
+		}
+		
+		// some setup
+		$wrapper.addClass('macro-' + this.name);
+		code = this.args[0];
+		
+		// check for silent execution
+		silent = (this.name === 'eval') ? true : false;
+		
+		// run the TwineScript
+		check = setup.evalCode(code, silent, $wrapper, this.output);
+		
+		if (!check) {
+			return this.error('unknown error; please check arguments');
+		}
+		
+	}
+});
+
 			/* MISC. MACROS */
 
 // <<playtime>> macro
@@ -1676,6 +1849,64 @@ Macro.add('popup', {
 		
 	}
 
+});
+
+// <<dropdown>> macro
+Macro.add('dropdown', {
+	handler : function () {
+		
+        var $wrapper = $(document.createElement('span'));
+        var $drop    = $(document.createElement('select'));
+		
+        var opts      = this.args;
+        var storyVar = opts.shift();
+        var store;
+        var i;
+		
+        // handle simple errors
+        if (typeof storyVar == 'undefined') {
+            return this.error('No arguments provided.');
+        }
+        if (opts.length < 1) {
+            return this.error('Must provide at least one list option.');
+        }
+		
+        if (storyVar.charAt(0) === '$') {
+            store = State.variables;
+        } else if (storyVar.charAt(0) === '_') {
+            store = State.temporary;
+        } else {
+            return this.error('First argument should be a valid TwineScript variable.');
+        }
+        storyVar = storyVar.slice(1);
+        store[storyVar] = opts[0];
+			
+		
+        for (i = 0; i < opts.length; i++) {
+            var $option = $(document.createElement('option'));
+            $option
+                .attr('value', opts[i])
+                .wiki(opts[i])
+                .appendTo($drop);
+        }
+		
+        $drop
+            .attr({
+                name : 'dropdown-macro',
+                id   : storyVar
+            })
+            .appendTo($wrapper);
+		
+        $wrapper
+            .addClass('macro-' + this.name)
+            .appendTo(this.output);
+		
+        $(document).on('change', 'select#' + storyVar, function () { 
+            store[storyVar] = $('select#' + storyVar).val();
+        })
+		
+		
+    }
 });
 
 // <<typesim>> macro
