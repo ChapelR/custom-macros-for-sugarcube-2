@@ -1905,10 +1905,10 @@ A simple macro for creating a drop-down list selection, one of the only html inp
 `<<dropdown (variable) (list of options)>>`
 
 * variable: a TwineSctipt story (`$var`) or temproray (`_var`) variable, passed in quotes
-* list of options: a list of options to populate the dropdown, passed as space-separated quoted strings.  if no options are given, an error will be raised.
+* list of options: a list of options to populate the dropdown, passed as space-separated quoted strings or arrays, or any combination of the two.  if no options are given, an error will be raised.
 
 **Explanation**:
-The `<<dropdown>>` macro creates a dropdown-style input.  When a selection is made, the option is saved to the provided variable as a string.
+The `<<dropdown>>` macro creates a dropdown-style input.  When a selection is made, the option is saved to the provided variable as a string.  The first argument must always be a variable passed in quotes.  The remaining arguments may be any combination of strings, variables (non-quoted), or arrays.  To pass an array literal, you must use backticks to force it to be evaluated as a single argument, or store it as a variable.
 
 **Examples**:
 ```
@@ -1921,6 +1921,14 @@ The `<<dropdown>>` macro creates a dropdown-style input.  When a selection is ma
 ::next passage
 <<run $(body).css('background-color', $color)>>
 <<- $color>>
+
+/% example using mixed types %/
+<<set $a to ''>>
+<<set $b to ['hello', 'woot', 'live']>>
+<<set $c to 'purple'>>
+<<set $d to ['1', '2']>>
+<<dropdown '$a' $b $c $d 'blue' `['yay', 'never!', 'this example is dumb']`>>
+/% ***note the backticks for the array literal %/
 ```
 
 ## Simulated Typing Macro

@@ -41,7 +41,7 @@ Macro.add('event', {
 		if (typeof this.args[0] != 'string') {
 			return this.error('first argument should be a string and a valid event type');
 		}
-		if (this.args.length === 2 || typeof this.args[1] == 'string') {
+		if (this.args.length === 2 && typeof this.args[1] == 'string') {
 			sel = this.args[1];
 		}
 		

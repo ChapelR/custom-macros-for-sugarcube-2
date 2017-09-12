@@ -1,5 +1,5 @@
 // dropdown macro, by chapel; for sugarcube 2
-// version 1.0
+// version 1.1
 // see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#dropdown-macro
 
 // <<dropdown>> macro
@@ -9,10 +9,27 @@ Macro.add('dropdown', {
         var $wrapper = $(document.createElement('span'));
         var $drop    = $(document.createElement('select'));
 		
-        var opts      = this.args;
+        var opts     = this.args;
         var storyVar = opts.shift();
         var store;
         var i;
+		
+		// add array handling for args (v1.1)
+		opts = (function (options) {
+			var arr = [];
+			console.log(arr);
+			options.forEach( function (val) {
+				if (Array.isArray(val)) {
+					arr = arr.concat(val);
+					console.log(arr);
+				} else {
+					arr.push(val);
+					console.log(arr);
+				}
+			});
+			console.log(arr);
+			return arr;
+		}(opts));
 		
         // handle simple errors
         if (typeof storyVar == 'undefined') {
