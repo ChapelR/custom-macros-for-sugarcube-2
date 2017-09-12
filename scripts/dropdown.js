@@ -17,17 +17,13 @@ Macro.add('dropdown', {
 		// add array handling for args (v1.1)
 		opts = (function (options) {
 			var arr = [];
-			console.log(arr);
 			options.forEach( function (val) {
 				if (Array.isArray(val)) {
 					arr = arr.concat(val);
-					console.log(arr);
 				} else {
 					arr.push(val);
-					console.log(arr);
 				}
 			});
-			console.log(arr);
 			return arr;
 		}(opts));
 		
