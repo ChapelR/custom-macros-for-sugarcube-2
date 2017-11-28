@@ -1,6 +1,4 @@
-// typesim macro, by chapel; for sugarcube 2
-// version 1.0.0
-
+// <<typesim>> macro
 Macro.add('typesim', {
 	   tags : null,
 	handler : function () {

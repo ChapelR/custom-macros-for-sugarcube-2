@@ -1,0 +1,435 @@
+<tw-storydata name="Cusom Macros Demo" startnode="6" creator="Twine" creator-version="2.0.8" ifid="975E0BAB-111F-40D1-A4C5-D1D190B28A50" format="SugarCube" options=""><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet-joiner */
+#menu-core { display : none; }
+#story-author { display : none; }
+#story-title { display : none; }
+
+.message-text a { color : #9400d3; }
+.message-text a:hover { color : #f0f; }
+.message-text.open a { color : #f0f; }
+.message-text.open a:hover { color : #9400d3; }
+
+#ex .message-text a { color : #68d; }
+#ex .message-text a:hover { color : #8af; }
+#ex .message-text.open a { color : #68d; }
+#ex .message-text.open a:hover { color : #8af; }
+
+#notify.big { height : 10em; }
+
+/* twine-user-stylesheet-joiner */
+/* notify.min.css, by chapel; for use with notify.js; v1.0.0 */
+#notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition-duration:.3s;-moz-transition-duration:.3s;-o-transition-duration:.3s;transition-duration:.3s}#notify.open{right:0}</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script-joiner */
+// notify.js, by chapel; for sugarcube 2; v1.0.0
+;$(document.body).append("<div id='notify'></div>"),$(document).on(":notify",function(s){s.message&&"string"==typeof s.message&&(s.message.trim(),s["class"]?"string"==typeof s["class"]?s["class"]="open "+s["class"]:Array.isArray(s["class"])?s["class"]="open macro-notify "+s["class"].join(" "):s["class"]="open macro-notify":s["class"]="open macro-notify",s.delay?("number"!=typeof s.delay&&(s.delay=Number(s.delay)),Number.isNaN(s.delay)&&(s.delay=2e3)):s.delay=2e3,$("#notify").empty().wiki(s.message).addClass(s["class"]),setTimeout(function(){$("#notify").removeClass()},s.delay))}),Macro.add("notify",{tags:null,handler:function(){var s=this.payload[0].contents,e=!1,a=!1;this.args.length>0&&("number"==typeof this.args[0]?(e=this.args[0],a=this.args.length>1?this.args.slice(1).flatten():!1):a=this.args.flatten().join(" ")),$(document).trigger({type:":notify",message:s,delay:e,"class":a})}});
+// end notify.js
+
+/* twine-user-script-joiner */
+// fading macro set, by chapel; for SugarCube 2; v1.1.0
+Macro.add("fadein",{tags:null,handler:function(){var t,a,s=$(document.createElement("span")),e=this.payload[0].contents;return 0===this.args.length?this.error("no arguments given"):(t=Util.fromCssTime(this.args[0]),a=this.args.length>1?Util.fromCssTime(this.args[1]):0,void s.wiki(e).addClass("macro-"+this.name).appendTo(this.output).hide().delay(a).fadeIn(t))}}),Macro.add("fadeout",{tags:null,handler:function(){var t,a,s=$(document.createElement("span")),e=this.payload[0].contents;return 0===this.args.length?this.error("no arguments given"):(t=Util.fromCssTime(this.args[0]),a=this.args.length>1?Util.fromCssTime(this.args[1]):0,void s.wiki(e).addClass("macro-"+this.name).appendTo(this.output).delay(a).fadeOut(t))}});
+// end fading macro set
+
+/* twine-user-script-joiner */
+// message macro, by chapel (with help from T.M. Edwards); for sugarcube 2; v1.0.1
+;setup.messageMacro={},    /*OPTION*/setup.messageMacro["default"]="Help",
+Macro.add("message",{tags:null,handler:function(){var e=this.payload[0].contents,a=$(document.createElement("span")),s=$(document.createElement(this.args.includes("btn")?"button":"a")),t=$(document.createElement("span"));s.wiki(this.args.length>0&&"btn"!==this.args[0]?this.args[0]:setup.messageMacro["default"]).ariaClick(function(){a.hasClass("open")?t.css("display","none").empty():t.css("display","block").wiki(e),a.toggleClass("open")}),a.attr("id","macro-"+this.name+"-"+this.args.join("").replace(/[^A-Za-z0-9]/g,"")).addClass("message-text").append(s).append(t).appendTo(this.output)}});
+// end message macro
+
+/* twine-user-script-joiner */
+// dialog API macro set, by chapel; for sugarcube 2; v1.2.0
+;Macro.add("dialog",{tags:null,handler:function(){var s=this.payload[0].contents?this.payload[0].contents:"",t=this.args.length>0?this.args[0]:"",a=this.args.length>1?this.args.slice(1).flatten():[];a.push("macro-"+this.name),Dialog.setup(t,a.join(" ")),Dialog.wiki(s),Dialog.open()}}),Macro.add("popup",{handler:function(){if(this.args.length<1)return this.error("need at least one argument; the passage to display");if(!Story.has(this.args[0]))return this.error("the passage "+this.args[0]+"does not exist");var s=this.args[0],t=this.args.length>1?this.args[1]:"",a=this.args.length>2?this.args.slice(2).flatten():[];a.push("macro-"+this.name),Dialog.setup(t,a.join(" ")),Dialog.wiki(Story.get(s).processText()),Dialog.open()}});
+// end dialog API macro set
+
+/* twine-user-script-joiner */
+// operations, by chapel; for sugarcube 2; v1.0.0
+;setup.operations={tryGlobal:!0,nicknames:!0,fmRange:[0,100]},setup.dice={processDice:function(e,r){var t,i=[],o=0;if("string"==typeof e)i=e.split("d");else if("number"==typeof e&&r)i=[e,r];else{if(!(Array.isArray(e)&&e.length>=2))throw new TypeError("setup.dice.processDice(): could not process arguments...");e.length=2,i=e}for(t=0;t<i[0];t++){var n=0;n=Math.floor(Math.random()*i[1])+1,o+=n}return o},processString:function(e){var r=[];return e=e.trim().replace(/\s/g,""),r=e.match(/(\d*d\d*)(.*)/),[r[1],Number(r[2])]},roll:function(e,r){if("string"==typeof e){var t=setup.dice.processString(e);return setup.dice.processDice(t[0])+t[1]}return setup.dice.processDice(e,r)}},setup.operations.tryGlobal&&(window.dice=window.dice||setup.dice.roll),Number.prototype.dice||Object.defineProperty(Number.prototype,"dice",{configurable:!0,writable:!0,value:function(e){if(0===this)return 0;if(0>this)throw new TypeError("Number.prototype.dice: cannot roll a negative number of dice!");if(null==e||"number"!=typeof e||0>=e||arguments.length<1)throw new TypeError("Number.prototype.dice: error in argument");if(!Number.isInteger(this)||!Number.isInteger(e))throw new TypeError("Number.prototype.dice: cannot roll partial dice!");return setup.dice.processDice(this,e)}}),Number.prototype.fairmath||Object.defineProperty(Number.prototype,"fairmath",{configurable:!0,writable:!0,value:function(e){var r=setup.operations.fmRange;if(this<r[0]||this>r[1])throw new TypeError("Number.prototype.fairmath called on a number that is out of the defined range (the number was "+this+").");if(null==e||"number"!=typeof e||e>100||-100>e||arguments.length<1)throw new TypeError("Number.prototype.fairmath given incorrect argument or an argument that is out of the valid 0-100 range.");if(0===e)return Math.clamp(Math.trunc(this),r[0],r[1]);if(0>e)return e=-1*e,Math.clamp(Math.trunc(this-(this-r[0])*(e/r[1])),r[0],r[1]);if(e>0)return Math.clamp(Math.trunc(this+(r[1]-this)*(e/r[1])),r[0],r[1]);throw new Error("Number.prototype.fairmath encountered an unspecified error.")}}),Math.fairmath||Object.defineProperty(Math,"fairmath",{configurable:!0,writable:!0,value:function(e,r){return e.fairmath(r)}}),setup.operations.nicknames&&(Math.fm||Object.defineProperty(Math,"fm",{configurable:!0,writable:!0,value:function(e,r){return e.fairmath(r)}}),Number.prototype.fm||Object.defineProperty(Number.prototype,"fm",{configurable:!0,writable:!0,value:function(e){return this.fairmath(e)}}),Number.prototype.d||Object.defineProperty(Number.prototype,"d",{configurable:!0,writable:!0,value:function(e){return this.dice(e)}}));
+// end operations.js
+
+/* twine-user-script-joiner */
+// Coming soon!
+
+/* twine-user-script-joiner */
+// dropdown macro, by chapel (with help from Thomas Michael Edwards); for SugarCube 2; v1.2.0
+Macro.add("dropdown",{handler:function(){if(this.args.length<2){var e=[];return this.args.length<1&&e.push("variable name"),this.args.length<2&&e.push("list values"),this.error("no "+e.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');Config.debug&&this.debugView.modes({block:!0});for(var t=Util.slugify(i),r=this.args.slice(1).flatten(),a=Wikifier.getValue(i),s=0,n=document.createElement("select"),o=0;o<r.length;++o){var l=r[o];String(l)===a&&(s=o),jQuery(document.createElement("option")).text(l).appendTo(n)}jQuery(n).val(r[s]).attr({id:this.name+"-"+t,name:this.name+"-"+t,tabindex:0}).addClass("macro-"+this.name).on("change",function(){Wikifier.setValue(i,this.value)}).appendTo(this.output),Wikifier.setValue(i,r[s])}});
+// end dropdown macro
+
+/* twine-user-script-joiner */
+// Coming soon!
+
+/* twine-user-script-joiner */
+// play time system, by chapel; for SugarCube 2; v2.0.1
+setup.playTime={},setup.playTime.options={tryGlobal:!0,storyVar:"playtime",pauseTag:"pausetimer"},State.variables[setup.playTime.options.storyVar]=Date.now(),predisplay["start-playtime"]=function(e){delete predisplay[e],State.variables[setup.playTime.options.storyVar]||(State.variables[setup.playTime.options.storyVar]=Date.now())},prehistory["pause-playtime"]=function(e){tags().includes(setup.playTime.options.pauseTag)&&(State.variables[setup.playTime.options.storyVar]+=time())},setup.playTime.getMS=function(){return Date.now()-State.variables[setup.playTime.options.storyVar]},setup.playTime.getTimeArray=function(e){if(e&&!(0>e)&&"number"==typeof e){var t=[];return t.push(Math.floor(e/1e3)%60),t.push(Math.floor(e/6e4)%60),t.push(Math.floor(e/36e5)%24),t}},setup.playTime.get=function(e){var t=setup.playTime.getMS(),a=setup.playTime.getTimeArray(t);return["h","hr","hrs","hour","hours"].includes(e)?a[2]:["min","mins","minutes","minute","m"].includes(e)?a[1]:["s","second","sec","seconds","secs"].includes(e)?a[0]:t},setup.playTime.formatTime=function(e,t){if(e&&Array.isArray(e)&&!(e.length<3)){var a=e[2]<10?"0"+e[2]:""+e[2],i=e[1]<10?"0"+e[1]:""+e[1],s=e[0]<10?"0"+e[0]:""+e[0];return t?"<b>"+a+":"+i+"</b>:"+s:a+":"+i+":"+s}},setup.playTime.output=function(e){var t=setup.playTime.getMS();return setup.playTime.formatTime(setup.playTime.getTimeArray(t),e)},setup.playTime.options.tryGlobal&&(window.playTime=window.getPlayTime||function(e){return"string"==typeof e?setup.playTime.get(e):setup.playTime.output(e)}),Macro.add("playtime",{handler:function(){var e=function(e){var t=[];return e.forEach(function(e){e+="",t.push(e.trim().toLowerCase())}),t}(this.args),t=$(document.createElement("span")),a=e.includesAny(["format","f","fmt","b","bold","true"])?!0:!1,i=setup.playTime.output(a);t.wiki(i).addClass("macro-"+this.name).appendTo(this.output)}});
+// end play time system
+
+/* twine-user-script-joiner */
+// first macro, by chapel; for sugarcube 2; v1.1.0
+;Macro.add("first",{tags:["then","finally"],handler:function(){var a,t=$(document.createElement("span")),n=this.payload[this.payload.length-1],e=visited()-1;a=e<this.payload.length?this.payload[e].contents:"finally"===n.name?n.contents:"",t.wiki(a).addClass("macro-"+this.name).appendTo(this.output)}});
+// end first macro
+
+/* twine-user-script-joiner */
+
+
+/* twine-user-script-joiner */
+// fullscreen macro set, by chapel; for sugarcube 2; v1.0.0
+setup.fullscreen=function(e){e.requestFullScreen?e.requestFullScreen():e.mozRequestFullScreen?e.mozRequestFullScreen():e.webkitRequestFullScreen&&e.webkitRequestFullScreen()},Macro.add("fullscreen",{handler:function(){var e=$("body").css("background-color");$("html").css("background-color",e),setup.fullscreen(document.documentElement)}}),Macro.add("fullscreenlink",{handler:function(){var e,n,r=$(document.createElement("span")),c=$(document.createElement("a")),t="macro-"+this.name;return 1!==this.args.length?this.error("incorrect number of arguments"):(n=this.args[0],c.wiki(n).attr("id","fullscreen-macro-link").ariaClick(function(){e=$("body").css("background-color"),$("html").css("background-color",e),setup.fullscreen(document.documentElement)}),void r.append(c).addClass(t).appendTo(this.output))}});
+// end fullscreen macro set
+
+/* twine-user-script-joiner */
+// Coming soon!
+
+/* twine-user-script-joiner */
+// event macro set, by chapel; for sugarcube 2; v1.1.1
+;Macro.add("trigger",{handler:function(){var t,r;return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(t=this.args[0],r=1===this.args.length||this.args[1]&&"string"==typeof this.args[1]&&"document"===this.args[1].toLowerCase().trim()?$(document):$(this.args[1]),void r.trigger(t))}}),Macro.add("event",{tags:["which"],handler:function(){var t,r,s=this.payload,e="",i="";return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(2===this.args.length&&"string"==typeof this.args[1]&&(e=this.args[1]),t=this.args[0],void $(document).on(t,e,function(t){if(i=s[0].contents,s.length>1)for(r=1;r<s.length;r++)s[r].args.includes(t.which)&&(i+=s[r].contents);new Wikifier(null,i)}))}});
+// end event macro set
+
+/* twine-user-script-joiner */
+// Coming soon!
+
+/* twine-user-script-joiner */
+// typesim macro, by chapel; for sugarcube 2; v1.0.0
+;Macro.add("typesim",{tags:null,handler:function(){var t=$(document.createElement("textarea")),e=$(document.createElement("div"));if(1!==this.args.length)return this.error("incorrect number of arguments");if("string"!=typeof this.args[0])return this.error("argument should be a string");var r=this.args[0],a="",n=r.length,i=0,s="typesim-output-"+r.replace(/[^A-Za-z0-9]/g,""),o="macro-"+this.name,d=this.payload[0].contents;t.wiki(a).attr({id:s,readonly:!0}).addClass(o).appendTo(this.output),$(document).on("keydown","#"+s,function(t){n>i&&(a+=r.charAt(i),$("#"+s).empty().wiki(a)),i===n&&e.wiki(d).addClass(o).insertAfter("#"+s),i++})}});
+// end typesim macro</script><tw-passagedata pid="2" name="The Drop Down Menu" tags="" position="300,425">You can use the dropdown menu by supplying the {{{&lt;&lt;dropdown&gt;&gt;}}} macro with a variable name (which must be passed in quotes, as with all input macros) and a series of arguments (or an array, or a combination of arrays and individual arguments).  The user can select one of the options and the passed variable will be set.
+
+&lt;&lt;set $anArray to ['red', 'blue', 'green']&gt;&gt;\
+&lt;&lt;set $choice to ''&gt;&gt;\
+&lt;&lt;dropdown '$choice' 'white' 'black' 'gray' $anArray&gt;&gt;
+
+&lt;&lt;button [[Confirm|dropDown2]]&gt;&gt;&lt;&lt;/button&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;set $anArray to ['red', 'blue', 'green']&gt;&gt;\}}}
+	{{{&lt;&lt;set $choice to ''&gt;&gt;\}}}
+	{{{&lt;&lt;dropdown '$choice' 'white' 'black' 'gray' $anArray&gt;&gt;}}}
+
+	{{{&lt;&lt;button [[Confirm|dropDown2]]&gt;&gt;&lt;&lt;/button&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="The Event Macros" tags="event-test" position="300,800">This page is riddled with events.  Try pressing spacebar, holding shift down, and pressing backspace to see what happens!\
+
+&lt;&lt;silently&gt;&gt;
+
+&lt;&lt;event 'keyup' 'body.event-test'&gt;&gt;
+&lt;&lt;which 32 8&gt;&gt;
+	&lt;&lt;run $('#passages').hide().delay(250).fadeIn();&gt;&gt;
+&lt;&lt;which 16&gt;&gt;
+	&lt;&lt;removeclass '#ui-bar' 'stowed'&gt;&gt;
+
+&lt;&lt;/event&gt;&gt;
+
+&lt;&lt;event 'keydown' 'body.event-test'&gt;&gt;
+&lt;&lt;which 16&gt;&gt;
+	&lt;&lt;addclass '#ui-bar' 'stowed'&gt;&gt;
+&lt;&lt;/event&gt;&gt;
+
+&lt;&lt;endsilently&gt;&gt;\
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;event 'keyup'&gt;&gt;}}}
+	{{{&lt;&lt;which 16&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;removeclass '#ui-bar' 'stowed'&gt;&gt;}}}
+	{{{&lt;&lt;which 32 8&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;run $('#passages').hide().delay(250).fadeIn();&gt;&gt;}}}
+	{{{&lt;&lt;/event&gt;&gt;}}}
+
+	{{{&lt;&lt;event 'keydown'&gt;&gt;}}}
+	{{{&lt;&lt;which 16&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;addclass '#ui-bar' 'stowed'&gt;&gt;}}}
+	{{{&lt;&lt;/event&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;
+
+Once event code is added to the game, it's essentially permanent.  This means that using selectors to target page elements, and using StoryInit to set things up, is the best way to use events.  You can, obviously, remove the event listeners via JavaScript/jQuery if you want to, however.</tw-passagedata><tw-passagedata pid="6" name="Start" tags="" position="50,50">This is a demo story file intended to show off some usage examples of my custom macros and systems for SugarCube.  You can look into the included systems by using the menu on the right.
+
+[[Source code and downloads.|https://github.com/ChapelR/custom-macros-for-sugarcube-2]]
+
+[[Download this example file.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/demo/]] (Available as a Twine 1 tws file, a Twine 2 html archive, and a Twee notation file.)
+
+[[Report bugs with this demo.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/issues/new]]
+
+[[Take a look at my blog.|http://devlog.holylandgame.com/]]</tw-passagedata><tw-passagedata pid="8" name="fading" tags="" position="425,425">&lt;&lt;fadein 1s 500ms&gt;&gt;\
+	This example fades in thanks to the fading macros macro!\
+&lt;&lt;/fadein&gt;&gt;
+
+&lt;&lt;fadeout 5s 5s&gt;&gt;\
+	Meanwhile, this content will slowly fade out after a few seconds.\
+&lt;&lt;/fadeout&gt;&gt;
+
+&lt;&lt;fadein 1s 3s&gt;&gt;\
+	&lt;&lt;fadeout 1s 6s&gt;&gt;\
+		And this content uses both macros.  Spooky!\
+	&lt;&lt;/fadeout&gt;&gt;\
+&lt;&lt;/fadein&gt;&gt;
+
+&lt;&lt;message 'View this code'&gt;&gt;\
+	{{{&lt;&lt;fadein 1s 500ms&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{These example fades in thanks to the &lt;&lt;fadein&gt;&gt; macro!\}}}
+	{{{&lt;&lt;/fadein&gt;&gt;}}}
+
+	{{{&lt;&lt;fadeout 5s 5s&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{Meanwhile, this content will slowly fade out after a few seconds.\}}}
+	{{{&lt;&lt;/fadeout&gt;&gt;}}}
+
+	{{{&lt;&lt;fadein 1s 3s&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;fadeout 1s 6s&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{And this content uses both macros.  Spooky!\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/fadeout&gt;&gt;\}}}
+	{{{&lt;&lt;/fadein&gt;&gt;}}}
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="ptUpdate" tags="" position="425,550">Number of seconds since you started playing: &lt;&lt;= Math.trunc(playTime('ms') / 1000)&gt;&gt;
+Number of milliseconds: &lt;&lt;= playTime('ms')&gt;&gt;
+Current play time: &lt;&lt;=playTime()&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="StoryTitle" tags="" position="50,175">Cusom Macros Demo</tw-passagedata><tw-passagedata pid="20" name="StoryMenu" tags="" position="50,425">[[Dialog API Macros]]
+[[The Drop Down Menu]]
+[[The Fading Macros|fading]]
+[[The First Macro]]
+[[The Fullscreen Macro]]
+[[The Message Macro]]
+[[The Operations System]]
+[[The Play Time System]]
+[[The Notify Macro]]
+[[The TypeSim Macro]]
+[[The Insert Macro]]
+[[The Event Macros]]
+[[Simple Inventory]]
+[[Consumables]]
+[[Cycles]]</tw-passagedata><tw-passagedata pid="21" name="The Operations System" tags="" position="300,675">The operations system adds a dice-roller and a ChoiceScript-style 'fairmath' system to SugarCube.  Let's do some math.
+
+There are a number of ways use the dice roller; check out the code below.
+
+Dice Roll: @@#dice-result;0@@
+
+&lt;&lt;link 'Roll 3d6 + 1'&gt;&gt;
+	&lt;&lt;replace '#dice-result'&gt;&gt;\
+		&lt;&lt;print dice(3, 6) + 1&gt;&gt;\
+	&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+&lt;&lt;link 'Roll 6d4 - 5'&gt;&gt;
+	&lt;&lt;replace '#dice-result'&gt;&gt;\
+		&lt;&lt;print dice('6d4') - 5&gt;&gt;\
+	&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+&lt;&lt;link 'Roll 1d20 + 5'&gt;&gt;
+	&lt;&lt;replace '#dice-result'&gt;&gt;\
+		&lt;&lt;print dice('1d20 + 5')&gt;&gt;\
+	&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+&lt;&lt;link 'Roll 2d6 + 10'&gt;&gt;
+	&lt;&lt;replace '#dice-result'&gt;&gt;\
+		&lt;&lt;print (2).d(6) + 10&gt;&gt;\
+	&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;link 'Roll 3d6 + 1'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;replace '#dice-result'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{&lt;&lt;print dice(3, 6) + 1&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/replace&gt;&gt;}}}
+	{{{&lt;&lt;/link&gt;&gt;}}}
+	{{{&lt;&lt;link 'Roll 6d4 - 5'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;replace '#dice-result'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{&lt;&lt;print dice('6d4') - 5&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/replace&gt;&gt;}}}
+	{{{&lt;&lt;/link&gt;&gt;}}}
+	{{{&lt;&lt;link 'Roll 1d20 + 5'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;replace '#dice-result'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{&lt;&lt;print dice('1d20 + 5')&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/replace&gt;&gt;}}}
+	{{{&lt;&lt;/link&gt;&gt;}}}
+	{{{&lt;&lt;link 'Roll 2d6 + 10'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;replace '#dice-result'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{&lt;&lt;print (2).d(6) + 10&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/replace&gt;&gt;}}}
+	{{{&lt;&lt;/link&gt;&gt;}}}
+&lt;&lt;/message&gt;&gt;
+
+There's also a few ways to use the fairmath system.  We'll show two here:
+
+&lt;&lt;print (80).fm(-25)&gt;&gt;
+&lt;&lt;print Math.fm(19, +40)&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;print (80).fm(-25)&gt;&gt;}}}
+	{{{&lt;&lt;print Math.fm(19, +40)&gt;&gt;}}}
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="The First Macro" tags="" position="550,425">&lt;&lt;first&gt;&gt;You can revisit this passage a few times to see how things change!&lt;&lt;finally&gt;&gt;Good job!&lt;&lt;/first&gt;&gt;
+
+&lt;&lt;first&gt;&gt;&lt;&lt;then&gt;&gt;The first macro allows you to dynamically alter content based on the number of times a player has seen a given passage.&lt;&lt;then&gt;&gt;You can make any number of alterations to the text.&lt;&lt;/first&gt;&gt;
+
+[[Reload this passage.|passage()]]
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+{{{&lt;&lt;first&gt;&gt;You can revisit this passage a few times to see how things change!&lt;&lt;finally&gt;&gt;Good job!&lt;&lt;/first&gt;&gt;}}}
+
+{{{&lt;&lt;first&gt;&gt;&lt;&lt;next&gt;&gt;The first macro allows you to dynamically alter content based on the number of times a player has seen a given passage.&lt;&lt;next&gt;&gt;You can make any number of alterations to the text.&lt;&lt;/first&gt;&gt;}}}
+
+{{{[[Reload this passage.|passage()]]}}}\
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="widgets" tags="widget nobr" position="50,550">&lt;&lt;widget 'tab'&gt;&gt;
+	&lt;&lt;= "&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;"&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="The TypeSim Macro" tags="" position="50,800">You need to send an email to your boss!  Better get typing:
+
+&lt;&lt;typesim "Hey boss, sorry I was late today.  It won't happen again, ever, I promise.  Please don't fire me!"&gt;&gt;That's all there is to it!&lt;&lt;/typesim&gt;&gt;
+
+//Warning: Watch what you do with the event macros when you use interactive elements!//
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;typesim "Hey boss, sorry I was late today.  It won't happen again, ever, I promise.  Please don't fire me!"&gt;&gt;That's all there is to it!&lt;&lt;/typesim&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="The Notify Macro" tags="" position="550,675">The {{{&lt;&lt;notify&gt;&gt;}}} macro shows a brief message on the screen and then leaves.  You can alter it's appearance using the id {{{#notify}}} in the shylesheet.  Because they depend on the DOM, notifications won't work on the first passage of a story unless paired with interaction.
+
+Letting the player mash on notification links, or recieve multiple notifications at once, may lead to buggy behavior.  In general, I would not tie notifications to player action, but rather to certain individual events or passages.
+
+@@#links1;\
+&lt;&lt;link 'Click to unlock an achievement.'&gt;&gt;
+	&lt;&lt;replace '#links1'&gt;&gt;\
+		Click to unlock an achievement.\
+	&lt;&lt;/replace&gt;&gt;
+	&lt;&lt;notify&gt;&gt;Achievement unlocked.&lt;&lt;/notify&gt;&gt;
+&lt;&lt;/link&gt;&gt;\
+@@
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{@@#links1;\}}}
+	{{{&lt;&lt;link 'Click to unlock an achievement.'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;replace '#links1'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{Click to unlock an achievement.\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/replace&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;notify&gt;&gt;Achievement unlocked.&lt;&lt;/notify&gt;&gt;}}}
+	{{{&lt;&lt;/link&gt;&gt;\}}}
+	{{{@@\}}}
+&lt;&lt;/message&gt;&gt;
+
+You can make notifications last longer, or attach classes to them for different stylings on different notifications.
+
+@@#links2;\
+&lt;&lt;link 'Click to unlock an achievement.'&gt;&gt;
+	&lt;&lt;replace '#links2'&gt;&gt;\
+		Click to unlock an achievement.\
+	&lt;&lt;/replace&gt;&gt;
+	&lt;&lt;notify 500 'big'&gt;&gt;Achievement unlocked.&lt;&lt;/notify&gt;&gt;
+&lt;&lt;/link&gt;&gt;\
+@@
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{@@#links2;\}}}
+	{{{&lt;&lt;link 'Click to unlock an achievement.'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;replace '#links2'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{Click to unlock an achievement.\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/replace&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;notify 500 'big'&gt;&gt;Achievement unlocked.&lt;&lt;/notify&gt;&gt;}}}
+	{{{&lt;&lt;/link&gt;&gt;\}}}
+	{{{@@\}}}
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="Cycles" tags="" position="50,925">Coming soon!
+
+&lt;&lt;back&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="The Insert Macro" tags="" position="425,800">Coming soon!
+
+&lt;&lt;back&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="The Fullscreen Macro" tags="" position="550,550">The {{{&lt;&lt;fullscreen&gt;&gt;}}} macro lets you make your game fullscreen, but it requires some sort of user interaction.
+
+&lt;&lt;link 'MAKE IT BIG'&gt;&gt;
+	&lt;&lt;fullscreen&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;link 'MAKE IT BIG'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;fullscreen&gt;&gt;}}}
+	{{{&lt;&lt;/link&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;
+
+You can use the {{{&lt;&lt;fullscreenlink&gt;&gt;}}} macro to save yourself from some of that typing.
+
+&lt;&lt;fullscreenlink 'MAKE IT BIG.'&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;fullscreenlink 'MAKE IT BIG.'&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="Dialog API Macros" tags="" position="175,425">There are two dialog API macros:
+
+{{{&lt;&lt;dialog&gt;&gt;}}} and {{{&lt;&lt;popup&gt;&gt;}}}.
+
+&lt;&lt;button 'View Dialog'&gt;&gt;
+	&lt;&lt;dialog 'Hello there.'&gt;&gt;\
+		How are you?\
+	&lt;&lt;/dialog&gt;&gt;
+&lt;&lt;/button&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;button 'View Dialog'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;dialog 'Hello there.'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{How are you?\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/dialog&gt;&gt;}}}
+	{{{&lt;&lt;/button&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;
+
+&lt;&lt;button 'View Popup'&gt;&gt;
+	&lt;&lt;popup 'popupTest' 'Welcome.'&gt;&gt;
+&lt;&lt;/button&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;button 'View Popup'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;popup 'popupTest' 'Welcome.'&gt;&gt;}}}
+	{{{&lt;&lt;/button&gt;&gt;}}}
+	
+	{{{::popupTest}}}
+	{{{Nice to meet you.}}}
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="StoryInit" tags="" position="50,675"></tw-passagedata><tw-passagedata pid="35" name="Simple Inventory" tags="" position="550,800">Coming soon!
+
+&lt;&lt;back&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Consumables" tags="" position="175,800">Coming soon!
+
+&lt;&lt;back&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="The Play Time System" tags="" position="425,675">This is the amount of time you've spent poking around in this demo so far:
+
+&lt;&lt;nobr&gt;&gt;
+	@@#time;&lt;&lt;playtime format&gt;&gt;@@
+	&lt;&lt;repeat 1s&gt;&gt;
+		&lt;&lt;replace '#time'&gt;&gt;\
+			&lt;&lt;playtime format&gt;&gt;\
+		&lt;&lt;/replace&gt;&gt;
+	&lt;&lt;/repeat&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;nobr&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{@@#time;&lt;&lt;playtime format&gt;&gt;@@}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;repeat 1s&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{&lt;&lt;replace '#time'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{&lt;&lt;playtime format&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/replace&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/repeat&gt;&gt;}}}
+	{{{&lt;&lt;/nobr&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;
+
+Check back to see it go up.
+
+The play time gets saved in save games and can be configured in a variety of ways, including not counting on certain passages, changing the display, and getting specific time infromation.
+
+The macro itself is generally static, but it can be animated with a {{{&lt;&lt;repeat&gt;&gt;}}} macro or similar.
+
+@@#ptUp;&lt;&lt;include 'ptUpdate'&gt;&gt;@@
+&lt;&lt;button 'Update'&gt;&gt;
+	&lt;&lt;replace '#ptUp'&gt;&gt;\
+		&lt;&lt;include 'ptUpdate'&gt;&gt;\
+	&lt;&lt;/replace&gt;&gt;
+&lt;&lt;/button&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{@@#ptUp;&lt;&lt;include 'ptUpdate'&gt;&gt;@@}}}
+	{{{&lt;&lt;button 'Update'&gt;&gt;}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;replace '#ptUp'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;&lt;&lt;tab&gt;&gt;{{{&lt;&lt;include 'ptUpdate'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;/replace&gt;&gt;}}}
+	{{{&lt;&lt;/button&gt;&gt;}}}
+
+	{{{::ptUpdate}}}
+	{{{Number of seconds since you started playing: &lt;&lt;= Math.trunc(playTime('ms') / 1000)&gt;&gt;}}}
+	{{{Number of milliseconds: &lt;&lt;= playTime('ms')&gt;&gt;}}}
+	{{{Current play time: &lt;&lt;=playTime()&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="dropDown2" tags="" position="300,550">&lt;&lt;= '&lt;div style="height:5em;background:' + $choice + ';"&gt;&lt;/div&gt;'&gt;&gt;
+
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;= '&lt;div style="height:5em;background:' + $choice + ';"&gt;&lt;/div&gt;'&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;
+
+&lt;&lt;back&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="StoryAuthor" tags="" position="50,300">Chapel</tw-passagedata><tw-passagedata pid="41" name="The Message Macro" tags="" position="175,675">The {{{&lt;&lt;message&gt;&gt;}}} macro lets you create toggleable messages.  We've been using it throughout this demo for the 'view this code' links.
+
+&lt;span id='ex'&gt;\
+&lt;&lt;message&gt;&gt;Blah&lt;&lt;/message&gt;&gt;
+
+&lt;&lt;message 'Number'&gt;&gt;\
+	&lt;&lt;print Date.now()&gt;&gt;\
+&lt;&lt;/message&gt;&gt;
+&lt;/span&gt;
+&lt;&lt;message 'View this code.'&gt;&gt;\
+	{{{&lt;&lt;message&gt;&gt;Blah&lt;&lt;/message&gt;&gt;}}}
+
+	{{{&lt;&lt;message 'Number'&gt;&gt;\}}}
+	&lt;&lt;tab&gt;&gt;{{{&lt;&lt;print Date.now()&gt;&gt;\}}}
+	{{{&lt;&lt;/message&gt;&gt;}}}\
+&lt;&lt;/message&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="popupTest" tags="" position="175,550">Nice to meet you.</tw-passagedata></tw-storydata>

@@ -1,5 +1,5 @@
 // first macro, by chapel; for sugarcube 2
-// version 1.0
+// version 1.1.0
 // see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#first-macro
 
 // <<first>> macro
@@ -7,23 +7,20 @@ Macro.add('first', {
 	   tags : ['then', 'finally'],
 	handler : function () {
 
-		var $wrapper    = $(document.createElement('span'));
-		var className   = 'macro-' + this.name;
-		var length      = this.payload.length;
-		var visits       = visited() - 1;
-		var lastTag     = this.payload[ length - 1 ].name;
-		var lastContent = this.payload[ length - 1 ].contents;
-		var content;
-
-		if (visits < length){
-			content = this.payload[visits].contents;
-		} else {
-			content = (lastTag === 'finally') ? lastContent : '';
-		}
+		var $wrapper = $(document.createElement('span')),
+			last     = this.payload[this.payload.length - 1],
+			visits   = visited() - 1, 
+			content;
+			
+			if (visits < this.payload.length) {
+				content = this.payload[visits].contents;
+			} else {
+				content = (last.name === 'finally') ? last.contents : '';
+			}
 
 		$wrapper
 			.wiki(content)
-			.addClass(className)
+			.addClass('macro-' + this.name)
 			.appendTo(this.output);
 	}
 

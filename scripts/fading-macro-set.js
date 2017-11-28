@@ -1,5 +1,5 @@
 // fading macro set, by chapel; for SugarCube 2
-// version 1.0
+// version 1.1.0
 // see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#fading-macros
 
 // <<fadein>> macro
@@ -7,25 +7,19 @@ Macro.add('fadein', {
 	   tags : null,
 	handler : function () {
 
-		var $wrapper  = $(document.createElement('span'));
-		var className = ('macro-' + this.name);
-		var content   = this.payload[0].contents;
-		var delay     = 0;
-		var time      = 0;
+		var $wrapper = $(document.createElement('span'));
+		var content  = this.payload[0].contents, time, delay;
 
-		if (this.args.length === 1) {
-			var delay = 0;
-			var time  = this.args[0] * 1000;
-		} else if (this.args.length === 2) {
-			var delay = this.args[0] * 1000;
-			var time  = this.args[1] * 1000;
-		} else {
-			return this.error('incorrect number of arguments...');
+		if (this.args.length === 0) {
+			return this.error('no arguments given');
 		}
+		
+		time  = Util.fromCssTime(this.args[0]);
+		delay = (this.args.length > 1) ?  Util.fromCssTime(this.args[1]) : 0;
 
 		$wrapper
 			.wiki(content)
-			.addClass(className)
+			.addClass('macro-' + this.name)
 			.appendTo(this.output)
 			.hide()
 			.delay(delay)
@@ -39,25 +33,19 @@ Macro.add('fadeout', {
 	   tags : null,
 	handler : function () {
 
-		var $wrapper  = $(document.createElement('span'));
-		var className = ('macro-' + this.name);
-		var content   = this.payload[0].contents;
-		var delay     = 0;
-		var time      = 0;
+		var $wrapper = $(document.createElement('span'));
+		var content  = this.payload[0].contents, time, delay;
 
-		if (this.args.length === 1) {
-			var delay = 0;
-			var time  = this.args[0] * 1000;
-		} else if (this.args.length === 2) {
-			var delay = this.args[0] * 1000;
-			var time  = this.args[1] * 1000;
-		} else {
-			return this.error('incorrect number of arguments...');
+		if (this.args.length === 0) {
+			return this.error('no arguments given');
 		}
+		
+		time  = Util.fromCssTime(this.args[0]);
+		delay = (this.args.length > 1) ?  Util.fromCssTime(this.args[1]) : 0;
 
 		$wrapper
 			.wiki(content)
-			.addClass(className)
+			.addClass('macro-' + this.name)
 			.appendTo(this.output)
 			.delay(delay)
 			.fadeOut(time);

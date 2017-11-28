@@ -1,5 +1,9 @@
 # Chapel's Custom Macros for SugarCube
 
+**Please note:** I'm currently in the process of rewriting all of this; the code, the docs, etc.  It's going to take a bit of time, but when it's done, these scripts will be much, much better.  In the mean time, all of this documentation refers to the 'old' scripts, which can be found in the approprately named `old` folder.  You can check out the new scripts if you're interested, the ones that are here are mostly done.
+
+There's also now a demonstration / example story (featuring the new scripts that are finished) that can be tested out [here](http://holylandgame.com/custom-macros.html).  The source code (for Twine 1, Twine 2, and Twee) can be looked at over in the `demo` folder of this repo.
+
 # Contents
 
 * [Installation](#installation)
