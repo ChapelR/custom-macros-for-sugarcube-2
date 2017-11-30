@@ -1,5 +1,6 @@
 // notify.js, by chapel; for sugarcube 2
 // version 1.0.0
+// requires notify.css / notify.min.css
 
 $(document.body).append("<div id='notify'></div>");
 $(document).on(':notify', function (e) {
@@ -9,7 +10,7 @@ $(document).on(':notify', function (e) {
 		// classes
 		if (e.class) {
 			if (typeof e.class === 'string') {
-				e.class = 'open ' + e.class;
+				e.class = 'open macro-notify ' + e.class;
 			} else if (Array.isArray(e.class)) {
 				e.class = 'open macro-notify ' + e.class.join(' ');
 			} else {
@@ -31,18 +32,14 @@ $(document).on(':notify', function (e) {
 			e.delay = 2000;
 		}
 		
-		//postdisplay['notification-task'] = function (t) {
-			//delete postdisplay[t];
-			//console.log(e);
-			$('#notify')
-				.empty()
-				.wiki(e.message)
-				.addClass(e.class)
+		$('#notify')
+			.empty()
+			.wiki(e.message)
+			.addClass(e.class)
 				
-			setTimeout(function () {
-				$('#notify').removeClass();
-			}, e.delay);
-		//};
+		setTimeout(function () {
+			$('#notify').removeClass();
+		}, e.delay);
 	}
 });
 

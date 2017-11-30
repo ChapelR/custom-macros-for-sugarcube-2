@@ -5,14 +5,14 @@ S''
 p2
 sS'saveDestination'
 p3
-S'C:\\Users\\Simmons\\Desktop\\refactored\\demo\\demo.tws'
+S'C:\\Users\\Simmons\\Desktop\\refactored\\demo\\source\\demo.tws'
 p4
 sS'metadata'
 p5
 (dp6
 sS'target'
 p7
-S'sugarcube'
+S'sugarcube-2'
 p8
 sS'storyPanel'
 p9
@@ -37,7 +37,7 @@ p18
 (dp20
 S'text'
 p21
-VThis is a demo story file intended to show off some usage examples of my custom macros and systems for SugarCube.  You can look into the included systems by using the menu on the right.\u000a\u000a[[Source code and downloads.|https://github.com/ChapelR/custom-macros-for-sugarcube-2]]\u000a\u000a[[Download this example file.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/demo/]] (Available as a Twine 1 tws file, a Twine 2 html archive, and a Twee notation file.)\u000a\u000a[[Report bugs with this demo.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/issues/new]]\u000a\u000a[[Take a look at my blog.|http://devlog.holylandgame.com/]]
+VThis is a demo story file intended to show off some usage examples of my custom macros and systems for SugarCube.  You can look into the included systems by using the story menu on the left.\u000a\u000a[[Source code and downloads.|https://github.com/ChapelR/custom-macros-for-sugarcube-2]]\u000a\u000a[[Download this example file.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/tree/master/demo/source]] (Available as a Twine 1 tws file, a Twine 2 html archive, and a Twee notation file.)\u000a\u000a[[Report bugs with this demo.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/issues/new]]\u000a\u000a[[Take a look at my blog.|http://devlog.holylandgame.com/]]
 p22
 sS'title'
 p23
@@ -50,12 +50,12 @@ struct_time
 p26
 ((I2017
 I11
-I28
-I4
-I35
-I49
-I1
-I332
+I29
+I0
+I0
+I46
+I2
+I333
 I0
 tp27
 (dp28
@@ -82,7 +82,7 @@ tp36
 Rp37
 sbsa(dp38
 g14
-I00
+I01
 sg15
 (lp39
 I10
@@ -93,7 +93,7 @@ Tiddler
 p40
 (dp41
 g21
-VCusom Macros Demo
+VCustom Macros Demo
 p42
 sg23
 VStoryTitle
@@ -102,12 +102,12 @@ sg25
 g26
 ((I2017
 I11
-I28
+I30
+I5
 I0
-I24
-I11
-I1
-I332
+I10
+I3
+I334
 I0
 tp44
 (dp45
@@ -1367,7 +1367,7 @@ Tiddler
 p427
 (dp428
 g21
-V
+V$(document).on(':inventory-update', function (e) {\u000a	console.log(e.moved);\u000a});
 p429
 sg23
 Vconfig
@@ -1376,12 +1376,12 @@ sg25
 g26
 ((I2017
 I11
-I28
-I1
+I29
+I3
+I23
+I7
 I2
-I13
-I1
-I332
+I333
 I0
 tp431
 (dp432
@@ -1419,7 +1419,7 @@ Tiddler
 p443
 (dp444
 g21
-V#menu-core { display : none; }\u000a#story-author { display : none; }\u000a#story-title { display : none; }\u000a\u000a.message-text a { color : #9400d3; }\u000a.message-text a:hover { color : #f0f; }\u000a.message-text.open a { color : #f0f; }\u000a.message-text.open a:hover { color : #9400d3; }\u000a\u000a#ex .message-text a { color : #68d; }\u000a#ex .message-text a:hover { color : #8af; }\u000a#ex .message-text.open a { color : #68d; }\u000a#ex .message-text.open a:hover { color : #8af; }\u000a\u000a#notify.big { height : 10em; }
+V#menu-core { display : none; }\u000a#story-author { display : none; }\u000a#story-title { display : none; }\u000a\u000a.message-text a { color : #9400d3; }\u000a.message-text a:hover { color : #f0f; }\u000a.message-text.open a { color : #f0f; }\u000a.message-text.open a:hover { color : #9400d3; }\u000a\u000a#ex .message-text a { color : #68d; }\u000a#ex .message-text a:hover { color : #8af; }\u000a#ex .message-text.open a { color : #68d; }\u000a#ex .message-text.open a:hover { color : #8af; }\u000a\u000a#notify.big { height : 10em; }\u000a\u000a#inventory { border : 2px solid #eee; padding : 1em;}
 p445
 sg23
 Vbase
@@ -1428,12 +1428,12 @@ sg25
 g26
 ((I2017
 I11
-I28
-I2
-I27
-I6
+I29
 I1
-I332
+I41
+I45
+I2
+I333
 I0
 tp447
 (dp448
@@ -1571,7 +1571,7 @@ Tiddler
 p489
 (dp490
 g21
-VThis page is riddled with events.  Try pressing spacebar, holding shift down, and pressing backspace to see what happens!\u005c\u000a\u000a<<silently>>\u000a\u000a<<event 'keyup' 'body.event-test'>>\u000a<<which 32 8>>\u000a	<<run $('#passages').hide().delay(250).fadeIn();>>\u000a<<which 16>>\u000a	<<removeclass '#ui-bar' 'stowed'>>\u000a\u000a<</event>>\u000a\u000a<<event 'keydown' 'body.event-test'>>\u000a<<which 16>>\u000a	<<addclass '#ui-bar' 'stowed'>>\u000a<</event>>\u000a\u000a<<endsilently>>\u005c\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<event 'keyup'>>}}}\u000a	{{{<<which 16>>}}}\u000a	<<tab>>{{{<<removeclass '#ui-bar' 'stowed'>>}}}\u000a	{{{<<which 32 8>>}}}\u000a	<<tab>>{{{<<run $('#passages').hide().delay(250).fadeIn();>>}}}\u000a	{{{<</event>>}}}\u000a\u000a	{{{<<event 'keydown'>>}}}\u000a	{{{<<which 16>>}}}\u000a	<<tab>>{{{<<addclass '#ui-bar' 'stowed'>>}}}\u000a	{{{<</event>>}}}\u005c\u000a<</message>>\u000a\u000aOnce event code is added to the game, it's essentially permanent.  This means that using selectors to target page elements, and using StoryInit to set things up, is the best way to use events.  You can, obviously, remove the event listeners via JavaScript/jQuery if you want to, however.
+VThis page is riddled with events.  Try pressing spacebar, holding shift down, and pressing backspace to see what happens!\u005c\u000a\u000a<<silently>>\u000a\u000a<<event 'keyup' 'body.event-test'>>\u000a<<which 32 8>>\u000a	<<run $('#passages').hide().delay(250).fadeIn();>>\u000a<<which 16>>\u000a	<<removeclass '#ui-bar' 'stowed'>>\u000a\u000a<</event>>\u000a\u000a<<event 'keydown' 'body.event-test'>>\u000a<<which 16>>\u000a	<<addclass '#ui-bar' 'stowed'>>\u000a<</event>>\u000a\u000a<<endsilently>>\u005c\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<event 'keyup' 'body.event-test'>>}}}\u000a	{{{<<which 16>>}}}\u000a	<<tab>>{{{<<removeclass '#ui-bar' 'stowed'>>}}}\u000a	{{{<<which 32 8>>}}}\u000a	<<tab>>{{{<<run $('#passages').hide().delay(250).fadeIn();>>}}}\u000a	{{{<</event>>}}}\u000a\u000a	{{{<<event 'keydown' 'body.event-test'>>}}}\u000a	{{{<<which 16>>}}}\u000a	<<tab>>{{{<<addclass '#ui-bar' 'stowed'>>}}}\u000a	{{{<</event>>}}}\u005c\u000a<</message>>\u000a\u000aOnce event code is added to the game, it's essentially permanent.  This means that using selectors to target page elements (we used tags and the {{{<body>}}} element in the examples), and using StoryInit to set things up, is the best way to use events.  You can, obviously, remove the event listeners via JavaScript/jQuery if you want to, however.
 p491
 sg23
 VThe Event Macros
@@ -1581,9 +1581,9 @@ g26
 ((I2017
 I11
 I28
-I5
-I58
-I58
+I23
+I41
+I20
 I1
 I332
 I0
@@ -1673,7 +1673,7 @@ Tiddler
 p520
 (dp521
 g21
-VComing soon!\u000a\u000a<<back>>
+VWhen you started up this demo, an inventory was created for you, and a few items were slipped into it:\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{::StoryInit}}}\u000a	{{{<<newinventory '$playerInv'>>}}}\u000a	{{{<<pickup '$playerInv' 'blue hedgehog' 'italian plumber'>>}}}\u005c\u000a<</message>>\u000a\u000a@@#ex;<<message 'Click here to view your inventory'>>\u005c\u000a	<<inventory '$playerInv' ', '>>\u005c\u000a<</message>>@@\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<message 'Click here to view your inventory'>>\u005c}}}\u000a	<<tab>>{{{<<inventory '$playerInv' ', '>>\u005c}}}\u000a	{{{<</message>>}}}\u000a<</message>>\u000a\u000aThere's a lot more that we can do with the inventory, though.\u000a\u000a[[Next.|droppingAndPickingUp]]
 p522
 sg23
 VSimple Inventory
@@ -1682,12 +1682,12 @@ sg25
 g26
 ((I2017
 I11
-I28
-I5
-I46
-I37
-I1
-I332
+I29
+I3
+I7
+I52
+I2
+I333
 I0
 tp524
 (dp525
@@ -1823,27 +1823,28 @@ Tiddler
 p565
 (dp566
 g21
-g429
+V<<newinventory '$playerInv'>>\u000a<<pickup '$playerInv' 'blue hedgehog' 'italian plumber'>>\u000a\u000a<<newinventory '$container'>>\u000a<<pickup '$container' 'a rusty key' 'a cellphone'>>
+p567
 sg23
 VStoryInit
-p567
+p568
 sg25
 g26
 ((I2017
 I11
-I28
-I4
-I28
-I57
-I1
-I332
+I29
+I3
+I6
+I34
+I2
+I333
 I0
-tp568
-(dp569
-tp570
-Rp571
+tp569
+(dp570
+tp571
+Rp572
 sg31
-(lp572
+(lp573
 sg33
 g26
 ((I2017
@@ -1855,28 +1856,28 @@ I52
 I1
 I332
 I0
-tp573
-(dp574
-tp575
-Rp576
-sbsa(dp577
+tp574
+(dp575
+tp576
+Rp577
+sbsa(dp578
 g14
 I00
 sg15
-(lp578
+(lp579
 I710
 aI10
 asg17
 (itiddlywiki
 Tiddler
-p579
-(dp580
+p580
+(dp581
 g21
 V// Coming soon!
-p581
+p582
 sg23
 VinsertJS
-p582
+p583
 sg25
 g26
 ((I2017
@@ -1888,14 +1889,14 @@ I13
 I1
 I332
 I0
-tp583
-(dp584
-tp585
-Rp586
+tp584
+(dp585
+tp586
+Rp587
 sg31
-(lp587
+(lp588
 Vscript
-p588
+p589
 asg33
 g26
 ((I2017
@@ -1907,28 +1908,28 @@ I21
 I1
 I332
 I0
-tp589
-(dp590
-tp591
-Rp592
-sbsa(dp593
+tp590
+(dp591
+tp592
+Rp593
+sbsa(dp594
 g14
 I00
 sg15
-(lp594
+(lp595
 I710
 aI150
 asg17
 (itiddlywiki
 Tiddler
-p595
-(dp596
+p596
+(dp597
 g21
 V// event macro set, by chapel; for sugarcube 2; v1.1.1\u000a;Macro.add("trigger",{handler:function(){var t,r;return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(t=this.args[0],r=1===this.args.length||this.args[1]&&"string"==typeof this.args[1]&&"document"===this.args[1].toLowerCase().trim()?$(document):$(this.args[1]),void r.trigger(t))}}),Macro.add("event",{tags:["which"],handler:function(){var t,r,s=this.payload,e="",i="";return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(2===this.args.length&&"string"==typeof this.args[1]&&(e=this.args[1]),t=this.args[0],void $(document).on(t,e,function(t){if(i=s[0].contents,s.length>1)for(r=1;r<s.length;r++)s[r].args.includes(t.which)&&(i+=s[r].contents);new Wikifier(null,i)}))}});\u000a// end event macro set
-p597
+p598
 sg23
 VeventJS
-p598
+p599
 sg25
 g26
 ((I2017
@@ -1940,14 +1941,14 @@ I8
 I1
 I332
 I0
-tp599
-(dp600
-tp601
-Rp602
+tp600
+(dp601
+tp602
+Rp603
 sg31
-(lp603
+(lp604
 Vscript
-p604
+p605
 asg33
 g26
 ((I2017
@@ -1959,28 +1960,28 @@ I25
 I1
 I332
 I0
-tp605
-(dp606
-tp607
-Rp608
-sbsa(dp609
+tp606
+(dp607
+tp608
+Rp609
+sbsa(dp610
 g14
 I00
 sg15
-(lp610
+(lp611
 I710
 aI290
 asg17
 (itiddlywiki
 Tiddler
-p611
-(dp612
+p612
+(dp613
 g21
 V// typesim macro, by chapel; for sugarcube 2; v1.0.0\u000a;Macro.add("typesim",{tags:null,handler:function(){var t=$(document.createElement("textarea")),e=$(document.createElement("div"));if(1!==this.args.length)return this.error("incorrect number of arguments");if("string"!=typeof this.args[0])return this.error("argument should be a string");var r=this.args[0],a="",n=r.length,i=0,s="typesim-output-"+r.replace(/[^A-Za-z0-9]/g,""),o="macro-"+this.name,d=this.payload[0].contents;t.wiki(a).attr({id:s,readonly:!0}).addClass(o).appendTo(this.output),$(document).on("keydown","#"+s,function(t){n>i&&(a+=r.charAt(i),$("#"+s).empty().wiki(a)),i===n&&e.wiki(d).addClass(o).insertAfter("#"+s),i++})}});\u000a// end typesim macro
-p613
+p614
 sg23
 VtypeSimJS
-p614
+p615
 sg25
 g26
 ((I2017
@@ -1992,14 +1993,14 @@ I58
 I1
 I332
 I0
-tp615
-(dp616
-tp617
-Rp618
+tp616
+(dp617
+tp618
+Rp619
 sg31
-(lp619
+(lp620
 Vscript
-p620
+p621
 asg33
 g26
 ((I2017
@@ -2011,28 +2012,28 @@ I47
 I1
 I332
 I0
-tp621
-(dp622
-tp623
-Rp624
-sbsa(dp625
+tp622
+(dp623
+tp624
+Rp625
+sbsa(dp626
 g14
 I00
 sg15
-(lp626
+(lp627
 I850
 aI10
 asg17
 (itiddlywiki
 Tiddler
-p627
-(dp628
+p628
+(dp629
 g21
 V// Coming soon!
-p629
+p630
 sg23
 VconsumablesJS
-p630
+p631
 sg25
 g26
 ((I2017
@@ -2044,14 +2045,14 @@ I9
 I1
 I332
 I0
-tp631
-(dp632
-tp633
-Rp634
+tp632
+(dp633
+tp634
+Rp635
 sg31
-(lp635
+(lp636
 Vscript
-p636
+p637
 asg33
 g26
 ((I2017
@@ -2063,28 +2064,28 @@ I59
 I1
 I332
 I0
-tp637
-(dp638
-tp639
-Rp640
-sbsa(dp641
+tp638
+(dp639
+tp640
+Rp641
+sbsa(dp642
 g14
 I00
 sg15
-(lp642
+(lp643
 I850
 aI150
 asg17
 (itiddlywiki
 Tiddler
-p643
-(dp644
+p644
+(dp645
 g21
 V// Coming soon!
-p645
+p646
 sg23
 VcyclesJS
-p646
+p647
 sg25
 g26
 ((I2017
@@ -2096,14 +2097,14 @@ I16
 I1
 I332
 I0
-tp647
-(dp648
-tp649
-Rp650
+tp648
+(dp649
+tp650
+Rp651
 sg31
-(lp651
+(lp652
 Vscript
-p652
+p653
 asg33
 g26
 ((I2017
@@ -2115,47 +2116,47 @@ I1
 I1
 I332
 I0
-tp653
-(dp654
-tp655
-Rp656
-sbsa(dp657
+tp654
+(dp655
+tp656
+Rp657
+sbsa(dp658
 g14
 I00
 sg15
-(lp658
+(lp659
 I850
 aI290
 asg17
 (itiddlywiki
 Tiddler
-p659
-(dp660
+p660
+(dp661
 g21
-V// Coming soon!
-p661
+V// simple-inventory.js, by chapel; for sugarcube 2; v2.1.0\u000asetup.simpleInv={},setup.simpleInv.options={tryGlobal:!0,emptyMsg:"You're not carrying anything..."},setup.simpleInv.attachEvent=function(i,t,r,n){$(document).trigger({type:"initialized"===n?":inventory-init":":inventory-update",instance:i,recieving:t,moved:r,context:n})},setup.simpleInv.inventory=function(i){i&&Array.isArray(i)&&1===arguments.length?this.inv=i:i?(i=[].slice.call(arguments),i=i.flatten()):(i=null,this.inv=[]),setup.simpleInv.attachEvent(this,null,i,"initialized")},setup.simpleInv.inventory.prototype={transfer:function(i){if(arguments.length<2)return this;if(!(i instanceof setup.simpleInv.inventory))return this;var t=[].slice.call(arguments);t=t.slice(1).flatten();for(var r=[],n=0,e=t.length;e>n;n++)this.inv.includes(t[n])&&(this.inv["delete"](t[n]),r.push(t[n]));return r.length?(i.inv=i.inv.concat(r),setup.simpleInv.attachEvent(this,i,r,"transfer"),this):this},has:function(){var i=[].slice.call(arguments).flatten();return i&&i.length?this.inv.includesAny(i):!1},hasAll:function(){var i=[].slice.call(arguments).flatten();return i&&i.length?this.inv.includesAll(i):!1},pickUp:function(i){var t=[].slice.call(arguments).flatten(),r=this;return t&&t.length&&(i&&(t=function(i){var t=[];return i.forEach(function(i){r.inv.includes(i)||t.push(i)}),t}(t)),this.inv=this.inv.concat(t),setup.simpleInv.attachEvent(this,null,t,"pickup")),this},drop:function(){var i=[].slice.call(arguments).flatten(),t=this;if(i&&i.length){var r=[];i.forEach(function(i){t.has(i)&&(r.push(i),t.inv["delete"](i))}),setup.simpleInv.attachEvent(this,null,r,"drop")}return this},sort:function(){return this.inv=this.inv.sort(),setup.simpleInv.attachEvent(this,null,null,"sort"),this},show:function(i){return i&&"string"==typeof i||(i="\u005cn"),this.inv.length?this.inv.join(i):setup.simpleInv.options.emptyMsg},empty:function(){var i=clone(this.inv);return this.inv=[],setup.simpleInv.attachEvent(this,null,i,"drop"),this},toArray:function(){return this.inv},linkedList:function(i,t){i&&i instanceof setup.simpleInv.inventory||(i=!1);var r=this.toArray(),n=this,e=$(document.createElement("span"));return r&&r.length?(r.forEach(function(r,s,a){var o=$(document.createElement("span")),l=$(document.createElement("a")),u=t?t:"Discard",h="simple-inv-"+s+r.replace(/[^A-Za-z0-9]/g,"");l.wiki(u).addClass("simple-inv drop-link"),l.ariaClick(function(){i?n.transfer(i,r):n.drop(r),$("#"+h).empty()}),o.attr("id",h).addClass("simple-inv link-listing").wiki(r+" ").append(l),s<a.length-1&&o.wiki("<br />"),e.append(o)}),e):(e.wiki(setup.simpleInv.options.emprtyMsg),e)},constructor:setup.simpleInv.inventory,toJSON:function(){return JSON.reviveWrapper("new setup.simpleInv.inventory("+JSON.stringify(this.inv)+")")}},setup.simpleInv.options.tryGlobal&&(window.Inventory=window.Inventory||setup.simpleInv.inventory),Macro.add("newinventory",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();return"$"!==i[0]&&"_"!==i[0]?this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)'):void Wikifier.setValue(i,new setup.simpleInv.inventory(this.args.slice(1).flatten()))}}),Macro.add("pickup",{handler:function(){if(this.args.length<2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.pickUp(this.args.slice(1).flatten()):this.error("variable "+i+" is not an inventory!")}}),Macro.add("drop",{handler:function(){if(this.args.length<2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.drop(this.args.slice(1).flatten()):this.error("variable "+i+" is not an inventory!")}}),Macro.add("transfer",{handler:function(){if(this.args.length<3)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);if(!(t instanceof setup.simpleInv.inventory))return this.error("variable "+i+" is not an inventory!");var r=this.args[1].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[1]+'" is missing its sigil ($ or _)');var n=Wikifier.getValue(r);return n instanceof setup.simpleInv.inventory?void t.transfer(n,this.args.slice(2).flatten()):this.error("variable "+r+" is not an inventory!")}}),Macro.add("dropall",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.empty():this.error("variable "+i+" is not an inventory!")}}),Macro.add("clear","dropall",!1),Macro.add("sort",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.sort():this.error("variable "+i+" is not an inventory!")}}),Macro.add("inventory",{handler:function(){if(this.args.length<1||this.args.length>2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);if(!(t instanceof setup.simpleInv.inventory))return this.error("variable "+i+" is not an inventory!");var r=$(document.createElement("span")),n=this.args[1]?this.args[1]:!1;r.wiki(t.show(n)).addClass("macro-"+this.name).appendTo(this.output)}}),Macro.add("linkedinventory",{handler:function(){if(this.args.length<2||this.args.length>3)return this.error("incorrect number of arguments");var i=!1,t=this.args[1].trim(),r="string"==typeof this.args[0]?this.args[0]:!1;if(!r)return this.error("first argument should be the link text");if("$"!==t[0]&&"_"!==t[0])return this.error('variable name "'+this.args[1]+'" is missing its sigil ($ or _)');var n=Util.slugify(t),n=this.name+"-"+n,e=Wikifier.getValue(t);if(!(e instanceof setup.simpleInv.inventory))return this.error("variable "+t+" is not an inventory!");if(this.args.length>2){var s=this.args[2].trim();if("$"!==s[0]&&"_"!==s[0])return this.error('variable name "'+this.args[2]+'" is missing its sigil ($ or _)');if(i=Wikifier.getValue(s),!(i instanceof setup.simpleInv.inventory))return this.error("variable "+s+" is not an inventory!")}var a=e.linkedList(i,r);a.attr("id",n).addClass("macro-"+this.name).appendTo(this.output)}});\u000a// end simple-inventory.js
+p662
 sg23
 VsimpleInvJS
-p662
+p663
 sg25
 g26
 ((I2017
 I11
-I28
-I5
-I46
-I18
-I1
-I332
+I30
+I4
+I53
+I20
+I3
+I334
 I0
-tp663
-(dp664
-tp665
-Rp666
+tp664
+(dp665
+tp666
+Rp667
 sg31
-(lp667
+(lp668
 Vscript
-p668
+p669
 asg33
 g26
 ((I2017
@@ -2167,14 +2168,266 @@ I2
 I1
 I332
 I0
-tp669
-(dp670
-tp671
-Rp672
+tp670
+(dp671
+tp672
+Rp673
+sbsa(dp674
+g14
+I00
+sg15
+(lp675
+I710
+aI710
+asg17
+(itiddlywiki
+Tiddler
+p676
+(dp677
+g21
+VThis room contains the following items:\u000a\u000a<<linkedinventory 'Take' '$container' '$playerInv'>>\u000a\u000a<<link 'View your inventory.'>>\u000a	<<dialog 'Inventory'>>\u005c\u000a		<<inventory '$playerInv'>>\u005c\u000a	<</dialog>>\u000a<</link>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<linkedinventory 'Take' '$container' '$playerInv'>>}}}\u000a\u000a	{{{<<link 'View your inventory.'>>}}}\u000a	<<tab>>{{{<<dialog 'Inventory'>>\u005c}}}\u000a	<<tab>><<tab>>{{{<<inventory '$playerInv'>>\u005c}}}\u000a	<<tab>>{{{<</dialog>>}}}\u000a	{{{<</link>>}}}\u005c\u000a<</message>>\u000a\u000aYou can use the {{{<<linkedinventory>>}}} macro to display a list of inventory items along with a link.  You determine the link name.  What the link does depends on the macros arguments; if two inventories are given to the macro, clicking the link moves the item in question from the first inventory listed into the second inventory.  If only one inventory is listed, clicking the link will just remove the item from the indicated inventory.\u000a\u000a[[Next.|testingInv]]
+p678
+sg23
+VcontainerExample
+p679
+sg25
+g26
+((I2017
+I11
+I29
+I3
+I6
+I0
+I2
+I333
+I0
+tp680
+(dp681
+tp682
+Rp683
+sg31
+(lp684
+sg33
+g26
+((I2017
+I11
+I29
+I1
+I22
+I23
+I2
+I333
+I0
+tp685
+(dp686
+tp687
+Rp688
+sbsa(dp689
+g14
+I00
+sg15
+(lp690
+I710
+aI850
+asg17
+(itiddlywiki
+Tiddler
+p691
+(dp692
+g21
+V<<if not $playerInv.has('lighter')>>\u005c\u000a	There's a cigarette lighter on the floor here...\u000a	\u000a	<<link [[Pick it up?|droppingAndPickingUp]]>>\u000a		<<pickup '$playerInv' 'lighter'>>\u000a	<</link>>\u000a<<else>>\u005c\u000a	There's nothing here...\u000a\u000a	<<link [[Drop the lighter?|droppingAndPickingUp]]>>\u000a		<<drop '$playerInv' 'lighter'>>\u000a	<</link>>\u000a<</if>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<if not $playerInv.has('lighter')>>\u005c}}}\u000a	<<tab>>{{{There's a cigarette lighter on the floor here...}}}\u000a	\u000a	<<tab>>{{{<<link [[Pick it up?|droppingAndPickingUp]]>>}}}\u000a	<<tab>><<tab>>{{{<<pickup 'lighter'>>}}}\u000a	<<tab>>{{{<</link>>}}}\u000a	{{{<<else>>\u005c}}}\u000a	<<tab>>{{{There's nothing here...}}}\u000a\u000a	<<tab>>{{{<<link [[Drop the lighter?|droppingAndPickingUp]]>>}}}\u000a	<<tab>><<tab>>{{{<<drop 'lighter'>>}}}\u000a	<<tab>>{{{<</link>>}}}\u000a	{{{<</if>>}}}\u000a\u000a	{{{::PassageFooter}}}\u000a	{{{<<if tags().includes('inv')>>\u005c}}}\u000a	<<tab>>{{{@@#inventory;}}}\u000a	<<tab>><<tab>>{{{<<inventory '$playerInv'>>\u005c}}}\u000a	<<tab>>{{{@@}}}\u000a	{{{<</if>>}}}\u005c\u000a<</message>>\u000a\u000aWe can check the inventory with the JavaScript method {{{<inventory>.has()}}} for a single item or a list of items.  If any one of the items in the list is in the invetnory, the method call returns true.  If we need to make sure the player has all of the required items, we can instead use the {{{<inventory>.hasAll()}}} method.\u000a\u000aWe can add items to the inventory using the {{{<<pickup>>}}} macro, and drop them with the {{{<<drop>>}}} macro.  We can also completely clear out the inventory using the {{{<<dropall>> macro}}}.\u000a\u000a[[Next.|containerExample]]
+p693
+sg23
+VdroppingAndPickingUp
+p694
+sg25
+g26
+((I2017
+I11
+I29
+I1
+I43
+I36
+I2
+I333
+I0
+tp695
+(dp696
+tp697
+Rp698
+sg31
+(lp699
+Vinv
+p700
+asg33
+g26
+((I2017
+I11
+I29
+I1
+I23
+I19
+I2
+I333
+I0
+tp701
+(dp702
+tp703
+Rp704
+sbsa(dp705
+g14
+I00
+sg15
+(lp706
+I710
+aI570
+asg17
+(itiddlywiki
+Tiddler
+p707
+(dp708
+g21
+VYou can also use the {{{<<transfer>>}}} macro to move a list of items from one inventory to another.  If any items in the list can't be found, no error will be raised, but the item also won't appear in the new inventory.\u000a\u000a<<if $playerInv.hasAll('blue hedgehog', 'italian plumber')>>\u005c\u000a	@@#goaway;<<link 'Toss the Sonic and Mario back into the last passage.'>>\u000a		<<replace '#goaway'>><</replace>>\u000a		<<transfer '$playerInv' '$container' 'blue hedgehog' 'italian plumber'>>\u000a	<</link>>@@\u005c\u000a<</if>>\u000a\u000a[[Return|previous()]]\u000a\u000aClick the link above and then take the return link to see what happens!\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<if $playerInv.hasAll('blue hedgehog', 'italian plumber')>>\u005c}}}\u000a	<<tab>>{{{@@#goaway;<<link 'Toss the Sonic and Mario back into the last passage.'>>}}}\u000a	<<tab>><<tab>>{{{<<replace '#goaway'>><</replace>>}}}\u000a	<<tab>><<tab>>{{{<<transfer '$playerInv' '$container' 'blue hedgehog' 'italian plumber'>>}}}\u000a	<<tab>>{{{<</link>>@@\u005c}}}\u000a	{{{<</if>>}}}\u005c\u000a<</message>>\u000a\u000a[[Next.|invJS-API]]
+p709
+sg23
+VtestingInv
+p710
+sg25
+g26
+((I2017
+I11
+I30
+I4
+I55
+I27
+I3
+I334
+I0
+tp711
+(dp712
+tp713
+Rp714
+sg31
+(lp715
+sg33
+g26
+((I2017
+I11
+I29
+I1
+I25
+I11
+I2
+I333
+I0
+tp716
+(dp717
+tp718
+Rp719
+sbsa(dp720
+g14
+I00
+sg15
+(lp721
+I710
+aI430
+asg17
+(itiddlywiki
+Tiddler
+p722
+(dp723
+g21
+VThere's also a lot you can do with the simple inventory in pure JavaScript.  Here's a list of methods:\u000a\u000a!!!INVENTORY METHODS\u000a* {{{<inv>.transfer(<inv>, [items])}}} // chainable//\u000a* {{{<inv>.has([items])}}} // not chainable; returns boolean//\u000a* {{{<inv>.hasAll([items])}}} // not chainable; returns boolean//\u000a* {{{<inv>.pickUp([items])}}} // chainable//\u000a* {{{<inv>.drop([items])}}} // chainable//\u000a* {{{<inv>.sort()}}} // chainable//\u000a* {{{<inv>.show([seperator])}}} // not chainable; returns string//\u000a* {{{<inv>.empty()}}} // chainable//\u000a* {{{<inv>.toArray()}}} // not chainable; returns array//\u000a\u000aWhere:\u000a* {{{<inv>}}} represents an inventory instance, either from the {{{<<<newinventory>>}}} macro or from Javascript (i.e. {{{State.variables.inventory = new Inventory()}}}).\u000a* {{{[items]}}} represents a list of items: either an array, a list of comma-separated strings, or some combination of the two.\u000a* {{{[separator]}}} represents a string.\u000a\u000aThe methods are chainable as well, unless they return a specific value.\u000a\u000a<<set $inventory to new Inventory()>>\u005c\u000a<<= $inventory.pickUp('sticks', 'cards', ['something shiny', 'a blade', 'a wet noodle']).drop('cards').sort().show(', ')>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<set $inventory to new Inventory()>>\u005c}}}\u000a	{{{<<= $inventory.pickUp('sticks', 'cards', ['something shiny', 'a blade', 'a wet noodle']).drop('cards').sort().show(', ')>>}}}\u005c\u000a<</message>>\u000a\u000aIn addition to this, everytime an inventory is updated, a syntheitc event, {{{:inventory-update}}} is fired.  The event contains a variety of information, including which inventories were involved and which items were moved, allowing users to create even more dynamic and responsive systems.  We've been using it this whole time to output all 'moved' items to the console; every time an item entered or left an inventory, it was logged.  See for yourself!\u000a\u000aFor the complete documentation of the simple inventory, both its macros and its JavaScript systems, refer to the documentation.\u000a\u000a[[Go back to the beginning.|Simple Inventory]]
+p724
+sg23
+VinvJS-API
+p725
+sg25
+g26
+((I2017
+I11
+I30
+I4
+I50
+I56
+I3
+I334
+I0
+tp726
+(dp727
+tp728
+Rp729
+sg31
+(lp730
+sg33
+g26
+((I2017
+I11
+I29
+I1
+I25
+I48
+I2
+I333
+I0
+tp731
+(dp732
+tp733
+Rp734
+sbsa(dp735
+g14
+I00
+sg15
+(lp736
+I990
+aI10
+asg17
+(itiddlywiki
+Tiddler
+p737
+(dp738
+g21
+V<<if tags().includes('inv')>>\u005c\u000a	@@#inventory;\u000a		<<inventory '$playerInv'>>\u005c\u000a	@@\u000a<</if>>
+p739
+sg23
+VPassageFooter
+p740
+sg25
+g26
+((I2017
+I11
+I29
+I1
+I41
+I15
+I2
+I333
+I0
+tp741
+(dp742
+tp743
+Rp744
+sg31
+(lp745
+sg33
+g26
+((I2017
+I11
+I29
+I1
+I30
+I17
+I2
+I333
+I0
+tp746
+(dp747
+tp748
+Rp749
 sbsasS'scale'
-p673
+p750
 I1
 sS'snapping'
-p674
+p751
 I01
 ss.

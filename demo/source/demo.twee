@@ -1,9 +1,9 @@
 ﻿:: Start
-This is a demo story file intended to show off some usage examples of my custom macros and systems for SugarCube.  You can look into the included systems by using the menu on the right.
+This is a demo story file intended to show off some usage examples of my custom macros and systems for SugarCube.  You can look into the included systems by using the story menu on the left.
 
 [[Source code and downloads.|https://github.com/ChapelR/custom-macros-for-sugarcube-2]]
 
-[[Download this example file.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/demo/]] (Available as a Twine 1 tws file, a Twine 2 html archive, and a Twee notation file.)
+[[Download this example file.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/tree/master/demo/source]] (Available as a Twine 1 tws file, a Twine 2 html archive, and a Twee notation file.)
 
 [[Report bugs with this demo.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/issues/new]]
 
@@ -42,8 +42,16 @@ Macro.add("fadein",{tags:null,handler:function(){var t,a,s=$(document.createElem
 // Coming soon!
 
 
+:: PassageFooter
+<<if tags().includes('inv')>>\
+	@@#inventory;
+		<<inventory '$playerInv'>>\
+	@@
+<</if>>
+
+
 :: StoryTitle
-Cusom Macros Demo
+Custom Macros Demo
 
 
 :: fullscreenJS [script]
@@ -97,7 +105,9 @@ Chapel
 
 
 :: config [script]
-
+$(document).on(':inventory-update', function (e) {
+	console.log(e.moved);
+});
 
 
 :: base [stylesheet]
@@ -117,6 +127,8 @@ Chapel
 
 #notify.big { height : 10em; }
 
+#inventory { border : 2px solid #eee; padding : 1em;}
+
 
 :: typeSimJS [script]
 // typesim macro, by chapel; for sugarcube 2; v1.0.0
@@ -125,7 +137,9 @@ Chapel
 
 
 :: simpleInvJS [script]
-// Coming soon!
+// simple-inventory.js, by chapel; for sugarcube 2; v2.1.0
+setup.simpleInv={},setup.simpleInv.options={tryGlobal:!0,emptyMsg:"You're not carrying anything..."},setup.simpleInv.attachEvent=function(i,t,r,n){$(document).trigger({type:"initialized"===n?":inventory-init":":inventory-update",instance:i,recieving:t,moved:r,context:n})},setup.simpleInv.inventory=function(i){i&&Array.isArray(i)&&1===arguments.length?this.inv=i:i?(i=[].slice.call(arguments),i=i.flatten()):(i=null,this.inv=[]),setup.simpleInv.attachEvent(this,null,i,"initialized")},setup.simpleInv.inventory.prototype={transfer:function(i){if(arguments.length<2)return this;if(!(i instanceof setup.simpleInv.inventory))return this;var t=[].slice.call(arguments);t=t.slice(1).flatten();for(var r=[],n=0,e=t.length;e>n;n++)this.inv.includes(t[n])&&(this.inv["delete"](t[n]),r.push(t[n]));return r.length?(i.inv=i.inv.concat(r),setup.simpleInv.attachEvent(this,i,r,"transfer"),this):this},has:function(){var i=[].slice.call(arguments).flatten();return i&&i.length?this.inv.includesAny(i):!1},hasAll:function(){var i=[].slice.call(arguments).flatten();return i&&i.length?this.inv.includesAll(i):!1},pickUp:function(i){var t=[].slice.call(arguments).flatten(),r=this;return t&&t.length&&(i&&(t=function(i){var t=[];return i.forEach(function(i){r.inv.includes(i)||t.push(i)}),t}(t)),this.inv=this.inv.concat(t),setup.simpleInv.attachEvent(this,null,t,"pickup")),this},drop:function(){var i=[].slice.call(arguments).flatten(),t=this;if(i&&i.length){var r=[];i.forEach(function(i){t.has(i)&&(r.push(i),t.inv["delete"](i))}),setup.simpleInv.attachEvent(this,null,r,"drop")}return this},sort:function(){return this.inv=this.inv.sort(),setup.simpleInv.attachEvent(this,null,null,"sort"),this},show:function(i){return i&&"string"==typeof i||(i="\n"),this.inv.length?this.inv.join(i):setup.simpleInv.options.emptyMsg},empty:function(){var i=clone(this.inv);return this.inv=[],setup.simpleInv.attachEvent(this,null,i,"drop"),this},toArray:function(){return this.inv},linkedList:function(i,t){i&&i instanceof setup.simpleInv.inventory||(i=!1);var r=this.toArray(),n=this,e=$(document.createElement("span"));return r&&r.length?(r.forEach(function(r,s,a){var o=$(document.createElement("span")),l=$(document.createElement("a")),u=t?t:"Discard",h="simple-inv-"+s+r.replace(/[^A-Za-z0-9]/g,"");l.wiki(u).addClass("simple-inv drop-link"),l.ariaClick(function(){i?n.transfer(i,r):n.drop(r),$("#"+h).empty()}),o.attr("id",h).addClass("simple-inv link-listing").wiki(r+" ").append(l),s<a.length-1&&o.wiki("<br />"),e.append(o)}),e):(e.wiki(setup.simpleInv.options.emprtyMsg),e)},constructor:setup.simpleInv.inventory,toJSON:function(){return JSON.reviveWrapper("new setup.simpleInv.inventory("+JSON.stringify(this.inv)+")")}},setup.simpleInv.options.tryGlobal&&(window.Inventory=window.Inventory||setup.simpleInv.inventory),Macro.add("newinventory",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();return"$"!==i[0]&&"_"!==i[0]?this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)'):void Wikifier.setValue(i,new setup.simpleInv.inventory(this.args.slice(1).flatten()))}}),Macro.add("pickup",{handler:function(){if(this.args.length<2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.pickUp(this.args.slice(1).flatten()):this.error("variable "+i+" is not an inventory!")}}),Macro.add("drop",{handler:function(){if(this.args.length<2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.drop(this.args.slice(1).flatten()):this.error("variable "+i+" is not an inventory!")}}),Macro.add("transfer",{handler:function(){if(this.args.length<3)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);if(!(t instanceof setup.simpleInv.inventory))return this.error("variable "+i+" is not an inventory!");var r=this.args[1].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[1]+'" is missing its sigil ($ or _)');var n=Wikifier.getValue(r);return n instanceof setup.simpleInv.inventory?void t.transfer(n,this.args.slice(2).flatten()):this.error("variable "+r+" is not an inventory!")}}),Macro.add("dropall",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.empty():this.error("variable "+i+" is not an inventory!")}}),Macro.add("clear","dropall",!1),Macro.add("sort",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.sort():this.error("variable "+i+" is not an inventory!")}}),Macro.add("inventory",{handler:function(){if(this.args.length<1||this.args.length>2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);if(!(t instanceof setup.simpleInv.inventory))return this.error("variable "+i+" is not an inventory!");var r=$(document.createElement("span")),n=this.args[1]?this.args[1]:!1;r.wiki(t.show(n)).addClass("macro-"+this.name).appendTo(this.output)}}),Macro.add("linkedinventory",{handler:function(){if(this.args.length<2||this.args.length>3)return this.error("incorrect number of arguments");var i=!1,t=this.args[1].trim(),r="string"==typeof this.args[0]?this.args[0]:!1;if(!r)return this.error("first argument should be the link text");if("$"!==t[0]&&"_"!==t[0])return this.error('variable name "'+this.args[1]+'" is missing its sigil ($ or _)');var n=Util.slugify(t),n=this.name+"-"+n,e=Wikifier.getValue(t);if(!(e instanceof setup.simpleInv.inventory))return this.error("variable "+t+" is not an inventory!");if(this.args.length>2){var s=this.args[2].trim();if("$"!==s[0]&&"_"!==s[0])return this.error('variable name "'+this.args[2]+'" is missing its sigil ($ or _)');if(i=Wikifier.getValue(s),!(i instanceof setup.simpleInv.inventory))return this.error("variable "+s+" is not an inventory!")}var a=e.linkedList(i,r);a.attr("id",n).addClass("macro-"+this.name).appendTo(this.output)}});
+// end simple-inventory.js
 
 
 :: StoryMenu
@@ -245,6 +259,42 @@ You can use the dropdown menu by supplying the {{{<<dropdown>>}}} macro with a v
 <</message>>
 
 
+:: invJS-API
+There's also a lot you can do with the simple inventory in pure JavaScript.  Here's a list of methods:
+
+!!!INVENTORY METHODS
+* {{{<inv>.transfer(<inv>, [items])}}} // chainable//
+* {{{<inv>.has([items])}}} // not chainable; returns boolean//
+* {{{<inv>.hasAll([items])}}} // not chainable; returns boolean//
+* {{{<inv>.pickUp([items])}}} // chainable//
+* {{{<inv>.drop([items])}}} // chainable//
+* {{{<inv>.sort()}}} // chainable//
+* {{{<inv>.show([seperator])}}} // not chainable; returns string//
+* {{{<inv>.empty()}}} // chainable//
+* {{{<inv>.toArray()}}} // not chainable; returns array//
+
+Where:
+* {{{<inv>}}} represents an inventory instance, either from the {{{<<<newinventory>>}}} macro or from Javascript (i.e. {{{State.variables.inventory = new Inventory()}}}).
+* {{{[items]}}} represents a list of items: either an array, a list of comma-separated strings, or some combination of the two.
+* {{{[separator]}}} represents a string.
+
+The methods are chainable as well, unless they return a specific value.
+
+<<set $inventory to new Inventory()>>\
+<<= $inventory.pickUp('sticks', 'cards', ['something shiny', 'a blade', 'a wet noodle']).drop('cards').sort().show(', ')>>
+
+<<message 'View this code.'>>\
+	{{{<<set $inventory to new Inventory()>>\}}}
+	{{{<<= $inventory.pickUp('sticks', 'cards', ['something shiny', 'a blade', 'a wet noodle']).drop('cards').sort().show(', ')>>}}}\
+<</message>>
+
+In addition to this, everytime an inventory is updated, a syntheitc event, {{{:inventory-update}}} is fired.  The event contains a variety of information, including which inventories were involved and which items were moved, allowing users to create even more dynamic and responsive systems.  We've been using it this whole time to output all 'moved' items to the console; every time an item entered or left an inventory, it was logged.  See for yourself!
+
+For the complete documentation of the simple inventory, both its macros and its JavaScript systems, refer to the documentation.
+
+[[Go back to the beginning.|Simple Inventory]]
+
+
 :: widgets [widget nobr]
 <<widget 'tab'>>
 	<<= "&nbsp;&nbsp;&nbsp;&nbsp;">>
@@ -293,8 +343,38 @@ You can use the {{{<<fullscreenlink>>}}} macro to save yourself from some of tha
 <</message>>
 
 
-:: StoryInit
+:: testingInv
+You can also use the {{{<<transfer>>}}} macro to move a list of items from one inventory to another.  If any items in the list can't be found, no error will be raised, but the item also won't appear in the new inventory.
 
+<<if $playerInv.hasAll('blue hedgehog', 'italian plumber')>>\
+	@@#goaway;<<link 'Toss the Sonic and Mario back into the last passage.'>>
+		<<replace '#goaway'>><</replace>>
+		<<transfer '$playerInv' '$container' 'blue hedgehog' 'italian plumber'>>
+	<</link>>@@\
+<</if>>
+
+[[Return|previous()]]
+
+Click the link above and then take the return link to see what happens!
+
+<<message 'View this code.'>>\
+	{{{<<if $playerInv.hasAll('blue hedgehog', 'italian plumber')>>\}}}
+	<<tab>>{{{@@#goaway;<<link 'Toss the Sonic and Mario back into the last passage.'>>}}}
+	<<tab>><<tab>>{{{<<replace '#goaway'>><</replace>>}}}
+	<<tab>><<tab>>{{{<<transfer '$playerInv' '$container' 'blue hedgehog' 'italian plumber'>>}}}
+	<<tab>>{{{<</link>>@@\}}}
+	{{{<</if>>}}}\
+<</message>>
+
+[[Next.|invJS-API]]
+
+
+:: StoryInit
+<<newinventory '$playerInv'>>
+<<pickup '$playerInv' 'blue hedgehog' 'italian plumber'>>
+
+<<newinventory '$container'>>
+<<pickup '$container' 'a rusty key' 'a cellphone'>>
 
 
 :: The Message Macro
@@ -477,6 +557,32 @@ You can make notifications last longer, or attach classes to them for different 
 <</message>>
 
 
+:: containerExample
+This room contains the following items:
+
+<<linkedinventory 'Take' '$container' '$playerInv'>>
+
+<<link 'View your inventory.'>>
+	<<dialog 'Inventory'>>\
+		<<inventory '$playerInv'>>\
+	<</dialog>>
+<</link>>
+
+<<message 'View this code.'>>\
+	{{{<<linkedinventory 'Take' '$container' '$playerInv'>>}}}
+
+	{{{<<link 'View your inventory.'>>}}}
+	<<tab>>{{{<<dialog 'Inventory'>>\}}}
+	<<tab>><<tab>>{{{<<inventory '$playerInv'>>\}}}
+	<<tab>>{{{<</dialog>>}}}
+	{{{<</link>>}}}\
+<</message>>
+
+You can use the {{{<<linkedinventory>>}}} macro to display a list of inventory items along with a link.  You determine the link name.  What the link does depends on the macros arguments; if two inventories are given to the macro, clicking the link moves the item in question from the first inventory listed into the second inventory.  If only one inventory is listed, clicking the link will just remove the item from the indicated inventory.
+
+[[Next.|testingInv]]
+
+
 :: The TypeSim Macro
 You need to send an email to your boss!  Better get typing:
 
@@ -516,20 +622,20 @@ This page is riddled with events.  Try pressing spacebar, holding shift down, an
 <<endsilently>>\
 
 <<message 'View this code.'>>\
-	{{{<<event 'keyup'>>}}}
+	{{{<<event 'keyup' 'body.event-test'>>}}}
 	{{{<<which 16>>}}}
 	<<tab>>{{{<<removeclass '#ui-bar' 'stowed'>>}}}
 	{{{<<which 32 8>>}}}
 	<<tab>>{{{<<run $('#passages').hide().delay(250).fadeIn();>>}}}
 	{{{<</event>>}}}
 
-	{{{<<event 'keydown'>>}}}
+	{{{<<event 'keydown' 'body.event-test'>>}}}
 	{{{<<which 16>>}}}
 	<<tab>>{{{<<addclass '#ui-bar' 'stowed'>>}}}
 	{{{<</event>>}}}\
 <</message>>
 
-Once event code is added to the game, it's essentially permanent.  This means that using selectors to target page elements, and using StoryInit to set things up, is the best way to use events.  You can, obviously, remove the event listeners via JavaScript/jQuery if you want to, however.
+Once event code is added to the game, it's essentially permanent.  This means that using selectors to target page elements (we used tags and the {{{<body>}}} element in the examples), and using StoryInit to set things up, is the best way to use events.  You can, obviously, remove the event listeners via JavaScript/jQuery if you want to, however.
 
 
 :: The Insert Macro
@@ -539,9 +645,72 @@ Coming soon!
 
 
 :: Simple Inventory
-Coming soon!
+When you started up this demo, an inventory was created for you, and a few items were slipped into it:
 
-<<back>>
+<<message 'View this code.'>>\
+	{{{::StoryInit}}}
+	{{{<<newinventory '$playerInv'>>}}}
+	{{{<<pickup '$playerInv' 'blue hedgehog' 'italian plumber'>>}}}\
+<</message>>
+
+@@#ex;<<message 'Click here to view your inventory'>>\
+	<<inventory '$playerInv' ', '>>\
+<</message>>@@
+
+<<message 'View this code.'>>\
+	{{{<<message 'Click here to view your inventory'>>\}}}
+	<<tab>>{{{<<inventory '$playerInv' ', '>>\}}}
+	{{{<</message>>}}}
+<</message>>
+
+There's a lot more that we can do with the inventory, though.
+
+[[Next.|droppingAndPickingUp]]
+
+
+:: droppingAndPickingUp [inv]
+<<if not $playerInv.has('lighter')>>\
+	There's a cigarette lighter on the floor here...
+	
+	<<link [[Pick it up?|droppingAndPickingUp]]>>
+		<<pickup '$playerInv' 'lighter'>>
+	<</link>>
+<<else>>\
+	There's nothing here...
+
+	<<link [[Drop the lighter?|droppingAndPickingUp]]>>
+		<<drop '$playerInv' 'lighter'>>
+	<</link>>
+<</if>>
+
+<<message 'View this code.'>>\
+	{{{<<if not $playerInv.has('lighter')>>\}}}
+	<<tab>>{{{There's a cigarette lighter on the floor here...}}}
+	
+	<<tab>>{{{<<link [[Pick it up?|droppingAndPickingUp]]>>}}}
+	<<tab>><<tab>>{{{<<pickup 'lighter'>>}}}
+	<<tab>>{{{<</link>>}}}
+	{{{<<else>>\}}}
+	<<tab>>{{{There's nothing here...}}}
+
+	<<tab>>{{{<<link [[Drop the lighter?|droppingAndPickingUp]]>>}}}
+	<<tab>><<tab>>{{{<<drop 'lighter'>>}}}
+	<<tab>>{{{<</link>>}}}
+	{{{<</if>>}}}
+
+	{{{::PassageFooter}}}
+	{{{<<if tags().includes('inv')>>\}}}
+	<<tab>>{{{@@#inventory;}}}
+	<<tab>><<tab>>{{{<<inventory '$playerInv'>>\}}}
+	<<tab>>{{{@@}}}
+	{{{<</if>>}}}\
+<</message>>
+
+We can check the inventory with the JavaScript method {{{<inventory>.has()}}} for a single item or a list of items.  If any one of the items in the list is in the invetnory, the method call returns true.  If we need to make sure the player has all of the required items, we can instead use the {{{<inventory>.hasAll()}}} method.
+
+We can add items to the inventory using the {{{<<pickup>>}}} macro, and drop them with the {{{<<drop>>}}} macro.  We can also completely clear out the inventory using the {{{<<dropall>> macro}}}.
+
+[[Next.|containerExample]]
 
 
 :: Cycles
