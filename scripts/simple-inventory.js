@@ -7,7 +7,11 @@ setup.simpleInv = {};
 // options
 setup.simpleInv.options = {
 	tryGlobal  : true, // send constructor to global scope
-	emptyMsg   : "You're not carrying anything..." // if inventory is empty
+	defaultStrings : {
+		empty     : 'The inventory is empty...',
+		listDrop  : 'Discard',
+		separator : '\n'
+	}
 };
 
 // events
@@ -15,7 +19,7 @@ setup.simpleInv.attachEvent = function (inv, loc, items, cont) {
 	$(document).trigger({
 		type       : (cont === 'initialized') ?  ':inventory-init' : ':inventory-update', // the event name
 		instance   : inv, // the calling instance; the giver in transfers
-		recieving  : loc, // the inventory recieving transfers, or null
+		receiving  : loc, // the inventory recieving transfers, or null
 		moved      : items, // the items moved to or from the calling inventory, or null
 		context    : cont // drop, pickup, trasnfer, or initialized
 	});
@@ -23,22 +27,68 @@ setup.simpleInv.attachEvent = function (inv, loc, items, cont) {
 
 // the invetory constructor
 setup.simpleInv.inventory = function (array) {
-	if (array && Array.isArray(array) && arguments.length === 1) {
-		// a single array was passed (also used for revive)
-		this.inv = array;
-	} else if (array) {
-		// a number of arguments were passed
+	"use strict"; // prevent leaks to global scope
+	
+	if (array) {
+		// some number of arguments were passed
 		array = [].slice.call(arguments);
 		array = array.flatten();
 	} else { 
 		// no arguments were passed
-		array = null;
-		this.inv = [];
+		array = [];
 	}
-	setup.simpleInv.attachEvent(this, null, array, 'initialized');
+	
+	if (this instanceof setup.simpleInv.inventory) {
+		this.inv = array;
+		array = (array.length) ? array : null;
+		// run the event only if assignement is successful
+		setup.simpleInv.attachEvent(this, null, array, 'initialized');
+	} else { // if the author forgets the 'new' operator, add it for them
+		return new setup.simpleInv.inventory(array);
+	}
 };
 
-// the methods -> 
+// static methods
+setup.simpleInv.inventory.is = function (inv) {
+	// test to see if passed object is an inventory instance
+	return (inv instanceof setup.simpleInv.inventory);
+};
+setup.simpleInv.inventory.log = function (inv) {
+	// logs the inventory to the console (for debugging)
+	var string = setup.simpleInv.inventory.is(inv) ?
+		('Inventory.log() -> ' + inv.inv.toArray().join(' - ')) : 
+		('Inventory.log() -> object is not an inventory...');
+	return string;
+};
+setup.simpleInv.inventory.removeDuplicates = function (inv) {
+	// removes duplicate items from an inventory
+	if (!setup.simpleInv.inventory.is(inv)) {
+		return; // not an inventory
+	}
+	var items = inv.toArray();
+	var uniq  = (function (i) {
+		var ret = [];
+		i.forEach( function (item) {
+			if (!uniq.includes(item)) {
+				ret.push(item);
+			}
+		});
+		return ret;
+	}(items));
+	
+	return uniq;
+};
+setup.simpleInv.inventory.getUID = function (name, i) {
+	var key = Math.random().toString(36).substring(7);
+	if (arguments.length < 2) {
+		// we'll generate an id anyway, but it might not be as unique as i'd like.
+		name = Math.random().toString(36).substring(7);
+		i    = random(99);
+	}
+	return ('simple-inv-' + i + '-' + Date.now() + '-' + name.replace(/[^A-Za-z0-9]/g, '') + '-' + key);
+};
+
+// the instance methods -> 
 // these are on the prototype; we don't need them copied to each instance, and that saves us memory
 setup.simpleInv.inventory.prototype = {
 	
@@ -132,12 +182,12 @@ setup.simpleInv.inventory.prototype = {
 	
 	show : function (sep) { // returns a string representing the inventory
 		if (!sep || typeof sep !== 'string') {
-			sep = '\n'; // default to a newline
+			sep = setup.simpleInv.options.defaultStrings.separator; // default
 		}
 		if (this.inv.length) {
 			return this.inv.join(sep);
 		}
-		return setup.simpleInv.options.emptyMsg; // nothing is in this inventory
+		return setup.simpleInv.options.defaultStrings.empty; // nothing is in this inventory
 	},
 	
 	empty : function () { // remove all items from this inventory
@@ -164,7 +214,7 @@ setup.simpleInv.inventory.prototype = {
 		
 		// if inventory is empty, append message and return element
 		if (!list || !list.length) {
-			$wrapper.wiki(setup.simpleInv.options.emprtyMsg);
+			$wrapper.wiki(setup.simpleInv.options.defaultStrings.empty);
 			return $wrapper;
 		}
 		
@@ -172,8 +222,8 @@ setup.simpleInv.inventory.prototype = {
 		list.forEach(function (item, idx, arr) {
 			var $listing = $(document.createElement('span')),
 				$link    = $(document.createElement('a')),
-				drop     = (action) ? action : 'Discard', // the action name or default 'Discard'
-				UID      = 'simple-inv-' + idx + (item.replace(/[^A-Za-z0-9]/g, '')); // unique element ID 
+				drop     = (action) ? action : setup.simpleInv.options.defaultStrings.drop, // the action name or default
+				UID      = setup.simpleInv.inventory.getUID(item, idx); // create a unique element ID 
 			
 			$link // create the drop link
 				.wiki(drop)
@@ -210,7 +260,7 @@ setup.simpleInv.inventory.prototype = {
 		return $wrapper;
 	},
 	
-	// we need to reassign this since we clobbered it using the prototype
+	// we need to reassign this since we may have clobbered it using the prototype
 	constructor : setup.simpleInv.inventory,
 	
 	toJSON : function () { // the custom revive wrapper for SugarCube's state tracking
@@ -220,6 +270,8 @@ setup.simpleInv.inventory.prototype = {
 
 /*
 	INVENTORY METHODS LIST
+	 * (new) Inventory([items]) // constructor 
+	 * Inventory.is(<inv>) // check if passed object is an inventory instance
 	 * <inv>.transfer(<inv>, [items]) // chainable
 	 * <inv>.has([items]), // not chainable; returns boolean
 	 * <inv>.hasAll([items]), // not chainable; returns boolean
@@ -270,12 +322,12 @@ Macro.add('pickup', {
 		var varName = this.args[0].trim();
 		// check variable string
 		if (varName[0] !== '$' && varName[0] !== '_') {
-            return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
+		}
 		
 		// check if story var is an inventory instance
 		var inv = Wikifier.getValue(varName);
-		if (!(inv instanceof setup.simpleInv.inventory)) {
+		if (!setup.simpleInv.inventory.is(inv)) {
 			return this.error('variable ' + varName + ' is not an inventory!');
 		}
 		
@@ -294,12 +346,12 @@ Macro.add('drop', {
 		var varName = this.args[0].trim();
 		// check variable string
 		if (varName[0] !== '$' && varName[0] !== '_') {
-            return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
+		}
 		
 		// check if story var is an inventory instance
 		var inv = Wikifier.getValue(varName);
-		if (!(inv instanceof setup.simpleInv.inventory)) {
+		if (!setup.simpleInv.inventory.is(inv)) {
 			return this.error('variable ' + varName + ' is not an inventory!');
 		}
 		
@@ -318,12 +370,12 @@ Macro.add('transfer', {
 		var varName = this.args[0].trim();
 		// check variable string
 		if (varName[0] !== '$' && varName[0] !== '_') {
-            return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
+		}
 		
 		// check if story var is an inventory instance
 		var inv = Wikifier.getValue(varName);
-		if (!(inv instanceof setup.simpleInv.inventory)) {
+		if (!setup.simpleInv.inventory.is(inv)) {
 			return this.error('variable ' + varName + ' is not an inventory!');
 		}
 		
@@ -331,12 +383,12 @@ Macro.add('transfer', {
 		var recVarName = this.args[1].trim();
 		// check variable string
 		if (recVarName[0] !== '$' && recVarName[0] !== '_') {
-            return this.error('variable name "' + this.args[1] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[1] + '" is missing its sigil ($ or _)');
+		}
 		
 		// check if story var is an inventory instance
 		var recInv = Wikifier.getValue(recVarName);
-		if (!(recInv instanceof setup.simpleInv.inventory)) {
+		if (!setup.simpleInv.inventory.is(recInv)) {
 			return this.error('variable ' + recVarName + ' is not an inventory!');
 		}
 		
@@ -355,12 +407,12 @@ Macro.add('dropall', {
 		var varName = this.args[0].trim();
 		// check variable string
 		if (varName[0] !== '$' && varName[0] !== '_') {
-            return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
+		}
 		
 		// check if story var is an inventory instance
 		var inv = Wikifier.getValue(varName);
-		if (!(inv instanceof setup.simpleInv.inventory)) {
+		if (!setup.simpleInv.inventory.is(inv)) {
 			return this.error('variable ' + varName + ' is not an inventory!');
 		}
 		
@@ -382,12 +434,12 @@ Macro.add('sort', {
 		var varName = this.args[0].trim();
 		// check variable string
 		if (varName[0] !== '$' && varName[0] !== '_') {
-            return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
+		}
 		
 		// check if story var is an inventory instance
 		var inv = Wikifier.getValue(varName);
-		if (!(inv instanceof setup.simpleInv.inventory)) {
+		if (!setup.simpleInv.inventory.is(inv)) {
 			return this.error('variable ' + varName + ' is not an inventory!');
 		}
 		
@@ -406,12 +458,12 @@ Macro.add('inventory', {
 		var varName = this.args[0].trim();
 		// check variable string
 		if (varName[0] !== '$' && varName[0] !== '_') {
-            return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
+		}
 		
 		// check if story var is an inventory instance
 		var inv = Wikifier.getValue(varName);
-		if (!(inv instanceof setup.simpleInv.inventory)) {
+		if (!setup.simpleInv.inventory.is(inv)) {
 			return this.error('variable ' + varName + ' is not an inventory!');
 		}
 		
@@ -444,15 +496,16 @@ Macro.add('linkedinventory', {
 		
 		// check variable string
 		if (varName[0] !== '$' && varName[0] !== '_') {
-            return this.error('variable name "' + this.args[1] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[1] + '" is missing its sigil ($ or _)');
+		}
 		
 		// use a varID for linked lists
-		var varID = Util.slugify(varName), varID = this.name + '-' + varID;
+		var varID = Util.slugify(varName); 
+		varID = this.name + '-' + varID;
 		
 		// check if story var is an inventory instance
 		var inv = Wikifier.getValue(varName);
-		if (!(inv instanceof setup.simpleInv.inventory)) {
+		if (!setup.simpleInv.inventory.is(inv)) {
 			return this.error('variable ' + varName + ' is not an inventory!');
 		}
 		
@@ -466,13 +519,13 @@ Macro.add('linkedinventory', {
 			
 			// check if story var is an inventory instance
 			recInv = Wikifier.getValue(recVarName);
-			if (!(recInv instanceof setup.simpleInv.inventory)) {
+			if (!setup.simpleInv.inventory.is(recInv)) {
 				return this.error('variable ' + recVarName + ' is not an inventory!');
 			}
 		}
 		
 		// create output and att to DOM
-		var $list = inv.linkedList(recInv, action)
+		var $list = inv.linkedList(recInv, action);
 		$list
 			.attr('id', varID)
 			.addClass('macro-' + this.name)
