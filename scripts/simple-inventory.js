@@ -56,7 +56,7 @@ setup.simpleInv.inventory.is = function (inv) {
 setup.simpleInv.inventory.log = function (inv) {
 	// logs the inventory to the console (for debugging)
 	var string = setup.simpleInv.inventory.is(inv) ?
-		('Inventory.log() -> ' + inv.inv.toArray().join(' - ')) : 
+		('Inventory.log() -> ' + inv.toArray().join(' - ')) : 
 		('Inventory.log() -> object is not an inventory...');
 	return string;
 };
@@ -533,4 +533,4 @@ Macro.add('linkedinventory', {
 	},
 });
 
-/* simple inventory is becoming more and more of a misnomer */
+/* "simple inventory" is becoming more and more of a misnomer */
