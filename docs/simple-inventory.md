@@ -8,7 +8,7 @@ The simple inventory allows Twine authors to create and manipulate array-based i
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/simple-inventory.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/simple-inventory.js).
 
-	### Contents
+### Contents
 
  * [The Options Object](#the-options-object)
    * [the `tryGlobal` option](#option-tryglobal)
@@ -40,85 +40,85 @@ The simple inventory allows Twine authors to create and manipulate array-based i
    * [the `:inventory-init` event](#event-inventory-init)
    * [the `:inventory-upddate` event](#event-inventory-update)
 
-	### The Options Object
+### The Options Object
 	
-		The options object can be found near the top of the script (in either version, minified or not).  It looks like this:
+The options object can be found near the top of the script (in either version, minified or not).  It looks like this:
 		
-		```javascript
-		setup.simpleInv.options = {
-			tryGlobal  : true, // send constructor to global scope
-			defaultStrings : {
-				empty     : 'The inventory is empty...',
-				listDrop  : 'Discard',
-				separator : '\n'
-			}
-		};
-		```
+```javascript
+setup.simpleInv.options = {
+	tryGlobal  : true, // send constructor to global scope
+		defaultStrings : {
+		empty     : 'The inventory is empty...',
+		listDrop  : 'Discard',
+		separator : '\n'
+	}
+};
+```
 		
-		It is recommended that you leave the `tryGlobal` option as `true` unless you know what you're doing.
+It is recommended that you leave the `tryGlobal` option as `true` unless you know what you're doing.
 
-		#### Option: `tryGlobal`
+#### Option: `tryGlobal`
 		
-			The functions, methods, and variables used by these systems all exist in the `setup.simpleInv` namespace.  For ease of access to authors, everything that might be of use to them is then sent to the global scope asa reference as `window.Inventory`.  If you don't want to send this object to the global scope, you can change this option to `false`.  Note that even if it's set to `true`, the script will check to make sure `window.Inventory` is undefined before overwriting it.
+The functions, methods, and variables used by these systems all exist in the `setup.simpleInv` namespace.  For ease of access to authors, everything that might be of use to them is then sent to the global scope asa reference as `window.Inventory`.  If you don't want to send this object to the global scope, you can change this option to `false`.  Note that even if it's set to `true`, the script will check to make sure `window.Inventory` is undefined before overwriting it.
+
+If the global `Inventory` object is unavailable, either because you changed this setting or because it was already in use, you can still access things: replace `Inventory...` with `setup.simpleInv.inventory...` in your code, or create your own gobal reference.
+
+#### Option: `defaultStings`
 			
-			If the global `Inventory` object is unavailable, either because you changed this setting or because it was already in use, you can still access things: replace `Inventory...` with `setup.simpleInv.inventory...` in your code, or create your own gobal reference.
-		
-		#### Option: `defaultStings`
-			
-			This set of options represents the default strings used for certain situations:
-			
-			* `empty`: when the inventory is empty, this text is displayed instead of a list of items.  You can use valid TwineScript syntax in the string, i.e. `empty:  "<<include 'EmptyMessagePassage'>>"` would be a valid value.
-			* `listDrop`: the inventory system includes a  macro called `<<linkedinventory>>` for constructing a list of items with links that allow dropping and transfering items when clicked.  These links' text *should* be set up in the macro, but you can set up default link text that will appear in case an invalid argument is passed; you can then pass an empty string (`''`) as a shortcut to display this as the link.
-			* `separator`: when using the `<<inventory>>` macro or the `<inventory>.show()` method to display a list of items, you can determine how you want the items to be serparated when using those macros by supplying a string.  If no string is supplied, this default separator is used instead (the default value of `'\n'` represents a newline in JavaScript).
+This set of options represents the default strings used for certain situations:
 
-	### The Macros
+ * `empty`: when the inventory is empty, this text is displayed instead of a list of items.  You can use valid TwineScript syntax in the string, i.e. `empty:  "<<include 'EmptyMessagePassage'>>"` would be a valid value.
+ * `listDrop`: the inventory system includes a  macro called `<<linkedinventory>>` for constructing a list of items with links that allow dropping and transfering items when clicked.  These links' text *should* be set up in the macro, but you can set up default link text that will appear in case an invalid argument is passed; you can then pass an empty string (`''`) as a shortcut to display this as the link.
+ * `separator`: when using the `<<inventory>>` macro or the `<inventory>.show()` method to display a list of items, you can determine how you want the items to be serparated when using those macros by supplying a string.  If no string is supplied, this default separator is used instead (the default value of `'\n'` represents a newline in JavaScript).
 
-		#### Macro: `<<newinventory>>`
+### The Macros
 
-		#### Macro: `<<pickup>>`
-		
-		#### Macro: `<<drop>>`
-		
-		#### Macro: `<<dropall>>` and `<<clear>>`
-		
-		#### Macro: `<<transfer>>`
-		
-		#### Macro: `<<sort>>`
-		
-		#### Macro: `<<inventory>>`
-		
-		#### Macro: `<<linkedinventory>>`
+#### Macro: `<<newinventory>>`
 
-	### Functions and Methods
+#### Macro: `<<pickup>>`
 
-		#### Constructor: `Inventory()`
+#### Macro: `<<drop>>`
 
-		#### Static Method: `Inventory.is()`
-		
-		#### Static Method: `Inventory.log()`
-		
-		#### Static Method: `Inventory.removeDuplicates()`
-		
-		#### Method: `<inventory>.pickUp()`
-		
-		#### Method: `<inventory>.drop()`
-		
-		#### Method: `<inventory>.empty()`
-		
-		#### Method: `<inventory>.transfer()`
-		
-		#### Method: `<inventory>.has()`
-		
-		#### Method: `<inventory>.hasAll()`
-		
-		#### Method: `<inventory>.toArray()`
-		
-		#### Method: `<inventory>.sort()`
-		
-		#### Method: `<inventory>.show()`
+#### Macro: `<<dropall>>` and `<<clear>>`
 
-	### The Events
+#### Macro: `<<transfer>>`
 
-		#### Event: `:inventory-init`
+#### Macro: `<<sort>>`
 
-		#### Event: `:inventory-update`
+#### Macro: `<<inventory>>`
+
+#### Macro: `<<linkedinventory>>`
+
+### Functions and Methods
+
+#### Constructor: `Inventory()`
+
+#### Static Method: `Inventory.is()`
+
+#### Static Method: `Inventory.log()`
+
+#### Static Method: `Inventory.removeDuplicates()`
+
+#### Method: `<inventory>.pickUp()`
+
+#### Method: `<inventory>.drop()`
+
+#### Method: `<inventory>.empty()`
+
+#### Method: `<inventory>.transfer()`
+
+#### Method: `<inventory>.has()`
+
+#### Method: `<inventory>.hasAll()`
+
+#### Method: `<inventory>.toArray()`
+
+#### Method: `<inventory>.sort()`
+
+#### Method: `<inventory>.show()`
+
+### The Events
+
+#### Event: `:inventory-init`
+
+#### Event: `:inventory-update`
