@@ -27,8 +27,6 @@ The simple inventory allows Twine authors to create and manipulate array-based i
    * [Static Methods](#static-methods)
    * [Instance Methods](#sinstance-methods)
  * [Events](the-events)
-   * [the `:inventory-init` event](#event-inventory-init)
-   * [the `:inventory-upddate` event](#event-inventory-update)
 
 ### The Options Object
 	
@@ -94,14 +92,15 @@ This macro creates a new inventory.  Creating a new inventory is much like initi
 
 #### Macro: `<<pickup>>`
 
-**Syntax**: `<<pickup variableName [itemList]>>`
+**Syntax**: `<<pickup variableName [unique] itemList>>`
 
-The `<<pickup>>` macro adds items to inventory indicated by the $variable.  These items are added to the end of the inventory.
+The `<<pickup>>` macro adds items to inventory indicated by the $variable.  These items are added to the end of the inventory.  If the keyword `unique` is included before the item list, items that are already in the inventory will not be added to it.  **Caution**: if the `unique` keyword is placed after the first item in the item list, an item called `unique` will be added to the inventory.
 
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
- * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+ * **unique**: (optional) The keyword `unique`.  If passed before the item list, will enforce uniqueness--that is, items already in the inventory will not be picked up.
+ * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
  
 **Usage**:
 ```
@@ -124,18 +123,35 @@ The `<<pickup>>` macro adds items to inventory indicated by the $variable.  Thes
 You recieved your inheritance!
 <<set _randomItem to either('a bust of George Washinton', 'a pearl necklace', 'a statue of a cherub')>>
 <<pickup '$maryInventory _randomItem 'a large sum of money' 'a sealed letter'>>
+
+/% unique items: %/
+:: StoryInit
+<<newinventory '$inventory' 'sword'>>
+
+:: A Later Passage
+<<pickup '$inventory' unique 'sword' 'shield'>>
+/% only shield is added %/
+
+:: Some Other Passage
+/% however, be warned: %/
+<<pickup '$inventory' 'armor' unique 'sword'>>
+/%
+	an item named 'unique' is added to the inventory, 
+	and the other items are also added, regardless of whether 
+	they were already in the inventory
+%/
 ```
 
 #### Macro: `<<drop>>`
 
-**Syntax**: `<<drop variableName [itemList]>>`
+**Syntax**: `<<drop variableName itemList>>`
 
 The `<<drop>>` macro removes items from the inventory indicated by the $variable.  If one or more of the provided items can't be found in the inventory, nothing happens and no error is thrown, so some caution may be required in debugging certain situations.
 
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
- * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to remove from the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
  
 **Usage**:
 ```
@@ -179,14 +195,14 @@ A fire destroyed the mansion's kitchen!
 
 #### Macro: `<<transfer>>`
 
-**Syntax**: `<<transfer variableName variableName [itemList]>>`
+**Syntax**: `<<transfer variableName variableName itemList>>`
 
 The `<<transfer>>` macro moves items from one inventory to another. The first inventory argument is the giver, and the second is the receiver. It's essentially the same as pairing a `<<pickup>>` and `<<drop>>`, but has a few benefits over doing it that way.  For one, if you were to `<<drop>>` an item from one inventory and have another `<<pickup>>` the same item, you run the risk of having the reveiving inventory getting an item that the first inventory never had, since `<<drop>>` does nothing if the item doesn't exist.  Using `<<transfer>>`, if an item isn't present in the first inventory, the second inventory will not recieve said item.  Like `<<drop>>` no error will be raised in this case.
 
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
- * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to transfer between the inventories.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
  
 **Usage**:
 ```
@@ -229,7 +245,7 @@ The `<<sort>>` macro sorts the indicated inventory in alphanumeric order.  **War
 
 **Syntax**: `<<inventory variableName [separator]>>`
 
-The `<<sort>>` macro sorts the indicated inventory in alphanumeric order.  **Warning**: There's no easy way to restore the default chronological ordering.
+The `<<inventory>>` macro displays a list of the items in the indicated inventory.  This list can be separated by a provided string.  If no serparator argument is provided, the default separator is used.
 
 **Arguments**:
 
@@ -308,38 +324,384 @@ You open the closet.  Lots of space in here.
 
 ### Functions and Methods
 
+The following are the functions and methods that are included in the simple inventory.  Most of these allow access to the simple inventory's features in pure JavaScript, while some of these features are only available through this JavaScript API: even if you aren't planning on interacting with this system through JavaScript, you should still read the documentation for `Inventory.removeDuplicates()`, `<inventory>.has()`, and `<inventory>.hasAll()`, all of which are either only available through JavaScript, or contain features that are only available for your TwineScript expressions through JavaScript.
+
+**Note on chaining**: Methods that don't return an explicit value will return the inventory they are called on (listed with the return value of 'this inventory' in the below documentation), meaning you can **chain many of the instance method calls**.  For example, `<inventory>.pickUp()` adds items to the inventory, but doesn't need to return anything in specific, so it returns the inventory object is was called on and allows chaining.  On the other hand, `<inventory>.show()` returns a string, so it can't be chained with other inventory methods.  For example:
+
+```
+-> The following is valid:
+<<print $inventory.pickUp('toothpick').show()>>
+
+-> The following is not valid and will raise an error
+<<run $inventory.show().pickUp('toothpick')>> 
+```
+
 #### The `Inventory()` Constructor
+
+**Return Value**: A new inventory instance.
+
+**Syntax**: `new Inventory([itemList])`
+
+The `Inventory()` constructor creates a new inventory just as the `<<newinventory>>` macro does.  While some checks are in place to help forgetful authors, this function should **always** be called with the `new` operator, as failing to do so could leak the inventory to the global scope or create other issues.  Further, the call should always be saved to a variable (a story $variable, a temporary _variable, or a JavaScript variable) or the call might pollute the global scope.
+
+**Arguments**:
+
+ * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+
+**Usage**:
+
+All of the following examples are equivalent to `<<newinventory '$inventory' 'the shirt on your back'>>`:
+
+```
+/% using in a <<set>> macro (also works in <<run>>) %/
+<<set $inventory to new Inventory('the shirt on your back')>>
+
+// in JavaScript or in <<script>> macro tags:
+State.variables.inventory = new Inventory('the shirt on your back')>>
+
+// using a function (for some reason):
+setup.makeAnInventory = (var) {
+	var sv = State.variables;
+	sv[var] = new Inventory('the shirt on your back');
+	return sv[var];
+};
+setup.makeAnInventory(inventory);
+```
 
 #### Static Methods
 
+Static methods are methods accessed through the `Inventory` object, as opposed to being accessed through a specific instance.  The biggest difference authors need to worry about is the syntax.
+
+Of particular note to authors: `Inventory.removeDuplicates()`
+
 ##### `Inventory.is()`
+
+**Return Value**: Boolean.
+
+**Syntax**: `Inventory.is(variable)`
+
+This method checks the provided variable or object and returns true if the variable is a reference to an inventory, and false otherwise.  May be useful to some authors creating extensions or new features, but all methods and macros that expect an inventory in the simple inventory system will throw an error if they aren't given an inventory.
+
+**Arguments**:
+
+ * **variable**: A variable of some kind, TwineScript or JavaScript.
+
+**Usage**:
+```
+/% given the following: %/
+<<newinventory '$inventory'>>
+
+<<set _treasureList to ['magic sword', 'ancient statue', 'gems']>>
+<<set $treasureChest to []>>
+
+<<set $treasureChest[0] to new Inventory(_treasureList.random(), 'some gold')>>
+<<set $treasureChest[1] to new Inventory(_treasureList.random(), 'some gold')>>
+<<set $treasureChest[2] to new Inventory(_treasureList.random(), 'some gold')>>
+
+/% test the objects %/
+<<if Inventory.is($inventory)>> /% true %/
+	{{{$inventory}}} is an inventory.
+<</if>>
+
+<<if Inventory.is($treasureChest[1])>> /% true %/
+	{{{$treasureChest[1]}}} is an inventory.
+<</if>>
+
+<<if Inventory.is($treasureChest)>> /% false, it's an array of inventories, but not an inventory itself %/
+	{{{$treasureChest}}} is an inventory.
+<</if>>
+
+<<if Inventory.is(_treasureList)>> /% false %/
+	{{{_treasureList}}} is an inventory.
+<</if>>
+```
 
 ##### `Inventory.log()`
 
+**Return Value**: String.
+
+**Syntax**: `Inventory.log(inventory)`
+
+This method logs the indicated inventory's contents to the console, and returns a string representation of the same information.  If the object or variable passed is not an inventory instance, the string and log will state as much. Mostly useful for debugging purposes; these calls should probably be deleted or omitted in release code.
+
+**Arguments**:
+
+* **inventory**: An inventory instance, or a variable referencing an inventory instance.
+
+**Usage**:
+```
+/% log to console %/
+<<run Inventory.log($inventory)>>
+
+/% log to console and print %/
+<<set $log to Inventory.log($container)>>
+<<= $log>>
+```
+
 ##### `Inventory.removeDuplicates()`
+
+**Return Value**: Array.
+
+**Syntax**: `Inventory.removeDuplicates(inventory)`
+
+This method is useful for enforcing uniqueness; that is, preventing doubles or duplicates from being included in the inventory or in displays of the inventory.  It returns a new array that includes only unique items that can be used to overwrite the original or print to the player.
+
+**Arguments**:
+
+ * **inventory**: An inventory instance, or a variable referencing an inventory instance.
+
+**Usage**:
+```
+/% keep the duplicates, but don't display them to the player %/
+<<= Inventory.removeDuplicates($inventory).join('\n')>>
+
+/% overwrite the inventory's contents with the unique array %/
+<<set _uniqueOnly to Inventory.removeDuplicates($inventory)>>\
+<<run $inventory.empty().pickUp(_uniqueOnly)>>
+
+/% same as above using macros where possible: %/
+<<set _uniqueOnly to Inventory.removeDuplicates($inventory)>>\
+<<dropall '$inventory'>><<pickup '$inventory' _uniqueOnly>>
+```
 
 #### Instance Methods
 
-#####`<inventory>.pickUp()`
+Instance methods, unlike static methods, are called directly on the inventory object, so you replace `<inventory>` with the variable you're using to store / reference the inventory instance you want to work on.  See the examples for the methods below if that confuses you.
+
+Of particular note to authors: `<inventory>.has()`, `<inventory>.hasAll()`, and `<inventory>.toArray()`
+
+##### `<inventory>.pickUp()`
+
+**Return Value**: This inventory (chainable).
+
+**Syntax**: `<inventory>.pickUp([unique], itemList)`
+
+This method is functionally the same as the `<<pickup>>` macro and accepts the same type of arguments.  Like with the macro version, if the `unique` keyword (must be quoted in the method call) is the first item in the itemList, it enforces uniqueness.  If the keyword appears in any other position in the list, the keyword is instead treated as an item and added to the inventory, and uniqueness is not enforced.  See [the `<<pickup>>` macro documentation](#macro-pickup) for more
+
+**Arguments**:
+
+ * **unique**: The string `'unique'`, which, if includes before the **itemList**, enforces uniqueness (see the `<<pickup>>` macro for more).
+ * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+
+**Usage**:
+```
+/% pick up an item while enforcing uniqueness %/
+<<run $inventory.pickUp('unique', 'marble')>>
+
+// pick up a couple randomized items in JavaScript
+var treasures = ['gold ingot', 'statue', 'gem', 'pearl'];
+State.variables.playerInv.pickUp(treasures.randomMany(2));
+```
 
 ##### `<inventory>.drop()`
 
+**Return Value**: This inventory (chainable).
+
+**Syntax**: `<inventory>.drop(itemList)`
+
+This method is functionally the same as the `<<drop>>` macro and accepts the same type of arguments.
+
+**Arguments**:
+
+ * **itemList**: A list of items to remove from the inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+
+**Usage**:
+```
+/% drop an item %/
+<<run $inventory.drop('marble')>>
+
+// drop a couple randomized items in JavaScript
+var pickPocket = State.variables.playerInv.toArray().randomMany(3);
+State.variables.playerInv.drop(pickPocket);
+```
+
 ##### `<inventory>.empty()`
+
+**Return Value**: This inventory (chainable).
+
+**Syntax**: `<inventory>.empty()`
+
+This method is functionally the same as the `<<clear>>` and `<<dropall>>` macros; it removes all items from the calling inventory.
+
+**Usage**:
+```
+/% clear an inventory %/
+<<run $inventory.empty()>>
+
+// clear an inventory in JavaScript
+State.variables.playerInv.empty();
+```
 
 ##### `<inventory>.transfer()`
 
+**Return Value**: This inventory (chainable).
+
+**Syntax**: `<inventory>.transfer(inventory, itemList)`
+
+This method is functionally the same as the `<<transfer>>` macro and accepts the same type of arguments.  The listed items are tansferred from the calling inventory to receiving inventory, which must be a valid inventory instance and must be passed as the first argument.
+
+**Arguments**:
+
+ * **inventory**: A second inventory instance to receive the transferred items.
+ * **itemList**: A list of items to transfer from the calling inventory to the indicated inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+
+**Usage**:
+```
+/% transfer an item %/
+<<run $inventory.transfer($container, 'marble')>>
+
+// tansfer all items in JavaScript
+var allItems = State.variables.kitchenInventory.toArray();
+State.variables.playerInv.transfer(State.variables.kitchenInventory, allItems);
+```
+
 ##### `<inventory>.has()`
+
+**Return Value**: Boolean.
+
+**Syntax**: `<inventory>.has(itemList)`
+
+This method is returns whether the calling inventory contains the indicated item or items.  If more than one item is passed, the method returns true if any one of the items is found in the calling inventory.  To check for all items in a set, you must use `<inventory>.hasAll()` instead.
+
+**Arguments**:
+
+ * **itemList**: A list of items to check the calling inventory for.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+
+**Usage**:
+```
+/% check for an item %/
+<<if $playerInv.has('car key')>>
+	You can [[start the car|start car]].
+<<else>>
+	You don't remember where you left the keys.
+<</if>>
+
+/% checking for one item out of a group %/
+<<if $inventory.has('sledgehammer', 'lock pick', 'office key')>>
+	You have found a way into the room!
+<</if>>
+```
 
 ##### `<inventory>.hasAll()`
 
+**Return Value**: Boolean.
+
+**Syntax**: `<inventory>.hasAll(itemList)`
+
+This method is returns whether the calling inventory contains the indicated item or items.  If more than one item is passed, the method returns true only if all of the items are found in the calling inventory.  To check for any of the items in a set, you must use `<inventory>.has()` instead.
+
+**Arguments**:
+
+ * **itemList**: A list of items to check the calling inventory for.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+
+**Usage**:
+```
+/% check for an item (generally, you should use <inventory>.has() for a single item, but this also works)%/
+<<if $playerInv.hasAll('car key')>>
+	You can [[start the car|start car]].
+<<else>>
+	You don't remember where you left the keys.
+<</if>>
+
+/% checking for all of the required items %/
+<<if $inventory.hasAll('lighter', 'kindling', 'branches', 'bucket of water')>>
+	You have enough to start a camp fire!
+<</if>>
+```
+
 ##### `<inventory>.toArray()`
+
+**Return Value**: Array.
+
+**Syntax**: `<inventory>.toArray()`
+
+This method returns an array made up of the items in the calling inventory.  Useful for allowing the author to use standard JavaScript array methods on the inventory.  Caution is required because changes to this array will be reflected in the calling inventory, unless the `clone()` function is used.
+
+**Usage**:
+```
+/% create an array based on the inventory %/
+<<set _array to $inventory.toArray()>>
+
+/% pluck random items from the inventory: the inventory will be updated %/
+<<set _randomItems to $playerInv.toArray().pluckMany(2)>>
+
+/% using clone() to get an array that doesn't affect the calling inventory %/
+<<set _items to clone($container.toArray())>>
+<<set _items to ['uh oh']>> /% empty the clone %/
+<<= $container.show(', ')>> /% shows the original inventory %/
+<<= _items.join(', ')>> /% shows 'uh oh' %/
+```
 
 ##### `<inventory>.sort()`
 
+**Return Value**: This inventory (chainable).
+
+**Syntax**: `<inventory>.sort()`
+
+This method is the same as the `<<sort>>` macro, it sorts the calling inventory in alpha-numeric order.  The default ordering, which is chronological, cannot easily be restored after using this method.
+
+**Usage**:
+```
+/% sort the inventory %/
+<<run $inventory.sort()>>
+```
+
 ##### `<inventory>.show()`
+
+**Return Value**: String.
+
+**Syntax**: `<inventory>.show([separator])`
+
+This method is similar to the `<<inventory>>` macro, it creates a sting representation of the calling inventory for printing, and allows the author to optionally set the separator.
+
+**Arguments**:
+
+ * **separator**: (optional) The string used to separate the list of items.  If omitted, the [default string](#option-defaultstrings) is used.
+
+**Usage**:
+```
+/% yiedls the same output as <<inventory '$inventory'>> %/
+<<= $inventory.show()>>
+
+/% yiedls the same output as <<inventory '$playerInv' ', '>> %/
+<<= $playerInv.show(', ')>>
+```
 
 ### The Events
 
+The simple inventory automatically triggers one of two events as inventories are manipulated.  You can use these events to perform functions and run other code in real time as the inventories are manipulated during gameplay.  These events are also targetable by my `<<event>>` macro set.
+
+#### The Event Object:
+
+When an event is fired, a variety of information is sent to the event handlers.  That information is detailed here:
+
+ * `<event>.instance`: A reference to the calling instance.  In transfers, that's the giving inventory.
+ * `<event>.receiving`: A reference to the receiving instance, if it exists (i.e. in `<<transfer>>` and `<<linkedinventory>>` calls), or `null`.
+ * `<event>.moved`: An array of items that have been moved into or out of the calling inventory, or null if nothing was moved (for example, if items the player doesn't have were dropped, or a `<<sort>>` was used).
+ * `<event>.context`: The context of the event: it's always one of the following strings:
+   * `'pickup'`: Some type of pickup action ocurred.  Does not fire on items added with `<<newinventory>>` or similar.
+   * `'drop'`: Some type of drop action occured.  Emptying or clearing the inventory also cause this context.
+   * `'transfer'`: A transfer between two inventories occured.
+   * `'initialized'`: A new inventory was created.  If items were also added, they'll be in the `<event>.moved` property.
+   * `'sort'`: The inventory was sorted.
+   
+ When defining an event handler, you can access these propertied on the event object like so:
+ ```javascript
+ $(document).on(':inventory-update', function (ev) {
+	alert('Context: ' + ev.context);
+	if (ev.moved && ev.moved.length) {
+		console.log(ev.moved.join(', '));
+	}
+	if (ev.context === 'transfer') {
+		console.log('a transfer happened!');
+	}
+ });
+ ```
+
 #### Event: `:inventory-init`
 
+This event is only triggered when a new inventory is defined.  It's context is always `'initialized'`.
+
 #### Event: `:inventory-update`
+
+This event is triggered any time an inventory is altered, but **not** when it is created.  In can never have the context `'initialized'`.
