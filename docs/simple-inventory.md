@@ -6,7 +6,9 @@ The simple inventory allows Twine authors to create and manipulate array-based i
 
 **Note** The simple inventory has undergone some pretty major changes since it first debuted.  Version 1 was mostly a bit of syntactic sugar over an array system designed to help less-experienced authors utilize standard JavaScript arrays and methods in a scripting style they were more comfortable with (that is, macros).  On rewriting this system, it seemed like a good idea to push things a little farther and create something that could be useful even to more experienced authros (hopefully, anyway).  The changes make simple inventory a much more robust and feature-rich system, but unfortunately, **old code written for v1.x of simple inventory is not compatible with the new simple inventory system**.
 
-**THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/simple-inventory.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/simple-inventory.js).
+**THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/simple-inventory.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/simple-inventory.js).  
+**DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
+**GUIDE:** [Available](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/docs/guides/simple-inventory-guide.md).
 
 ### Contents
 
