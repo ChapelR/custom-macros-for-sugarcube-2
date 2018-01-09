@@ -21,7 +21,7 @@ setup.simpleInv.attachEvent = function (inv, loc, items, cont) {
 		instance   : inv, // the calling instance; the giver in transfers
 		receiving  : loc, // the inventory recieving transfers, or null
 		moved      : items, // the items moved to or from the calling inventory, or null
-		context    : cont // drop, pickup, trasnfer, or initialized
+		context    : cont // drop, pickup, transfer, or initialized
 	});
 };
 
@@ -55,7 +55,7 @@ setup.simpleInv.inventory.is = function (inv) {
 };
 setup.simpleInv.inventory.log = function (inv) {
 	// logs the inventory to the console (for debugging)
-	var string = setup.simpleInv.inventory.is(inv) ?
+	var string = (setup.simpleInv.inventory.is(inv)) ?
 		('Inventory.log() -> ' + inv.toArray().join(' - ')) : 
 		('Inventory.log() -> object is not an inventory...');
 	return string;
@@ -69,7 +69,7 @@ setup.simpleInv.inventory.removeDuplicates = function (inv) {
 	var uniq  = (function (i) {
 		var ret = [];
 		i.forEach( function (item) {
-			if (!uniq.includes(item)) {
+			if (!ret.includes(item)) {
 				ret.push(item);
 			}
 		});
@@ -140,7 +140,8 @@ setup.simpleInv.inventory.prototype = {
 	pickUp : function (unique) { // add items to this inventory
 		var items = [].slice.call(arguments).flatten(), inventory = this;
 		if (items && items.length) {
-			if (unique) { // JS API only; items must be unique in eash inventory instance
+			if (unique === 'unique' || items[0] === 'unique') { // JS API only; items must be unique in eash inventory instance
+				items = items.splice(1);
 				items = (function (items) { 
 					var ret = []; // this code could use some cleanup
 					items.forEach(function (item) {
@@ -265,7 +266,9 @@ setup.simpleInv.inventory.prototype = {
 	
 	toJSON : function () { // the custom revive wrapper for SugarCube's state tracking
 		return JSON.reviveWrapper('new setup.simpleInv.inventory(' + JSON.stringify(this.inv) + ')');
-	}
+	},
+    
+    clone : function () { return new setup.simpleInv.inventory(this.inv); }
 };
 
 /*
@@ -303,8 +306,8 @@ Macro.add('newinventory', {
 		var varName = this.args[0].trim();
 		// check variable string
 		if (varName[0] !== '$' && varName[0] !== '_') {
-            return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
-        }
+			return this.error('variable name "' + this.args[0] + '" is missing its sigil ($ or _)');
+		}
 		
 		// set up new inventory
 		Wikifier.setValue(varName, new setup.simpleInv.inventory(this.args.slice(1).flatten()));
