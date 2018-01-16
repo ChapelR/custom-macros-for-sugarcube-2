@@ -161,13 +161,14 @@ setup.simpleInv.inventory.prototype = {
 	
 	drop : function () { // remove items from this inventory
 		var items = [].slice.call(arguments).flatten(),
-			inventory = this; // we need to access this in the <array>.forEach()
+			inventory = this, del; // we need to access this in the <array>.forEach()
 		if (items && items.length) {
 			var moved = [];
 			items.forEach(function (item) {
 				if (inventory.has(item)) {
 					moved.push(item); // for the event below
-					inventory.inv.delete(item);
+					del = inventory.inv.indexOf(item);
+                    inventory.inv.deleteAt(del)
 				}
 			});
 			setup.simpleInv.attachEvent(this, null, moved, 'drop');
