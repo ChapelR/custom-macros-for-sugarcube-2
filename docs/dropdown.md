@@ -17,7 +17,7 @@ The `<<dropdown>>` macro creates a dropdown-style input.  When a selection is ma
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, in which to store the newly created inventory.
- * **optionList**: A list of mutually exclusive options for the player to choose between.  This list can be made up of numbers, strings, arrays, or any combination of them, but the player's selections will always be returned as strings, and arrays given to the macro will be flattened.
+ * **optionList**: A list of mutually exclusive options for the player to choose between.  This list can be made up of numbers, strings, arrays, or any combination of thereof, but the player's selections will always be returned as strings, and arrays given to the macro will be flattened.
  
 **Usage**:
 ```
