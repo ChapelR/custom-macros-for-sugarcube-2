@@ -33,7 +33,7 @@ The `<<fadein>>` macro causes the content between its tags to fade in (shocking)
 
 **Syntax**:`<<fadeout [delay] animationLength>> <</fadeout>>`
 
-The `<<fadeout>>` macro causes its content to fade out.  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be expressed using [CSS time values](https://developer.mozilla.org/en-US/docs/Web/CSS/time).  Content is set to `{display: none;}` after the animation completes, so the page may re-flow a bit.
+The `<<fadeout>>` macro causes its content to fade out.  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be expressed using [CSS time values](https://developer.mozilla.org/en-US/docs/Web/CSS/time).  Content will not re-flow once the content is faded out.
 
 **Arguments**:
 
