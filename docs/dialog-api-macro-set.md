@@ -1,5 +1,7 @@
 ## The Dialog API Macro Set
 
+[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+
 This macro set helps you work with SugarCube's Dialog API without having to touch any JavaScript.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/dialog-api-macro-set.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/dialog-api-macro-set.js).  
