@@ -10,43 +10,43 @@ A simple macro set that causes the text between its tags to fade in or out over 
 
 ### Macro: `<<fadein>>`
 
-**Syntax**:`<<fadein [delay] animationLength>> <</fadein>>`
+**Syntax**:`<<fadein animationLength  [delay]>> <</fadein>>`
 
 The `<<fadein>>` macro causes the content between its tags to fade in (shocking).  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be expressed using [CSS time values](https://developer.mozilla.org/en-US/docs/Web/CSS/time).  Note that only *output* is delayed by this macro; code will still execute on passage load, meaning it shouldn't be used in the same way as `<<timed>>`, but it can be paired with `<<timed>>` to achieve that sort of effect.
 
 **Arguments**:
 
-* **delay**: (optional) The delay, in seconds, to wait out before the animation starts.  Should be a valid CSS time (e.g. 5s, 500ms, etc).
-* **animationLength**: The length of the fading animation.  Should be a valid CSS time (e.g. 5s, 500ms, etc).
+ * **animationLength**: The length of the fading animation.  Should be a valid CSS time (e.g. 5s, 500ms, etc).
+ * **delay**: (optional) The delay, in seconds, to wait out before the animation starts.  Should be a valid CSS time (e.g. 5s, 500ms, etc).
 
 
 **Usage**:
 ```
 <<fadein 10s>>Fade me in over the course of ten seconds.<</fadein>>
 
-<<fadein 200ms 500ms>>Fade me in over half a second, but give the passage transition a moment to finish.<</fadein>>
+<<fadein 500ms 200ms>>Fade me in over half a second, but give the passage transition a moment to finish.<</fadein>>
 
-<<fadein 20s 200ms>>Hide the way [[forward]] for 20 seconds...<</fadein>>
+<<fadein 200ms 20s>>Hide the way [[forward]] for 20 seconds...<</fadein>>
 ```
 
 ### Macro: `<<fadeout>>`
 
-**Syntax**:`<<fadeout [delay] animationLength>> <</fadeout>>`
+**Syntax**:`<<fadeout animationLength [delay]>> <</fadeout>>`
 
 The `<<fadeout>>` macro causes its content to fade out.  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be expressed using [CSS time values](https://developer.mozilla.org/en-US/docs/Web/CSS/time).  Content will not re-flow once the content is faded out.
 
 **Arguments**:
 
-* **delay**: (optional) The delay, in seconds, to wait out before the animation starts.  Should be a valid CSS time (e.g. 5s, 500ms, etc).
-* **animationLength**: The length of the fading animation.  Should be a valid CSS time (e.g. 5s, 500ms, etc).
+ * **animationLength**: The length of the fading animation.  Should be a valid CSS time (e.g. 5s, 500ms, etc).
+ * **delay**: (optional) The delay, in seconds, to wait out before the animation starts.  Should be a valid CSS time (e.g. 5s, 500ms, etc).
 
 **Usage**:
 ```
 <<fadeout 10s>>Fade me out over the course of ten seconds.<</fadeout>>
 
-<<fadeout 200ms 4s>>Fade me out over four seconds, but give the passage transition a moment to finish.<</fadeout>>
+<<fadeout 4s 200ms>>Fade me out over four seconds, but give the passage transition a moment to finish.<</fadeout>>
 
-<<fadeout 20s 2s>>This text will begin to disappear after 20 seconds...read fast!<</fadeout>>
+<<fadeout 2s 20s>>This text will begin to disappear after 20 seconds...read fast!<</fadeout>>
 ```
 
 ## Other usages notes:

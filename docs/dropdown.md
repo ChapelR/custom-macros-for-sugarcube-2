@@ -21,16 +21,6 @@ The `<<dropdown>>` macro creates a dropdown-style input.  When a selection is ma
  
 **Usage**:
 ```
-/% creates a link that opens a dialog box called 'Character Sheet' with the classes .char-sheet and .stats %/
-<<link 'View Character Sheet'>>
-	<<dialog 'Character Sheet' 'char-sheet stats'>>\
-		|Strength|$str|
-		|Dexterity|$dex|
-		|Wisdom|$wis|\
-	<</dialog>>
-<</link>>
-
-/% create an about button for your credits %/
 ::some passage
 <<set $color to ''>>\
 <<dropdown '$color' 'red' 'blue' 'green' 'purple' 'yellow' 'white' 'black' 'pink' 'orange'>>
