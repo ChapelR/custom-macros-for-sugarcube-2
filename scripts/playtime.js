@@ -1,5 +1,5 @@
 // play time system, by chapel; for SugarCube 2
-// version 2.0.1
+// version 2.0.2
 
 // intialize namespace
 setup.playTime = {};
@@ -34,7 +34,6 @@ setup.playTime.getMS = function () {
 };
 
 setup.playTime.getTimeArray = function (ms) {
-	
 	if (!ms || ms < 0 || typeof ms !== 'number') {
 		return;
 	}
@@ -49,14 +48,19 @@ setup.playTime.getTimeArray = function (ms) {
 };
 
 // for users
+var hourNames = ['h', 'hr', 'hrs', 'hour', 'hours'];
+var minNames  = ['m', 'min', 'mins', 'minute', 'minutes'];
+var secNames  = ['s', 'sec', 'secs', 'second', 'seconds'];
 setup.playTime.get = function (m) {
 	var ms   = setup.playTime.getMS();
 	var time = setup.playTime.getTimeArray(ms);
-	if (['h', 'hr', 'hrs', 'hour', 'hours'].includes(m)) {
+	if (hourNames.includes(m)) {
 		return time[2];
-	} else if (['min', 'mins', 'minutes', 'minute', 'm'].includes(m)) {
+	}
+	if (minNames.includes(m)) {
 		return time[1];
-	} else if (['s', 'second', 'sec', 'seconds', 'secs'].includes(m)) {
+	}
+	if (secNames.includes(m)) {
 		return time[0];
 	}
 	return ms;
@@ -92,39 +96,30 @@ if (setup.playTime.options.tryGlobal) {
 	};
 }
 /* 
-	
 	playTime(arg):
 		if (arg) is a string, returns a positive integer:
-		
+
 			* hour, hours, h, hr, etc            : returns hours
 			* min, minutes, minute, m, mins, etc : returns minutes
 			* sec, secs, s, second, seconds, etc : returns seconds
 			* anyother string                    : returns milliseconds
 			
 		if (arg) is not a string:
-		
+
 			* (arg) is truthy : returns formatted time string
 			* (arg) is falsey : returns unformatted time string
-		
 */
 
 // <<playtime>> macro
 // if given the format argument, bold hours and minutes
 Macro.add('playtime', {
 	handler : function () {
-		
-		var arr = (function (args) {
-			var ret = [];
-			args.forEach( function (a) {
-				a = a + '';
-				ret.push(a.trim().toLowerCase());
-			});
-			return ret;
-		}(this.args)),
-		
-			$wrapper = $(document.createElement('span')),
-			fmt      = (arr.includesAny(['format', 'f', 'fmt', 'b', 'bold', 'true'])) ? true : false,
-			string   = setup.playTime.output(fmt);
+		var arr = this.args.map(function (arg) {
+			return String(arg).trim().toLowerCase();
+		});
+		var $wrapper = $(document.createElement('span'));
+		var fmt      = arr.includesAny(['format', 'f', 'fmt', 'b', 'bold', 'true']);
+		var string   = setup.playTime.output(fmt);
 		
 		$wrapper
 			.wiki(string)
