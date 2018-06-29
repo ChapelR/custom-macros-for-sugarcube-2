@@ -237,7 +237,7 @@ Here's a list of other macros included in this set of scripts.
 
 [See the detailed documentation.](#fading-macros)
 
-`<<fadein (optional: delay) (animation length)>>...<</fadein>>` and `<<fadeout (optional: delay) (animation length)>>...<</fadeout>>`: Create text that fades in or out over a period of time, with an optional delay.  Times should be in seconds, but milliseconds can be approximated using floating-point values.
+`<<fadein (animation length) (optional: delay)>>...<</fadein>>` and `<<fadeout (animation length) (optional: delay)>>...<</fadeout>>`: Create text that fades in or out over a period of time, with an optional delay.  Times should be in seconds, but milliseconds can be approximated using floating-point values.
 
 ### The First Macro
 
@@ -1702,7 +1702,7 @@ A simple macro set that causes the text between its tags to fade in or out over 
 #### `<<fadein>>` macro
 
 **Syntax**:
-`<<fadein (optional: delay) (animation length)>>...<</fadein>>`
+`<<fadein (animation length) (optional: delay)>>...<</fadein>>`
 
 * delay: the delay, in seconds, to wait before the animation starts.
 * animation length: the length of the fading animation, in seconds.
@@ -1714,15 +1714,15 @@ The `<<fadein>>` macro causes its content to fade in (shocking).  You can delay 
 ```javascript
 <<fadein 10>>Fade me in over the course of ten seconds.<</fadein>>
 
-<<fadein 0.2 0.5>>Fade me in over half a second, but give the passage transition a moment to finish.<</fadein>>
+<<fadein 0.5 0.2>>Fade me in over half a second, but give the passage transition a moment to finish.<</fadein>>
 
-<<fadein 20 0.2>>Hide the way [[forward]] for 20 seconds...<</fadein>>
+<<fadein 0.2 20>>Hide the way [[forward]] for 20 seconds...<</fadein>>
 ```
 
 #### `<<fadeout>>` macro
 
 **Syntax**:
-`<<fadeout (optional: delay) (animation length)>>...<</fadein>>`
+`<<fadeout (animation length) (optional: delay)>>...<</fadein>>`
 
 * delay: the delay, in seconds, to wait before the animation starts.
 * animation length: the length of the fading animation, in seconds.
@@ -1734,9 +1734,9 @@ The `<<fadeout>>` macro causes its content to fade out.  You can delay the anima
 ```javascript
 <<fadeout 10>>Fade me out over the course of ten seconds.<</fadeout>>
 
-<<fadeout 0.2 4>>Fade me out over four seconds, but give the passage transition a moment to finish.<</fadeout>>
+<<fadeout 4 0.2>>Fade me out over four seconds, but give the passage transition a moment to finish.<</fadeout>>
 
-<<fadeout 20 2>>This text will disappear after 20 seconds...read fast!<</fadeout>>
+<<fadeout 2 20>>This text will disappear after 20 seconds...read fast!<</fadeout>>
 ```
 
 ## First Macro
