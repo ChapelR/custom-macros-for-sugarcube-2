@@ -18,7 +18,7 @@ The `<<export>>` macro is a way to save a little bit of data on your user's hard
 
  * **data**: Some data, like a variable.
  * **fileName**: The default file name to save the file as.
- * **dataType**: By default, the macro saves the data as a string, and converts to JSON when that isn't possible.  This option gives you a bit more control, and accepts the following arguments:
+ * **dataType**: (optional) By default, the macro saves the data as a string, and converts to JSON when that isn't possible.  This option gives you a bit more control, and accepts the following arguments:
 	 * `text`: the file is saved as text, but may be converted to JSON anyway, if necessary.
 	 * `json`: the file is saved as JSON data.
 	 * `base64`: the file is saved in the compressed base64 format. The object will be converted to JSON first if necessary.
@@ -41,11 +41,11 @@ The `<<import>>` macro can be used to import some data you've previously saved t
 **Arguments**:
 
  * **variableName**: The name of a variable, passed in quotes.  The data pulled from the file will be saved to this variable.
- * **dataType**: The data will be imported as a string, but you can have the string be automatically included if you tell the macro what sort of data you expect:
+ * **dataType**: (optional) The data will be imported as a string, but you can have the string be automatically included if you tell the macro what sort of data you expect:
 	 * `text`: the file will be read and imported as a single string.
 	 * `json`: the file will be read as JSON data and converted back into a JavaScript value or object.
 	 * `base64`: the file will be as base64 format, and converted to a string or object as appropriate.
- * **llinkText**: The text the button should appear with.  Defaults to 'Import'.
+ * **llinkText**: (optional) The text the button should appear with.  Defaults to 'Import'.
 
 **Usage**:
 ```
