@@ -2,7 +2,7 @@
 
 [Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
 
-Macros for making your story fullscreen when used in a browser.  Note: these macros may not work in the downloadable release of Twine 2's test and play modes, and may or may not work with various wrappers like NW.js or Electron.  For normal in browser play, they should do fine.
+This macro displays a link or, optionally, a button. The link or button can be clicked to display a message immediately below it in the passage text, and clicked again to collapse the message. 
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/message-macro.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/message-macro.js).  
 **DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
@@ -12,7 +12,7 @@ Macros for making your story fullscreen when used in a browser.  Note: these mac
 
 **Syntax**: `<<message [linkText] [btn] [id]>>`
 
-This macro displays a link or, optionally, a button. The link or button can be clicked to display a message immediately below it in the passage text, and clicked again to collapse the message. 
+Creates a link (or button) on the page.  When clicked, the content between the tags is displayed on the next line, reflowing the following text.  The player can click the same link again to 'collpase' the message.
 
 * **linkText**: (optional) the text of the link.  if omitted, default text is displayed (the default text can be edited above)
 * **btn**: (optional) if `btn` is included in the macro's arguments, a button is generated instead of a link
