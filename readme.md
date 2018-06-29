@@ -81,6 +81,8 @@ If you have any questions or concerns about this, refer to the [license](https:/
 
 ### Fun stuff and details.
 
+-----
+
 Ever wonder what the most popular macros here are?
 
 I don't actually track usage data or anything, but according to pure traffic numbers, the top three are:
@@ -89,10 +91,12 @@ I don't actually track usage data or anything, but according to pure traffic num
  2. The simple inventory.
  3. The first macro.
 
-Other news:
+-----
 
 It's been a little over a year (almost exactly 13 months, actually) between the very first public release of this repo on May 30, 2017 and the "official" v2 release on June 29, 2018.  I started working on v2 in November of 2017, with the first public updates showing up late that month.
 
 I started with Twine (in earnest, I had messed with it years ago in the Sugarcane days) in late November / early December of 2016, and knew nothing about programming, outside a True BASIC high school course, and less than nothing JavaScript / web development.  I just want to encourage anyone who can't get through a function without a billion impossible to find syntax errors, or anyone who literally cannot comprehend MDN.  It's more art than science, more writing a novel than doing your taxes.
 
-And like writing a novel, you can get better at it if you're willing to suck at first.  (Be willing to suck)[https://www.youtube.com/watch?v=p8jw_-Vh9Z0].  You will get there.
+And like writing a novel, you can get better at it if you're willing to suck at first.  [Be willing to suck](https://www.youtube.com/watch?v=p8jw_-Vh9Z0).  You will get there.
+
+-----
