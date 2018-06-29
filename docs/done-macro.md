@@ -2,7 +2,7 @@
 
 [Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
 
-The `<<done>>` macro serves the same purpose as the `PassageDone` special passage, a `postdisplay` task, or a `:passagedisplay` event; it runs it's content just after the current passage finished loading.  This is primarily useful for things like DOM macro manipulation; you normally can't use macros like `<<replace>>` directly in your passage code without placing the in `<<links>>` or other interactive elements, or in the `PassageDone` special passage, since the HTML elements you want to manipulated haven't been drawn yet.
+The `<<done>>` macro serves the same purpose as the `PassageDone` special passage, a `postdisplay` task, or a `:passagedisplay` event; it runs its content just after the current passage has finished loading.  This is primarily useful for things like DOM macro manipulation; you normally can't use macros like `<<replace>>` directly in your passage code without placing them in `<<link>>`s or other interactive elements, or in the `PassageDone` special passage, since the HTML elements you want to manipulate haven't been rendered yet.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/done.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/done.js).  
 **DEMO:** Coming soon.  
@@ -12,7 +12,7 @@ The `<<done>>` macro serves the same purpose as the `PassageDone` special passag
 
 **Syntax**:`<<done>>...<</done>>`
 
-The code between the tags is run after the passage content has finished rendering, ensuring that the DOM had finished rendering.  You can have multiple `<<done>>` macros on a single page, but generally shouldn't need to; if you have multiples, they will work, but it's likely you're doing something wrong.
+The code between the tags is run after the passage content has finished rendering, ensuring that the DOM is ready for all sorts of hijinks.  You *can* have multiple `<<done>>` macros in a single passage, but generally shouldn't need to; if you have multiples, they will work, but it's likely you're doing something wrong or unwise, so think your code through carefully.
 
 **Usage**:
 ```
