@@ -41,7 +41,7 @@ The `<<import>>` macro can be used to import some data you've previously saved t
 **Arguments**:
 
  * **variableName**: The name of a variable, passed in quotes.  The data pulled from the file will be saved to this variable.
- * **dataType**: (optional) The data will be imported as a string, but you can have the string be automatically included if you tell the macro what sort of data you expect:
+ * **dataType**: (optional) The data will be imported as a string, but you can have the string be automatically converted to usable values if you tell the macro what sort of data you expect:
 	 * `text`: the file will be read and imported as a single string.
 	 * `json`: the file will be read as JSON data and converted back into a JavaScript value or object.
 	 * `base64`: the file will be as base64 format, and converted to a string or object as appropriate.

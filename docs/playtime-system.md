@@ -12,7 +12,7 @@
 
 **Syntax**:`<<playtime [format]>>`
 
-This macro shows the user their current playtime in hours, minutes and seconds.  It sill not update itself, but a `<<repeat>>` macro can be used to cause it to automatically update.
+This macro shows the user their current playtime in hours, minutes and seconds.  It will not update itself, but a `<<repeat>>` macro can be used to cause it to automatically update.
 
  * **format**: (optional) if the keyword `format` is included, hours and minutes will be bolded in the output
 
@@ -59,6 +59,6 @@ This system uses a story variable (`$playtime` by default) to store information 
 
 This system uses a passage tag (`pausetimer` by default) to control parts of its operation.  Avoid using this tag for other purposes, or change it using the configuration options.
 
-** Configuration options**:
+**Configuration options**:
 
 You can alter the story variable, passage tag, and whether the `playTime()` function is made global using the configuration options at the top of the script.  See the unminified script for more info.
