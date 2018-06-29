@@ -72,4 +72,4 @@ This code is dedicated to the public domain.  You don't need to provide credit, 
 
 If you do wish to credit me, you can credit me as Chapel, but please do not imply that I directly worked on your game.
 
-If you have any questions or concerns about this, refer to the [license](./license).
+If you have any questions or concerns about this, refer to the [license](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/LICENSE).
