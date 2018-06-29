@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection
+## Chapel's Custom Macro Collection 
 
 ### Contents
  * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)
