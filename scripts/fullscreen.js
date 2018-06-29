@@ -25,32 +25,32 @@ Macro.add('fullscreen', {
 
 Macro.add('fullscreenlink', {
     handler : function() { 
-		
-		var $wrapper  = $(document.createElement('span'));
-		var $link     = $(document.createElement('a'));
-		var className = 'macro-' + this.name;
-		var bg;
-		var linkText;
-		
-		if (this.args.length !== 1) {
-			return this.error('incorrect number of arguments');
-		}
-		
-		linkText = this.args[0];
-		
-		$link
-			.wiki(linkText)
-			.attr('id', 'fullscreen-macro-link')
-			.ariaClick( function () {
-				bg = $('body').css('background-color');
-				$('html').css('background-color', bg);
-				setup.fullscreen(document.documentElement);
-			});
-			
-		$wrapper
-			.append($link)
-			.addClass(className)
-			.appendTo(this.output);
-			
+        
+        var $wrapper  = $(document.createElement('span'));
+        var $link     = $(document.createElement('a'));
+        var className = 'macro-' + this.name;
+        var bg;
+        var linkText;
+        
+        if (this.args.length !== 1) {
+            return this.error('incorrect number of arguments');
+        }
+        
+        linkText = this.args[0];
+        
+        $link
+            .wiki(linkText)
+            .attr('id', 'fullscreen-macro-link')
+            .ariaClick( function () {
+                bg = $('body').css('background-color');
+                $('html').css('background-color', bg);
+                setup.fullscreen(document.documentElement);
+            });
+            
+        $wrapper
+            .append($link)
+            .addClass(className)
+            .appendTo(this.output);
+            
     }
 });

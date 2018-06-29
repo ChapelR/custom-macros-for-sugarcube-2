@@ -4,24 +4,24 @@
 
 // <<first>> macro
 Macro.add('first', {
-	   tags : ['then', 'finally'],
-	handler : function () {
+       tags : ['then', 'finally'],
+    handler : function () {
 
-		var $wrapper = $(document.createElement('span')),
-			last     = this.payload[this.payload.length - 1],
-			visits   = visited() - 1, 
-			content;
-			
-			if (visits < this.payload.length) {
-				content = this.payload[visits].contents;
-			} else {
-				content = (last.name === 'finally') ? last.contents : '';
-			}
+        var $wrapper = $(document.createElement('span')),
+            last     = this.payload[this.payload.length - 1],
+            visits   = visited() - 1, 
+            content;
+            
+            if (visits < this.payload.length) {
+                content = this.payload[visits].contents;
+            } else {
+                content = (last.name === 'finally') ? last.contents : '';
+            }
 
-		$wrapper
-			.wiki(content)
-			.addClass('macro-' + this.name)
-			.appendTo(this.output);
-	}
+        $wrapper
+            .wiki(content)
+            .addClass('macro-' + this.name)
+            .appendTo(this.output);
+    }
 
 });
