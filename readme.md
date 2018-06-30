@@ -18,7 +18,7 @@
 
 ### Installation Guide
 
-To install these macros, all you need is the code.  It is highly recommended that you stall the minified version (found in the `scripts/minified/` directory), as these versions will have improved performance.  You will only need the non-minified versions if you plan to edit the code in some way.
+To install these macros, all you need is the code.  It is highly recommended that you install the minified version (found in the `scripts/minified/` directory), as these versions will have improved performance.  You will only need the non-minified versions if you plan to edit the code in some way.
 
 To install these macros, you will need to be using the most recent version of SugarCube 2 in most cases, and this is almost never the version that comes with Twine 2.  See [SugarCube's website](http://www.motoslave.net/sugarcube/2/#downloads) for updating / installation instructions.
 

@@ -49,7 +49,7 @@ Similar to the `dice()` function, this is another way to roll dice, and exists o
 
 ### Method: `Number.prototype.fairmath()` and `Number.prototype.fm()`
 
-**Syntax**:`<value>.farimath(change)` or `<value>.fm(change)`
+**Syntax**:`<value>.fairmath(change)` or `<value>.fm(change)`
 
 Read more on what fairmath is [here](http://choicescriptdev.wikia.com/wiki/Arithmetic_operators#Fairmath). Basically, a number is changed in a percentile way, and the lower its value, the greater the effect of adding to it, and vice versa, etc.
 
@@ -58,14 +58,17 @@ Read more on what fairmath is [here](http://choicescriptdev.wikia.com/wiki/Arith
 
 **Usage**:
 ```
-<<set $stat to 80>>
-<<set $otherStat to 75>>
+<<set $stat to 90>>
+<<set $otherStat to 50>>
+<<set $otherOtherStat to 10>>
 
 <<set $stat to $stat.fm(20)>>
-<<set $otherStat to $otherStat.fairmath(-20)>>
+<<set $otherStat to $otherStat.fairmath(20)>>
+<<set $otherOtherStat to $otherOtherStat.fairmath(-20)>>
 
-<<= $stat>> /% 96 %/
+<<= $stat>> /% 92 %/
 <<= $otherStat>> /% 60 %/
+<<= $otherOtherStat>> /% 8 %/
 ```
 
 ### Method: `Math.fairmath()` and `Math.fm()`
@@ -79,14 +82,17 @@ The same as `<number>.fairmath()` above, but on the `Math` object, which you may
 
 **Usage**:
 ```
-<<set $stat to 80>>
-<<set $otherStat to 75>>
+<<set $stat to 90>>
+<<set $otherStat to 50>>
+<<set $otherStat to 10>>
 
-<<set $stat to Math.fm($stat, 20)>>
+<<set $stat to Math.fm($stat, -20)>>
 <<set $otherStat to Math.fairmath($otherStat, -20)>>
+<<set $otherOtherStat to Math.fairmath($otherOtherStat, 20)>>
 
-<<= $stat>> /% 96 %/
-<<= $otherStat>> /% 60 %/
+<<= $stat>> /% 72 %/
+<<= $otherStat>> /% 40 %/
+<<= $otherOtherStat>> /% 28 %/
 ```
 
 ## Other usage notes:
