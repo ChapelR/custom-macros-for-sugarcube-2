@@ -88,11 +88,156 @@ Once an inventory is initialized, we can use it with the other macros and method
 
 ## Manipulating an inventory.
 
-Now that we've created an inventory for the player, we can start to manipulate it.
+Now that we've created an inventory for the player, we can start to manipulate it.  The most common actions you'll want to take with the inventory is to add and remove items from it. To add items, you'll use the `<<pickup>>` macro:
+
+```
+<<pickup '$inventory' 'a hammer'>>
+<<inventory '$inventory'>>
+```
+
+Our inventory will now include `a hammer`, and when we print it with `<<inventory>>`, we'll now see it:
+
+```
+OUTPUT:
+a hammer
+```
+
+If you were to add another `a hammer`, it **will not** stack them or ignore the duplicate by default, instead, a new hammer is added.
+
+```
+<<pickup '$inventory' 'a hammer', 'a wrench'>>
+<<inventory '$inventory'>>
+```
+```
+OUTPUT:
+a hammer
+a hammer
+a wrench
+```
+
+This may be counter to your expectations, so be wary.
+
+However, we can get around this using a variety of methods. Let's say that you want the hammers to stack, and show `2 hammers`. In this case, we can use an *inventory event* to catch the second hammer before it joins our inventory.
+
+```javascript
+$(document).on(':invetory-update', function (ev) {
+    if (ev.context === 'pickup') {
+        if (ev.instance.has('a hammer') && ev.moved.includes('a hammer')) {
+            var arr = Inventory.removeDuplicates(ev.instance);
+            ev.instance.empty().pickUp(arr);
+            ev.instance.drop('a hammer');
+            ev.instance.pickUp('2 hammers');
+        }
+    }
+});
+```
+
+As you can see, this is a labor-intensive and difficult process. This inventory system is designed for key-type items, not stackable inventories. The more items you wish to allow to stack, the more complicated and messy this becomes. I *highly* recommend using a different system altogether if stackable items are important to your game.
+
+If you instead want the player to only be able to carry a single item of each name in the inventory at a time, i.e., the player can only have one hammer at a time, this is much simpler to achieve.
+
+```
+<<pickup '$inventory' unique 'a hammer', 'a wrench'>>
+<<inventory '$inventory'>>
+```
+```
+OUTPUT:
+a hammer
+a wrench
+```
+
+In the above example, if they player already has either a hammer or a wrench, then they won't get duplicates of these items.
+
+If you need to remove duplicates *later* or only when displaying the inventory, you may instead wish to use the `Inventory.removeDuplicates()` method. 
+
+```
+<<set _items to Inventory.removeDuplicates('$inventory')>>
+```
+
+This creates an **array** of item names made from the inventory's item list that doesn't include any duplicates. It does not edit the inventory you pass to it, but you can have it do that.
+
+```
+<<= _items.join(', ')>> /% prints a list with duplicates removed %/
+<<dropall '$inventory'>><<pickup '$inventory' _items>> /% removes all duplicates from an inventory %/
+```
+
+Generally, if you need uniqueness, it's best to handle that via `<<pickup>>` macros rather than after the fact, but there are some reasons to do the latter.
+
+-----
+
+To remove items from an inventory, the `<<drop>>` macro will remove an item, and the `<<dropall>>` macro will completely empty the inventory.
+
+```
+<<drop '$inventory' 'a hammer'>>
+```
+
+Note that if the inventory has duplicates, `<<drop>>` will only remove one instance of each item, but it's possible to call it with several items in a row to remove multiples.
+
+```
+<<drop '$inventory' 'a hammer' 'a hammer' 'a hammer'>>
+```
+
+If the item(s) requested for the drop isn't in the inventory, nothing at all happens, and no errors are reported. Do to this, you generally want to check the inventory before `<<drop>>`ing; for example, if the player needs to use a key and then lose it, a common construction will probably look more like this:
+
+```
+There's a door leading into the castle here.
+
+<<if hasVisited('inside') || $inventory.has('rusty key')>>\
+    <<link [[Go into the castle.|inside]]>>
+        <<drop '$inventory' 'rusty key'>>
+    <</link>>\
+<<else>>\
+    The door's rusted lock won't budge.\
+<</if>>\
+
+[[Leave.|previous()]]
+```
+
+The above construction will let the player unlock the door if they have a key or if they've already been past the door (under the assumption the key is required for that).  It's possible to get more granular than this, reporting different messages based on whether the door was already unlocked or not:
+
+```
+There's a door leading into the castle here.
+
+<<if hasVisited('inside')>>\
+    The door is open a bit.
+
+    [[Go into the castle.|inside]]\
+<<elseif  $inventory.has('rusty key')>>\
+    You believe you've found the key.
+
+    <<link [[Unlock the gate.|inside]]>>
+        <<drop '$inventory' 'rusty key'>>
+    <</link>>\
+<<else>>\
+    The door's rusted lock won't budge.\
+<</if>>\
+
+[[Leave.|previous()]]
+```
+
+Clearing the entire inventory is probably suitably rare.
 
 ## Testing an inventory for items
 
-Descr.
+The `has()` and `hasAll()` methods are used to test the inventory for items.
+
+```
+<<if $inventory.has('tree branch')>>
+    You have a tree branch!
+<</if>>
+```
+
+When checking for a single item, the `has()` method is recommended.  When you want to check for a collection of items, you can use either `has()` or `hasAll()` depending on your needs; the former returns `true` if *any* of the requested items are in the inventory,  while the latter only returns `true` if *all* of the requested items are found in the inventory.
+
+```
+<<if $inventory.hasAll('kindling', 'match')>>
+    You can start a fire!
+<</if>>
+
+<<if $inventory.has('camera', 'smart phone')>>
+    You can take a picture!
+<</if>>
+```
 
 ## Displaying an inventory
 
