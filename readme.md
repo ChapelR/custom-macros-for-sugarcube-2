@@ -1,6 +1,6 @@
 ## Chapel's Custom Macro Collection 
 
-### Contents
+### Documentation
  * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)
  * [The Done Macro](./docs/done-macro.md)
  * [The Dropdown Macro](./docs/dropdown.md)

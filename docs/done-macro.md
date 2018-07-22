@@ -32,7 +32,7 @@ Done + Replace: @@#my-other-element;@@
 
 **Task object warning**:
 
-This macro registers a `postdisplay` task object called `:chapel-done-macro`, so you'll want to avoid using that name for your own task objects to prevent potential bugs.  There is no configuration option to change this, but it's fairly easy to see and change in the unminified source code, where it should appear three times in total.
+This macro registers one or more `postdisplay` task object called `:chapel-done-macro-#`, where the `#` is a number. So you'll want to avoid using these names for your own task objects to prevent potential bugs.  There is no configuration option to change this, but it's fairly easy to see and change in the unminified source code, where it should appear only once.
 
 -----
 

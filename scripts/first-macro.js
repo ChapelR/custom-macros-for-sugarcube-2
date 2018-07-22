@@ -1,11 +1,12 @@
 // first macro, by chapel; for sugarcube 2
-// version 1.1.0
+// version 1.1.1
 // see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#first-macro
 
 // <<first>> macro
 Macro.add('first', {
-       tags : ['then', 'finally'],
-    handler : function () {
+    skipArgs : true,
+        tags : ['then', 'finally'],
+     handler : function () {
 
         var $wrapper = $(document.createElement('span')),
             last     = this.payload[this.payload.length - 1],
