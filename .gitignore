@@ -49,3 +49,4 @@ Temporary Items
 /old
 /node_modules
 build.bat
+**.sublime-*

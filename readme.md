@@ -3,7 +3,7 @@
 ### Documentation
  * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)
  * [The Done Macro](./docs/done-macro.md)
- * [The Dropdown Macro](./docs/dropdown.md)
+ * [The Dropdown Macro](./docs/dropdown.md) (retired)
  * [The Event Macros](./docs/event-macros.md)
  * [The Fading Macro Set](./docs/fading-macros.md)
  * [The File System Macro Set](./docs/file-system-macros.md)
@@ -78,6 +78,12 @@ This code is dedicated to the public domain.  You don't need to provide credit, 
 If you do wish to credit me, you can credit me as Chapel, but please do not imply that I directly worked on your game.
 
 If you have any questions or concerns about this, refer to the [license](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/LICENSE).
+
+### Donations
+
+Note: I suggest donating to [Twine development](https://www.patreon.com/klembot) or [SugarCube development](https://www.patreon.com/thomasmedwards) if you really want to help out, but I'd welcome a few dollars if you feel like it.
+
+[![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/F1F8IC35)
 
 ### Fun stuff and details.
 
