@@ -21,7 +21,7 @@ The `<<ui>>` macro is a macro-wrapper around some SugarCube APIs, similar in con
 Some commands have aliases; alternate command names that do the same thing.
 
 |**Command**|**Alias**|**Description**|
-|---|---|
+|---|---|---|
 |`update`|`refresh`, `reload`|Updates all of the UI elements. If you have variables displayed in the UI bar (the `StoryCaption`, for example), their values will update.|
 |`stow`| |Stows (collapses) the UI bar, similar to if the arrow button is pressed.|
 |`unstow`| |Unstows the UI bar.|
