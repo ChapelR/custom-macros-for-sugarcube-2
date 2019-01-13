@@ -2,7 +2,7 @@
 
 [Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
 
-A simple macro set that causes the text between its tags to fade in or out over a period of time specified by the user, with an optional delay. Nothing crazy, but a feature I see requested frequently.
+This macro provides users access to parts of the UI and UIBar APIs from macros, and a few other, non-API functions.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/ui-macro.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/ui-macro.js).  
 **DEMO:** Coming soon.  
@@ -12,7 +12,7 @@ A simple macro set that causes the text between its tags to fade in or out over 
 
 **Syntax**: `<<ui commandList>>`
 
-The `<<ui>>` macro is a macro-wrapper around some SugarCube APIs, similar in concept to the [dialog API macro set](./dialog-api-macro-set.md). It allows you to control certain UI and UIBar APIs from macro code, and also adds a few extra commands of its own. You can run any number of actions in a single macro call, and they will execute in order. Calling two commands that essentially tdo the opposite, e.g. `stow` and `unstow` in the same `<<ui>>` macro call won't cause an error but it's also a wash: nothing will happen.
+The `<<ui>>` macro is a macro-wrapper around some SugarCube APIs, similar in concept to the [dialog API macro set](./dialog-api-macro-set.md). It allows you to control certain UI and UIBar APIs from macro code, and also adds a few extra commands of its own. You can run any number of actions in a single macro call, and they will execute in order. Calling two commands that essentially do the opposite, e.g. `stow` and `unstow` in the same `<<ui>>` macro call won't cause an error but it's also a wash: nothing will happen.
 
 **Arguments**:
 
@@ -20,7 +20,7 @@ The `<<ui>>` macro is a macro-wrapper around some SugarCube APIs, similar in con
 
 **Command List**:
 
-Some commands have aliases; alternate command names that do the same thing.
+Some commands have aliases: alternate command names that do the same thing.
 
 |**Command**|**Alias**|**Description**|
 |---|---|---|

@@ -4,6 +4,7 @@
  * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)
  * [The UI Macro](./docs/ui-macro.md)
  * [The Done Macro](./docs/done-macro.md)
+ * [The Mouseover Macro](./docs/mouseover-macro.md)
  * [The Event Macros](./docs/event-macros.md)
  * [The Fading Macro Set](./docs/fading-macros.md)
  * [The File System Macro Set](./docs/file-system-macros.md)
@@ -61,7 +62,7 @@ If you're having an issue with these macros and suspect that it's operator error
  * [The Official Twine Discord Server](https://discordapp.com/invite/n5dJvPp)
  * [The Unoffical Twine Subreddit](https://www.reddit.com/r/twinegames/)
 
-Regardless of where you seek help, you'll want to provide links to the scripts you're using for your potential answerers.  Don't expect people to know what "Chapel's fading macros" are or how they work jjust from the name.
+Regardless of where you seek help, you'll want to provide links to the scripts you're using for your potential answerers.  Don't expect people to know what "Chapel's fading macros" are or how they work just from the name.
 
 ### You Don't Write Good...
 
@@ -73,7 +74,7 @@ Some macros were just too good for this world. Some turned out to be really bad 
 
 ### Credit and Attribution
 
-This code is dedicated to the public domain.  You don't need to provide credit, attribution, or anything else.  You could even pass it off as your own!
+This code is dedicated to the public domain.  You don't need to provide credit, attribution, or anything else.  You could even pass it off as your own! (Would be mean.)
 
 If you do wish to credit me, you can credit me as Chapel, but please do not imply that I directly worked on your game.
 
