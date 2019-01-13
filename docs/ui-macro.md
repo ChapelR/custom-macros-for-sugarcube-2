@@ -14,6 +14,8 @@ A simple macro set that causes the text between its tags to fade in or out over 
 
 The `<<ui>>` macro is a macro-wrapper around some SugarCube APIs, similar in concept to the [dialog API macro set](./dialog-api-macro-set.md). It allows you to control certain UI and UIBar APIs from macro code, and also adds a few extra commands of its own. You can run any number of actions in a single macro call, and they will execute in order. Calling two commands that essentially tdo the opposite, e.g. `stow` and `unstow` in the same `<<ui>>` macro call won't cause an error but it's also a wash: nothing will happen.
 
+**Arguments**:
+
  * **commandList**: one or more commands from the list below.
 
 **Command List**:
