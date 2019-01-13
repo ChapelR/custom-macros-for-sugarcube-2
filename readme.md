@@ -2,11 +2,12 @@
 
 ### Documentation
  * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)
- * [The UI Macro](./docs/ui-macro.md)
+ * [The UI Macro](./docs/ui-macro.md) (new!)
  * [The Done Macro](./docs/done-macro.md)
- * [The Mouseover Macro](./docs/mouseover-macro.md)
+ * [The Mouseover Macro](./docs/mouseover-macro.md) (new!)
  * [The Event Macros](./docs/event-macros.md)
  * [The Fading Macro Set](./docs/fading-macros.md)
+ * [The Swap Macro Set](./docs/swap-macro-set.md) (new!)
  * [The File System Macro Set](./docs/file-system-macros.md)
  * [The First Macro](./docs/first-macro.md)
  * [The Fullscreen Macros](./docs/fullscreen-macros.md)
