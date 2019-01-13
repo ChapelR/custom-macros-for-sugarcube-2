@@ -2,8 +2,8 @@
 
 ### Documentation
  * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)
+ * [The UI Macro](./docs/ui-macro.md)
  * [The Done Macro](./docs/done-macro.md)
- * [The Dropdown Macro](./docs/dropdown.md) (retired)
  * [The Event Macros](./docs/event-macros.md)
  * [The Fading Macro Set](./docs/fading-macros.md)
  * [The File System Macro Set](./docs/file-system-macros.md)
