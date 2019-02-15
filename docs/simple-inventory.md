@@ -470,7 +470,7 @@ This method is useful for enforcing uniqueness; that is, preventing doubles or d
 
 Instance methods, unlike static methods, are called directly on the inventory object, so you replace `<inventory>` with the variable you're using to store / reference the inventory instance you want to work on.  See the examples for the methods below if that confuses you.
 
-Of particular note to authors: `<inventory>.has()`, `<inventory>.hasAll()`, and `<inventory>.toArray()`
+Of particular note to authors: `<inventory>.has()`, `<inventory>.hasAll()`, `<inventory>.toArray()`, `<inventory>.count()`, and `<inventory>.isEmpty()`.
 
 ##### `<inventory>.pickUp()`
 
@@ -632,6 +632,46 @@ This method returns an array made up of the items in the calling inventory.  Use
 <<set _items to ['uh oh']>> /% empty the clone %/
 <<= $container.show(', ')>> /% shows the original inventory %/
 <<= _items.join(', ')>> /% shows 'uh oh' %/
+```
+
+##### `<inventory>.count()`
+
+**Return Value**: Integer.
+
+**Syntax**: `<inventory>.count([item])`
+
+This method returns the total number of items in the inventory. If you pass it a string corresponding to an item name, it will instead check for how many duplicates of that item are in the inventory.
+
+**Arguments**:
+
+* **item**: (optional) the item to count duplicates of.
+
+**Usage**:
+```
+/% create an array based on the inventory %/
+<<newinventory '$inv' 'this' 'that' 'the other' 'another' 'that'>>
+
+<<= $inv.count()>> /% 5 %/
+<<= $inv.count('this')>> /% 1 %/
+<<= $inv.count('that')>> /% 2 %/
+```
+
+##### `<inventory>.isEmpty()`
+
+**Return Value**: Boolean.
+
+**Syntax**: `<inventory>.isEmpty()`
+
+This method returns whether or not the inventory is empty (has zero items in it). You can also compare `<inventory>.count()` to `0` to achieve similar results.
+
+**Usage**:
+```
+/% check if the inventory is empty %/
+<<if $inventory.isEmpty()>>
+    You aren't carrying anything.
+<<else>>
+    You have some things on you.
+<</if>>
 ```
 
 ##### `<inventory>.sort()`

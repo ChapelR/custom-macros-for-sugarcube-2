@@ -1,5 +1,5 @@
 // simple-inventory.js, by chapel; for sugarcube 2
-// version 2.1.0
+// version 2.2.0
 
 // namespace
 setup.simpleInv = {};
@@ -140,12 +140,12 @@ setup.simpleInv.inventory.prototype = {
     pickUp : function (unique) { // add items to this inventory
         var items = [].slice.call(arguments).flatten(), inventory = this;
         if (items && items.length) {
-            if (unique === 'unique' || items[0] === 'unique') { // JS API only; items must be unique in eash inventory instance
+            if (unique === 'unique' || items[0] === 'unique') { // items must be unique in each inventory instance
                 items = items.splice(1);
                 items = (function (items) { 
                     var ret = []; // this code could use some cleanup
                     items.forEach(function (item) {
-                        if (!inventory.inv.includes(item)) {
+                        if (!inventory.inv.includes(item) && !ret.includes(item)) {
                             ret.push(item);
                         }
                     });
@@ -202,6 +202,25 @@ setup.simpleInv.inventory.prototype = {
     
     toArray : function () { // not super necessary
         return (this.inv);
+    },
+
+    count : function (item) {
+        // if item, count the number of duplicates
+        if (item && typeof item === 'string') {
+            var cnt = 0;
+            this.toArray().forEach( function (i) {
+                if (i === item) {
+                    cnt++;
+                }
+            });
+            return cnt;
+        }
+        // else return the length
+        return this.toArray().length;
+    },
+
+    isEmpty : function () {
+        return this.toArray().length === 0;
     },
     
     linkedList : function (loc, action) { // construct the list elements to keep the macro call clean-ish
@@ -301,7 +320,7 @@ if (setup.simpleInv.options.tryGlobal) {
 Macro.add('newinventory', {
     handler : function () {
 
-        if (this.args.length !== 1) {
+        if (this.args.length < 1) {
             return this.error('incorrect number of arguments');
         }
         var varName = this.args[0].trim();
