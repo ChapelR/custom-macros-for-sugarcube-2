@@ -1,5 +1,5 @@
 (function () {
-    // mouseover macro, v 1.0.0, by chapel, for sugarcube 2
+    // mouseover macro, v 1.0.1, by chapel, for sugarcube 2
 
     Macro.add('mouseover', {
 
@@ -18,8 +18,6 @@
             if (this.payload.length < 2) {
                 return this.error('No event tag used.');
             }
-
-            var self = this;
 
             var wiki = {
                 mouseover : [],
@@ -53,19 +51,19 @@
 
             // attach appropriate events
             if (wiki.mouseover.length) {
-                $el.on('mouseover', function (ev) {
+                $el.on('mouseover', this.createShadowWrapper(function (ev) {
                     $.wiki(wiki.mouseover.join(' '));
-                });
+                }));
             }
             if (wiki.mousein.length) {
-                $el.on('mouseenter', function (ev) {
+                $el.on('mouseenter', this.createShadowWrapper(function (ev) {
                     $.wiki(wiki.mousein.join(' '));
-                });
+                }));
             }
             if (wiki.mouseout.length) {
-                $el.on('mouseout', function (ev) {
+                $el.on('mouseout', this.createShadowWrapper(function (ev) {
                     $.wiki(wiki.mouseout.join(' '));
-                });
+                }));
             }
         }
     });

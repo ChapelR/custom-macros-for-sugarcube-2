@@ -1,5 +1,5 @@
 // typesim macro, by chapel; for sugarcube 2
-// version 1.0.0
+// version 1.0.1
 
 Macro.add('typesim', {
        tags : null,
@@ -34,7 +34,7 @@ Macro.add('typesim', {
             .appendTo(this.output);
         
         // listener
-        $(document).on('keydown', '#' + id, function (e) {
+        $(document).on('keydown', '#' + id, this.createShadowWrapper( function (e) {
             
             if (i < length) {
                 shown = shown + message.charAt(i);
@@ -49,7 +49,7 @@ Macro.add('typesim', {
             }
             
             i++;
-        });
+        }));
         
     }
 });

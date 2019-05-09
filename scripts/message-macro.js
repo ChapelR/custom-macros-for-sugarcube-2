@@ -1,5 +1,5 @@
 // message macro, by chapel (with help from T.M. Edwards); for sugarcube 2
-// version 1.0.0
+// version 1.0.1
 // see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#message-macro
 
 //intialize namespace
@@ -19,7 +19,7 @@ Macro.add('message', {
 
         $link
             .wiki(this.args.length > 0 && this.args[0] !== 'btn' ? this.args[0] : setup.messageMacro.default)
-            .ariaClick(function () {
+            .ariaClick( this.createShadowWrapper( function () {
                 if ($wrapper.hasClass('open')) {
                     $content
                         .css('display', 'none')
@@ -32,7 +32,7 @@ Macro.add('message', {
                 }
 
                 $wrapper.toggleClass('open');
-            });
+            }));
 
         $wrapper
             .attr('id', 'macro-' + this.name + '-' + this.args.join('').replace(/[^A-Za-z0-9]/g, ''))
