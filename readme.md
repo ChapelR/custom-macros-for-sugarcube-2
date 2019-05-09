@@ -1,21 +1,21 @@
 ## Chapel's Custom Macro Collection 
 
 ### Documentation
- * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)
- * [The UI Macro](./docs/ui-macro.md) (new!)
+ * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)  
+ * [The UI Macro](./docs/ui-macro.md)  
  * [The Done Macro](./docs/done-macro.md)
- * [The Mouseover Macro](./docs/mouseover-macro.md) (new!)
- * [The Event Macros](./docs/event-macros.md)
- * [The Fading Macro Set](./docs/fading-macros.md)
- * [The Swap Macro Set](./docs/swap-macro-set.md) (new!)
- * [The File System Macro Set](./docs/file-system-macros.md)
- * [The First Macro](./docs/first-macro.md)
- * [The Fullscreen Macros](./docs/fullscreen-macros.md)
- * [The Message Macro](./docs/message-macro.md)
- * [The Notify Macro](./docs/notify-macro.md)
- * [The Operations API](./docs/operations-api.md)
- * [The Playtime System](./docs/playtime-system.md)
- * [The Simple Inventory System](./docs/simple-inventory.md)
+ * [The Mouseover Macro](./docs/mouseover-macro.md)  
+ * [The Event Macros](./docs/event-macros.md)  
+ * [The Fading Macro Set](./docs/fading-macros.md)  
+ * [The Swap Macro Set](./docs/swap-macro-set.md)  
+ * [The File System Macro Set](./docs/file-system-macros.md)  
+ * [The First Macro](./docs/first-macro.md)  
+ * [The Fullscreen Macros](./docs/fullscreen-macros.md)  
+ * [The Message Macro](./docs/message-macro.md)  
+ * [The Notify Macro](./docs/notify-macro.md)  
+ * [Dice Roller and Fairmath Functions](./docs/operations-api.md)  
+ * [The Playtime System](./docs/playtime-system.md)  
+ * [The Simple Inventory System](./docs/simple-inventory.md)  
  * [The Typing Simulation Macro](./docs/type-sim.md)
 
 ### Installation Guide
@@ -44,7 +44,7 @@ Make sure that any code above my scripts in your JavaScript is correct, particul
 
 If none of those common solutions help you with the problem, open an issue here on the repo.  Be sure to tell me the exact version of SugarCube (found in the `Change story format` menu option in Twine 2) and the exact version of your compiler (for Twine 2, the bottom right on the story list).
 
-Also try to screen grab or copy/paste any specific error messages.
+Also try to screen grab or copy/paste any specific error messages, and provide sample code or steps to reproduce the issue.
 
 ### General Troubleshooting
 
@@ -55,6 +55,10 @@ If a script doesn't seem to be working right, remember:
 
 If you're reasonably sure you've read the docs and are using the right version and such, feel free to open an issue.
 
+### Suggestions
+
+Have ideas? I'm open to contributions, both in the form of ideas and code. Open an issue or pull request if you want to help out or make suggestions for new macros or systems.
+
 ### I Need Help!
 
 If you're having an issue with these macros and suspect that it's operator error rather than a bug, you can still open an issue, but a faster way to get help would be to post in one of these Twine communities:
@@ -63,48 +67,22 @@ If you're having an issue with these macros and suspect that it's operator error
  * [The Official Twine Discord Server](https://discordapp.com/invite/n5dJvPp)
  * [The Unoffical Twine Subreddit](https://www.reddit.com/r/twinegames/)
 
-Regardless of where you seek help, you'll want to provide links to the scripts you're using for your potential answerers.  Don't expect people to know what "Chapel's fading macros" are or how they work just from the name.
+Regardless of where you seek help, you'll want to provide links to the scripts you're using for your potential answerers.  Don't expect people to know what "Chapel's fading macros" are or how they work just from that.
 
 ### You Don't Write Good...
 
 Please take a minute and help me out by reporting any errors in the documentation via an issue, or pull request a fix if you've got the time and know-how.  Both are greatly appreciated.
 
-### WAIT! WHERE'S THE X MACRO???????
-
-Some macros were just too good for this world. Some turned out to be really bad ideas. Some were just so poorly written that they'll take a long time to reimplement.  That said, if a macro you need / want / like isn't here, you can [go here](https://github.com/ChapelR/custom-macros-for-sugarcube-2/releases/tag/v1.6.1) to download the original collection as it was in it's prime.
-
 ### Credit and Attribution
 
-This code is dedicated to the public domain.  You don't need to provide credit, attribution, or anything else.  You could even pass it off as your own! (Would be mean.)
+This code is dedicated to the public domain.  You **don't** need to provide credit, attribution, or anything else if you don't want to.
 
-If you do wish to credit me, you can credit me as Chapel, but please do not imply that I directly worked on your game.
+If you do wish to credit me, which I always appreciate, you can credit me as Chapel, but please do not imply that I directly worked on your game.
 
-If you have any questions or concerns about this, refer to the [license](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/LICENSE).
+If you have any questions or concerns about this, refer to the [license](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/LICENSE) or reach out to me.
 
 ### Donations
 
 Note: I suggest donating to [Twine development](https://www.patreon.com/klembot) or [SugarCube development](https://www.patreon.com/thomasmedwards) if you really want to help out, but I'd welcome a few dollars if you feel like it.
 
 [![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/F1F8IC35)
-
-### Fun stuff and details.
-
------
-
-Ever wonder what the most popular macros here are?
-
-I don't actually track usage data or anything, but according to pure traffic numbers, the top three are:
-
- 1. The fading macro set.
- 2. The simple inventory.
- 3. The first macro.
-
------
-
-It's been a little over a year (almost exactly 13 months, actually) between the very first public release of this repo on May 30, 2017 and the "official" v2 release on June 29, 2018.  I started working on v2 in November of 2017, with the first public updates showing up late that month.
-
-I started with Twine (in earnest, I had messed with it years ago in the Sugarcane days) in late November / early December of 2016, and knew nothing about programming, outside a True BASIC high school course, and less than nothing JavaScript / web development.  I just want to encourage anyone who can't get through a function without a billion impossible to find syntax errors, or anyone who literally cannot comprehend MDN.  It's more art than science, more writing a novel than doing your taxes.
-
-And like writing a novel, you can get better at it if you're willing to suck at first.  [Be willing to suck](https://www.youtube.com/watch?v=p8jw_-Vh9Z0).  You will get there.
-
------

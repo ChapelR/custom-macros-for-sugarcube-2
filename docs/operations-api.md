@@ -1,4 +1,4 @@
-## The Operations API
+## Dice Roller and Fairmath Functions
 
 [Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
 
