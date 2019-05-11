@@ -1,12 +1,12 @@
 ## The Simple Inventory (v2.x) Guide
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](../readme.md).
 
 This is a guide for the simple inventory system (v2.0.0 and later).  This guide is intended to get you started with the system fast, by presenting some common use-cases and exploring certain features in plain English.  However, you should still familiarize yourself with the documentation, as not all functionality or use-cases will be covered here.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/simple-inventory.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/simple-inventory.js).  
 **DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
-**DOCUMENTATION:** [Available](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/docs/simple-inventory.md).
+**DOCUMENTATION:** [Available](../simple-inventory.md).
 
 ## Contents
 

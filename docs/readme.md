@@ -1,22 +1,22 @@
 ## Chapel's Custom Macro Collection 
 
 ### Documentation
- * [The Dialog API Macro Set](./docs/dialog-api-macro-set.md)  
- * [The UI Macro](./docs/ui-macro.md)  
- * [The Done Macro](./docs/done-macro.md)
- * [The Mouseover Macro](./docs/mouseover-macro.md)  
- * [The Event Macros](./docs/event-macros.md)  
- * [The Fading Macro Set](./docs/fading-macros.md)  
- * [The Swap Macro Set](./docs/swap-macro-set.md)  
- * [The File System Macro Set](./docs/file-system-macros.md)  
- * [The First Macro](./docs/first-macro.md)  
- * [The Fullscreen Macros](./docs/fullscreen-macros.md)  
- * [The Message Macro](./docs/message-macro.md)  
- * [The Notify Macro](./docs/notify-macro.md)  
- * [Dice Roller and Fairmath Functions](./docs/operations-api.md)  
- * [The Playtime System](./docs/playtime-system.md)  
- * [The Simple Inventory System](./docs/simple-inventory.md)  
- * [The Typing Simulation Macro](./docs/type-sim.md)
+ * [The Dialog API Macro Set](./dialog-api-macro-set.md)  
+ * [The UI Macro](./ui-macro.md)  
+ * [The Done Macro](./done-macro.md)
+ * [The Mouseover Macro](./mouseover-macro.md)  
+ * [The Event Macros](./event-macros.md)  
+ * [The Fading Macro Set](./fading-macros.md)  
+ * [The Swap Macro Set](./swap-macro-set.md)  
+ * [The File System Macro Set](./file-system-macros.md)  
+ * [The First Macro](./first-macro.md)  
+ * [The Fullscreen Macros](./fullscreen-macros.md)  
+ * [The Message Macro](./message-macro.md)  
+ * [The Notify Macro](./notify-macro.md)  
+ * [Dice Roller and Fairmath Functions](./operations-api.md)  
+ * [The Playtime System](./playtime-system.md)  
+ * [The Simple Inventory System](./simple-inventory.md)  
+ * [The Typing Simulation Macro](./type-sim.md)
 
 ### Installation Guide
 

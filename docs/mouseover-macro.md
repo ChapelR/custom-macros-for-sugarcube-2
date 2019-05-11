@@ -1,6 +1,6 @@
 ## The Mouseover Macro
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 This macro allows you to use some fancy mouse events to create hover effects, tooltips, or just run arbitrary code when the mouse enters or leaves an element.
 

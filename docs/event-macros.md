@@ -1,6 +1,6 @@
 ## The Event Macros
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 This macro set allows Twine authors to create event programming without needing to use JavaScript or jQuery.
 

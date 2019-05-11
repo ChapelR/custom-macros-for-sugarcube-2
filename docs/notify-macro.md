@@ -1,6 +1,6 @@
 ## The Notify Macro
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 This macro pops a message up that slides out from the right side of the screen, a short notification that's less distracting than a dialog or alert, for things like inventory changes, experience gains, or even achievements.
 

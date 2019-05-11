@@ -1,6 +1,6 @@
 ## Dice Roller and Fairmath Functions
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 This is a bunch of functions and methods for performing some useful number- or math-based operations.
 

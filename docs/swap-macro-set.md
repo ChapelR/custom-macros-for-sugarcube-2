@@ -1,6 +1,6 @@
 ## The Done Macro
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 A macro that lets users "swap" arbitrary text by clicking on one set of text and then another. You can also reset the text to its initial state, and run arbitrary code when certain texts are swapped. You know what, here's an example of what I mean:
 

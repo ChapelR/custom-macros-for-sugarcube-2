@@ -1,6 +1,6 @@
 ## The Dialog API Macro Set
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 This macro set helps you work with SugarCube's Dialog API without having to touch any JavaScript.
 

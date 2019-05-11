@@ -1,6 +1,6 @@
 ## The Typing Simulation Macro
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 Some games, like *Superhot*, have a neat little feature where you can mash on the keyboard and no matter what you actually type in, a predefined message comes out.  This macro provides a similar function to Twine.
 

@@ -1,6 +1,6 @@
 ## The Fullscreen Macros
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 Macros for making your story fullscreen when used in a browser.  Note: these macros may not work in the downloadable release of Twine 2's test and play modes, and may or may not work with various wrappers like NW.js or Electron.  For normal in browser play, they should do fine.
 

@@ -1,6 +1,6 @@
 ## The Playtime System
 
-[Back to the main readme](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/readme.md).
+[Back to the main readme](./readme.md).
 
 Records the player's total play time in hours, minutes, and seconds (though milliseconds are alos tracked) and formats it for display via the `<<playtime>>` macro. You can pause the timer with the `pausetimer` tag, and format your own output using the global `playTime()` function.
 
