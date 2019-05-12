@@ -1,1 +1,1 @@
-* [Home](/)
+* [DEMO](./demo ':ignore')

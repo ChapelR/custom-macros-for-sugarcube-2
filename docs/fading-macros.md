@@ -1,6 +1,6 @@
 ## The Fading Macro Set
 
-[Back to the main readme](./readme.md).
+[Back to the main readme](./README.md).
 
 A simple macro set that causes the text between its tags to fade in or out over a period of time specified by the user, with an optional delay. Nothing crazy, but a feature I see requested frequently.
 

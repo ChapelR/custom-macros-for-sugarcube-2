@@ -1,6 +1,6 @@
 ## Dice Roller and Fairmath Functions
 
-[Back to the main readme](./readme.md).
+[Back to the main readme](./README.md).
 
 This is a bunch of functions and methods for performing some useful number- or math-based operations.
 

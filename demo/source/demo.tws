@@ -1,2433 +1,0 @@
-(dp0
-S'buildDestination'
-p1
-S''
-p2
-sS'saveDestination'
-p3
-S'C:\\Users\\Simmons\\Desktop\\refactored\\demo\\source\\demo.tws'
-p4
-sS'metadata'
-p5
-(dp6
-sS'target'
-p7
-S'sugarcube-2'
-p8
-sS'storyPanel'
-p9
-(dp10
-S'widgets'
-p11
-(lp12
-(dp13
-S'selected'
-p14
-I00
-sS'pos'
-p15
-(lp16
-I10
-aI10
-asS'passage'
-p17
-(itiddlywiki
-Tiddler
-p18
-(dp20
-S'text'
-p21
-VThis is a demo story file intended to show off some usage examples of my custom macros and systems for SugarCube.  You can look into the included systems by using the story menu on the left.\u000a\u000a[[Source code and downloads.|https://github.com/ChapelR/custom-macros-for-sugarcube-2]]\u000a\u000a[[Download this example file.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/tree/master/demo/source]] (Available as a Twine 1 tws file, a Twine 2 html archive, and a Twee notation file.)\u000a\u000a[[Report bugs with this demo.|https://github.com/ChapelR/custom-macros-for-sugarcube-2/issues/new]]\u000a\u000a[[Take a look at my blog.|http://devlog.holylandgame.com/]]
-p22
-sS'title'
-p23
-VStart
-p24
-sS'modified'
-p25
-ctime
-struct_time
-p26
-((I2017
-I11
-I29
-I0
-I0
-I46
-I2
-I333
-I0
-tp27
-(dp28
-tp29
-Rp30
-sS'tags'
-p31
-(lp32
-sS'created'
-p33
-g26
-((I2017
-I11
-I28
-I0
-I7
-I53
-I1
-I332
-I0
-tp34
-(dp35
-tp36
-Rp37
-sbsa(dp38
-g14
-I01
-sg15
-(lp39
-I10
-aI150
-asg17
-(itiddlywiki
-Tiddler
-p40
-(dp41
-g21
-VCustom Macros Demo
-p42
-sg23
-VStoryTitle
-p43
-sg25
-g26
-((I2017
-I11
-I30
-I5
-I0
-I10
-I3
-I334
-I0
-tp44
-(dp45
-tp46
-Rp47
-sg31
-(lp48
-sg33
-g26
-((I2017
-I11
-I28
-I0
-I7
-I53
-I1
-I332
-I0
-tp49
-(dp50
-tp51
-Rp52
-sbsa(dp53
-g14
-I00
-sg15
-(lp54
-I10
-aI290
-asg17
-(itiddlywiki
-Tiddler
-p55
-(dp56
-g21
-VChapel
-p57
-sg23
-VStoryAuthor
-p58
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I24
-I17
-I1
-I332
-I0
-tp59
-(dp60
-tp61
-Rp62
-sg31
-(lp63
-sg33
-g26
-((I2017
-I11
-I28
-I0
-I7
-I53
-I1
-I332
-I0
-tp64
-(dp65
-tp66
-Rp67
-sbsa(dp68
-g14
-I00
-sg15
-(lp69
-I150
-aI10
-asg17
-(itiddlywiki
-Tiddler
-p70
-(dp71
-g21
-V// dialog API macro set, by chapel; for sugarcube 2; v1.2.0\u000a;Macro.add("dialog",{tags:null,handler:function(){var s=this.payload[0].contents?this.payload[0].contents:"",t=this.args.length>0?this.args[0]:"",a=this.args.length>1?this.args.slice(1).flatten():[];a.push("macro-"+this.name),Dialog.setup(t,a.join(" ")),Dialog.wiki(s),Dialog.open()}}),Macro.add("popup",{handler:function(){if(this.args.length<1)return this.error("need at least one argument; the passage to display");if(!Story.has(this.args[0]))return this.error("the passage "+this.args[0]+"does not exist");var s=this.args[0],t=this.args.length>1?this.args[1]:"",a=this.args.length>2?this.args.slice(2).flatten():[];a.push("macro-"+this.name),Dialog.setup(t,a.join(" ")),Dialog.wiki(Story.get(s).processText()),Dialog.open()}});\u000a// end dialog API macro set
-p72
-sg23
-VdialogJS
-p73
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I54
-I31
-I1
-I332
-I0
-tp74
-(dp75
-tp76
-Rp77
-sg31
-(lp78
-Vscript
-p79
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I21
-I1
-I1
-I332
-I0
-tp80
-(dp81
-tp82
-Rp83
-sbsa(dp84
-g14
-I00
-sg15
-(lp85
-I290
-aI10
-asg17
-(itiddlywiki
-Tiddler
-p86
-(dp87
-g21
-V// dropdown macro, by chapel (with help from Thomas Michael Edwards); for SugarCube 2; v1.2.0\u000aMacro.add("dropdown",{handler:function(){if(this.args.length<2){var e=[];return this.args.length<1&&e.push("variable name"),this.args.length<2&&e.push("list values"),this.error("no "+e.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');Config.debug&&this.debugView.modes({block:!0});for(var t=Util.slugify(i),r=this.args.slice(1).flatten(),a=Wikifier.getValue(i),s=0,n=document.createElement("select"),o=0;o<r.length;++o){var l=r[o];String(l)===a&&(s=o),jQuery(document.createElement("option")).text(l).appendTo(n)}jQuery(n).val(r[s]).attr({id:this.name+"-"+t,name:this.name+"-"+t,tabindex:0}).addClass("macro-"+this.name).on("change",function(){Wikifier.setValue(i,this.value)}).appendTo(this.output),Wikifier.setValue(i,r[s])}});\u000a// end dropdown macro
-p88
-sg23
-VdropdownJS
-p89
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I21
-I37
-I1
-I332
-I0
-tp90
-(dp91
-tp92
-Rp93
-sg31
-(lp94
-Vscript
-p95
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I21
-I3
-I1
-I332
-I0
-tp96
-(dp97
-tp98
-Rp99
-sbsa(dp100
-g14
-I00
-sg15
-(lp101
-I430
-aI10
-asg17
-(itiddlywiki
-Tiddler
-p102
-(dp103
-g21
-V// fading macro set, by chapel; for SugarCube 2; v1.1.0\u000aMacro.add("fadein",{tags:null,handler:function(){var t,a,s=$(document.createElement("span")),e=this.payload[0].contents;return 0===this.args.length?this.error("no arguments given"):(t=Util.fromCssTime(this.args[0]),a=this.args.length>1?Util.fromCssTime(this.args[1]):0,void s.wiki(e).addClass("macro-"+this.name).appendTo(this.output).hide().delay(a).fadeIn(t))}}),Macro.add("fadeout",{tags:null,handler:function(){var t,a,s=$(document.createElement("span")),e=this.payload[0].contents;return 0===this.args.length?this.error("no arguments given"):(t=Util.fromCssTime(this.args[0]),a=this.args.length>1?Util.fromCssTime(this.args[1]):0,void s.wiki(e).addClass("macro-"+this.name).appendTo(this.output).delay(a).fadeOut(t))}});\u000a// end fading macro set
-p104
-sg23
-VfadingJS
-p105
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I21
-I47
-I1
-I332
-I0
-tp106
-(dp107
-tp108
-Rp109
-sg31
-(lp110
-Vscript
-p111
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I21
-I4
-I1
-I332
-I0
-tp112
-(dp113
-tp114
-Rp115
-sbsa(dp116
-g14
-I00
-sg15
-(lp117
-I570
-aI10
-asg17
-(itiddlywiki
-Tiddler
-p118
-(dp119
-g21
-V// first macro, by chapel; for sugarcube 2; v1.1.0\u000a;Macro.add("first",{tags:["then","finally"],handler:function(){var a,t=$(document.createElement("span")),n=this.payload[this.payload.length-1],e=visited()-1;a=e<this.payload.length?this.payload[e].contents:"finally"===n.name?n.contents:"",t.wiki(a).addClass("macro-"+this.name).appendTo(this.output)}});\u000a// end first macro
-p120
-sg23
-VfirstJS
-p121
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I54
-I48
-I1
-I332
-I0
-tp122
-(dp123
-tp124
-Rp125
-sg31
-(lp126
-Vscript
-p127
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I21
-I55
-I1
-I332
-I0
-tp128
-(dp129
-tp130
-Rp131
-sbsa(dp132
-g14
-I00
-sg15
-(lp133
-I150
-aI150
-asg17
-(itiddlywiki
-Tiddler
-p134
-(dp135
-g21
-V// fullscreen macro set, by chapel; for sugarcube 2; v1.0.0\u000asetup.fullscreen=function(e){e.requestFullScreen?e.requestFullScreen():e.mozRequestFullScreen?e.mozRequestFullScreen():e.webkitRequestFullScreen&&e.webkitRequestFullScreen()},Macro.add("fullscreen",{handler:function(){var e=$("body").css("background-color");$("html").css("background-color",e),setup.fullscreen(document.documentElement)}}),Macro.add("fullscreenlink",{handler:function(){var e,n,r=$(document.createElement("span")),c=$(document.createElement("a")),t="macro-"+this.name;return 1!==this.args.length?this.error("incorrect number of arguments"):(n=this.args[0],c.wiki(n).attr("id","fullscreen-macro-link").ariaClick(function(){e=$("body").css("background-color"),$("html").css("background-color",e),setup.fullscreen(document.documentElement)}),void r.append(c).addClass(t).appendTo(this.output))}});\u000a// end fullscreen macro set
-p136
-sg23
-VfullscreenJS
-p137
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I22
-I24
-I1
-I332
-I0
-tp138
-(dp139
-tp140
-Rp141
-sg31
-(lp142
-Vscript
-p143
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I22
-I8
-I1
-I332
-I0
-tp144
-(dp145
-tp146
-Rp147
-sbsa(dp148
-g14
-I00
-sg15
-(lp149
-I290
-aI150
-asg17
-(itiddlywiki
-Tiddler
-p150
-(dp151
-g21
-V// message macro, by chapel (with help from T.M. Edwards); for sugarcube 2; v1.0.1\u000a;setup.messageMacro={},    /*OPTION*/setup.messageMacro["default"]="Help",\u000aMacro.add("message",{tags:null,handler:function(){var e=this.payload[0].contents,a=$(document.createElement("span")),s=$(document.createElement(this.args.includes("btn")?"button":"a")),t=$(document.createElement("span"));s.wiki(this.args.length>0&&"btn"!==this.args[0]?this.args[0]:setup.messageMacro["default"]).ariaClick(function(){a.hasClass("open")?t.css("display","none").empty():t.css("display","block").wiki(e),a.toggleClass("open")}),a.attr("id","macro-"+this.name+"-"+this.args.join("").replace(/[^A-Za-z0-9]/g,"")).addClass("message-text").append(s).append(t).appendTo(this.output)}});\u000a// end message macro
-p152
-sg23
-VmessageJS
-p153
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I22
-I39
-I1
-I332
-I0
-tp154
-(dp155
-tp156
-Rp157
-sg31
-(lp158
-Vscript
-p159
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I22
-I9
-I1
-I332
-I0
-tp160
-(dp161
-tp162
-Rp163
-sbsa(dp164
-g14
-I00
-sg15
-(lp165
-I430
-aI150
-asg17
-(itiddlywiki
-Tiddler
-p166
-(dp167
-g21
-V// operations, by chapel; for sugarcube 2; v1.0.0\u000a;setup.operations={tryGlobal:!0,nicknames:!0,fmRange:[0,100]},setup.dice={processDice:function(e,r){var t,i=[],o=0;if("string"==typeof e)i=e.split("d");else if("number"==typeof e&&r)i=[e,r];else{if(!(Array.isArray(e)&&e.length>=2))throw new TypeError("setup.dice.processDice(): could not process arguments...");e.length=2,i=e}for(t=0;t<i[0];t++){var n=0;n=Math.floor(Math.random()*i[1])+1,o+=n}return o},processString:function(e){var r=[];return e=e.trim().replace(/\u005cs/g,""),r=e.match(/(\u005cd*d\u005cd*)(.*)/),[r[1],Number(r[2])]},roll:function(e,r){if("string"==typeof e){var t=setup.dice.processString(e);return setup.dice.processDice(t[0])+t[1]}return setup.dice.processDice(e,r)}},setup.operations.tryGlobal&&(window.dice=window.dice||setup.dice.roll),Number.prototype.dice||Object.defineProperty(Number.prototype,"dice",{configurable:!0,writable:!0,value:function(e){if(0===this)return 0;if(0>this)throw new TypeError("Number.prototype.dice: cannot roll a negative number of dice!");if(null==e||"number"!=typeof e||0>=e||arguments.length<1)throw new TypeError("Number.prototype.dice: error in argument");if(!Number.isInteger(this)||!Number.isInteger(e))throw new TypeError("Number.prototype.dice: cannot roll partial dice!");return setup.dice.processDice(this,e)}}),Number.prototype.fairmath||Object.defineProperty(Number.prototype,"fairmath",{configurable:!0,writable:!0,value:function(e){var r=setup.operations.fmRange;if(this<r[0]||this>r[1])throw new TypeError("Number.prototype.fairmath called on a number that is out of the defined range (the number was "+this+").");if(null==e||"number"!=typeof e||e>100||-100>e||arguments.length<1)throw new TypeError("Number.prototype.fairmath given incorrect argument or an argument that is out of the valid 0-100 range.");if(0===e)return Math.clamp(Math.trunc(this),r[0],r[1]);if(0>e)return e=-1*e,Math.clamp(Math.trunc(this-(this-r[0])*(e/r[1])),r[0],r[1]);if(e>0)return Math.clamp(Math.trunc(this+(r[1]-this)*(e/r[1])),r[0],r[1]);throw new Error("Number.prototype.fairmath encountered an unspecified error.")}}),Math.fairmath||Object.defineProperty(Math,"fairmath",{configurable:!0,writable:!0,value:function(e,r){return e.fairmath(r)}}),setup.operations.nicknames&&(Math.fm||Object.defineProperty(Math,"fm",{configurable:!0,writable:!0,value:function(e,r){return e.fairmath(r)}}),Number.prototype.fm||Object.defineProperty(Number.prototype,"fm",{configurable:!0,writable:!0,value:function(e){return this.fairmath(e)}}),Number.prototype.d||Object.defineProperty(Number.prototype,"d",{configurable:!0,writable:!0,value:function(e){return this.dice(e)}}));\u000a// end operations.js
-p168
-sg23
-VoperationsJS
-p169
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I55
-I39
-I1
-I332
-I0
-tp170
-(dp171
-tp172
-Rp173
-sg31
-(lp174
-Vscript
-p175
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I22
-I10
-I1
-I332
-I0
-tp176
-(dp177
-tp178
-Rp179
-sbsa(dp180
-g14
-I00
-sg15
-(lp181
-I570
-aI150
-asg17
-(itiddlywiki
-Tiddler
-p182
-(dp183
-g21
-V// play time system, by chapel; for SugarCube 2; v2.0.1\u000asetup.playTime={},setup.playTime.options={tryGlobal:!0,storyVar:"playtime",pauseTag:"pausetimer"},State.variables[setup.playTime.options.storyVar]=Date.now(),predisplay["start-playtime"]=function(e){delete predisplay[e],State.variables[setup.playTime.options.storyVar]||(State.variables[setup.playTime.options.storyVar]=Date.now())},prehistory["pause-playtime"]=function(e){tags().includes(setup.playTime.options.pauseTag)&&(State.variables[setup.playTime.options.storyVar]+=time())},setup.playTime.getMS=function(){return Date.now()-State.variables[setup.playTime.options.storyVar]},setup.playTime.getTimeArray=function(e){if(e&&!(0>e)&&"number"==typeof e){var t=[];return t.push(Math.floor(e/1e3)%60),t.push(Math.floor(e/6e4)%60),t.push(Math.floor(e/36e5)%24),t}},setup.playTime.get=function(e){var t=setup.playTime.getMS(),a=setup.playTime.getTimeArray(t);return["h","hr","hrs","hour","hours"].includes(e)?a[2]:["min","mins","minutes","minute","m"].includes(e)?a[1]:["s","second","sec","seconds","secs"].includes(e)?a[0]:t},setup.playTime.formatTime=function(e,t){if(e&&Array.isArray(e)&&!(e.length<3)){var a=e[2]<10?"0"+e[2]:""+e[2],i=e[1]<10?"0"+e[1]:""+e[1],s=e[0]<10?"0"+e[0]:""+e[0];return t?"<b>"+a+":"+i+"</b>:"+s:a+":"+i+":"+s}},setup.playTime.output=function(e){var t=setup.playTime.getMS();return setup.playTime.formatTime(setup.playTime.getTimeArray(t),e)},setup.playTime.options.tryGlobal&&(window.playTime=window.getPlayTime||function(e){return"string"==typeof e?setup.playTime.get(e):setup.playTime.output(e)}),Macro.add("playtime",{handler:function(){var e=function(e){var t=[];return e.forEach(function(e){e+="",t.push(e.trim().toLowerCase())}),t}(this.args),t=$(document.createElement("span")),a=e.includesAny(["format","f","fmt","b","bold","true"])?!0:!1,i=setup.playTime.output(a);t.wiki(i).addClass("macro-"+this.name).appendTo(this.output)}});\u000a// end play time system
-p184
-sg23
-VplaytimeJS
-p185
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I23
-I9
-I1
-I332
-I0
-tp186
-(dp187
-tp188
-Rp189
-sg31
-(lp190
-Vscript
-p191
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I22
-I12
-I1
-I332
-I0
-tp192
-(dp193
-tp194
-Rp195
-sbsa(dp196
-g14
-I00
-sg15
-(lp197
-I150
-aI290
-asg17
-(itiddlywiki
-Tiddler
-p198
-(dp199
-g21
-V// notify.js, by chapel; for sugarcube 2; v1.0.0\u000a;$(document.body).append("<div id='notify'></div>"),$(document).on(":notify",function(s){s.message&&"string"==typeof s.message&&(s.message.trim(),s["class"]?"string"==typeof s["class"]?s["class"]="open "+s["class"]:Array.isArray(s["class"])?s["class"]="open macro-notify "+s["class"].join(" "):s["class"]="open macro-notify":s["class"]="open macro-notify",s.delay?("number"!=typeof s.delay&&(s.delay=Number(s.delay)),Number.isNaN(s.delay)&&(s.delay=2e3)):s.delay=2e3,$("#notify").empty().wiki(s.message).addClass(s["class"]),setTimeout(function(){$("#notify").removeClass()},s.delay))}),Macro.add("notify",{tags:null,handler:function(){var s=this.payload[0].contents,e=!1,a=!1;this.args.length>0&&("number"==typeof this.args[0]?(e=this.args[0],a=this.args.length>1?this.args.slice(1).flatten():!1):a=this.args.flatten().join(" ")),$(document).trigger({type:":notify",message:s,delay:e,"class":a})}});\u000a// end notify.js
-p200
-sg23
-VnotifyJS
-p201
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I55
-I4
-I1
-I332
-I0
-tp202
-(dp203
-tp204
-Rp205
-sg31
-(lp206
-Vscript
-p207
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I23
-I17
-I1
-I332
-I0
-tp208
-(dp209
-tp210
-Rp211
-sbsa(dp212
-g14
-I00
-sg15
-(lp213
-I290
-aI290
-asg17
-(itiddlywiki
-Tiddler
-p214
-(dp215
-g21
-V/* notify.min.css, by chapel; for use with notify.js; v1.0.0 */\u000a#notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition-duration:.3s;-moz-transition-duration:.3s;-o-transition-duration:.3s;transition-duration:.3s}#notify.open{right:0}
-p216
-sg23
-VnotifyCSS
-p217
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I23
-I46
-I1
-I332
-I0
-tp218
-(dp219
-tp220
-Rp221
-sg31
-(lp222
-Vstylesheet
-p223
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I23
-I19
-I1
-I332
-I0
-tp224
-(dp225
-tp226
-Rp227
-sbsa(dp228
-g14
-I00
-sg15
-(lp229
-I10
-aI430
-asg17
-(itiddlywiki
-Tiddler
-p230
-(dp231
-g21
-V[[Dialog API Macros]]\u000a[[The Drop Down Menu]]\u000a[[The Fading Macros|fading]]\u000a[[The First Macro]]\u000a[[The Fullscreen Macro]]\u000a[[The Message Macro]]\u000a[[The Operations System]]\u000a[[The Play Time System]]\u000a[[The Notify Macro]]\u000a[[The TypeSim Macro]]\u000a[[The Insert Macro]]\u000a[[The Event Macros]]\u000a[[Simple Inventory]]\u000a[[Consumables]]\u000a[[Cycles]]
-p232
-sg23
-VStoryMenu
-p233
-sg25
-g26
-((I2017
-I11
-I28
-I4
-I28
-I34
-I1
-I332
-I0
-tp234
-(dp235
-tp236
-Rp237
-sg31
-(lp238
-sg33
-g26
-((I2017
-I11
-I28
-I0
-I24
-I24
-I1
-I332
-I0
-tp239
-(dp240
-tp241
-Rp242
-sbsa(dp243
-g14
-I00
-sg15
-(lp244
-I150
-aI430
-asg17
-(itiddlywiki
-Tiddler
-p245
-(dp246
-g21
-VThere are two dialog API macros:\u000a\u000a{{{<<dialog>>}}} and {{{<<popup>>}}}.\u000a\u000a<<button 'View Dialog'>>\u000a	<<dialog 'Hello there.'>>\u005c\u000a		How are you?\u005c\u000a	<</dialog>>\u000a<</button>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<button 'View Dialog'>>}}}\u000a	<<tab>>{{{<<dialog 'Hello there.'>>\u005c}}}\u000a	<<tab>><<tab>>{{{How are you?\u005c}}}\u000a	<<tab>>{{{<</dialog>>}}}\u000a	{{{<</button>>}}}\u005c\u000a<</message>>\u000a\u000a<<button 'View Popup'>>\u000a	<<popup 'popupTest' 'Welcome.'>>\u000a<</button>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<button 'View Popup'>>}}}\u000a	<<tab>>{{{<<popup 'popupTest' 'Welcome.'>>}}}\u000a	{{{<</button>>}}}\u000a	\u000a	{{{::popupTest}}}\u000a	{{{Nice to meet you.}}}\u000a<</message>>
-p247
-sg23
-VDialog API Macros
-p248
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I40
-I26
-I1
-I332
-I0
-tp249
-(dp250
-tp251
-Rp252
-sg31
-(lp253
-sg33
-g26
-((I2017
-I11
-I28
-I0
-I25
-I0
-I1
-I332
-I0
-tp254
-(dp255
-tp256
-Rp257
-sbsa(dp258
-g14
-I00
-sg15
-(lp259
-I10
-aI570
-asg17
-(itiddlywiki
-Tiddler
-p260
-(dp261
-g21
-V<<widget 'tab'>>\u000a	<<= "&nbsp;&nbsp;&nbsp;&nbsp;">>\u000a<</widget>>
-p262
-sg23
-Vwidgets
-p263
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I30
-I29
-I1
-I332
-I0
-tp264
-(dp265
-tp266
-Rp267
-sg31
-(lp268
-Vwidget
-p269
-aVnobr
-p270
-asg33
-g26
-((I2017
-I11
-I28
-I0
-I29
-I58
-I1
-I332
-I0
-tp271
-(dp272
-tp273
-Rp274
-sbsa(dp275
-g14
-I00
-sg15
-(lp276
-I150
-aI570
-asg17
-(itiddlywiki
-Tiddler
-p277
-(dp278
-g21
-VNice to meet you.
-p279
-sg23
-VpopupTest
-p280
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I35
-I22
-I1
-I332
-I0
-tp281
-(dp282
-tp283
-Rp284
-sg31
-(lp285
-sg33
-g26
-((I2017
-I11
-I28
-I0
-I35
-I8
-I1
-I332
-I0
-tp286
-(dp287
-tp288
-Rp289
-sbsa(dp290
-g14
-I00
-sg15
-(lp291
-I290
-aI430
-asg17
-(itiddlywiki
-Tiddler
-p292
-(dp293
-g21
-VYou can use the dropdown menu by supplying the {{{<<dropdown>>}}} macro with a variable name (which must be passed in quotes, as with all input macros) and a series of arguments (or an array, or a combination of arrays and individual arguments).  The user can select one of the options and the passed variable will be set.\u000a\u000a<<set $anArray to ['red', 'blue', 'green']>>\u005c\u000a<<set $choice to ''>>\u005c\u000a<<dropdown '$choice' 'white' 'black' 'gray' $anArray>>\u000a\u000a<<button [[Confirm|dropDown2]]>><</button>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<set $anArray to ['red', 'blue', 'green']>>\u005c}}}\u000a	{{{<<set $choice to ''>>\u005c}}}\u000a	{{{<<dropdown '$choice' 'white' 'black' 'gray' $anArray>>}}}\u000a\u000a	{{{<<button [[Confirm|dropDown2]]>><</button>>}}}\u005c\u000a<</message>>
-p294
-sg23
-VThe Drop Down Menu
-p295
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I48
-I6
-I1
-I332
-I0
-tp296
-(dp297
-tp298
-Rp299
-sg31
-(lp300
-sg33
-g26
-((I2017
-I11
-I28
-I0
-I40
-I32
-I1
-I332
-I0
-tp301
-(dp302
-tp303
-Rp304
-sbsa(dp305
-g14
-I00
-sg15
-(lp306
-I290
-aI570
-asg17
-(itiddlywiki
-Tiddler
-p307
-(dp308
-g21
-V<<= '<div style="height:5em;background:' + $choice + ';"></div>'>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<= '<div style="height:5em;background:' + $choice + ';"></div>'>>}}}\u005c\u000a<</message>>\u000a\u000a<<back>>
-p309
-sg23
-VdropDown2
-p310
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I48
-I27
-I1
-I332
-I0
-tp311
-(dp312
-tp313
-Rp314
-sg31
-(lp315
-sg33
-g26
-((I2017
-I11
-I28
-I0
-I45
-I43
-I1
-I332
-I0
-tp316
-(dp317
-tp318
-Rp319
-sbsa(dp320
-g14
-I00
-sg15
-(lp321
-I430
-aI430
-asg17
-(itiddlywiki
-Tiddler
-p322
-(dp323
-g21
-V<<fadein 1s 500ms>>\u005c\u000a	This example fades in thanks to the fading macros macro!\u005c\u000a<</fadein>>\u000a\u000a<<fadeout 5s 5s>>\u005c\u000a	Meanwhile, this content will slowly fade out after a few seconds.\u005c\u000a<</fadeout>>\u000a\u000a<<fadein 1s 3s>>\u005c\u000a	<<fadeout 1s 6s>>\u005c\u000a		And this content uses both macros.  Spooky!\u005c\u000a	<</fadeout>>\u005c\u000a<</fadein>>\u000a\u000a<<message 'View this code'>>\u005c\u000a	{{{<<fadein 1s 500ms>>\u005c}}}\u000a	<<tab>>{{{These example fades in thanks to the <<fadein>> macro!\u005c}}}\u000a	{{{<</fadein>>}}}\u000a\u000a	{{{<<fadeout 5s 5s>>\u005c}}}\u000a	<<tab>>{{{Meanwhile, this content will slowly fade out after a few seconds.\u005c}}}\u000a	{{{<</fadeout>>}}}\u000a\u000a	{{{<<fadein 1s 3s>>\u005c}}}\u000a	<<tab>>{{{<<fadeout 1s 6s>>\u005c}}}\u000a	<<tab>><<tab>>{{{And this content uses both macros.  Spooky!\u005c}}}\u000a	<<tab>>{{{<</fadeout>>\u005c}}}\u000a	{{{<</fadein>>}}}\u000a<</message>>
-p324
-sg23
-Vfading
-p325
-sg25
-g26
-((I2017
-I11
-I28
-I0
-I59
-I29
-I1
-I332
-I0
-tp326
-(dp327
-tp328
-Rp329
-sg31
-(lp330
-sg33
-g26
-((I2017
-I11
-I28
-I0
-I49
-I20
-I1
-I332
-I0
-tp331
-(dp332
-tp333
-Rp334
-sbsa(dp335
-g14
-I00
-sg15
-(lp336
-I570
-aI570
-asg17
-(itiddlywiki
-Tiddler
-p337
-(dp338
-g21
-VThe {{{<<fullscreen>>}}} macro lets you make your game fullscreen, but it requires some sort of user interaction.\u000a\u000a<<link 'MAKE IT BIG'>>\u000a	<<fullscreen>>\u000a<</link>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<link 'MAKE IT BIG'>>}}}\u000a	<<tab>>{{{<<fullscreen>>}}}\u000a	{{{<</link>>}}}\u005c\u000a<</message>>\u000a\u000aYou can use the {{{<<fullscreenlink>>}}} macro to save yourself from some of that typing.\u000a\u000a<<fullscreenlink 'MAKE IT BIG.'>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<fullscreenlink 'MAKE IT BIG.'>>}}}\u005c\u000a<</message>>
-p339
-sg23
-VThe Fullscreen Macro
-p340
-sg25
-g26
-((I2017
-I11
-I28
-I1
-I50
-I46
-I1
-I332
-I0
-tp341
-(dp342
-tp343
-Rp344
-sg31
-(lp345
-sg33
-g26
-((I2017
-I11
-I28
-I1
-I1
-I7
-I1
-I332
-I0
-tp346
-(dp347
-tp348
-Rp349
-sbsa(dp350
-g14
-I00
-sg15
-(lp351
-I290
-aI710
-asg17
-(itiddlywiki
-Tiddler
-p352
-(dp353
-g21
-VThe operations system adds a dice-roller and a ChoiceScript-style 'fairmath' system to SugarCube.  Let's do some math.\u000a\u000aThere are a number of ways use the dice roller; check out the code below.\u000a\u000aDice Roll: @@#dice-result;0@@\u000a\u000a<<link 'Roll 3d6 + 1'>>\u000a	<<replace '#dice-result'>>\u005c\u000a		<<print dice(3, 6) + 1>>\u005c\u000a	<</replace>>\u000a<</link>>\u000a<<link 'Roll 6d4 - 5'>>\u000a	<<replace '#dice-result'>>\u005c\u000a		<<print dice('6d4') - 5>>\u005c\u000a	<</replace>>\u000a<</link>>\u000a<<link 'Roll 1d20 + 5'>>\u000a	<<replace '#dice-result'>>\u005c\u000a		<<print dice('1d20 + 5')>>\u005c\u000a	<</replace>>\u000a<</link>>\u000a<<link 'Roll 2d6 + 10'>>\u000a	<<replace '#dice-result'>>\u005c\u000a		<<print (2).d(6) + 10>>\u005c\u000a	<</replace>>\u000a<</link>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<link 'Roll 3d6 + 1'>>}}}\u000a	<<tab>>{{{<<replace '#dice-result'>>\u005c}}}\u000a	<<tab>><<tab>>{{{<<print dice(3, 6) + 1>>\u005c}}}\u000a	<<tab>>{{{<</replace>>}}}\u000a	{{{<</link>>}}}\u000a	{{{<<link 'Roll 6d4 - 5'>>}}}\u000a	<<tab>>{{{<<replace '#dice-result'>>\u005c}}}\u000a	<<tab>><<tab>>{{{<<print dice('6d4') - 5>>\u005c}}}\u000a	<<tab>>{{{<</replace>>}}}\u000a	{{{<</link>>}}}\u000a	{{{<<link 'Roll 1d20 + 5'>>}}}\u000a	<<tab>>{{{<<replace '#dice-result'>>\u005c}}}\u000a	<<tab>><<tab>>{{{<<print dice('1d20 + 5')>>\u005c}}}\u000a	<<tab>>{{{<</replace>>}}}\u000a	{{{<</link>>}}}\u000a	{{{<<link 'Roll 2d6 + 10'>>}}}\u000a	<<tab>>{{{<<replace '#dice-result'>>\u005c}}}\u000a	<<tab>><<tab>>{{{<<print (2).d(6) + 10>>\u005c}}}\u000a	<<tab>>{{{<</replace>>}}}\u000a	{{{<</link>>}}}\u000a<</message>>\u000a\u000aThere's also a few ways to use the fairmath system.  We'll show two here:\u000a\u000a<<print (80).fm(-25)>>\u000a<<print Math.fm(19, +40)>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<print (80).fm(-25)>>}}}\u000a	{{{<<print Math.fm(19, +40)>>}}}\u000a<</message>>
-p354
-sg23
-VThe Operations System
-p355
-sg25
-g26
-((I2017
-I11
-I28
-I2
-I12
-I7
-I1
-I332
-I0
-tp356
-(dp357
-tp358
-Rp359
-sg31
-(lp360
-sg33
-g26
-((I2017
-I11
-I28
-I1
-I1
-I7
-I1
-I332
-I0
-tp361
-(dp362
-tp363
-Rp364
-sbsa(dp365
-g14
-I00
-sg15
-(lp366
-I570
-aI430
-asg17
-(itiddlywiki
-Tiddler
-p367
-(dp368
-g21
-V<<first>>You can revisit this passage a few times to see how things change!<<finally>>Good job!<</first>>\u000a\u000a<<first>><<then>>The first macro allows you to dynamically alter content based on the number of times a player has seen a given passage.<<then>>You can make any number of alterations to the text.<</first>>\u000a\u000a[[Reload this passage.|passage()]]\u000a\u000a<<message 'View this code.'>>\u005c\u000a{{{<<first>>You can revisit this passage a few times to see how things change!<<finally>>Good job!<</first>>}}}\u000a\u000a{{{<<first>><<next>>The first macro allows you to dynamically alter content based on the number of times a player has seen a given passage.<<next>>You can make any number of alterations to the text.<</first>>}}}\u000a\u000a{{{[[Reload this passage.|passage()]]}}}\u005c\u000a<</message>>
-p369
-sg23
-VThe First Macro
-p370
-sg25
-g26
-((I2017
-I11
-I28
-I1
-I9
-I44
-I1
-I332
-I0
-tp371
-(dp372
-tp373
-Rp374
-sg31
-(lp375
-sg33
-g26
-((I2017
-I11
-I28
-I1
-I1
-I7
-I1
-I332
-I0
-tp376
-(dp377
-tp378
-Rp379
-sbsa(dp380
-g14
-I00
-sg15
-(lp381
-I430
-aI710
-asg17
-(itiddlywiki
-Tiddler
-p382
-(dp383
-g21
-VThis is the amount of time you've spent poking around in this demo so far:\u000a\u000a<<nobr>>\u000a	@@#time;<<playtime format>>@@\u000a	<<repeat 1s>>\u000a		<<replace '#time'>>\u005c\u000a			<<playtime format>>\u005c\u000a		<</replace>>\u000a	<</repeat>>\u000a<</nobr>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<nobr>>}}}\u000a	<<tab>>{{{@@#time;<<playtime format>>@@}}}\u000a	<<tab>>{{{<<repeat 1s>>}}}\u000a	<<tab>><<tab>>{{{<<replace '#time'>>\u005c}}}\u000a	<<tab>><<tab>><<tab>>{{{<<playtime format>>\u005c}}}\u000a	<<tab>><<tab>>{{{<</replace>>}}}\u000a	<<tab>>{{{<</repeat>>}}}\u000a	{{{<</nobr>>}}}\u005c\u000a<</message>>\u000a\u000aCheck back to see it go up.\u000a\u000aThe play time gets saved in save games and can be configured in a variety of ways, including not counting on certain passages, changing the display, and getting specific time infromation.\u000a\u000aThe macro itself is generally static, but it can be animated with a {{{<<repeat>>}}} macro or similar.\u000a\u000a@@#ptUp;<<include 'ptUpdate'>>@@\u000a<<button 'Update'>>\u000a	<<replace '#ptUp'>>\u005c\u000a		<<include 'ptUpdate'>>\u005c\u000a	<</replace>>\u000a<</button>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{@@#ptUp;<<include 'ptUpdate'>>@@}}}\u000a	{{{<<button 'Update'>>}}}\u000a	<<tab>>{{{<<replace '#ptUp'>>\u005c}}}\u000a	<<tab>><<tab>>{{{<<include 'ptUpdate'>>\u005c}}}\u000a	<<tab>>{{{<</replace>>}}}\u000a	{{{<</button>>}}}\u000a\u000a	{{{::ptUpdate}}}\u000a	{{{Number of seconds since you started playing: <<= Math.trunc(playTime('ms') / 1000)>>}}}\u000a	{{{Number of milliseconds: <<= playTime('ms')>>}}}\u000a	{{{Current play time: <<=playTime()>>}}}\u005c\u000a<</message>>
-p384
-sg23
-VThe Play Time System
-p385
-sg25
-g26
-((I2017
-I11
-I28
-I2
-I47
-I5
-I1
-I332
-I0
-tp386
-(dp387
-tp388
-Rp389
-sg31
-(lp390
-sg33
-g26
-((I2017
-I11
-I28
-I1
-I1
-I7
-I1
-I332
-I0
-tp391
-(dp392
-tp393
-Rp394
-sbsa(dp395
-g14
-I00
-sg15
-(lp396
-I150
-aI710
-asg17
-(itiddlywiki
-Tiddler
-p397
-(dp398
-g21
-VThe {{{<<message>>}}} macro lets you create toggleable messages.  We've been using it throughout this demo for the 'view this code' links.\u000a\u000a<span id='ex'>\u005c\u000a<<message>>Blah<</message>>\u000a\u000a<<message 'Number'>>\u005c\u000a	<<print Date.now()>>\u005c\u000a<</message>>\u000a</span>\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<message>>Blah<</message>>}}}\u000a\u000a	{{{<<message 'Number'>>\u005c}}}\u000a	<<tab>>{{{<<print Date.now()>>\u005c}}}\u000a	{{{<</message>>}}}\u005c\u000a<</message>>
-p399
-sg23
-VThe Message Macro
-p400
-sg25
-g26
-((I2017
-I11
-I28
-I1
-I57
-I23
-I1
-I332
-I0
-tp401
-(dp402
-tp403
-Rp404
-sg31
-(lp405
-sg33
-g26
-((I2017
-I11
-I28
-I1
-I1
-I7
-I1
-I332
-I0
-tp406
-(dp407
-tp408
-Rp409
-sbsa(dp410
-g14
-I00
-sg15
-(lp411
-I570
-aI710
-asg17
-(itiddlywiki
-Tiddler
-p412
-(dp413
-g21
-VThe {{{<<notify>>}}} macro shows a brief message on the screen and then leaves.  You can alter it's appearance using the id {{{#notify}}} in the shylesheet.  Because they depend on the DOM, notifications won't work on the first passage of a story unless paired with interaction.\u000a\u000aLetting the player mash on notification links, or recieve multiple notifications at once, may lead to buggy behavior.  In general, I would not tie notifications to player action, but rather to certain individual events or passages.\u000a\u000a@@#links1;\u005c\u000a<<link 'Click to unlock an achievement.'>>\u000a	<<replace '#links1'>>\u005c\u000a		Click to unlock an achievement.\u005c\u000a	<</replace>>\u000a	<<notify>>Achievement unlocked.<</notify>>\u000a<</link>>\u005c\u000a@@\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{@@#links1;\u005c}}}\u000a	{{{<<link 'Click to unlock an achievement.'>>}}}\u000a	<<tab>>{{{<<replace '#links1'>>\u005c}}}\u000a	<<tab>><<tab>>{{{Click to unlock an achievement.\u005c}}}\u000a	<<tab>>{{{<</replace>>}}}\u000a	<<tab>>{{{<<notify>>Achievement unlocked.<</notify>>}}}\u000a	{{{<</link>>\u005c}}}\u000a	{{{@@\u005c}}}\u000a<</message>>\u000a\u000aYou can make notifications last longer, or attach classes to them for different stylings on different notifications.\u000a\u000a@@#links2;\u005c\u000a<<link 'Click to unlock an achievement.'>>\u000a	<<replace '#links2'>>\u005c\u000a		Click to unlock an achievement.\u005c\u000a	<</replace>>\u000a	<<notify 500 'big'>>Achievement unlocked.<</notify>>\u000a<</link>>\u005c\u000a@@\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{@@#links2;\u005c}}}\u000a	{{{<<link 'Click to unlock an achievement.'>>}}}\u000a	<<tab>>{{{<<replace '#links2'>>\u005c}}}\u000a	<<tab>><<tab>>{{{Click to unlock an achievement.\u005c}}}\u000a	<<tab>>{{{<</replace>>}}}\u000a	<<tab>>{{{<<notify 500 'big'>>Achievement unlocked.<</notify>>}}}\u000a	{{{<</link>>\u005c}}}\u000a	{{{@@\u005c}}}\u000a<</message>>
-p414
-sg23
-VThe Notify Macro
-p415
-sg25
-g26
-((I2017
-I11
-I28
-I2
-I41
-I10
-I1
-I332
-I0
-tp416
-(dp417
-tp418
-Rp419
-sg31
-(lp420
-sg33
-g26
-((I2017
-I11
-I28
-I1
-I1
-I7
-I1
-I332
-I0
-tp421
-(dp422
-tp423
-Rp424
-sbsa(dp425
-g14
-I00
-sg15
-(lp426
-I430
-aI290
-asg17
-(itiddlywiki
-Tiddler
-p427
-(dp428
-g21
-V$(document).on(':inventory-update', function (e) {\u000a	console.log(e.moved);\u000a});
-p429
-sg23
-Vconfig
-p430
-sg25
-g26
-((I2017
-I11
-I29
-I3
-I23
-I7
-I2
-I333
-I0
-tp431
-(dp432
-tp433
-Rp434
-sg31
-(lp435
-Vscript
-p436
-asg33
-g26
-((I2017
-I11
-I28
-I1
-I1
-I47
-I1
-I332
-I0
-tp437
-(dp438
-tp439
-Rp440
-sbsa(dp441
-g14
-I00
-sg15
-(lp442
-I570
-aI290
-asg17
-(itiddlywiki
-Tiddler
-p443
-(dp444
-g21
-V#menu-core { display : none; }\u000a#story-author { display : none; }\u000a#story-title { display : none; }\u000a\u000a.message-text a { color : #9400d3; }\u000a.message-text a:hover { color : #f0f; }\u000a.message-text.open a { color : #f0f; }\u000a.message-text.open a:hover { color : #9400d3; }\u000a\u000a#ex .message-text a { color : #68d; }\u000a#ex .message-text a:hover { color : #8af; }\u000a#ex .message-text.open a { color : #68d; }\u000a#ex .message-text.open a:hover { color : #8af; }\u000a\u000a#notify.big { height : 10em; }\u000a\u000a#inventory { border : 2px solid #eee; padding : 1em;}
-p445
-sg23
-Vbase
-p446
-sg25
-g26
-((I2017
-I11
-I29
-I1
-I41
-I45
-I2
-I333
-I0
-tp447
-(dp448
-tp449
-Rp450
-sg31
-(lp451
-Vstylesheet
-p452
-asg33
-g26
-((I2017
-I11
-I28
-I1
-I2
-I15
-I1
-I332
-I0
-tp453
-(dp454
-tp455
-Rp456
-sbsa(dp457
-g14
-I00
-sg15
-(lp458
-I430
-aI570
-asg17
-(itiddlywiki
-Tiddler
-p459
-(dp460
-g21
-VNumber of seconds since you started playing: <<= Math.trunc(playTime('ms') / 1000)>>\u000aNumber of milliseconds: <<= playTime('ms')>>\u000aCurrent play time: <<=playTime()>>
-p461
-sg23
-VptUpdate
-p462
-sg25
-g26
-((I2017
-I11
-I28
-I2
-I46
-I24
-I1
-I332
-I0
-tp463
-(dp464
-tp465
-Rp466
-sg31
-(lp467
-sg33
-g26
-((I2017
-I11
-I28
-I2
-I36
-I34
-I1
-I332
-I0
-tp468
-(dp469
-tp470
-Rp471
-sbsa(dp472
-g14
-I00
-sg15
-(lp473
-I430
-aI850
-asg17
-(itiddlywiki
-Tiddler
-p474
-(dp475
-g21
-VComing soon!\u000a\u000a<<back>>
-p476
-sg23
-VThe Insert Macro
-p477
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I46
-I35
-I1
-I332
-I0
-tp478
-(dp479
-tp480
-Rp481
-sg31
-(lp482
-sg33
-g26
-((I2017
-I11
-I28
-I4
-I28
-I39
-I1
-I332
-I0
-tp483
-(dp484
-tp485
-Rp486
-sbsa(dp487
-g14
-I00
-sg15
-(lp488
-I290
-aI850
-asg17
-(itiddlywiki
-Tiddler
-p489
-(dp490
-g21
-VThis page is riddled with events.  Try pressing spacebar, holding shift down, and pressing backspace to see what happens!\u005c\u000a\u000a<<silently>>\u000a\u000a<<event 'keyup' 'body.event-test'>>\u000a<<which 32 8>>\u000a	<<run $('#passages').hide().delay(250).fadeIn();>>\u000a<<which 16>>\u000a	<<removeclass '#ui-bar' 'stowed'>>\u000a\u000a<</event>>\u000a\u000a<<event 'keydown' 'body.event-test'>>\u000a<<which 16>>\u000a	<<addclass '#ui-bar' 'stowed'>>\u000a<</event>>\u000a\u000a<<endsilently>>\u005c\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<event 'keyup' 'body.event-test'>>}}}\u000a	{{{<<which 16>>}}}\u000a	<<tab>>{{{<<removeclass '#ui-bar' 'stowed'>>}}}\u000a	{{{<<which 32 8>>}}}\u000a	<<tab>>{{{<<run $('#passages').hide().delay(250).fadeIn();>>}}}\u000a	{{{<</event>>}}}\u000a\u000a	{{{<<event 'keydown' 'body.event-test'>>}}}\u000a	{{{<<which 16>>}}}\u000a	<<tab>>{{{<<addclass '#ui-bar' 'stowed'>>}}}\u000a	{{{<</event>>}}}\u005c\u000a<</message>>\u000a\u000aOnce event code is added to the game, it's essentially permanent.  This means that using selectors to target page elements (we used tags and the {{{<body>}}} element in the examples), and using StoryInit to set things up, is the best way to use events.  You can, obviously, remove the event listeners via JavaScript/jQuery if you want to, however.
-p491
-sg23
-VThe Event Macros
-p492
-sg25
-g26
-((I2017
-I11
-I28
-I23
-I41
-I20
-I1
-I332
-I0
-tp493
-(dp494
-tp495
-Rp496
-sg31
-(lp497
-Vevent-test
-p498
-asg33
-g26
-((I2017
-I11
-I28
-I4
-I28
-I39
-I1
-I332
-I0
-tp499
-(dp500
-tp501
-Rp502
-sbsa(dp503
-g14
-I00
-sg15
-(lp504
-I150
-aI850
-asg17
-(itiddlywiki
-Tiddler
-p505
-(dp506
-g21
-VComing soon!\u000a\u000a<<back>>
-p507
-sg23
-VConsumables
-p508
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I46
-I30
-I1
-I332
-I0
-tp509
-(dp510
-tp511
-Rp512
-sg31
-(lp513
-sg33
-g26
-((I2017
-I11
-I28
-I4
-I28
-I39
-I1
-I332
-I0
-tp514
-(dp515
-tp516
-Rp517
-sbsa(dp518
-g14
-I00
-sg15
-(lp519
-I570
-aI850
-asg17
-(itiddlywiki
-Tiddler
-p520
-(dp521
-g21
-VWhen you started up this demo, an inventory was created for you, and a few items were slipped into it:\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{::StoryInit}}}\u000a	{{{<<newinventory '$playerInv'>>}}}\u000a	{{{<<pickup '$playerInv' 'blue hedgehog' 'italian plumber'>>}}}\u005c\u000a<</message>>\u000a\u000a@@#ex;<<message 'Click here to view your inventory'>>\u005c\u000a	<<inventory '$playerInv' ', '>>\u005c\u000a<</message>>@@\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<message 'Click here to view your inventory'>>\u005c}}}\u000a	<<tab>>{{{<<inventory '$playerInv' ', '>>\u005c}}}\u000a	{{{<</message>>}}}\u000a<</message>>\u000a\u000aThere's a lot more that we can do with the inventory, though.\u000a\u000a[[Next.|droppingAndPickingUp]]
-p522
-sg23
-VSimple Inventory
-p523
-sg25
-g26
-((I2017
-I11
-I29
-I3
-I7
-I52
-I2
-I333
-I0
-tp524
-(dp525
-tp526
-Rp527
-sg31
-(lp528
-sg33
-g26
-((I2017
-I11
-I28
-I4
-I28
-I39
-I1
-I332
-I0
-tp529
-(dp530
-tp531
-Rp532
-sbsa(dp533
-g14
-I00
-sg15
-(lp534
-I10
-aI990
-asg17
-(itiddlywiki
-Tiddler
-p535
-(dp536
-g21
-VComing soon!\u000a\u000a<<back>>
-p537
-sg23
-VCycles
-p538
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I46
-I39
-I1
-I332
-I0
-tp539
-(dp540
-tp541
-Rp542
-sg31
-(lp543
-sg33
-g26
-((I2017
-I11
-I28
-I4
-I28
-I39
-I1
-I332
-I0
-tp544
-(dp545
-tp546
-Rp547
-sbsa(dp548
-g14
-I00
-sg15
-(lp549
-I10
-aI850
-asg17
-(itiddlywiki
-Tiddler
-p550
-(dp551
-g21
-VYou need to send an email to your boss!  Better get typing:\u000a\u000a<<typesim "Hey boss, sorry I was late today.  It won't happen again, ever, I promise.  Please don't fire me!">>That's all there is to it!<</typesim>>\u000a\u000a//Warning: Watch what you do with the event macros when you use interactive elements!//\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<typesim "Hey boss, sorry I was late today.  It won't happen again, ever, I promise.  Please don't fire me!">>That's all there is to it!<</typesim>>}}}\u005c\u000a<</message>>
-p552
-sg23
-VThe TypeSim Macro
-p553
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I57
-I28
-I1
-I332
-I0
-tp554
-(dp555
-tp556
-Rp557
-sg31
-(lp558
-sg33
-g26
-((I2017
-I11
-I28
-I4
-I28
-I39
-I1
-I332
-I0
-tp559
-(dp560
-tp561
-Rp562
-sbsa(dp563
-g14
-I00
-sg15
-(lp564
-I10
-aI710
-asg17
-(itiddlywiki
-Tiddler
-p565
-(dp566
-g21
-V<<newinventory '$playerInv'>>\u000a<<pickup '$playerInv' 'blue hedgehog' 'italian plumber'>>\u000a\u000a<<newinventory '$container'>>\u000a<<pickup '$container' 'a rusty key' 'a cellphone'>>
-p567
-sg23
-VStoryInit
-p568
-sg25
-g26
-((I2017
-I11
-I29
-I3
-I6
-I34
-I2
-I333
-I0
-tp569
-(dp570
-tp571
-Rp572
-sg31
-(lp573
-sg33
-g26
-((I2017
-I11
-I28
-I4
-I28
-I52
-I1
-I332
-I0
-tp574
-(dp575
-tp576
-Rp577
-sbsa(dp578
-g14
-I00
-sg15
-(lp579
-I710
-aI10
-asg17
-(itiddlywiki
-Tiddler
-p580
-(dp581
-g21
-V// Coming soon!
-p582
-sg23
-VinsertJS
-p583
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I46
-I13
-I1
-I332
-I0
-tp584
-(dp585
-tp586
-Rp587
-sg31
-(lp588
-Vscript
-p589
-asg33
-g26
-((I2017
-I11
-I28
-I4
-I36
-I21
-I1
-I332
-I0
-tp590
-(dp591
-tp592
-Rp593
-sbsa(dp594
-g14
-I00
-sg15
-(lp595
-I710
-aI150
-asg17
-(itiddlywiki
-Tiddler
-p596
-(dp597
-g21
-V// event macro set, by chapel; for sugarcube 2; v1.1.1\u000a;Macro.add("trigger",{handler:function(){var t,r;return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(t=this.args[0],r=1===this.args.length||this.args[1]&&"string"==typeof this.args[1]&&"document"===this.args[1].toLowerCase().trim()?$(document):$(this.args[1]),void r.trigger(t))}}),Macro.add("event",{tags:["which"],handler:function(){var t,r,s=this.payload,e="",i="";return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(2===this.args.length&&"string"==typeof this.args[1]&&(e=this.args[1]),t=this.args[0],void $(document).on(t,e,function(t){if(i=s[0].contents,s.length>1)for(r=1;r<s.length;r++)s[r].args.includes(t.which)&&(i+=s[r].contents);new Wikifier(null,i)}))}});\u000a// end event macro set
-p598
-sg23
-VeventJS
-p599
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I56
-I8
-I1
-I332
-I0
-tp600
-(dp601
-tp602
-Rp603
-sg31
-(lp604
-Vscript
-p605
-asg33
-g26
-((I2017
-I11
-I28
-I4
-I36
-I25
-I1
-I332
-I0
-tp606
-(dp607
-tp608
-Rp609
-sbsa(dp610
-g14
-I00
-sg15
-(lp611
-I710
-aI290
-asg17
-(itiddlywiki
-Tiddler
-p612
-(dp613
-g21
-V// typesim macro, by chapel; for sugarcube 2; v1.0.0\u000a;Macro.add("typesim",{tags:null,handler:function(){var t=$(document.createElement("textarea")),e=$(document.createElement("div"));if(1!==this.args.length)return this.error("incorrect number of arguments");if("string"!=typeof this.args[0])return this.error("argument should be a string");var r=this.args[0],a="",n=r.length,i=0,s="typesim-output-"+r.replace(/[^A-Za-z0-9]/g,""),o="macro-"+this.name,d=this.payload[0].contents;t.wiki(a).attr({id:s,readonly:!0}).addClass(o).appendTo(this.output),$(document).on("keydown","#"+s,function(t){n>i&&(a+=r.charAt(i),$("#"+s).empty().wiki(a)),i===n&&e.wiki(d).addClass(o).insertAfter("#"+s),i++})}});\u000a// end typesim macro
-p614
-sg23
-VtypeSimJS
-p615
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I55
-I58
-I1
-I332
-I0
-tp616
-(dp617
-tp618
-Rp619
-sg31
-(lp620
-Vscript
-p621
-asg33
-g26
-((I2017
-I11
-I28
-I4
-I36
-I47
-I1
-I332
-I0
-tp622
-(dp623
-tp624
-Rp625
-sbsa(dp626
-g14
-I00
-sg15
-(lp627
-I850
-aI10
-asg17
-(itiddlywiki
-Tiddler
-p628
-(dp629
-g21
-V// Coming soon!
-p630
-sg23
-VconsumablesJS
-p631
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I46
-I9
-I1
-I332
-I0
-tp632
-(dp633
-tp634
-Rp635
-sg31
-(lp636
-Vscript
-p637
-asg33
-g26
-((I2017
-I11
-I28
-I4
-I36
-I59
-I1
-I332
-I0
-tp638
-(dp639
-tp640
-Rp641
-sbsa(dp642
-g14
-I00
-sg15
-(lp643
-I850
-aI150
-asg17
-(itiddlywiki
-Tiddler
-p644
-(dp645
-g21
-V// Coming soon!
-p646
-sg23
-VcyclesJS
-p647
-sg25
-g26
-((I2017
-I11
-I28
-I5
-I46
-I16
-I1
-I332
-I0
-tp648
-(dp649
-tp650
-Rp651
-sg31
-(lp652
-Vscript
-p653
-asg33
-g26
-((I2017
-I11
-I28
-I4
-I37
-I1
-I1
-I332
-I0
-tp654
-(dp655
-tp656
-Rp657
-sbsa(dp658
-g14
-I00
-sg15
-(lp659
-I850
-aI290
-asg17
-(itiddlywiki
-Tiddler
-p660
-(dp661
-g21
-V// simple-inventory.js, by chapel; for sugarcube 2; v2.1.0\u000asetup.simpleInv={},setup.simpleInv.options={tryGlobal:!0,emptyMsg:"You're not carrying anything..."},setup.simpleInv.attachEvent=function(i,t,r,n){$(document).trigger({type:"initialized"===n?":inventory-init":":inventory-update",instance:i,recieving:t,moved:r,context:n})},setup.simpleInv.inventory=function(i){i&&Array.isArray(i)&&1===arguments.length?this.inv=i:i?(i=[].slice.call(arguments),i=i.flatten()):(i=null,this.inv=[]),setup.simpleInv.attachEvent(this,null,i,"initialized")},setup.simpleInv.inventory.prototype={transfer:function(i){if(arguments.length<2)return this;if(!(i instanceof setup.simpleInv.inventory))return this;var t=[].slice.call(arguments);t=t.slice(1).flatten();for(var r=[],n=0,e=t.length;e>n;n++)this.inv.includes(t[n])&&(this.inv["delete"](t[n]),r.push(t[n]));return r.length?(i.inv=i.inv.concat(r),setup.simpleInv.attachEvent(this,i,r,"transfer"),this):this},has:function(){var i=[].slice.call(arguments).flatten();return i&&i.length?this.inv.includesAny(i):!1},hasAll:function(){var i=[].slice.call(arguments).flatten();return i&&i.length?this.inv.includesAll(i):!1},pickUp:function(i){var t=[].slice.call(arguments).flatten(),r=this;return t&&t.length&&(i&&(t=function(i){var t=[];return i.forEach(function(i){r.inv.includes(i)||t.push(i)}),t}(t)),this.inv=this.inv.concat(t),setup.simpleInv.attachEvent(this,null,t,"pickup")),this},drop:function(){var i=[].slice.call(arguments).flatten(),t=this;if(i&&i.length){var r=[];i.forEach(function(i){t.has(i)&&(r.push(i),t.inv["delete"](i))}),setup.simpleInv.attachEvent(this,null,r,"drop")}return this},sort:function(){return this.inv=this.inv.sort(),setup.simpleInv.attachEvent(this,null,null,"sort"),this},show:function(i){return i&&"string"==typeof i||(i="\u005cn"),this.inv.length?this.inv.join(i):setup.simpleInv.options.emptyMsg},empty:function(){var i=clone(this.inv);return this.inv=[],setup.simpleInv.attachEvent(this,null,i,"drop"),this},toArray:function(){return this.inv},linkedList:function(i,t){i&&i instanceof setup.simpleInv.inventory||(i=!1);var r=this.toArray(),n=this,e=$(document.createElement("span"));return r&&r.length?(r.forEach(function(r,s,a){var o=$(document.createElement("span")),l=$(document.createElement("a")),u=t?t:"Discard",h="simple-inv-"+s+r.replace(/[^A-Za-z0-9]/g,"");l.wiki(u).addClass("simple-inv drop-link"),l.ariaClick(function(){i?n.transfer(i,r):n.drop(r),$("#"+h).empty()}),o.attr("id",h).addClass("simple-inv link-listing").wiki(r+" ").append(l),s<a.length-1&&o.wiki("<br />"),e.append(o)}),e):(e.wiki(setup.simpleInv.options.emprtyMsg),e)},constructor:setup.simpleInv.inventory,toJSON:function(){return JSON.reviveWrapper("new setup.simpleInv.inventory("+JSON.stringify(this.inv)+")")}},setup.simpleInv.options.tryGlobal&&(window.Inventory=window.Inventory||setup.simpleInv.inventory),Macro.add("newinventory",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();return"$"!==i[0]&&"_"!==i[0]?this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)'):void Wikifier.setValue(i,new setup.simpleInv.inventory(this.args.slice(1).flatten()))}}),Macro.add("pickup",{handler:function(){if(this.args.length<2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.pickUp(this.args.slice(1).flatten()):this.error("variable "+i+" is not an inventory!")}}),Macro.add("drop",{handler:function(){if(this.args.length<2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.drop(this.args.slice(1).flatten()):this.error("variable "+i+" is not an inventory!")}}),Macro.add("transfer",{handler:function(){if(this.args.length<3)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);if(!(t instanceof setup.simpleInv.inventory))return this.error("variable "+i+" is not an inventory!");var r=this.args[1].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[1]+'" is missing its sigil ($ or _)');var n=Wikifier.getValue(r);return n instanceof setup.simpleInv.inventory?void t.transfer(n,this.args.slice(2).flatten()):this.error("variable "+r+" is not an inventory!")}}),Macro.add("dropall",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.empty():this.error("variable "+i+" is not an inventory!")}}),Macro.add("clear","dropall",!1),Macro.add("sort",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);return t instanceof setup.simpleInv.inventory?void t.sort():this.error("variable "+i+" is not an inventory!")}}),Macro.add("inventory",{handler:function(){if(this.args.length<1||this.args.length>2)return this.error("incorrect number of arguments");var i=this.args[0].trim();if("$"!==i[0]&&"_"!==i[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var t=Wikifier.getValue(i);if(!(t instanceof setup.simpleInv.inventory))return this.error("variable "+i+" is not an inventory!");var r=$(document.createElement("span")),n=this.args[1]?this.args[1]:!1;r.wiki(t.show(n)).addClass("macro-"+this.name).appendTo(this.output)}}),Macro.add("linkedinventory",{handler:function(){if(this.args.length<2||this.args.length>3)return this.error("incorrect number of arguments");var i=!1,t=this.args[1].trim(),r="string"==typeof this.args[0]?this.args[0]:!1;if(!r)return this.error("first argument should be the link text");if("$"!==t[0]&&"_"!==t[0])return this.error('variable name "'+this.args[1]+'" is missing its sigil ($ or _)');var n=Util.slugify(t),n=this.name+"-"+n,e=Wikifier.getValue(t);if(!(e instanceof setup.simpleInv.inventory))return this.error("variable "+t+" is not an inventory!");if(this.args.length>2){var s=this.args[2].trim();if("$"!==s[0]&&"_"!==s[0])return this.error('variable name "'+this.args[2]+'" is missing its sigil ($ or _)');if(i=Wikifier.getValue(s),!(i instanceof setup.simpleInv.inventory))return this.error("variable "+s+" is not an inventory!")}var a=e.linkedList(i,r);a.attr("id",n).addClass("macro-"+this.name).appendTo(this.output)}});\u000a// end simple-inventory.js
-p662
-sg23
-VsimpleInvJS
-p663
-sg25
-g26
-((I2017
-I11
-I30
-I4
-I53
-I20
-I3
-I334
-I0
-tp664
-(dp665
-tp666
-Rp667
-sg31
-(lp668
-Vscript
-p669
-asg33
-g26
-((I2017
-I11
-I28
-I4
-I37
-I2
-I1
-I332
-I0
-tp670
-(dp671
-tp672
-Rp673
-sbsa(dp674
-g14
-I00
-sg15
-(lp675
-I710
-aI710
-asg17
-(itiddlywiki
-Tiddler
-p676
-(dp677
-g21
-VThis room contains the following items:\u000a\u000a<<linkedinventory 'Take' '$container' '$playerInv'>>\u000a\u000a<<link 'View your inventory.'>>\u000a	<<dialog 'Inventory'>>\u005c\u000a		<<inventory '$playerInv'>>\u005c\u000a	<</dialog>>\u000a<</link>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<linkedinventory 'Take' '$container' '$playerInv'>>}}}\u000a\u000a	{{{<<link 'View your inventory.'>>}}}\u000a	<<tab>>{{{<<dialog 'Inventory'>>\u005c}}}\u000a	<<tab>><<tab>>{{{<<inventory '$playerInv'>>\u005c}}}\u000a	<<tab>>{{{<</dialog>>}}}\u000a	{{{<</link>>}}}\u005c\u000a<</message>>\u000a\u000aYou can use the {{{<<linkedinventory>>}}} macro to display a list of inventory items along with a link.  You determine the link name.  What the link does depends on the macros arguments; if two inventories are given to the macro, clicking the link moves the item in question from the first inventory listed into the second inventory.  If only one inventory is listed, clicking the link will just remove the item from the indicated inventory.\u000a\u000a[[Next.|testingInv]]
-p678
-sg23
-VcontainerExample
-p679
-sg25
-g26
-((I2017
-I11
-I29
-I3
-I6
-I0
-I2
-I333
-I0
-tp680
-(dp681
-tp682
-Rp683
-sg31
-(lp684
-sg33
-g26
-((I2017
-I11
-I29
-I1
-I22
-I23
-I2
-I333
-I0
-tp685
-(dp686
-tp687
-Rp688
-sbsa(dp689
-g14
-I00
-sg15
-(lp690
-I710
-aI850
-asg17
-(itiddlywiki
-Tiddler
-p691
-(dp692
-g21
-V<<if not $playerInv.has('lighter')>>\u005c\u000a	There's a cigarette lighter on the floor here...\u000a	\u000a	<<link [[Pick it up?|droppingAndPickingUp]]>>\u000a		<<pickup '$playerInv' 'lighter'>>\u000a	<</link>>\u000a<<else>>\u005c\u000a	There's nothing here...\u000a\u000a	<<link [[Drop the lighter?|droppingAndPickingUp]]>>\u000a		<<drop '$playerInv' 'lighter'>>\u000a	<</link>>\u000a<</if>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<if not $playerInv.has('lighter')>>\u005c}}}\u000a	<<tab>>{{{There's a cigarette lighter on the floor here...}}}\u000a	\u000a	<<tab>>{{{<<link [[Pick it up?|droppingAndPickingUp]]>>}}}\u000a	<<tab>><<tab>>{{{<<pickup 'lighter'>>}}}\u000a	<<tab>>{{{<</link>>}}}\u000a	{{{<<else>>\u005c}}}\u000a	<<tab>>{{{There's nothing here...}}}\u000a\u000a	<<tab>>{{{<<link [[Drop the lighter?|droppingAndPickingUp]]>>}}}\u000a	<<tab>><<tab>>{{{<<drop 'lighter'>>}}}\u000a	<<tab>>{{{<</link>>}}}\u000a	{{{<</if>>}}}\u000a\u000a	{{{::PassageFooter}}}\u000a	{{{<<if tags().includes('inv')>>\u005c}}}\u000a	<<tab>>{{{@@#inventory;}}}\u000a	<<tab>><<tab>>{{{<<inventory '$playerInv'>>\u005c}}}\u000a	<<tab>>{{{@@}}}\u000a	{{{<</if>>}}}\u005c\u000a<</message>>\u000a\u000aWe can check the inventory with the JavaScript method {{{<inventory>.has()}}} for a single item or a list of items.  If any one of the items in the list is in the invetnory, the method call returns true.  If we need to make sure the player has all of the required items, we can instead use the {{{<inventory>.hasAll()}}} method.\u000a\u000aWe can add items to the inventory using the {{{<<pickup>>}}} macro, and drop them with the {{{<<drop>>}}} macro.  We can also completely clear out the inventory using the {{{<<dropall>> macro}}}.\u000a\u000a[[Next.|containerExample]]
-p693
-sg23
-VdroppingAndPickingUp
-p694
-sg25
-g26
-((I2017
-I11
-I29
-I1
-I43
-I36
-I2
-I333
-I0
-tp695
-(dp696
-tp697
-Rp698
-sg31
-(lp699
-Vinv
-p700
-asg33
-g26
-((I2017
-I11
-I29
-I1
-I23
-I19
-I2
-I333
-I0
-tp701
-(dp702
-tp703
-Rp704
-sbsa(dp705
-g14
-I00
-sg15
-(lp706
-I710
-aI570
-asg17
-(itiddlywiki
-Tiddler
-p707
-(dp708
-g21
-VYou can also use the {{{<<transfer>>}}} macro to move a list of items from one inventory to another.  If any items in the list can't be found, no error will be raised, but the item also won't appear in the new inventory.\u000a\u000a<<if $playerInv.hasAll('blue hedgehog', 'italian plumber')>>\u005c\u000a	@@#goaway;<<link 'Toss the Sonic and Mario back into the last passage.'>>\u000a		<<replace '#goaway'>><</replace>>\u000a		<<transfer '$playerInv' '$container' 'blue hedgehog' 'italian plumber'>>\u000a	<</link>>@@\u005c\u000a<</if>>\u000a\u000a[[Return|previous()]]\u000a\u000aClick the link above and then take the return link to see what happens!\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<if $playerInv.hasAll('blue hedgehog', 'italian plumber')>>\u005c}}}\u000a	<<tab>>{{{@@#goaway;<<link 'Toss the Sonic and Mario back into the last passage.'>>}}}\u000a	<<tab>><<tab>>{{{<<replace '#goaway'>><</replace>>}}}\u000a	<<tab>><<tab>>{{{<<transfer '$playerInv' '$container' 'blue hedgehog' 'italian plumber'>>}}}\u000a	<<tab>>{{{<</link>>@@\u005c}}}\u000a	{{{<</if>>}}}\u005c\u000a<</message>>\u000a\u000a[[Next.|invJS-API]]
-p709
-sg23
-VtestingInv
-p710
-sg25
-g26
-((I2017
-I11
-I30
-I4
-I55
-I27
-I3
-I334
-I0
-tp711
-(dp712
-tp713
-Rp714
-sg31
-(lp715
-sg33
-g26
-((I2017
-I11
-I29
-I1
-I25
-I11
-I2
-I333
-I0
-tp716
-(dp717
-tp718
-Rp719
-sbsa(dp720
-g14
-I00
-sg15
-(lp721
-I710
-aI430
-asg17
-(itiddlywiki
-Tiddler
-p722
-(dp723
-g21
-VThere's also a lot you can do with the simple inventory in pure JavaScript.  Here's a list of methods:\u000a\u000a!!!INVENTORY METHODS\u000a* {{{<inv>.transfer(<inv>, [items])}}} // chainable//\u000a* {{{<inv>.has([items])}}} // not chainable; returns boolean//\u000a* {{{<inv>.hasAll([items])}}} // not chainable; returns boolean//\u000a* {{{<inv>.pickUp([items])}}} // chainable//\u000a* {{{<inv>.drop([items])}}} // chainable//\u000a* {{{<inv>.sort()}}} // chainable//\u000a* {{{<inv>.show([seperator])}}} // not chainable; returns string//\u000a* {{{<inv>.empty()}}} // chainable//\u000a* {{{<inv>.toArray()}}} // not chainable; returns array//\u000a\u000aWhere:\u000a* {{{<inv>}}} represents an inventory instance, either from the {{{<<<newinventory>>}}} macro or from Javascript (i.e. {{{State.variables.inventory = new Inventory()}}}).\u000a* {{{[items]}}} represents a list of items: either an array, a list of comma-separated strings, or some combination of the two.\u000a* {{{[separator]}}} represents a string.\u000a\u000aThe methods are chainable as well, unless they return a specific value.\u000a\u000a<<set $inventory to new Inventory()>>\u005c\u000a<<= $inventory.pickUp('sticks', 'cards', ['something shiny', 'a blade', 'a wet noodle']).drop('cards').sort().show(', ')>>\u000a\u000a<<message 'View this code.'>>\u005c\u000a	{{{<<set $inventory to new Inventory()>>\u005c}}}\u000a	{{{<<= $inventory.pickUp('sticks', 'cards', ['something shiny', 'a blade', 'a wet noodle']).drop('cards').sort().show(', ')>>}}}\u005c\u000a<</message>>\u000a\u000aIn addition to this, everytime an inventory is updated, a syntheitc event, {{{:inventory-update}}} is fired.  The event contains a variety of information, including which inventories were involved and which items were moved, allowing users to create even more dynamic and responsive systems.  We've been using it this whole time to output all 'moved' items to the console; every time an item entered or left an inventory, it was logged.  See for yourself!\u000a\u000aFor the complete documentation of the simple inventory, both its macros and its JavaScript systems, refer to the documentation.\u000a\u000a[[Go back to the beginning.|Simple Inventory]]
-p724
-sg23
-VinvJS-API
-p725
-sg25
-g26
-((I2017
-I11
-I30
-I4
-I50
-I56
-I3
-I334
-I0
-tp726
-(dp727
-tp728
-Rp729
-sg31
-(lp730
-sg33
-g26
-((I2017
-I11
-I29
-I1
-I25
-I48
-I2
-I333
-I0
-tp731
-(dp732
-tp733
-Rp734
-sbsa(dp735
-g14
-I00
-sg15
-(lp736
-I990
-aI10
-asg17
-(itiddlywiki
-Tiddler
-p737
-(dp738
-g21
-V<<if tags().includes('inv')>>\u005c\u000a	@@#inventory;\u000a		<<inventory '$playerInv'>>\u005c\u000a	@@\u000a<</if>>
-p739
-sg23
-VPassageFooter
-p740
-sg25
-g26
-((I2017
-I11
-I29
-I1
-I41
-I15
-I2
-I333
-I0
-tp741
-(dp742
-tp743
-Rp744
-sg31
-(lp745
-sg33
-g26
-((I2017
-I11
-I29
-I1
-I30
-I17
-I2
-I333
-I0
-tp746
-(dp747
-tp748
-Rp749
-sbsasS'scale'
-p750
-I1
-sS'snapping'
-p751
-I01
-ss.

@@ -1,6 +1,6 @@
 ## The First Macro
 
-[Back to the main readme](./readme.md).
+[Back to the main readme](./README.md).
 
 Based loosely on Leon's `<<once>>` macro and similar, `<<first>>`, `<<then>>`, and `<<finally>>` create code or text that is shown based on how many times the player has visited a particular passage. While it's nothing that couldn't be handled with variables or `visited()` and an `<<if>>` or `<<switch>>`, I believe this lightweight set of macros feel a bit better to use in some stories. 
 

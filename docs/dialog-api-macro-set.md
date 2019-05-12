@@ -1,6 +1,6 @@
 ## The Dialog API Macro Set
 
-[Back to the main readme](./readme.md).
+[Back to the main readme](./README.md).
 
 This macro set helps you work with SugarCube's Dialog API without having to touch any JavaScript.
 

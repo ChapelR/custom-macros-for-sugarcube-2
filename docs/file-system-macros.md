@@ -1,6 +1,6 @@
 ## The File System Macro Set
 
-[Back to the main readme](./readme.md).
+[Back to the main readme](./README.md).
 
 A set of macros for importing and exporting data to the user's hard drive, or for importing exported saved games into different games.
 

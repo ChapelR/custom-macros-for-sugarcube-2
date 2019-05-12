@@ -1,6 +1,6 @@
 ## The Event Macros
 
-[Back to the main readme](./readme.md).
+[Back to the main readme](./README.md).
 
 This macro set allows Twine authors to create event programming without needing to use JavaScript or jQuery.
 

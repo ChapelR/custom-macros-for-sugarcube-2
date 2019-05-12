@@ -1,6 +1,6 @@
 ## The UI Macro
 
-[Back to the main readme](./readme.md).
+[Back to the main readme](./README.md).
 
 This macro provides users access to parts of the UI and UIBar APIs from macros, and a few other, non-API functions.
 

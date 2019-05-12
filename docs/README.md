@@ -1,5 +1,7 @@
 ## Chapel's Custom Macro Collection 
 
+[Try the demo!](https://macros.twinelab.net/demo)
+
 ### Documentation
  * [The Dialog API Macro Set](./dialog-api-macro-set.md)  
  * [The UI Macro](./ui-macro.md)  

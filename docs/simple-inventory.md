@@ -1,6 +1,6 @@
 ## The Simple Inventory System (v2.x)
 
-[Back to the main readme](./readme.md).
+[Back to the main readme](./README.md).
 
 The simple inventory allows Twine authors to create and manipulate array-based inventories for 'key' style items (as opposed to consumables or equipment).  This system provides a great deal of functionality, including sorting, displaying item lists (with drop / transfer links), and creating multiple inventories (for creating 'rooms' or other containers, or party members) and transfering items between them.  All of the functionality here has both a JavaScript API and a TwineScript Macro-based API, meaning the features are easily available from within your passages and inside scripts.
 

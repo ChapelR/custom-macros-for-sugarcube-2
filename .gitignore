@@ -50,3 +50,5 @@ Temporary Items
 /node_modules
 build.bat
 **.sublime-*
+
+test/
