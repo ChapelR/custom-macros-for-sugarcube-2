@@ -246,7 +246,31 @@ The {{{&lt;&lt;popup&gt;&gt;}}} macro renders the content of the indicated passa
 
 -----
 [[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/dialog-api-macro-set]]</tw-passagedata><tw-passagedata pid="6" name="popup-passage" tags="" position="725,100">&lt;&lt;set _bye to [&#39;Goodbye!&#39;, &#39;See ya.&#39;, &#39;Bye!&#39;, &#39;Later!&#39;, &#39;Farewell.&#39;]&gt;&gt;
-The computer says &quot;&lt;&lt;= _bye.random()&gt;&gt;&quot;</tw-passagedata><tw-passagedata pid="7" name="done" tags="" position="850,100">The {{{&lt;&lt;done&gt;&gt;}}} macro can be used to utilize various [[DOM macros|http://www.motoslave.net/sugarcube/2/docs/#macros-dom]] without needing to pair them with interaction or passage events / task objects.
+The computer says &quot;&lt;&lt;= _bye.random()&gt;&gt;&quot;</tw-passagedata><tw-passagedata pid="7" name="dice" tags="" position="850,100">The dice roller and fairmath system includes, as you may imagine, two main components, a diced roller, and a [[fairmath|https://choicescriptdev.fandom.com/wiki/Arithmetic_operators#Fairmath]] system.
+
+!!Dice Roller
+The dice roller accepts either two numbers or a string of dice notation. All of the following lines of code rolls 3d6+2, that is, three six-sided dice and adds two.
+
+|{{{dice(&#39;3d6+2&#39;)}}}|: &lt;&lt;= dice(&#39;3d6+2&#39;)&gt;&gt;|
+|{{{dice(3, 6) + 2}}}|: &lt;&lt;= dice(3, 6) + 2&gt;&gt;|
+|{{{(3).d(6) + 2}}}|: &lt;&lt;= (3).d(6) + 2&gt;&gt;|
+
+There are also a few other syntax formations and methods that work, check the documentation for more.
+
+!!Fairmath
+The fairmath methods are based on the //ChoiceScript// fairmath operations, it&#39;s a system that is used to adjust stats on a curve.
+
+We&#39;ll start a stat at 0, then do some math to show this system off.  We&#39;ll use the variable {{{_fm}}} to hold our stat for this demonstartion.&lt;&lt;set _fm to 0&gt;&gt;
+
+| &#39;&#39;OPERATION&#39;&#39; | &#39;&#39;CODE USED&#39;&#39; | &#39;&#39;RESULT&#39;&#39; |
+|Adding 15 | {{{Math.fm(_fm, 15)}}} | &lt;&lt;set _fm to Math.fm(_fm, 15)&gt;&gt; _fm |
+|Adding 50 | {{{_fm.fm(15)}}} | &lt;&lt;set _fm to _fm.fm(50)&gt;&gt; _fm |
+|Adding 15 | {{{Math.fm(_fm, 15)}}} | &lt;&lt;set _fm to Math.fm(_fm, 15)&gt;&gt; _fm |
+|Subtracting 15 | {{{Math.fm(stat, -15)}}} | &lt;&lt;set _fm to Math.fm(_fm, -15)&gt;&gt; _fm |
+|Subtracting 10 | {{{_fm.fm(-10)}}} | &lt;&lt;set _fm to _fm.fm(-10)&gt;&gt; _fm |
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/operations-api]]</tw-passagedata><tw-passagedata pid="8" name="done" tags="" position="975,100">The {{{&lt;&lt;done&gt;&gt;}}} macro can be used to utilize various [[DOM macros|http://www.motoslave.net/sugarcube/2/docs/#macros-dom]] without needing to pair them with interaction or passage events / task objects.
 
 From the documentation, emphasis mine:
 
@@ -265,7 +289,7 @@ With the macro, you can do it:
 &lt;&lt;done&gt;&gt;&lt;&lt;replace &#39;#done-replace&#39;&gt;&gt;This was successfully replaced!&lt;&lt;/replace&gt;&gt;&lt;&lt;/done&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/done-macro]]</tw-passagedata><tw-passagedata pid="8" name="event" tags="" position="975,100">The {{{&lt;&lt;event&gt;&gt;}}} macro can be used to set up event handlers using macro code. You can use this code to set up keyboard controls, hotkeys, double click events, and click events on normally not clickable elements.  The {{{&lt;&lt;trigger&gt;&gt;}}} macro can be used to artificially trigger events, like clicking links.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/done-macro]]</tw-passagedata><tw-passagedata pid="9" name="event" tags="" position="1100,100">The {{{&lt;&lt;event&gt;&gt;}}} macro can be used to set up event handlers using macro code. You can use this code to set up keyboard controls, hotkeys, double click events, and click events on normally not clickable elements.  The {{{&lt;&lt;trigger&gt;&gt;}}} macro can be used to artificially trigger events, like clicking links.
 
 Events are usually best set up in your [[StoryInit special passage|http://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinit]], and once set up they are essetnially permanent. We set the events up here, in this passage, only to show some examples, but doing this in an actual game is a bad idea.
 
@@ -282,7 +306,7 @@ Try pressing the space bar and/or escape.
 @@#space-hotkey;&lt;&lt;link &#39;This link is also activated with the spacebar!&#39;&gt;&gt;&lt;&lt;run UI.alert(&#39;Spacebar pressed!&#39;)&gt;&gt;&lt;&lt;/link&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/event-macros]]</tw-passagedata><tw-passagedata pid="9" name="fading" tags="" position="1100,100">The {{{&lt;&lt;fadein&gt;&gt;}}} and {{{&lt;&lt;fadeout&gt;&gt;}}} macros can be used to display simple, timed fading animations on blocks of text.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/event-macros]]</tw-passagedata><tw-passagedata pid="10" name="fading" tags="" position="1225,100">The {{{&lt;&lt;fadein&gt;&gt;}}} and {{{&lt;&lt;fadeout&gt;&gt;}}} macros can be used to display simple, timed fading animations on blocks of text.
 
 &lt;&lt;fadein 10s&gt;&gt;This text, for example is fading in over a long period of time.&lt;&lt;/fadein&gt;&gt;
 
@@ -291,7 +315,10 @@ Try pressing the space bar and/or escape.
 &lt;&lt;fadein 5s 5s&gt;&gt;&lt;&lt;fadeout 5s 11s&gt;&gt;This text fades in and then out by using both macros.&lt;&lt;/fadeout&gt;&gt;&lt;&lt;/fadein&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fading-macros]]</tw-passagedata><tw-passagedata pid="10" name="first" tags="" position="1225,100">The {{{&lt;&lt;first&gt;&gt;}}} macro, and it&#39;s child tags, {{{&lt;&lt;then&gt;&gt;}}} and {{{&lt;&lt;finally&gt;&gt;}}}, can be used to show content conditionally based on how many times a user has entered a passage. Try going to another passage and coming back, or click the link below to re-navigate to this same passage.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fading-macros]]</tw-passagedata><tw-passagedata pid="11" name="file" tags="no-gist" position="100,225">Coming soon.
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/file-system-macros]]</tw-passagedata><tw-passagedata pid="12" name="first" tags="" position="225,225">The {{{&lt;&lt;first&gt;&gt;}}} macro, and it&#39;s child tags, {{{&lt;&lt;then&gt;&gt;}}} and {{{&lt;&lt;finally&gt;&gt;}}}, can be used to show content conditionally based on how many times a user has entered a passage. Try going to another passage and coming back, or click the link below to re-navigate to this same passage.
 &lt;&lt;first&gt;&gt;\
     
     This text, for example, only shows on the first visit to this passage.
@@ -312,19 +339,22 @@ Try pressing the space bar and/or escape.
 [[Renavigate to this passage|passage()]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/first-macro]]</tw-passagedata><tw-passagedata pid="11" name="fullscreen" tags="" position="100,225">The {{{&lt;&lt;fullscreen&gt;&gt;}}} and {{{&lt;&lt;fullscreenlink&gt;&gt;}}} macro can be used to create buttons or links that engage the browser&#39;s fullscreen mode. To leave fullscreen, the user typically has to hit {{{Escape}}}. Note that users can engage fullscreen themselves on most browsers with a function key, usually {{{F11}}}, but this macro includes a few fixes that can help keep your game looking good in fullscreen mode.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/first-macro]]</tw-passagedata><tw-passagedata pid="13" name="fullscreen" tags="" position="350,225">The {{{&lt;&lt;fullscreen&gt;&gt;}}} and {{{&lt;&lt;fullscreenlink&gt;&gt;}}} macro can be used to create buttons or links that engage the browser&#39;s fullscreen mode. To leave fullscreen, the user typically has to hit {{{Escape}}}. Note that users can engage fullscreen themselves on most browsers with a function key, usually {{{F11}}}, but this macro includes a few fixes that can help keep your game looking good in fullscreen mode.
 
 &lt;&lt;fullscreenlink &#39;Click here to go fullscreen!&#39;&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fullscreen-macros]]</tw-passagedata><tw-passagedata pid="12" name="message" tags="" position="225,225">The {{{&lt;&lt;message&gt;&gt;}}} macro can be used to create user-toggleable messages, such as for help, tutorials, or more information. We&#39;ve been using it in the &lt;&lt;button &#39;View Source Code&#39;&gt;&gt;&lt;&lt;/button&gt;&gt; buttons all across this file.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fullscreen-macros]]</tw-passagedata><tw-passagedata pid="14" name="inventory" tags="no-gist" position="475,225">Coming soon.
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/simple-inventory]]</tw-passagedata><tw-passagedata pid="15" name="message" tags="" position="600,225">The {{{&lt;&lt;message&gt;&gt;}}} macro can be used to create user-toggleable messages, such as for help, tutorials, or more information. We&#39;ve been using it in the &lt;&lt;button &#39;View Source Code&#39;&gt;&gt;&lt;&lt;/button&gt;&gt; buttons all across this file.
 
 &lt;&lt;message &#39;Help&#39;&gt;&gt;\
     It&#39;s a lot like the {{{&lt;&lt;linkappend&gt;&gt;}}} macro, but users can also remove the content when they&#39;re done.\
 &lt;&lt;/message&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/message-macro]]</tw-passagedata><tw-passagedata pid="13" name="mouseover" tags="" position="350,225">The {{{&lt;&lt;mouseover&gt;&gt;}}} macro can be used to trigger macro code on a variety of mouse and hover events.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/message-macro]]</tw-passagedata><tw-passagedata pid="16" name="mouseover" tags="" position="725,225">The {{{&lt;&lt;mouseover&gt;&gt;}}} macro can be used to trigger macro code on a variety of mouse and hover events.
 
 Example of a &quot;tooltip&quot;:
 
@@ -344,9 +374,10 @@ Navigate on mouseover instead of on click:
 &lt;&lt;mouseover&gt;&gt;[[Watch out for the pit!|pitfall]]&lt;&lt;onhover&gt;&gt;&lt;&lt;goto &#39;pitfall&#39;&gt;&gt;&lt;&lt;/mouseover&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/mouseover-macro]]</tw-passagedata><tw-passagedata pid="14" name="pitfall" tags="no-gist" position="475,225">You fell in a pit! Be more careful next time.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/mouseover-macro]]</tw-passagedata><tw-passagedata pid="17" name="pitfall" tags="no-gist" position="850,225">You fell in a pit! Be more careful next time.
 
-[[Climb back out|mouseover]]</tw-passagedata><tw-passagedata pid="15" name="file" tags="no-gist" position="600,225">Coming soon.</tw-passagedata><tw-passagedata pid="16" name="inventory" tags="no-gist" position="725,225">Coming soon.</tw-passagedata><tw-passagedata pid="17" name="dice" tags="no-gist" position="850,225">Coming soon.</tw-passagedata><tw-passagedata pid="18" name="notify" tags="" position="975,225">&lt;&lt;notify&gt;&gt;Hi there!&lt;&lt;/notify&gt;&gt;\
+[[Climb back out|mouseover]]</tw-passagedata><tw-passagedata pid="18" name="currently not done" tags="" position="975,225">file
+inventory</tw-passagedata><tw-passagedata pid="19" name="notify" tags="" position="1100,225">&lt;&lt;notify&gt;&gt;Hi there!&lt;&lt;/notify&gt;&gt;\
 The {{{&lt;&lt;notify&gt;&gt;}}} macro can be used to display a quick message to users. It&#39;s less discruptive that a dialog or alert, and ideal for something like a quick inventory or achievement update. You can click the link below to fire another notification in case you missed the first one. Note, however, that allowing users to activate these notifications like this is a bad idea; if they click too much, the animations will start to trip over each other.
 
 &lt;&lt;link &#39;See a notification.&#39;&gt;&gt;
@@ -354,7 +385,7 @@ The {{{&lt;&lt;notify&gt;&gt;}}} macro can be used to display a quick message to
 &lt;&lt;/link&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/notify-macro]]</tw-passagedata><tw-passagedata pid="19" name="playtime" tags="" position="1100,225">This system can be used to display and record the user&#39;s playtime, much like in a lot of video games. The playtime system includes a function, a macro, and a passage tag.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/notify-macro]]</tw-passagedata><tw-passagedata pid="20" name="playtime" tags="" position="1225,225">This system can be used to display and record the user&#39;s playtime, much like in a lot of video games. The playtime system includes a function, a macro, and a passage tag.
 
 Your current playtime is:
 @@#time;&lt;&lt;playtime format&gt;&gt;@@
@@ -373,7 +404,7 @@ You&#39;ve been playing for &lt;&lt;= playTime(&#39;minutes&#39;)&gt;&gt; minute
 There&#39;s also a passage tag, {{{pausetimer}}}, which can be used to pause the play timer, for example when the user is in menus.
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/playtime-system]]</tw-passagedata><tw-passagedata pid="20" name="swap" tags="" position="1225,225">The {{{&lt;&lt;swap&gt;&gt;}}} macro can be used to create puzzles or other creative forms of user interaction that invloves swapping words around on the page. The {{{&lt;&lt;onswap&gt;&gt;}}} macro can be used to make adjustments and run code when swaps occur, and inside the {{{&lt;&lt;onswap&gt;&gt;}}} block, the {{{swapCurrent()}}} function returns the text that is currently swapped in.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/playtime-system]]</tw-passagedata><tw-passagedata pid="21" name="swap" tags="" position="100,350">The {{{&lt;&lt;swap&gt;&gt;}}} macro can be used to create puzzles or other creative forms of user interaction that invloves swapping words around on the page. The {{{&lt;&lt;onswap&gt;&gt;}}} macro can be used to make adjustments and run code when swaps occur, and inside the {{{&lt;&lt;onswap&gt;&gt;}}} block, the {{{swapCurrent()}}} function returns the text that is currently swapped in.
 
 &lt;&lt;set _catsPred to &#39;They meow constantly.&#39;&gt;&gt;\
 I &lt;&lt;swap&gt;&gt;own&lt;&lt;onswap&gt;&gt;
@@ -388,7 +419,7 @@ I &lt;&lt;swap&gt;&gt;own&lt;&lt;onswap&gt;&gt;
 [[Try another example.|swap2]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="21" name="swap2" tags="" position="100,350">Here&#39;s an example of a simple number code puzzle implemented with the swap macro:
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="22" name="swap2" tags="" position="225,350">Here&#39;s an example of a simple number code puzzle implemented with the swap macro:
 
 &lt;&lt;set _correct to [false, false, false]&gt;&gt;\
 Enter the code:
@@ -432,14 +463,14 @@ Enter the code:
 [[Previous|swap]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="22" name="typesim" tags="" position="225,350">The {{{&lt;&lt;typesim&gt;&gt;}}} macro allows you to //simulate// user input, but actually show them a predefined message. Try typing in the box below for an example:
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="23" name="typesim" tags="" position="350,350">The {{{&lt;&lt;typesim&gt;&gt;}}} macro allows you to //simulate// user input, but actually show them a predefined message. Try typing in the box below for an example:
 
 &lt;&lt;typesim &quot;You get to feel like you&#39;re typing, and that can be a cool interaction, but in reality, we just show you what we want you to see and make you say what we want you to say.&quot;&gt;&gt;\
     Once the user finishes the message, you can run any code you like!\
 &lt;&lt;/typesim&gt;&gt;\
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/type-sim]]</tw-passagedata><tw-passagedata pid="23" name="ui" tags="" position="350,350">The {{{&lt;&lt;ui&gt;&gt;}}} macro can be used to control many features of SugarCube&#39;s default UI from within macro code.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/type-sim]]</tw-passagedata><tw-passagedata pid="24" name="ui" tags="" position="475,350">The {{{&lt;&lt;ui&gt;&gt;}}} macro can be used to control many features of SugarCube&#39;s default UI from within macro code.
 
 &lt;&lt;link &#39;Toggle the UI Bar&#39;&gt;&gt;
     &lt;&lt;ui &#39;toggle&#39;&gt;&gt;
