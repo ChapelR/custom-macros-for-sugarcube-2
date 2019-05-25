@@ -5,7 +5,7 @@
 This macro provides users access to parts of the UI and UIBar APIs from macros, and a few other, non-API functions.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/ui-macro.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/ui-macro.js).  
-**DEMO:** Coming soon.  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=ui).  
 **GUIDE:** Not available.
 
 ### Macro: `<<ui>>`

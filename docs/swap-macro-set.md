@@ -7,7 +7,7 @@ A macro that lets users "swap" arbitrary text by clicking on one set of text and
 ![Swap it!](https://i.imgur.com/XBB1oRr.gif)
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/swap-macro-set.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/swap-macro-set.js).  
-**DEMO:** Coming soon.  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=swap).  
 **GUIDE:** Not available.
 
 ### Macro: `<<swap>>`

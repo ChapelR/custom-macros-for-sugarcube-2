@@ -5,7 +5,7 @@
 Records the player's total play time in hours, minutes, and seconds (though milliseconds are alos tracked) and formats it for display via the `<<playtime>>` macro. You can pause the timer with the `pausetimer` tag, and format your own output using the global `playTime()` function.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/playtime.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/playtime.js).  
-**DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=playtime).  
 **GUIDE:** Not available.
 
 ### Macro: `<<playtime>>`

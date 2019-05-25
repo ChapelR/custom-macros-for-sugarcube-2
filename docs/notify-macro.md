@@ -6,8 +6,8 @@ This macro pops a message up that slides out from the right side of the screen, 
 
 Note that unlike most of my code, this macro requires you to install the CSS code as well in your story's Stylesheet section.
 
-**THE CODE:** [Minified JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/notify.min.js)[Minified CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/notify.min.css). [Pretty JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/notify.js)[Pretty CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/notify.css).  
-**DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
+**THE CODE:** [Minified JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/notify.min.js) [Minified CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/notify.min.css). [Pretty JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/notify.js) [Pretty CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/notify.css).  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=notify).  
 **GUIDE:** Not available.
 
 ### Macro: `<<notify>>`

@@ -5,7 +5,7 @@
 This is a bunch of functions and methods for performing some useful number- or math-based operations.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/operations.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/operations.js).  
-**DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=dice).  
 **GUIDE:** Not available.
 
 ### Function: `dice()`

@@ -5,7 +5,7 @@
 This macro displays a link or, optionally, a button. The link or button can be clicked to display a message immediately below it in the passage text, and clicked again to collapse the message. 
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/message-macro.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/message-macro.js).  
-**DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=message).  
 **GUIDE:** Not available.
 
 ### Macro: `<<message>>`

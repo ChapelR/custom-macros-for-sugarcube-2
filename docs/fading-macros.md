@@ -5,7 +5,7 @@
 A simple macro set that causes the text between its tags to fade in or out over a period of time specified by the user, with an optional delay. Nothing crazy, but a feature I see requested frequently.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/fading-macro-set.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/fading-macro-set.js).  
-**DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=fading).  
 **GUIDE:** Not available.
 
 ### Macro: `<<fadein>>`

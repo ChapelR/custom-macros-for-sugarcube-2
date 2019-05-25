@@ -5,7 +5,7 @@
 The `<<done>>` macro serves the same purpose as the `PassageDone` special passage, a `postdisplay` task, or a `:passagedisplay` event; it runs its content just after the current passage has finished loading.  This is primarily useful for things like DOM macro manipulation; you normally can't use macros like `<<replace>>` directly in your passage code without placing them in `<<link>>`s or other interactive elements, or in the `PassageDone` special passage, since the HTML elements you want to manipulate haven't been rendered yet.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/done.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/done.js).  
-**DEMO:** Coming soon.  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=done).  
 **GUIDE:** Not available.
 
 ### Macro: `<<done>>`

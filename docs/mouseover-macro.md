@@ -5,7 +5,7 @@
 This macro allows you to use some fancy mouse events to create hover effects, tooltips, or just run arbitrary code when the mouse enters or leaves an element.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/mouseover.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/mouseover.js).  
-**DEMO:** Coming soon.  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=mouseover).  
 **GUIDE:** Not available.
 
 ### Macro: `<<mouseover>>`

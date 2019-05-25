@@ -5,7 +5,7 @@
 This macro set allows Twine authors to create event programming without needing to use JavaScript or jQuery.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/events.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/events.js).  
-**DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=event).  
 **GUIDE:** Not available.
 
 ### Macro: `<<event>>`

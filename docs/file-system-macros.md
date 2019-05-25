@@ -5,7 +5,7 @@
 A set of macros for importing and exporting data to the user's hard drive, or for importing exported saved games into different games.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/fs.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/fs.js).  
-**DEMO:** Coming soon.  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=file).  
 **GUIDE:** Not available.
 
 ### Macro: `<<export>>`

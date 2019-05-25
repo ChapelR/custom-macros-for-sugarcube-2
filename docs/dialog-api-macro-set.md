@@ -5,7 +5,7 @@
 This macro set helps you work with SugarCube's Dialog API without having to touch any JavaScript.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/dialog-api-macro-set.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/dialog-api-macro-set.js).  
-**DEMO:** [Available](http://holylandgame.com/custom-macros.html).  
+**DEMO:** [Available](http://macros.twinelab.net/demo?macro=dialog).  
 **GUIDE:** Not available.
 
 ### Macro: `<<dialog>>`
