@@ -106,6 +106,11 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 /* twine-user-stylesheet #2: "style.css" */
 .hide {
     display: none;
+}
+
+
+textarea {
+    min-height: 6em;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "a-url.js" */
 (function (exports, module, define) {
     !function(t){"use strict";var y=/^[a-z]+:/,d=/[-a-z0-9]+(\.[-a-z0-9])*:\d+/i,v=/\/\/(.*?)(?::(.*?))?@/,r=/^win/i,g=/:$/,m=/^\?/,q=/^#/,w=/(.*\/)/,A=/^\/{2,}/,e=/'/g,o=/%([ef][0-9a-f])%([89ab][0-9a-f])%([89ab][0-9a-f])/gi,n=/%([cd][0-9a-f])%([89ab][0-9a-f])/gi,i=/%([0-7][0-9a-f])/gi,p=/\+/g,s=/^\w:$/,C=/[^/#?]/;var a,I="undefined"==typeof window&&"undefined"!=typeof global&&"function"==typeof require,S=I?t.require:null,b={protocol:"protocol",host:"hostname",port:"port",path:"pathname",query:"search",hash:"hash"},j={ftp:21,gopher:70,http:80,https:443,ws:80,wss:443};function x(){return I?(a||(a="file://"+(process.platform.match(r)?"/":"")+S("fs").realpathSync(".")),a):document.location.href}function h(t,r,e){var o,n,i;r||(r=x()),I?o=S("url").parse(r):(o=document.createElement("a")).href=r;var s,p,a=(p={path:!0,query:!0,hash:!0},(s=r)&&y.test(s)&&(p.protocol=!0,p.host=!0,d.test(s)&&(p.port=!0),v.test(s)&&(p.user=!0,p.pass=!0)),p);for(n in i=r.match(v)||[],b)a[n]?t[n]=o[b[n]]||"":t[n]="";if(t.protocol=t.protocol.replace(g,""),t.query=t.query.replace(m,""),t.hash=z(t.hash.replace(q,"")),t.user=z(i[1]||""),t.pass=z(i[2]||""),t.port=j[t.protocol]==t.port||0==t.port?"":t.port,!a.protocol&&C.test(r.charAt(0))&&(t.path=r.split("?")[0].split("#")[0]),!a.protocol&&e){var h=new U(x().match(w)[0]),u=h.path.split("/"),c=t.path.split("/"),f=["protocol","user","pass","host","port"],l=f.length;for(u.pop(),n=0;n<l;n++)t[f[n]]=h[f[n]];for(;".."===c[0];)u.pop(),c.shift();t.path=("/"!==r.charAt(0)?u.join("/"):"")+"/"+c.join("/")}t.path=t.path.replace(A,"/"),t.paths(t.paths()),t.query=new F(t.query)}function u(t){return encodeURIComponent(t).replace(e,"%27")}function z(t){return(t=(t=(t=t.replace(p," ")).replace(o,function(t,r,e,o){var n=parseInt(r,16)-224,i=parseInt(e,16)-128;if(0===n&&i<32)return t;var s=(n<<12)+(i<<6)+(parseInt(o,16)-128);return 65535<s?t:String.fromCharCode(s)})).replace(n,function(t,r,e){var o=parseInt(r,16)-192;if(o<2)return t;var n=parseInt(e,16)-128;return String.fromCharCode((o<<6)+n)})).replace(i,function(t,r){return String.fromCharCode(parseInt(r,16))})}function F(t){for(var r=t.split("&"),e=0,o=r.length;e<o;e++){var n=r[e].split("="),i=decodeURIComponent(n[0].replace(p," "));if(i){var s=void 0!==n[1]?z(n[1]):null;void 0===this[i]?this[i]=s:(this[i]instanceof Array||(this[i]=[this[i]]),this[i].push(s))}}}function U(t,r){h(this,t,!r)}F.prototype.toString=function(){var t,r,e="",o=u;for(t in this){var n=this[t];if(!(n instanceof Function||null===n))if(n instanceof Array){var i=n.length;if(i)for(r=0;r<i;r++){var s=n[r];e+=e?"&":"",e+=o(t)+(null==s?"":"="+o(s))}else e+=(e?"&":"")+o(t)+"="}else e+=e?"&":"",e+=o(t)+(void 0===n?"":"="+o(n))}return e},U.prototype.clearQuery=function(){for(var t in this.query)this.query[t]instanceof Function||delete this.query[t];return this},U.prototype.queryLength=function(){var t=0;for(var r in this.query)this.query[r]instanceof Function||t++;return t},U.prototype.isEmptyQuery=function(){return 0===this.queryLength()},U.prototype.paths=function(t){var r,e="",o=0;if(t&&t.length&&t+""!==t){for(this.isAbsolute()&&(e="/"),r=t.length;o<r;o++)t[o]=!o&&s.test(t[o])?t[o]:u(t[o]);this.path=e+t.join("/")}for(o=0,r=(t=("/"===this.path.charAt(0)?this.path.slice(1):this.path).split("/")).length;o<r;o++)t[o]=z(t[o]);return t},U.prototype.encode=u,U.prototype.decode=z,U.prototype.isAbsolute=function(){return this.protocol||"/"===this.path.charAt(0)},U.prototype.toString=function(){return(this.protocol&&this.protocol+"://")+(this.user&&u(this.user)+(this.pass&&":"+u(this.pass))+"@")+(this.host&&this.host)+(this.port&&":"+this.port)+(this.path&&this.path)+(this.query.toString()&&"?"+this.query)+(this.hash&&"#"+u(this.hash))},t[t.exports?"exports":"Url"]=U}("undefined"!=typeof module&&module.exports?module:window);
@@ -196,9 +201,9 @@ postdisplay['gists'] = function () {
 // ui-macro.min.js, for SugarCube 2, by Chapel
 ;!function(){var a={update:UIBar.setStoryElements,stow:UIBar.stow,unstow:UIBar.unstow,toggle:function(){$("#ui-bar").hasClass("stowed")?UIBar.unstow():UIBar.stow()},hide:function(){$("#ui-bar").css("display","none")},show:function(){$("#ui-bar").css("display","block")},kill:function(){$("#ui-bar").css("display","none"),$("#story").css("margin-left","2.5em")},restore:function(){$("#ui-bar").css("display","block"),$("#story").css("margin-left","20em")},jump:UI.jumpto,saves:UI.saves,restart:UI.restart,settings:UI.settings,share:UI.share,aliases:{refresh:"update",reload:"update",destroy:"kill",revive:"restore",jumpto:"jump",save:"saves",load:"saves",setting:"settings",sharing:"share"}},e=Object.keys(a);function t(s){return s&&"string"==typeof s?(s=s.toLowerCase().trim(),t=s,e.includes(t)||(r=s,s=a.aliases[r]||null)?(a[s](),!1):'Command "'+s+'" is not a valid command.'):"Command is not a string.";var r,t}Macro.add("ui",{handler:function(){Array.isArray(this.args)&&this.args.length||this.error("No commands passed to macro.");var s,r=function(s){if(!Array.isArray(s))return"Command list error.";var r=[];return s.forEach(function(s){r.push(t(s))}),r}(this.args.flatten());s=(r=r.filter(function(s){return"string"==typeof s})).join(" "),r.length&&s&&this.error(s)}})}();
 // end ui-macro.min.js</script><tw-passagedata pid="1" name="StoryInit" tags="" position="100,100">&lt;&lt;set $gist to &quot;https://gist.github.com/ChapelR/3759a9ad0246eb72bc47a621f1edbf43.js&quot;&gt;&gt;
-&lt;&lt;set $gistCode to &quot;3759a9ad0246eb72bc47a621f1edbf43&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Start" tags="no-gist" position="225,100">Welcome to the [[Custom Macros for SugarCube 2 Demo|https://macors.twinelab.net]].
+&lt;&lt;set $gistCode to &quot;3759a9ad0246eb72bc47a621f1edbf43&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Start" tags="no-gist" position="225,100">Welcome to the [[Custom Macros for SugarCube 2|https://macors.twinelab.net]] demo.
 
-This file will includes demos and examples of my macro collection in action. To get started, pick a macro in the story menu to the right.</tw-passagedata><tw-passagedata pid="3" name="StoryMenu" tags="" position="350,100">[[Dialog API Macros|dialog]]
+This file will include demos and examples of my macro collection in action. To get started, pick a macro in the story menu to the left.</tw-passagedata><tw-passagedata pid="3" name="StoryMenu" tags="" position="350,100">[[Dialog API Macros|dialog]]
 [[The UI Macro|ui]]
 [[The Done Macro|done]]
 [[The Mouseover Macro|mouseover]]
@@ -286,7 +291,40 @@ Try pressing the space bar and/or escape.
 &lt;&lt;fadein 5s 5s&gt;&gt;&lt;&lt;fadeout 5s 11s&gt;&gt;This text fades in and then out by using both macros.&lt;&lt;/fadeout&gt;&gt;&lt;&lt;/fadein&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fading-macros]]</tw-passagedata><tw-passagedata pid="10" name="mouseover" tags="" position="1225,100">The {{{&lt;&lt;mouseover&gt;&gt;}}} macro can be used to trigger macro code on a variety of mouse and hover events.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fading-macros]]</tw-passagedata><tw-passagedata pid="10" name="first" tags="" position="1225,100">The {{{&lt;&lt;first&gt;&gt;}}} macro, and it&#39;s child tags, {{{&lt;&lt;then&gt;&gt;}}} and {{{&lt;&lt;finally&gt;&gt;}}}, can be used to show content conditionally based on how many times a user has entered a passage. Try going to another passage and coming back, or click the link below to re-navigate to this same passage.
+&lt;&lt;first&gt;&gt;\
+    
+    This text, for example, only shows on the first visit to this passage.
+&lt;&lt;then&gt;&gt;\
+
+    As you can see, the content of this passage has changed on your second visit.
+&lt;&lt;finally&gt;&gt;\
+
+    Using the {{{&lt;&lt;}}}{{{finally}}}{{{&gt;&gt;}}} tag allows you to have content that &#39;&#39;stays&#39;&#39; permanently once it is shown.
+&lt;&lt;/first&gt;&gt;&lt;&lt;first&gt;&gt;&lt;&lt;then&gt;&gt;\
+
+    You can also show content on the second (or third, etc) time a player visits a passage without needing to show anything the first time around by using the {{{&lt;&lt;}}}{{{then}}}{{{&gt;&gt;}}} macro and leaving the {{{&lt;&lt;}}}{{{first}}}{{{&gt;&gt;}}} part blank.
+&lt;&lt;/first&gt;&gt;&lt;&lt;first&gt;&gt;&lt;&lt;finally&gt;&gt;\
+
+    By can also use the above technique with the {{{&lt;&lt;}}}{{{finally}}}{{{&gt;&gt;}}} macro!
+&lt;&lt;/first&gt;&gt;\
+
+[[Renavigate to this passage|passage()]]
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/first-macro]]</tw-passagedata><tw-passagedata pid="11" name="fullscreen" tags="" position="100,225">The {{{&lt;&lt;fullscreen&gt;&gt;}}} and {{{&lt;&lt;fullscreenlink&gt;&gt;}}} macro can be used to create buttons or links that engage the browser&#39;s fullscreen mode. To leave fullscreen, the user typically has to hit {{{Escape}}}. Note that users can engage fullscreen themselves on most browsers with a function key, usually {{{F11}}}, but this macro includes a few fixes that can help keep your game looking good in fullscreen mode.
+
+&lt;&lt;fullscreenlink &#39;Click here to go fullscreen!&#39;&gt;&gt;
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fullscreen-macros]]</tw-passagedata><tw-passagedata pid="12" name="message" tags="" position="225,225">The {{{&lt;&lt;message&gt;&gt;}}} macro can be used to create user-toggleable messages, such as for help, tutorials, or more information. We&#39;ve been using it in the &lt;&lt;button &#39;View Source Code&#39;&gt;&gt;&lt;&lt;/button&gt;&gt; buttons all across this file.
+
+&lt;&lt;message &#39;Help&#39;&gt;&gt;\
+    It&#39;s a lot like the {{{&lt;&lt;linkappend&gt;&gt;}}} macro, but users can also remove the content when they&#39;re done.\
+&lt;&lt;/message&gt;&gt;
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/message-macro]]</tw-passagedata><tw-passagedata pid="13" name="mouseover" tags="" position="350,225">The {{{&lt;&lt;mouseover&gt;&gt;}}} macro can be used to trigger macro code on a variety of mouse and hover events.
 
 Example of a &quot;tooltip&quot;:
 
@@ -306,9 +344,36 @@ Navigate on mouseover instead of on click:
 &lt;&lt;mouseover&gt;&gt;[[Watch out for the pit!|pitfall]]&lt;&lt;onhover&gt;&gt;&lt;&lt;goto &#39;pitfall&#39;&gt;&gt;&lt;&lt;/mouseover&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/mouseover-macro]]</tw-passagedata><tw-passagedata pid="11" name="pitfall" tags="no-gist" position="100,225">You fell in a pit! Be more careful next time.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/mouseover-macro]]</tw-passagedata><tw-passagedata pid="14" name="pitfall" tags="no-gist" position="475,225">You fell in a pit! Be more careful next time.
 
-[[Climb back out|mouseover]]</tw-passagedata><tw-passagedata pid="12" name="file" tags="no-gist" position="225,225">Coming soon.</tw-passagedata><tw-passagedata pid="13" name="inventory" tags="no-gist" position="350,225">Coming soon.</tw-passagedata><tw-passagedata pid="14" name="playtime" tags="no-gist" position="475,225">Coming soon.</tw-passagedata><tw-passagedata pid="15" name="first" tags="no-gist" position="600,225">Coming soon.</tw-passagedata><tw-passagedata pid="16" name="fullscreen" tags="no-gist" position="725,225">Coming soon.</tw-passagedata><tw-passagedata pid="17" name="message" tags="no-gist" position="850,225">Coming soon.</tw-passagedata><tw-passagedata pid="18" name="notify" tags="no-gist" position="975,225">Coming soon.</tw-passagedata><tw-passagedata pid="19" name="dice" tags="no-gist" position="1100,225">Coming soon.</tw-passagedata><tw-passagedata pid="20" name="typesim" tags="no-gist" position="1225,225">Coming soon.</tw-passagedata><tw-passagedata pid="21" name="swap" tags="" position="100,350">The {{{&lt;&lt;swap&gt;&gt;}}} macro can be used to create puzzles or other creative forms of user interaction that invloves swapping words around on the page. The {{{&lt;&lt;onswap&gt;&gt;}}} macro can be used to make adjustments and run code when swaps occur, and inside the {{{&lt;&lt;onswap&gt;&gt;}}} block, the {{{swapCurrent()}}} function returns the text that is currently swapped in.
+[[Climb back out|mouseover]]</tw-passagedata><tw-passagedata pid="15" name="file" tags="no-gist" position="600,225">Coming soon.</tw-passagedata><tw-passagedata pid="16" name="inventory" tags="no-gist" position="725,225">Coming soon.</tw-passagedata><tw-passagedata pid="17" name="dice" tags="no-gist" position="850,225">Coming soon.</tw-passagedata><tw-passagedata pid="18" name="notify" tags="" position="975,225">&lt;&lt;notify&gt;&gt;Hi there!&lt;&lt;/notify&gt;&gt;\
+The {{{&lt;&lt;notify&gt;&gt;}}} macro can be used to display a quick message to users. It&#39;s less discruptive that a dialog or alert, and ideal for something like a quick inventory or achievement update. You can click the link below to fire another notification in case you missed the first one. Note, however, that allowing users to activate these notifications like this is a bad idea; if they click too much, the animations will start to trip over each other.
+
+&lt;&lt;link &#39;See a notification.&#39;&gt;&gt;
+    &lt;&lt;notify&gt;&gt;This is a notification!&lt;&lt;/notify&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/notify-macro]]</tw-passagedata><tw-passagedata pid="19" name="playtime" tags="" position="1100,225">This system can be used to display and record the user&#39;s playtime, much like in a lot of video games. The playtime system includes a function, a macro, and a passage tag.
+
+Your current playtime is:
+@@#time;&lt;&lt;playtime format&gt;&gt;@@
+&lt;&lt;silently&gt;&gt;
+    &lt;&lt;repeat 1s&gt;&gt;
+        &lt;&lt;replace &#39;#time&#39;&gt;&gt;&lt;&lt;playtime format&gt;&gt;&lt;&lt;/replace&gt;&gt;
+    &lt;&lt;/repeat&gt;&gt;
+&lt;&lt;/silently&gt;&gt;\
+
+Check back to see it update.
+
+In addition, you can fetch specific time values, like minutes, hours, and seconds using the {{{playTime()}}} function.
+
+You&#39;ve been playing for &lt;&lt;= playTime(&#39;minutes&#39;)&gt;&gt; minutes!
+
+There&#39;s also a passage tag, {{{pausetimer}}}, which can be used to pause the play timer, for example when the user is in menus.
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/playtime-system]]</tw-passagedata><tw-passagedata pid="20" name="swap" tags="" position="1225,225">The {{{&lt;&lt;swap&gt;&gt;}}} macro can be used to create puzzles or other creative forms of user interaction that invloves swapping words around on the page. The {{{&lt;&lt;onswap&gt;&gt;}}} macro can be used to make adjustments and run code when swaps occur, and inside the {{{&lt;&lt;onswap&gt;&gt;}}} block, the {{{swapCurrent()}}} function returns the text that is currently swapped in.
 
 &lt;&lt;set _catsPred to &#39;They meow constantly.&#39;&gt;&gt;\
 I &lt;&lt;swap&gt;&gt;own&lt;&lt;onswap&gt;&gt;
@@ -323,7 +388,7 @@ I &lt;&lt;swap&gt;&gt;own&lt;&lt;onswap&gt;&gt;
 [[Try another example.|swap2]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="22" name="swap2" tags="" position="225,350">Here&#39;s an example of a simple number code puzzle implemented with the swap macro:
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="21" name="swap2" tags="" position="100,350">Here&#39;s an example of a simple number code puzzle implemented with the swap macro:
 
 &lt;&lt;set _correct to [false, false, false]&gt;&gt;\
 Enter the code:
@@ -367,7 +432,14 @@ Enter the code:
 [[Previous|swap]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="23" name="ui" tags="" position="350,350">The {{{&lt;&lt;ui&gt;&gt;}}} macro can be used to control many features of SugarCube&#39;s default UI from within macro code.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="22" name="typesim" tags="" position="225,350">The {{{&lt;&lt;typesim&gt;&gt;}}} macro allows you to //simulate// user input, but actually show them a predefined message. Try typing in the box below for an example:
+
+&lt;&lt;typesim &quot;You get to feel like you&#39;re typing, and that can be a cool interaction, but in reality, we just show you what we want you to see and make you say what we want you to say.&quot;&gt;&gt;\
+    Once the user finishes the message, you can run any code you like!\
+&lt;&lt;/typesim&gt;&gt;\
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/type-sim]]</tw-passagedata><tw-passagedata pid="23" name="ui" tags="" position="350,350">The {{{&lt;&lt;ui&gt;&gt;}}} macro can be used to control many features of SugarCube&#39;s default UI from within macro code.
 
 &lt;&lt;link &#39;Toggle the UI Bar&#39;&gt;&gt;
     &lt;&lt;ui &#39;toggle&#39;&gt;&gt;
