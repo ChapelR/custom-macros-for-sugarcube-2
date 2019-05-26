@@ -241,7 +241,7 @@ The {{{&lt;&lt;dialog&gt;&gt;}}} macro renders the content between the tags into
 The {{{&lt;&lt;popup&gt;&gt;}}} macro renders the content of the indicated passage into the modal:
 
 &lt;&lt;link &#39;Say Goodbye&#39;&gt;&gt;
-    &lt;&lt;popup &#39;popup-passage&#39; &#39;Farwell&#39;&gt;&gt;
+    &lt;&lt;popup &#39;popup-passage&#39; &#39;Farewell&#39;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
 -----
@@ -344,17 +344,83 @@ Try pressing the space bar and/or escape.
 &lt;&lt;fullscreenlink &#39;Click here to go fullscreen!&#39;&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fullscreen-macros]]</tw-passagedata><tw-passagedata pid="14" name="inventory" tags="no-gist" position="475,225">Coming soon.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/fullscreen-macros]]</tw-passagedata><tw-passagedata pid="14" name="inventory" tags="" position="475,225">The &#39;&#39;Simple Inventory&#39;&#39; is a group of macros, functions and methods, and events that can be used to manage simple, key-based inventory systems. What is a key-based inventory system? A system where the items you collect represent key items--items where the game checks that you have them, but the items don&#39;t need to have attributes of their own. In other words, this system is not ideal for things like equipment and potions, though it could be extended to handle such things.
+
+&lt;&lt;newinventory &#39;$player&#39;&gt;&gt;&lt;&lt;newinventory &#39;$container&#39; &#39;hammer&#39; &#39;knife&#39;&gt;&gt;\
+You can create inventories with the {{{&lt;&lt;newinventory&gt;&gt;}}} macro. You&#39;ll need to save the inventory //instance// to a variable by providing the macro a variable name, which should be passed in quotes. Typically you want to initialize your inventories in you {{{StoryInit}}} [[special passage|http://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinit]]. You can define as many inventories as you need, and transfer items between them. We&#39;ll create two inventories in this passage, one will be initialized with some items inside, another with any items.
+
+[[Continue|inventory2]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/simple-inventory]]</tw-passagedata><tw-passagedata pid="15" name="message" tags="" position="600,225">The {{{&lt;&lt;message&gt;&gt;}}} macro can be used to create user-toggleable messages, such as for help, tutorials, or more information. We&#39;ve been using it in the &lt;&lt;button &#39;View Source Code&#39;&gt;&gt;&lt;&lt;/button&gt;&gt; buttons all across this file.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/simple-inventory]]</tw-passagedata><tw-passagedata pid="15" name="inventory2" tags="" position="600,225">On this passage, we&#39;ll give the user the opportunity to pick up a new item with the {{{&lt;&lt;pickup&gt;&gt;}}} macro.
+
+&lt;&lt;nobr&gt;&gt;
+    &lt;&lt;if not $player.has(&#39;chisel&#39;)&gt;&gt;    
+        &lt;&lt;linkreplace &#39;Pick up the chisel.&#39;&gt;&gt;
+            You got the chisel.
+            &lt;&lt;pickup &#39;$player&#39; &#39;chisel&#39;&gt;&gt;
+        &lt;&lt;/linkreplace&gt;&gt;
+    &lt;&lt;else&gt;&gt;
+        You got the chisel.
+    &lt;&lt;/if&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
+
+[[Continue|inventory3]]
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/simple-inventory]]</tw-passagedata><tw-passagedata pid="16" name="inventory3" tags="" position="725,225">In this passage, we&#39;ll give the user the opportunity to pick up or drop some items into a chest.
+
+There&#39;s a treasure chest in this room!
+
+&lt;&lt;link &#39;Put some items in the chest.&#39;&gt;&gt;
+    &lt;&lt;dialog &#39;Place items.&#39;&gt;&gt;
+        &lt;&lt;linkedinventory &#39;leave&#39; &#39;$player&#39; &#39;$container&#39;&gt;&gt;
+    &lt;&lt;/dialog&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;link &#39;Take some items from the chest.&#39;&gt;&gt;
+    &lt;&lt;dialog &#39;Take items.&#39;&gt;&gt;
+        &lt;&lt;linkedinventory &#39;take&#39; &#39;$container&#39; &#39;$player&#39;&gt;&gt;
+    &lt;&lt;/dialog&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+[[Go back|inventory2]]
+
+[[Continue|inventory4]]
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/simple-inventory]]</tw-passagedata><tw-passagedata pid="17" name="inventory4" tags="" position="850,225">You can use the methods of the inventory instance to check whether an inventory has certain items, how many items it has, or whether it&#39;s empty, among many other things.
+
+&lt;&lt;if $player.has(&#39;knife&#39;)&gt;&gt;\
+    You have a knife!
+&lt;&lt;/if&gt;&gt;\
+&lt;&lt;if $player.hasAll(&#39;hammer&#39;, &#39;chisel&#39;)&gt;&gt;\
+    You have enough tools to chisel out some stone!
+&lt;&lt;/if&gt;&gt;\
+&lt;&lt;if $player.isEmpty()&gt;&gt;\
+    Your inventory is empty!
+&lt;&lt;else&gt;&gt;\
+    You are carrying &lt;&lt;= $player.count()&gt;&gt; items in your inventory.
+&lt;&lt;/if&gt;&gt;\
+
+[[Go back|inventory3]]
+
+[[Continue|inventory5]]
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/simple-inventory]]</tw-passagedata><tw-passagedata pid="18" name="inventory5" tags="no-gist" position="975,225">The Simple Inventory has a lot of features, so this is just a quick overview, for a deeper dive, check out the documentation.
+
+[[Go back|inventory4]]
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/simple-inventory]]</tw-passagedata><tw-passagedata pid="19" name="message" tags="" position="1100,225">The {{{&lt;&lt;message&gt;&gt;}}} macro can be used to create user-toggleable messages, such as for help, tutorials, or more information. We&#39;ve been using it in the &lt;&lt;button &#39;View Source Code&#39;&gt;&gt;&lt;&lt;/button&gt;&gt; buttons all across this file.
 
 &lt;&lt;message &#39;Help&#39;&gt;&gt;\
     It&#39;s a lot like the {{{&lt;&lt;linkappend&gt;&gt;}}} macro, but users can also remove the content when they&#39;re done.\
 &lt;&lt;/message&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/message-macro]]</tw-passagedata><tw-passagedata pid="16" name="mouseover" tags="" position="725,225">The {{{&lt;&lt;mouseover&gt;&gt;}}} macro can be used to trigger macro code on a variety of mouse and hover events.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/message-macro]]</tw-passagedata><tw-passagedata pid="20" name="mouseover" tags="" position="1225,225">The {{{&lt;&lt;mouseover&gt;&gt;}}} macro can be used to trigger macro code on a variety of mouse and hover events.
 
 Example of a &quot;tooltip&quot;:
 
@@ -374,10 +440,10 @@ Navigate on mouseover instead of on click:
 &lt;&lt;mouseover&gt;&gt;[[Watch out for the pit!|pitfall]]&lt;&lt;onhover&gt;&gt;&lt;&lt;goto &#39;pitfall&#39;&gt;&gt;&lt;&lt;/mouseover&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/mouseover-macro]]</tw-passagedata><tw-passagedata pid="17" name="pitfall" tags="no-gist" position="850,225">You fell in a pit! Be more careful next time.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/mouseover-macro]]</tw-passagedata><tw-passagedata pid="21" name="pitfall" tags="no-gist" position="100,350">You fell in a pit! Be more careful next time.
 
-[[Climb back out|mouseover]]</tw-passagedata><tw-passagedata pid="18" name="currently not done" tags="" position="975,225">file
-inventory</tw-passagedata><tw-passagedata pid="19" name="notify" tags="" position="1100,225">&lt;&lt;notify&gt;&gt;Hi there!&lt;&lt;/notify&gt;&gt;\
+[[Climb back out|mouseover]]</tw-passagedata><tw-passagedata pid="22" name="currently not done" tags="" position="225,350">file
+inventory</tw-passagedata><tw-passagedata pid="23" name="notify" tags="" position="350,350">&lt;&lt;notify&gt;&gt;Hi there!&lt;&lt;/notify&gt;&gt;\
 The {{{&lt;&lt;notify&gt;&gt;}}} macro can be used to display a quick message to users. It&#39;s less discruptive that a dialog or alert, and ideal for something like a quick inventory or achievement update. You can click the link below to fire another notification in case you missed the first one. Note, however, that allowing users to activate these notifications like this is a bad idea; if they click too much, the animations will start to trip over each other.
 
 &lt;&lt;link &#39;See a notification.&#39;&gt;&gt;
@@ -385,7 +451,7 @@ The {{{&lt;&lt;notify&gt;&gt;}}} macro can be used to display a quick message to
 &lt;&lt;/link&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/notify-macro]]</tw-passagedata><tw-passagedata pid="20" name="playtime" tags="" position="1225,225">This system can be used to display and record the user&#39;s playtime, much like in a lot of video games. The playtime system includes a function, a macro, and a passage tag.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/notify-macro]]</tw-passagedata><tw-passagedata pid="24" name="playtime" tags="" position="475,350">This system can be used to display and record the user&#39;s playtime, much like in a lot of video games. The playtime system includes a function, a macro, and a passage tag.
 
 Your current playtime is:
 @@#time;&lt;&lt;playtime format&gt;&gt;@@
@@ -404,7 +470,7 @@ You&#39;ve been playing for &lt;&lt;= playTime(&#39;minutes&#39;)&gt;&gt; minute
 There&#39;s also a passage tag, {{{pausetimer}}}, which can be used to pause the play timer, for example when the user is in menus.
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/playtime-system]]</tw-passagedata><tw-passagedata pid="21" name="swap" tags="" position="100,350">The {{{&lt;&lt;swap&gt;&gt;}}} macro can be used to create puzzles or other creative forms of user interaction that invloves swapping words around on the page. The {{{&lt;&lt;onswap&gt;&gt;}}} macro can be used to make adjustments and run code when swaps occur, and inside the {{{&lt;&lt;onswap&gt;&gt;}}} block, the {{{swapCurrent()}}} function returns the text that is currently swapped in.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/playtime-system]]</tw-passagedata><tw-passagedata pid="25" name="swap" tags="" position="600,350">The {{{&lt;&lt;swap&gt;&gt;}}} macro can be used to create puzzles or other creative forms of user interaction that invloves swapping words around on the page. The {{{&lt;&lt;onswap&gt;&gt;}}} macro can be used to make adjustments and run code when swaps occur, and inside the {{{&lt;&lt;onswap&gt;&gt;}}} block, the {{{swapCurrent()}}} function returns the text that is currently swapped in.
 
 &lt;&lt;set _catsPred to &#39;They meow constantly.&#39;&gt;&gt;\
 I &lt;&lt;swap&gt;&gt;own&lt;&lt;onswap&gt;&gt;
@@ -419,7 +485,7 @@ I &lt;&lt;swap&gt;&gt;own&lt;&lt;onswap&gt;&gt;
 [[Try another example.|swap2]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="22" name="swap2" tags="" position="225,350">Here&#39;s an example of a simple number code puzzle implemented with the swap macro:
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="26" name="swap2" tags="" position="725,350">Here&#39;s an example of a simple number code puzzle implemented with the swap macro:
 
 &lt;&lt;set _correct to [false, false, false]&gt;&gt;\
 Enter the code:
@@ -463,14 +529,14 @@ Enter the code:
 [[Previous|swap]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="23" name="typesim" tags="" position="350,350">The {{{&lt;&lt;typesim&gt;&gt;}}} macro allows you to //simulate// user input, but actually show them a predefined message. Try typing in the box below for an example:
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="27" name="typesim" tags="" position="850,350">The {{{&lt;&lt;typesim&gt;&gt;}}} macro allows you to //simulate// user input, but actually show them a predefined message. Try typing in the box below for an example:
 
 &lt;&lt;typesim &quot;You get to feel like you&#39;re typing, and that can be a cool interaction, but in reality, we just show you what we want you to see and make you say what we want you to say.&quot;&gt;&gt;\
     Once the user finishes the message, you can run any code you like!\
 &lt;&lt;/typesim&gt;&gt;\
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/type-sim]]</tw-passagedata><tw-passagedata pid="24" name="ui" tags="" position="475,350">The {{{&lt;&lt;ui&gt;&gt;}}} macro can be used to control many features of SugarCube&#39;s default UI from within macro code.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/type-sim]]</tw-passagedata><tw-passagedata pid="28" name="ui" tags="" position="975,350">The {{{&lt;&lt;ui&gt;&gt;}}} macro can be used to control many features of SugarCube&#39;s default UI from within macro code.
 
 &lt;&lt;link &#39;Toggle the UI Bar&#39;&gt;&gt;
     &lt;&lt;ui &#39;toggle&#39;&gt;&gt;
