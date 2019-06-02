@@ -12,7 +12,9 @@ Some games, like *Superhot*, have a neat little feature where you can mash on th
 
 **Syntax**:`<<typesim text>>...<</typesim>>`
 
-The `<<typesim>>` macro creates a text area.  When focused, the user's keystrokes generate a predefined message one letter at a time, simulating typing but ignoring the actual input.  After the message is finished, any text or code between the macro tags is displayed / run.  Any output is shown as a `<div>` beneath the text area; this means you'll need to watch your spacing.
+The `<<typesim>>` macro creates a text area.  When focused, the user's keystrokes generate a predefined message one letter at a time, simulating typing but ignoring the actual input.  After the message is finished, any text or code between the macro tags is displayed / run.  
+
+?> Any output is shown as a `<div>` beneath the text area; this means you'll need to watch your spacing.
 
 * **text**: a string of text; a predefined message that is 'typed' out by the player.
 

@@ -25,7 +25,7 @@ This macro allows you to use some fancy mouse events to create hover effects, to
 
 The `<<mouseover>>` macro causes some content on the page to be interactive with certain non-click mouse events. The content that becomes interactive is whatever is placed after the opening tag and before the first child tag. The child tags determine what code is run and when. The `<<onmouseover>>` tag (`<<onhover>>` also works) triggers on the `mouseover` event. The `<<onmousein>>` (`<<onmouseenter>>` also works) tag triggers on the `mouseenter` event. The `<<onmouseout>>` tag triggers on the `mouseout` event.
 
-Generally speaking, there isn't a great deal of difference between `mouseenter` events and `mouseover` events for most code, but it's included for completeness.
+?> Generally speaking, there isn't a great deal of difference between `mouseenter` events and `mouseover` events for most code, but it's included here for completeness.
  
 **Usage**:
 ```
@@ -43,9 +43,9 @@ Generally speaking, there isn't a great deal of difference between `mouseenter` 
 <<mouseover>>Spooooooooky<<onmousein>><<audio 'boo' volume 1 play>><</mouseover>>
 
 /% navigate on mouseover %/
-Watch the <<mouseover>>[[[pit!|fell in a pit]]<<onmousein>><<goto 'fell in a pit'>><</mouseover>>
+Watch the <<mouseover>>[[pit!|fell in a pit]]<<onmousein>><<goto 'fell in a pit'>><</mouseover>>
 ```
 
 ### Other Usage Notes:
 
-Using mouse-specific events for major gameplay mecahnics will have a negative effect on accesiblity and on touch devices and mobile users. You'll need to weigh any benefits against this fairly major drawback when using this macro, or limit yourself to only using it in ways that are non-essential to the user experience.
+!> Using mouse-specific events for major gameplay mecahnics will have a negative effect on accesiblity and on touch devices and mobile users. You'll need to weigh any benefits against this fairly major drawback when using this macro, or limit yourself to only using it in ways that are non-essential to the user experience.

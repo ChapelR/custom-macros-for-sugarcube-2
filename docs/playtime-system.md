@@ -59,6 +59,10 @@ This system uses a story variable (`$playtime` by default) to store information 
 
 This system uses a passage tag (`pausetimer` by default) to control parts of its operation.  Avoid using this tag for other purposes, or change it using the configuration options.
 
+**Task object warning**:
+
+This system creates a `postdisplay` tas object called `start-playtime` and a `prehistory` task object called `pause-playtime`. You should avoid using task objects with these names in your other code, though you can also re-name these task objects in the unminified script if you need to.
+
 **Configuration options**:
 
 You can alter the story variable, passage tag, and whether the `playTime()` function is made global using the configuration options at the top of the script.  See the unminified script for more info.

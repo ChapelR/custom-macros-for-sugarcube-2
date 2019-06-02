@@ -21,7 +21,7 @@ This macro set allows Twine authors to create event programming without needing 
 <</event>>
 ```
 
-This macro set can be used to add more interaction to your game; things like keyboard hotkeys, controls, clickable non-link elements, and more.  Once registered, events are essentially permanent (though they can be removed via JavaScript and suppressed via code logic); therefore, the best place to create events is your StoryInit special passage.  Note that the element the event is tied to does not need to be rendered (or currently on the page or in the passage) in order to attach an event to it.
+This macro set can be used to add more interaction to your game; things like keyboard hotkeys, controls, clickable non-link elements, and more.  Once registered, events are essentially permanent (though they can be removed via JavaScript and suppressed via code logic); therefore, **the best place to create events is your StoryInit special passage**.  Note that the element the event is tied to does not need to be rendered (or currently on the page or in the passage) in order to attach an event to it.
 
 * **type**: a valid jQuery event type.  Some events that may be of interest:
   * `click`: fires when an element is clicked on.

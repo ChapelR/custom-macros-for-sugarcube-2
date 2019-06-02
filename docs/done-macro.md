@@ -12,7 +12,9 @@ The `<<done>>` macro serves the same purpose as the `PassageDone` special passag
 
 **Syntax**:`<<done>>...<</done>>`
 
-The code between the tags is run after the passage content has finished rendering, ensuring that the DOM is ready for all sorts of hijinks.  You *can* have multiple `<<done>>` macros in a single passage, but generally shouldn't need to; if you have multiples, they will work, but it's likely you're doing something wrong or unwise, so think your code through carefully.
+The code between the tags is run after the passage content has finished rendering, ensuring that the DOM is ready for all sorts of hijinks.  
+
+?> You *can* have multiple `<<done>>` macros in a single passage, but generally shouldn't need to; if you have multiples, they will work, but it's likely you're doing something wrong or unwise, so think your code through carefully.
 
 **Usage**:
 ```
@@ -36,4 +38,4 @@ This macro registers one or more `postdisplay` task object called `:chapel-done-
 
 -----
 
-Thanks to @Zachac for the idea and original implementation example.
+?> Thanks to @Zachac for the idea and original implementation example.

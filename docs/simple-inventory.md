@@ -4,7 +4,7 @@
 
 The simple inventory allows Twine authors to create and manipulate array-based inventories for 'key' style items (as opposed to consumables or equipment).  This system provides a great deal of functionality, including sorting, displaying item lists (with drop / transfer links), and creating multiple inventories (for creating 'rooms' or other containers, or party members) and transfering items between them.  All of the functionality here has both a JavaScript API and a TwineScript Macro-based API, meaning the features are easily available from within your passages and inside scripts.
 
-**Note** The simple inventory has undergone some pretty major changes since it first debuted.  Version 1 was mostly a bit of syntactic sugar over an array system designed to help less-experienced authors utilize standard JavaScript arrays and methods in a scripting style they were more comfortable with (that is, macros).  On rewriting this system, it seemed like a good idea to push things a little farther and create something that could be useful even to more experienced authros (hopefully, anyway).  The changes make simple inventory a much more robust and feature-rich system, but unfortunately, **old code written for v1.x of simple inventory is not compatible with the new simple inventory system**.
+!> The simple inventory has undergone some pretty major changes since it first debuted.  Version 1 was mostly a bit of syntactic sugar over an array system designed to help less-experienced authors utilize standard JavaScript arrays and methods in a scripting style they were more comfortable with (that is, macros).  On rewriting this system, it seemed like a good idea to push things a little farther and create something that could be useful even to more experienced authros (hopefully, anyway).  The changes make simple inventory a much more robust and feature-rich system, but unfortunately, **old code written for v1.x of simple inventory is not compatible with the new simple inventory system**.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/simple-inventory.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/simple-inventory.js).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=inventory).  
@@ -27,15 +27,16 @@ The simple inventory allows Twine authors to create and manipulate array-based i
  * [Functions and Methods](#functions-and-methods)
    * [the `Inventory()` contructor](#the-inventory-constructor)
    * [Static Methods](#static-methods)
-   * [Instance Methods](#sinstance-methods)
- * [Events](the-events)
+   * [Instance Methods](#instance-methods)
+ * [Events](#the-events)
+ * [Changelog](#changelog)
 
 ### The Options Object
 	
-The options object can be found near the top of the script (in either version, minified or not).  It looks like this:
+The options object can be found near the top of the script (in the pretty version).  It looks like this:
 		
 ```javascript
-setup.simpleInv.options = {
+var options = {
 	tryGlobal  : true, // send constructor to global scope
 		defaultStrings : {
 		empty     : 'The inventory is empty...',
@@ -49,9 +50,11 @@ It is recommended that you leave the `tryGlobal` option as `true` unless you kno
 
 #### Option: `tryGlobal`
 		
-The functions, methods, and variables used by these systems all exist in the `setup.simpleInv` namespace.  For ease of access to authors, everything that might be of use to them is then sent to the global scope asa reference as `window.Inventory`.  If you don't want to send this object to the global scope, you can change this option to `false`.  Note that even if it's set to `true`, the script will check to make sure `window.Inventory` is undefined before overwriting it.
+The functions, methods, and variables used by these systems all exist on the special SugarCube `setup` object.  For ease of access to authors, everything that might be of use to them is then sent to the global scope as `window.Inventory`.  If you don't want to send this object to the global scope, you can change this option to `false`.  
 
-If the global `Inventory` object is unavailable, either because you changed this setting or because it was already in use, you can still access things: replace `Inventory...` with `setup.simpleInv.inventory...` in your code, or create your own gobal reference.
+?> Note that even if it's set to `true`, the script will check to make sure `window.Inventory` is undefined before overwriting it.
+
+If the global `Inventory` object is unavailable, either because you changed this setting or because it was already in use, you can still access things: replace `Inventory...` with `setup.Inventory...` in your code, or create your own gobal reference.
 
 #### Option: `defaultStings`
 			
@@ -74,7 +77,7 @@ This macro creates a new inventory.  Creating a new inventory is much like initi
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, in which to store the newly created inventory.
- * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+ * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two. If you use array literals directly in the macro's arguments, you need to wrap them in backticks (\`). See "Passing an expression as an argument" [in the SugarCube docs](http://www.motoslave.net/sugarcube/2/docs/#macros-arguments).
  
 **Usage**:
 ```
@@ -85,7 +88,7 @@ This macro creates a new inventory.  Creating a new inventory is much like initi
 <<newinventory '$playerInventory' 'a pair of shoes' 'the shirt on your back'>>
 
 /% create an inventory for the kitchen room and call it $kitchenInventory and place some items in it %/
-<<newinventory '$kitchenInventory' ['a steak knife', 'a blender'] 'a calender'>>
+<<newinventory '$kitchenInventory' `['a steak knife', 'a blender']` 'a calender'>>
 
 /% create a suit case called $suitCase always contains a key, but also includes some random items %/
 <<set _items to ['keys', 'a suit', 'a laptop', 'a cellphone', 'a wallet', 'sixteen cents', 'a hairpin', 'toothpaste', 'glue'].pluckMany(3)>>
@@ -102,7 +105,7 @@ The `<<pickup>>` macro adds items to inventory indicated by the $variable.  Thes
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
  * **unique**: (optional) The keyword `unique`.  If passed before the item list, will enforce uniqueness--that is, items already in the inventory will not be picked up.
- * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two. If you use array literals directly in the macro's arguments, you need to wrap them in backticks (\`). See "Passing an expression as an argument" [in the SugarCube docs](http://www.motoslave.net/sugarcube/2/docs/#macros-arguments).
  
 **Usage**:
 ```
@@ -122,7 +125,7 @@ The `<<pickup>>` macro adds items to inventory indicated by the $variable.  Thes
 @@
 
 /% you can also add several items at once %/
-You recieved your inheritance!
+You received your inheritance!
 <<set _randomItem to either('a bust of George Washinton', 'a pearl necklace', 'a statue of a cherub')>>
 <<pickup '$maryInventory _randomItem 'a large sum of money' 'a sealed letter'>>
 
@@ -153,7 +156,7 @@ The `<<drop>>` macro removes items from the inventory indicated by the $variable
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
- * **itemList**: A list of items to remove from the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to remove from the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two. If you use array literals directly in the macro's arguments, you need to wrap them in backticks (\`). See "Passing an expression as an argument" [in the SugarCube docs](http://www.motoslave.net/sugarcube/2/docs/#macros-arguments).
  
 **Usage**:
 ```
@@ -199,12 +202,12 @@ A fire destroyed the mansion's kitchen!
 
 **Syntax**: `<<transfer variableName variableName itemList>>`
 
-The `<<transfer>>` macro moves items from one inventory to another. The first inventory argument is the giver, and the second is the receiver. It's essentially the same as pairing a `<<pickup>>` and `<<drop>>`, but has a few benefits over doing it that way.  For one, if you were to `<<drop>>` an item from one inventory and have another `<<pickup>>` the same item, you run the risk of having the reveiving inventory getting an item that the first inventory never had, since `<<drop>>` does nothing if the item doesn't exist.  Using `<<transfer>>`, if an item isn't present in the first inventory, the second inventory will not recieve said item.  Like `<<drop>>` no error will be raised in this case.
+The `<<transfer>>` macro moves items from one inventory to another. The first inventory argument is the giver, and the second is the receiver. It's essentially the same as pairing a `<<pickup>>` and `<<drop>>`, but has a few benefits over doing it that way.  For one, if you were to `<<drop>>` an item from one inventory and have another `<<pickup>>` the same item, you run the risk of having the reveiving inventory getting an item that the first inventory never had, since `<<drop>>` does nothing if the item doesn't exist.  Using `<<transfer>>`, if an item isn't present in the first inventory, the second inventory will not receive said item.  Like `<<drop>>` no error will be raised in this case.
 
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
- * **itemList**: A list of items to transfer between the inventories.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to transfer between the inventories.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two. If you use array literals directly in the macro's arguments, you need to wrap them in backticks (\`). See "Passing an expression as an argument" [in the SugarCube docs](http://www.motoslave.net/sugarcube/2/docs/#macros-arguments).
  
 **Usage**:
 ```
@@ -232,7 +235,9 @@ You've been released from prison, and your weapons are returned to you.
 
 **Syntax**: `<<sort variableName>>`
 
-The `<<sort>>` macro sorts the indicated inventory in alphanumeric order.  **Warning**: There's no easy way to restore the default chronological ordering.
+The `<<sort>>` macro sorts the indicated inventory in alphanumeric order.  
+
+!> **Warning**: There's no easy way to restore the default chronological ordering.
 
 **Arguments**:
 
@@ -328,7 +333,7 @@ You open the closet.  Lots of space in here.
 
 The following are the functions and methods that are included in the simple inventory.  Most of these allow access to the simple inventory's features in pure JavaScript, while some of these features are only available through this JavaScript API: even if you aren't planning on interacting with this system through JavaScript, you should still read the documentation for `Inventory.removeDuplicates()`, `<inventory>.has()`, and `<inventory>.hasAll()`, all of which are either only available through JavaScript, or contain features that are only available for your TwineScript expressions through JavaScript.
 
-**Note on chaining**: Methods that don't return an explicit value will return the inventory they are called on (listed with the return value of 'this inventory' in the below documentation), meaning you can **chain many of the instance method calls**.  For example, `<inventory>.pickUp()` adds items to the inventory, but doesn't need to return anything in specific, so it returns the inventory object is was called on and allows chaining.  On the other hand, `<inventory>.show()` returns a string, so it can't be chained with other inventory methods.  For example:
+?> **Note on chaining**: Methods that don't return an explicit value will return the inventory they are called on (listed with the return value of 'this inventory' in the below documentation), meaning you can **chain many of the instance method calls**.  For example, `<inventory>.pickUp()` adds items to the inventory, but doesn't need to return anything in specific, so it returns the inventory object is was called on and allows chaining.  On the other hand, `<inventory>.show()` returns a string, so it can't be chained with other inventory methods.  For example:
 
 ```
 -> The following is valid:
@@ -344,11 +349,11 @@ The following are the functions and methods that are included in the simple inve
 
 **Syntax**: `new Inventory([itemList])`
 
-The `Inventory()` constructor creates a new inventory just as the `<<newinventory>>` macro does.  While some checks are in place to help forgetful authors, this function should **always** be called with the `new` operator, as failing to do so could leak the inventory to the global scope or create other issues.  Further, the call should always be saved to a variable (a story $variable, a temporary _variable, or a JavaScript variable) or the call might pollute the global scope.
+The `Inventory()` constructor creates a new inventory just as the `<<newinventory>>` macro does.  While some checks are in place to help forgetful authors, this function should **always** be called with the `new` operator, as failing to do so could leak the inventory to the global scope or create other issues.  Further, the call should always be saved to a variable (a story `$variable`, a temporary `_variable`, or a JavaScript variable) or the call might pollute the global scope.
 
 **Arguments**:
 
- * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two.
+ * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
 
 **Usage**:
 
@@ -359,10 +364,10 @@ All of the following examples are equivalent to `<<newinventory '$inventory' 'th
 <<set $inventory to new Inventory('the shirt on your back')>>
 
 // in JavaScript or in <<script>> macro tags:
-State.variables.inventory = new Inventory('the shirt on your back')>>
+State.variables.inventory = new Inventory('the shirt on your back');
 
 // using a function (for some reason):
-setup.makeAnInventory = (var) {
+setup.makeAnInventory = function (var) {
 	var sv = State.variables;
 	sv[var] = new Inventory('the shirt on your back');
 	return sv[var];
@@ -374,7 +379,7 @@ setup.makeAnInventory(inventory);
 
 Static methods are methods accessed through the `Inventory` object, as opposed to being accessed through a specific instance.  The biggest difference authors need to worry about is the syntax.
 
-Of particular note to authors: `Inventory.removeDuplicates()`
+?> Of particular note to authors: `Inventory.removeDuplicates()`
 
 ##### `Inventory.is()`
 
@@ -470,7 +475,7 @@ This method is useful for enforcing uniqueness; that is, preventing doubles or d
 
 Instance methods, unlike static methods, are called directly on the inventory object, so you replace `<inventory>` with the variable you're using to store / reference the inventory instance you want to work on.  See the examples for the methods below if that confuses you.
 
-Of particular note to authors: `<inventory>.has()`, `<inventory>.hasAll()`, `<inventory>.toArray()`, `<inventory>.count()`, and `<inventory>.isEmpty()`.
+?> Of particular note to authors: `<inventory>.has()`, `<inventory>.hasAll()`, `<inventory>.toArray()`, `<inventory>.count()`, and `<inventory>.isEmpty()`.
 
 ##### `<inventory>.pickUp()`
 
@@ -505,7 +510,7 @@ This method is functionally the same as the `<<drop>>` macro and accepts the sam
 
 **Arguments**:
 
- * **itemList**: A list of items to remove from the inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
 
 **Usage**:
 ```
@@ -545,7 +550,7 @@ This method is functionally the same as the `<<transfer>>` macro and accepts the
 **Arguments**:
 
  * **inventory**: A second inventory instance to receive the transferred items.
- * **itemList**: A list of items to transfer from the calling inventory to the indicated inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
 
 **Usage**:
 ```
@@ -567,7 +572,7 @@ This method is returns whether the calling inventory contains the indicated item
 
 **Arguments**:
 
- * **itemList**: A list of items to check the calling inventory for.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
 
 **Usage**:
 ```
@@ -594,7 +599,7 @@ This method is returns whether the calling inventory contains the indicated item
 
 **Arguments**:
 
- * **itemList**: A list of items to check the calling inventory for.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
+ * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a comma-separated list of quoted strings, or any combination of the two.
 
 **Usage**:
 ```
@@ -680,7 +685,9 @@ This method returns whether or not the inventory is empty (has zero items in it)
 
 **Syntax**: `<inventory>.sort()`
 
-This method is the same as the `<<sort>>` macro, it sorts the calling inventory in alpha-numeric order.  The default ordering, which is chronological, cannot easily be restored after using this method.
+This method is the same as the `<<sort>>` macro, it sorts the calling inventory in alpha-numeric order.  
+
+!> **Warning:** The default ordering, which is chronological, cannot easily be restored after using this method.
 
 **Usage**:
 ```
@@ -747,3 +754,40 @@ This event is only triggered when a new inventory is defined.  It's context is a
 #### Event: `:inventory-update`
 
 This event is triggered any time an inventory is altered, but **not** when it is created.  In can never have the context `'initialized'`.
+
+**Example Event Usage**:
+
+Automatically updating inventories when to inventory link lists are on the same page:
+```javascript
+$(document).on(':inventory-update', function (ev) {
+    if (ev.context !== 'transfer') {
+        // this event should only occur on transfer events
+        return;
+    }
+    // only the receiving inventory needs updated, but we'll update both for the sake of simplicity
+    $('.auto-update').each( function (i, el) {
+        // find the inventories marked for auto-updating
+        // get the macro's wrapper:
+        var $macro = $(el).find('.macro-linkedinventory');
+        // get the inventories:
+        var inv = State.getVar($macro.attr('data-self'));
+        var rec = false;
+        if ($macro.attr('data-rec')) {
+            rec = State.getVar($macro.attr('data-rec'));
+        }
+        // reconstruct the list via the `inventory#linkedList()` method
+        var $list = inv.linkedList(rec, $macro.attr('data-action'));
+        // empty the container and replace it
+        $(el).empty().append($list);
+    });
+});
+```
+
+To use the above:
+```
+Items you're carrying:
+@@.auto-update;<<linkedinventory '$player' '$room' 'Drop'>>@@
+
+What's laying around in this room:
+@@.auto-update;<<linkedinventory '$room' '$player' 'Take'>>@@
+```

@@ -12,7 +12,9 @@ A simple macro set that causes the text between its tags to fade in or out over 
 
 **Syntax**:`<<fadein animationLength  [delay]>> <</fadein>>`
 
-The `<<fadein>>` macro causes the content between its tags to fade in (shocking).  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be expressed using [CSS time values](https://developer.mozilla.org/en-US/docs/Web/CSS/time).  Note that only *output* is delayed by this macro; code will still execute on passage load, meaning it shouldn't be used in the same way as `<<timed>>`, but it can be paired with `<<timed>>` to achieve that sort of effect.
+The `<<fadein>>` macro causes the content between its tags to fade in (shocking).  You can delay the animation (and should if you're using SugarCube's default transitions) and set the length of the animation.  Both values must be expressed using [CSS time values](https://developer.mozilla.org/en-US/docs/Web/CSS/time).  
+
+?> Note that only *output* is delayed by this macro; code will still execute on passage load, meaning it shouldn't be used in the same way as `<<timed>>`, but it can be paired with `<<timed>>` to achieve that sort of effect.
 
 **Arguments**:
 

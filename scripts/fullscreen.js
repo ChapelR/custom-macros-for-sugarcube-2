@@ -10,7 +10,7 @@ setup.fullscreen = function (element) {
     } else if(element.webkitRequestFullScreen) {
         element.webkitRequestFullScreen();
     }
-}
+};
 
 Macro.add('fullscreen', {
     handler : function() { 
