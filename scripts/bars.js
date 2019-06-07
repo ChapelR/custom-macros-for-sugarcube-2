@@ -72,25 +72,36 @@
         return thing instanceof Bar;
     };
 
+    Bar._emit = function (inst, name) { // undocumented
+        if (!Bar.is(inst)) {
+            return;
+        }
+        inst.$element.trigger({
+            type : ':' + name,
+            bar : inst
+        });
+    }
+
     Object.assign(Bar.prototype, {
         constructor : Bar,
-        width : function () { // undocumented
+        _width : function () { // undocumented
             var self = this;
             this.$bars.bottom.animate({
                 'width' : (this.value * 100) + '%'
             }, this.settings.animate, this.settings.easing, function () {
-                self.$element.trigger(':bar-animation-complete');
+                Bar._emit(self, 'bar-animation-complete');
             });
             return this;
         },
-        color : function () { // undocumented
+        _color : function () { // undocumented
             this.$bars.top.animate({
                 'opacity' : this.value
             }, this.settings.animate, this.settings.easing);
             return this;
         },
         animate : function () { // animate bar changes
-            return this.width().color();
+            Bar._emit(this, 'bar-animation-start');
+            return this._color()._width();
         },
         val : function (n) { // set and get bar value
             if (n !== undefined) {

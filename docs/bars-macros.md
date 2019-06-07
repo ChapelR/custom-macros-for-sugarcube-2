@@ -17,7 +17,13 @@ A set of macros and JavaScript APIs for creating and working with dynamic, anima
 <</newbar>>
 ```
 
-The `<<newbar>>` macro can be used to create a new bar instance and save it to a story variable. You must provide a variable for the bar to be saved to, in quotes, and can optionally pass a starting value (between `0` and `1`) for the bar. You can configure a number of other bar options using the optional child tags `<<barcolors>>`, `<<barsizing>>`, and `<<baranimation>>`. You should define your bars before using them, but you don't need to do so in `StoryInit`; in some cases it may be better not to. You can get rid of bars you don't need anymore with the `<<unset>>` macro.
+The `<<newbar>>` macro can be used to create a new bar instance and save it to a story variable. You must provide a variable for the bar to be saved to, in quotes, and can optionally pass a starting value (between `0` and `1`, inclusive) for the bar. You can configure a number of other bar options using the optional child tags `<<barcolors>>`, `<<barsizing>>`, and `<<baranimation>>`. You do not have to include any of the child tags.
+
+> [!TIP]
+> You should define your bars before using them, but you don't need to do so in `StoryInit`; in some cases it may be better not to. You can get rid of bars you don't need anymore with the `<<unset>>` macro.
+
+> [!WARNING]
+> Any other code or text in the `<<newbar>>` macro, other than its child tags, will have no effect, and will simply be discarded.
 
 **Arguments**:
 
@@ -148,7 +154,7 @@ Changes the value of a bar; if the bar is on the page, it will be automatically 
 
 <<link 'take a potion'>>
     <<set $health to Math.clamp($health + 35, 0, $maxHealth)>>
-    <<updatebat '$healthBar' `$health / $maxHealth`>>
+    <<updatebar '$healthBar' `$health / $maxHealth`>>
 <</link>>
     
 
@@ -165,7 +171,7 @@ You earned 100xp!
 
 **Returns**: A new `Bar` instance.
 
-**Syntax**: `Bar([options] [, value])`
+**Syntax**: `new Bar([options] [, value])`
 
 Underlying the macros is a constructor called `Bar()` which is exposed to user code via `setup.Bar()` and (if possible) `window.Bar()`. You can use this constructor to create bars from within JavaScript.
 
@@ -175,7 +181,7 @@ Underlying the macros is a constructor called `Bar()` which is exposed to user c
 - `value`: (optional) a value for the bar to start at, must be a number between `0` and `1` (inclusive). Defaults to `1`.
 
 The default settings you can overwrite with you options object looks like this:
-```
+```javascript
 {
     full    : '#2ECC40', // color when the bar is full
     empty   : '#FF4136', // color when the bar is empty
@@ -184,7 +190,7 @@ The default settings you can overwrite with you options object looks like this:
     width   : '180px',   // overall width of the bar
     animate : 400,       // animation time in ms
     easing  : 'swing'    // the animation easing
-};
+}
 ```
 
 **Usage**:
@@ -267,7 +273,10 @@ b.val(0.1); // sets the bar to 0.1, and returns 0.1
 
 **Syntax**: `<bar>.settings([options])`
 
-Sets or returns the bar's settings.
+Sets or returns the bar's settings
+
+> [!TIP]
+> This method can be used to change a bar's colors, animations, or other properties after it's been created.
 
 **Arguments**:
 
@@ -277,6 +286,10 @@ Sets or returns the bar's settings.
 ```javascript
 bar.settings(); // returns the settings of the bar 
 bar.settings({ animate : 1000 }); // changes the bar's `animate` setting, and returns the settings object
+
+if (bar.settings().animate < 500) {
+    // do something if the bar's animation time is less than half a second
+}
 ```
 
 #### Method: `bar#place()`
@@ -293,7 +306,7 @@ Places the bar on the page in the `target` element.
 
 **Usage**:
 ```javascript
-bar.place('#some-element'); // returns the settings of the bar 
+bar.place('#some-element');
 ```
 
 ### Instance Properties
@@ -302,3 +315,38 @@ Instances of `Bar` have the following properties:
 
 - `$element`: the jQuery object representing the entire bar element.
 - `value`: the current value of the bar, which is a number between `0` and `1` (inclusive).
+
+### Events
+
+The bar's animations trigger two events you can plug into, should you need to. These are triggered on the bar's element (`<bar>.$element`) but should bubble up to the document for you to catch. The event object is given a `bar` property that represents the `Bar` instance that sent the event. The events are:
+
+
+- `:bar-animation-start`: sent as the animation on any bar starts.  
+- `:bar-animation-complete`: sent after animation on any bar finishes.
+
+#### Usage:
+
+```javascript
+var healthBar = new Bar();
+
+healthBar.$element.on(':bar-animation-start', function () {
+    alert('Your health has changed.');
+});
+```
+
+The JavaScript above could also be adapted to work with TwineScript:
+
+```
+<<newbar '$healthBar'>><</newbar>>
+<<script>>
+    State.variables.healthBar.$element.on(':bar-animation-start', function () {
+        alert('Your health has changed.');
+    });
+<</script>>
+```
+
+### Other usage notes:
+
+**Configuration options**:
+
+You can alter whether the system attempts to make the `Bar` constuctor global at the top of the un-minified script. You can also change the default settings bars are created with just below the options--use this so you can spend less time configuring your bars.
