@@ -168,7 +168,7 @@
     function getGender () {
         // get the player's gender (custom or grab the default)
         // custom
-        if (State.variables[config.storyVar] && State.variables[config.storyVar][subjective]) {
+        if (State.variables[config.storyVar] && State.variables[config.storyVar].subjective) {
             return State.variables[config.storyVar];
         }
         // default

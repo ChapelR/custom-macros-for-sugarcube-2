@@ -2,9 +2,10 @@
 
 [Back to the main readme](./README.md).
 
-?> I'm going to start keeping a changelog for these macros because keeping track of them is becoming a nightmare. The overall version numbers are not really helpful for tracking what's happening on a macro-by-macro basis, but I'm trying to stick to major version bumps meaning breaking changes in any macro, or complete refactors of the whole collection, like what v2.0.0 was. Minor version updates indicate new macros have been added. Patch version updates means individual macro updates and bug fixes, or documentation, website, or demo updates.
+> [!NOTE]
+> I'm going to start keeping a changelog for these macros because keeping track of them is becoming a nightmare. The overall version numbers are not really helpful for tracking what's happening on a macro-by-macro basis, but I'm trying to stick to major version bumps meaning breaking changes in any macro, or complete refactors of the whole collection, like what v2.0.0 was. Minor version updates indicate new macros have been added. Patch version updates means individual macro updates and bug fixes, or documentation, website, or demo updates.
 
-### DATE (v2.3.0)
+### Jun 0, 2019 (v2.3.0)
 
 - **[Update]** Simple Inventory:  
     - Refactored code base.  
@@ -15,22 +16,30 @@
 - **[Update]** Playtime System:  
     - Refactored code base.  
     - Internal improvements.  
-- **[New]** CSS Macro.  
-- **[New]** Pronoun templates system.  
+- **[Update]** Operations API (dice and fairmath):  
+    - Refactored code base.  
+    - Dice functions now respect PRNG settings.  
+    - Internal improvements.  
+- **[Update]** The Fullscreen Macros now toggle the fullscreen state and now include a little bit of a JavaScript API on the `setup` object.  
+- **[Update]** Small fixes and internal improvements to several other macros.  
+- **[New]** Added the CSS Macro.  
+- **[New]** Added the Pronoun Templates system.  
+- **[New]** Added the Bars Macro Set.  
 - **[Demo]** Updated demo.  
-    - Simple Inventory and Playtime updated to new versions.  
-    - Added pronoun templates and CSS macro examples.  
+    - Added examples for new macros.  
     - Cleanup and fixed typos.  
 - **[Docs]** Updated docs.  
     - Clean up and fixed typos.  
-    - Improved and corrected Simple Inventory docs.  
-    - Improved and corrected Playtime system docs.  
-    - Added docs for CSS macro and Pronoun templates system.
+    - Improved formatting.  
+    - Improved and corrected many individual macro pages.  
+    - Added docs for new macros / systems.
 
 ### May 26, 2019 (v2.2.3)
 
 - **[Demo]** Added a demo for all the custom macros.  
 - **[Docs]** These macros now have a dedicated website at: https://macros.twinelab.net/  
+    - Added Google Analytics to the webpage.
+    - Minor refactor / reformat of docs for the webpage.
 - **[Docs]** Fixed the name of the Swap Macro Set docs.
 
 ### May 9, 2019 (v2.2.2)
@@ -56,8 +65,15 @@
 ### Jul 22, 2018 (v2.1.0)
 
 - **[Update]** Internal improvements to the First Macro suggested be TheMadExile.  
+- **[Retired]** Removed the Dropdown macro.  
+    - SugarCube 2 now comes with a `<<listbox>>` macro in its standard library.
 - **[New]** Added the Done Macro, with improvements from TheMadExile.  
 - **[Docs]** Started the Simple Inventory guide (incomplete).
+
+### Jun 29, 2018 (v2.0.1)
+
+- **[Update]** Several bug fixes to Simple Inventory.  
+- **[Docs]** Fixed several typos, improved docs, cleanup.
 
 ### Jun 29, 2018 (v2.0.0)
 

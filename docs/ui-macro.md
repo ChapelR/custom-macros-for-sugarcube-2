@@ -37,7 +37,8 @@ Some commands have aliases: alternate command names that do the same thing.
 |`settings`|`setting`|Opens the settings dialog menu.|
 |`share`|`sharing`|Opens the share dialog menu.|
 
-?> The last group of commands above can be used to access UI bar menus without needing the UI bar.
+> [!TIP]
+> The last group of commands above can be used to access UI bar menus without needing the UI bar.
 
 **Usage**:
 ```

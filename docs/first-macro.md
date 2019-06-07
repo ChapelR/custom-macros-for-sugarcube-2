@@ -14,7 +14,8 @@ Based loosely on Leon's `<<once>>` macro and similar, `<<first>>`, `<<then>>`, a
 
 A simple, slightly sexier repalcement for `<<if visited()>>` and `<<switch visited()>>`, based loosely on Leon's `<<once>>` macro.  `<<first>>` shows text on the first visit to a passage, and you can use `<<then>>` to show different text on subsequent visits.  Use `<<finally>>` to show text that persists over *all* subsequent visits.  
 
-!> Do not nest `<<first>>` macros inside each other; it won't cause an error, but it also likely won't work the way you expect.  If you need nesting, you'll need to use variables.
+> [!DANGER]
+> Do not nest `<<first>>` macros inside each other; it won't cause an error, but it also likely won't work the way you expect.  If you need nesting, you'll need to use variables.
 
 **Usage**:
 ```

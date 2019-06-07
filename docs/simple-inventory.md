@@ -4,7 +4,8 @@
 
 The simple inventory allows Twine authors to create and manipulate array-based inventories for 'key' style items (as opposed to consumables or equipment).  This system provides a great deal of functionality, including sorting, displaying item lists (with drop / transfer links), and creating multiple inventories (for creating 'rooms' or other containers, or party members) and transfering items between them.  All of the functionality here has both a JavaScript API and a TwineScript Macro-based API, meaning the features are easily available from within your passages and inside scripts.
 
-!> The simple inventory has undergone some pretty major changes since it first debuted.  Version 1 was mostly a bit of syntactic sugar over an array system designed to help less-experienced authors utilize standard JavaScript arrays and methods in a scripting style they were more comfortable with (that is, macros).  On rewriting this system, it seemed like a good idea to push things a little farther and create something that could be useful even to more experienced authros (hopefully, anyway).  The changes make simple inventory a much more robust and feature-rich system, but unfortunately, **old code written for v1.x of simple inventory is not compatible with the new simple inventory system**.
+> [!DANGER]
+> The simple inventory has undergone some pretty major changes since it first debuted.  Version 1 was mostly a bit of syntactic sugar over an array system designed to help less-experienced authors utilize standard JavaScript arrays and methods in a scripting style they were more comfortable with (that is, macros).  On rewriting this system, it seemed like a good idea to push things a little farther and create something that could be useful even to more experienced authros (hopefully, anyway).  The changes make simple inventory a much more robust and feature-rich system, but unfortunately, **old code written for v1.x of simple inventory is not compatible with the new simple inventory system**.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/simple-inventory.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/simple-inventory.js).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=inventory).  
@@ -52,7 +53,8 @@ It is recommended that you leave the `tryGlobal` option as `true` unless you kno
 		
 The functions, methods, and variables used by these systems all exist on the special SugarCube `setup` object.  For ease of access to authors, everything that might be of use to them is then sent to the global scope as `window.Inventory`.  If you don't want to send this object to the global scope, you can change this option to `false`.  
 
-?> Note that even if it's set to `true`, the script will check to make sure `window.Inventory` is undefined before overwriting it.
+> [!NOTE]
+> Even if this option is set to `true`, the script will check to make sure `window.Inventory` is undefined before overwriting it.
 
 If the global `Inventory` object is unavailable, either because you changed this setting or because it was already in use, you can still access things: replace `Inventory...` with `setup.Inventory...` in your code, or create your own gobal reference.
 
@@ -237,7 +239,8 @@ You've been released from prison, and your weapons are returned to you.
 
 The `<<sort>>` macro sorts the indicated inventory in alphanumeric order.  
 
-!> **Warning**: There's no easy way to restore the default chronological ordering.
+> [!WARNING]
+> There's no easy way to restore the default chronological ordering.
 
 **Arguments**:
 
@@ -333,7 +336,8 @@ You open the closet.  Lots of space in here.
 
 The following are the functions and methods that are included in the simple inventory.  Most of these allow access to the simple inventory's features in pure JavaScript, while some of these features are only available through this JavaScript API: even if you aren't planning on interacting with this system through JavaScript, you should still read the documentation for `Inventory.removeDuplicates()`, `<inventory>.has()`, and `<inventory>.hasAll()`, all of which are either only available through JavaScript, or contain features that are only available for your TwineScript expressions through JavaScript.
 
-?> **Note on chaining**: Methods that don't return an explicit value will return the inventory they are called on (listed with the return value of 'this inventory' in the below documentation), meaning you can **chain many of the instance method calls**.  For example, `<inventory>.pickUp()` adds items to the inventory, but doesn't need to return anything in specific, so it returns the inventory object is was called on and allows chaining.  On the other hand, `<inventory>.show()` returns a string, so it can't be chained with other inventory methods.  For example:
+> [!TIP]
+> **About chaining**: Methods that don't return an explicit value will return the inventory they are called on (listed with the return value of 'this inventory' in the below documentation), meaning you can **chain many of the instance method calls**.  For example, `<inventory>.pickUp()` adds items to the inventory, but doesn't need to return anything in specific, so it returns the inventory object is was called on and allows chaining.  On the other hand, `<inventory>.show()` returns a string, so it can't be chained with other inventory methods.  For example:
 
 ```
 -> The following is valid:
@@ -687,7 +691,8 @@ This method returns whether or not the inventory is empty (has zero items in it)
 
 This method is the same as the `<<sort>>` macro, it sorts the calling inventory in alpha-numeric order.  
 
-!> **Warning:** The default ordering, which is chronological, cannot easily be restored after using this method.
+> [!WARNING]
+> The default ordering, which is chronological, cannot easily be restored after using this method.
 
 **Usage**:
 ```

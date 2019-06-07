@@ -14,7 +14,8 @@ The `<<done>>` macro serves the same purpose as the `PassageDone` special passag
 
 The code between the tags is run after the passage content has finished rendering, ensuring that the DOM is ready for all sorts of hijinks.  
 
-?> You *can* have multiple `<<done>>` macros in a single passage, but generally shouldn't need to; if you have multiples, they will work, but it's likely you're doing something wrong or unwise, so think your code through carefully.
+> [!TIP]
+> You *can* have multiple `<<done>>` macros in a single passage, but generally shouldn't need to; if you have multiples, they will work, but it's likely you're doing something wrong or unwise, so think your code through carefully.
 
 **Usage**:
 ```

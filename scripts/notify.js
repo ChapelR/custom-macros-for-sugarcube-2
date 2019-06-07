@@ -35,7 +35,7 @@ $(document).on(':notify', function (e) {
         $('#notify')
             .empty()
             .wiki(e.message)
-            .addClass(e.class)
+            .addClass(e.class);
                 
         setTimeout(function () {
             $('#notify').removeClass();

@@ -59,11 +59,12 @@ If you want to write your templates using the male or female pronouns, you will 
 
 To get a capitalized version of a template, for example, to start a sentence, simply capitalize the template. `?he`, for example, may return `he` or `she`, but `?He` will return `He` or `She`.
 
-#### Template list: 
+#### Template List
 
 Here is the complete list of templates provided by this system.
+<!-- tabs:start -->
 
-**Subjective Pronouns**
+##### **Subjective**
 
 - `?he`  
 - `?He`  
@@ -72,7 +73,7 @@ Here is the complete list of templates provided by this system.
 - `?they`  
 - `?They`
 
-**Objective Pronouns**
+##### **Objective**
 
 - `?him`  
 - `?Him`  
@@ -81,7 +82,7 @@ Here is the complete list of templates provided by this system.
 - `?them`  
 - `?Them`
 
-**Possessive Pronouns**
+##### **Possessive**
 
 - `?his`  
 - `?His`  
@@ -90,7 +91,7 @@ Here is the complete list of templates provided by this system.
 - `?theirs`  
 - `?Theirs`
 
-**Determiner Pronouns**
+##### **Determiner**
 
 - `?his_`  
 - `?His_`  
@@ -99,7 +100,7 @@ Here is the complete list of templates provided by this system.
 - `?their`  
 - `?Their`
 
-**Reflexive Pronouns**
+##### **Reflexive**
 
 - `?himself`  
 - `?Himself`  
@@ -108,7 +109,7 @@ Here is the complete list of templates provided by this system.
 - `?themself`  
 - `?Themself`
 
-**Nouns**
+##### **Nouns**
 
 - `?man`  
 - `?Man`  
@@ -116,6 +117,8 @@ Here is the complete list of templates provided by this system.
 - `?Woman`  
 - `?person`  
 - `?Person`
+
+<!-- tabs:end -->
 
 #### Template Examples
 

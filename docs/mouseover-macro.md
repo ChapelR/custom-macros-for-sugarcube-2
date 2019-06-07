@@ -4,6 +4,9 @@
 
 This macro allows you to use some fancy mouse events to create hover effects, tooltips, or just run arbitrary code when the mouse enters or leaves an element.
 
+> [!WARNING]
+> This macro will be retired in the next version of the collection. As of v2.29.0, SugarCube's standard library now includes [a `<<mouse>>` macro](.); it is recommended that you switch over to using that macro in the future.
+
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/mouseover.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/mouseover.js).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=mouseover).  
 **GUIDE:** Not available.
@@ -25,7 +28,8 @@ This macro allows you to use some fancy mouse events to create hover effects, to
 
 The `<<mouseover>>` macro causes some content on the page to be interactive with certain non-click mouse events. The content that becomes interactive is whatever is placed after the opening tag and before the first child tag. The child tags determine what code is run and when. The `<<onmouseover>>` tag (`<<onhover>>` also works) triggers on the `mouseover` event. The `<<onmousein>>` (`<<onmouseenter>>` also works) tag triggers on the `mouseenter` event. The `<<onmouseout>>` tag triggers on the `mouseout` event.
 
-?> Generally speaking, there isn't a great deal of difference between `mouseenter` events and `mouseover` events for most code, but it's included here for completeness.
+> [!NOTE]
+> Generally speaking, there isn't a great deal of difference between `mouseenter` events and `mouseover` events for most code, but it's included here for completeness.
  
 **Usage**:
 ```
@@ -48,4 +52,5 @@ Watch the <<mouseover>>[[pit!|fell in a pit]]<<onmousein>><<goto 'fell in a pit'
 
 ### Other Usage Notes:
 
-!> Using mouse-specific events for major gameplay mecahnics will have a negative effect on accesiblity and on touch devices and mobile users. You'll need to weigh any benefits against this fairly major drawback when using this macro, or limit yourself to only using it in ways that are non-essential to the user experience.
+> [!DANGER]
+> Using mouse-specific events for major gameplay mecahnics will have a negative effect on accesiblity and on touch devices and mobile users. You'll need to weigh any benefits against this fairly major drawback when using this macro, or limit yourself to only using it in ways that are non-essential to the user experience.

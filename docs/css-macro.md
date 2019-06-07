@@ -2,7 +2,7 @@
 
 [Back to the main readme](./README.md).
 
-Thie macro allows you to change a target element's styles.
+This macro allows you to change a target element's styles.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/css-macro.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/css-macro.js).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=css).  
@@ -14,9 +14,11 @@ Thie macro allows you to change a target element's styles.
 
 This macro is used to target a specific element on the page and alter it's CSS. 
 
-!> Note that, in general, using CSS classes and the `<<addclass>>` macro and its siblings makes more sense, and is typically recommended over using this macro--this macro can be seen as a brute-force method.  
+> [!DANGER]
+> Note that, in general, using CSS classes and the `<<addclass>>` macro and its siblings makes more sense, and is typically recommended over using this macro--this macro can be seen as a brute-force method.  
 
-!> This macro should be considered a **DOM macro**, meaning the same rules that apply to macros like `<<replace>>` also apply to this one--see the usage notes below for more.
+> [!WARNING]
+> This macro should be considered a **DOM macro**, meaning the same rules that apply to macros like `<<replace>>` also apply to this one--see the usage notes below for more.
 
 **Arguments**:    
 - `selector`: a CSS/jQuery selector representing an element on the page.  

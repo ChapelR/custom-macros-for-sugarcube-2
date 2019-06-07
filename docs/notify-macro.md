@@ -4,7 +4,8 @@
 
 This macro pops a message up that slides out from the right side of the screen, a short notification that's less distracting than a dialog or alert, for things like inventory changes, experience gains, or even achievements.
 
-?> Note that unlike most of my code, this macro requires you to install the CSS code as well in your story's Stylesheet section.
+> [!NOTE]
+> Unlike most of my code, this macro requires you to install the CSS code as well in your story's Stylesheet section.
 
 **THE CODE:** [Minified JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/notify.min.js) [Minified CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/notify.min.css). [Pretty JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/notify.js) [Pretty CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/notify.css).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=notify).  
@@ -33,4 +34,5 @@ The `<<notify>>` macro displays everything between it's tags in a small message 
 
 ## Other Usage Notes:
 
-!> Note that giving the player unlimited control over these notifications, or trying to show several at once or right after each other will cause them to trip over themselves as they try to animate, so try to keep them spaced out, and don't assign them to links or buttons you expect the player to press repeatedly.
+> [!DANGER]
+> Note that giving the player unlimited control over these notifications, or trying to show several at once or right after each other will cause them to trip over themselves as they try to animate, so try to keep them spaced out, and don't assign them to links or buttons you expect the player to press repeatedly.

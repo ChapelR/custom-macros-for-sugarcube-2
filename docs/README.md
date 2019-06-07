@@ -6,7 +6,7 @@
  * [The Dialog API Macro Set](./dialog-api-macro-set.md)  
  * [The UI Macro](./ui-macro.md)  
  * [The Done Macro](./done-macro.md)
- * [The Mouseover Macro](./mouseover-macro.md)  
+ * [The Mouseover Macro](./mouseover-macro.md) (deprecated)  
  * [The Event Macros](./event-macros.md)  
  * [The Fading Macro Set](./fading-macros.md)  
  * [The CSS Macro](./css-macro.md) (new!)  
@@ -17,6 +17,7 @@
  * [The Message Macro](./message-macro.md)  
  * [The Notify Macro](./notify-macro.md)  
  * [Dice Roller and Fairmath Functions](./operations-api.md)  
+ * [The Bars Macro Set](./bars-macros.md)  
  * [The Playtime System](./playtime-system.md)  
  * [The Simple Inventory System](./simple-inventory.md)  
  * [The Typing Simulation Macro](./type-sim.md)
@@ -26,7 +27,8 @@
 
 To install these macros, all you need is the code.  It is highly recommended that you install the minified version (found in the `scripts/minified/` directory of the repo), as these versions will have improved performance.  You will only need the non-minified versions if you plan to edit the code in some way. Links to both the minified and pretty scripts are available on the individual documentation pages for each macro / system.
 
-!> To install these macros, you will need to be using the most recent version of SugarCube 2 in most cases, and this is almost never the version that comes with Twine 2.  See [SugarCube's website](http://www.motoslave.net/sugarcube/2/#downloads) for updating / installation instructions.
+> [!WARNING]
+> To install these macros, you will need to be using the most recent version of SugarCube 2 in most cases, and this is almost never the version that comes with Twine 2.  See [SugarCube's website](http://www.motoslave.net/sugarcube/2/#downloads) for updating / installation instructions.
 
 - For **Twine 2** users: copy and paste the required JavaScript code from this repo into your [story JavaScript area](https://twinery.org/wiki/twine2:adding_custom_javascript_and_css).  Some macros may also require CSS code, which goes in your story stylehseet.
 
@@ -48,7 +50,8 @@ If you're having issues, please try some of these solutions.
 
 If none of those common solutions help you with the problem, open an issue here on the repo.  Be sure to tell me the exact version of SugarCube (found in the `Change story format` menu option in Twine 2) and the exact version of your compiler (for Twine 2, the bottom right on the story list).
 
-?> Please try to screen grab or copy/paste any specific error messages, and provide sample code or steps to reproduce the issue if possible.
+> [!NOTE]
+> Please try to screen grab or copy/paste any specific error messages, and provide sample code or steps to reproduce the issue if possible.
 
 ### General Troubleshooting
 
@@ -73,7 +76,8 @@ If you're having an issue with these macros and suspect that it's operator error
  * [The Official Twine Discord Server](https://discordapp.com/invite/n5dJvPp)
  * [The Unoffical Twine Subreddit](https://www.reddit.com/r/twinegames/)
 
-?> Regardless of where you seek help, you'll want to provide links to the scripts you're using for your potential answerers.  Don't expect people to know what "Chapel's fading macros" are or how they work just from that.
+> [!TIP]
+> Regardless of where you seek help, you'll want to provide links to the scripts you're using for your potential answerers.  Don't expect people to know what "Chapel's fading macros" are or how they work just from that.
 
 ### You Don't Write Good...
 
@@ -83,12 +87,15 @@ Please take a minute and help me out by reporting any errors in the documentatio
 
 This code is dedicated to the public domain.  You **don't** need to provide credit, attribution, or anything else if you don't want to.
 
-?> If you do wish to credit me, which I always appreciate, you can credit me as Chapel, but please do not imply that I directly worked on your game.
+> [!NOTE]
+> If you do wish to credit me, which I always appreciate, you can credit me as Chapel, but please do not imply that I directly worked on your game.
 
-!> If you have any questions or concerns about this, refer to the [license](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/LICENSE) or reach out to me.
+> [!TIP]
+> If you have any questions or concerns about this, refer to the [license](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/LICENSE) or reach out to me.
 
 ### Donations
 
-?> Note: I suggest donating to [Twine development](https://www.patreon.com/klembot) or [SugarCube development](https://www.patreon.com/thomasmedwards) if you really want to help out, but I'd welcome a few dollars if you feel like it.
+> [!NOTE]
+> Note: I suggest donating to [Twine development](https://www.patreon.com/klembot) or [SugarCube development](https://www.patreon.com/thomasmedwards) if you really want to help out, but I'd welcome a few dollars if you feel like it.
 
 [![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/F1F8IC35)
