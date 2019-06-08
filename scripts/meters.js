@@ -2,7 +2,8 @@
     'use sctrict';
 
     var options = {
-        tryGlobal : true // attempt to send `Meter` to the global scope?
+        tryGlobal : true, // attempt to send `Meter` to the global scope?
+        allowClobbering : false // allow a new meter to replace a previously defined meter with the same name instead of throwing
     };
 
 
@@ -19,8 +20,8 @@
         align : 'center' // label alignment
     };
 
-    var validAlignments = ['center', 'left', 'right'];
-    var validEasing = ['swing', 'linear'];
+    var _validAlignments = ['center', 'left', 'right'];
+    var _validEasing = ['swing', 'linear'];
 
     function _handleString (str, def) {
         if (str && typeof str === 'string') {
@@ -44,11 +45,11 @@
         this.settings.align = _handleString(this.settings.align);
         this.settings.easing = _handleString(this.settings.easing);
 
-        if (!validAlignments.includes(this.settings.align)) {
+        if (!_validAlignments.includes(this.settings.align)) {
             this.settings.align = 'center';
         }
 
-        if (!validEasing.includes(this.settings.easing)) {
+        if (!_validEasing.includes(this.settings.easing)) {
             this.settings.easing = 'swing';
         }
 
@@ -121,19 +122,44 @@
         $label.css('font-size', $wrapper.height());
     }
 
-    Meter.is = function (thing) { // see if passed "thing" is a meter instance
-        return thing instanceof Meter;
-    };
-
-    Meter._emit = function (inst, name) { // undocumented
-        if (!Meter.is(inst)) {
-            return;
+    Object.assign(Meter, {
+        list : new Map(),
+        is : function (thing) { // see if passed "thing" is a meter instance
+            return thing instanceof Meter;
+        },
+        has : function (name) {
+            return Meter.list.has(name) && Meter.is(Meter.list.get(name));
+        },
+        get : function (name) {
+            if (Meter.has(name)) {
+                return Meter.list.get(name);
+            }
+            return null;
         }
-        inst.$element.trigger({
-            type : ':' + name,
-            meter : inst
-        });
-    };
+        del : function (name) {
+            if (Meter.has(name)) {
+                Meter.list.delete(name);
+            }
+        },
+        add : function (name, opts, value) {
+            if (Meter.has(name) && !options.allowClobbering) {
+                console.error('Meter "' + name + '" already exists.');
+                return;
+            }
+            var meter = new Meter(opts, value)
+            Meter.set(name, meter);
+            return meter;
+        },
+        _emit : function (inst, name) { // undocumented
+            if (!Meter.is(inst)) {
+                return;
+            }
+            inst.$element.trigger({
+                type : ':' + name,
+                meter : inst
+            });
+        }
+    });
 
     Object.assign(Meter.prototype, {
         constructor : Meter,
@@ -230,14 +256,20 @@
                 return this.error('The `<<newmeter>>` macro requires at least one argument: the variable name to store the meter in.');
             }
 
-            var varName = this.args[0], 
+            var meterName = this.args[0], 
                 colorsTag = null, 
                 sizeTag = null, 
                 animTag = null,
                 labelTag = null;
 
-            if (varName[0] !== '$' && varName[0] !== '_') {
-                return this.error('Invalid variable name.');
+            if (typeof meterName !== 'string') {
+                return this.error('Invalid meter name.');
+            }
+
+            meterName = meterName.trim();
+
+            if (Meter.has(meterName) && !options.allowClobbering) {
+                return this.error('Cannot clobber the existing meter "' + meterName + '".');
             }
 
             if (this.payload.length) {
@@ -325,7 +357,7 @@
                 }
             }
 
-            State.setVar(varName, new Meter(options, this.args[1]));
+            Meter.add(meterName, options, this.args[1]);
 
         }
     });
@@ -338,16 +370,18 @@
                 return this.error('This macro requires at least one argument: the variable name.');
             }
 
-            var varName = this.args[0];
+            var meterName = this.args[0];
 
-            if (varName[0] !== '$' && varName[0] !== '_') {
-                return this.error('Invalid variable name.');
+            if (typeof meterName !== 'string') {
+                return this.error('Invalid meter name.');
             }
 
-            var meter = State.getVar(varName);
+            meterName = meterName.trim();
 
-            if (!Meter.is(meter)) {
-                return this.error('The variable "' + varName + '" does not contain a meter.');
+            var meter = Meter.get(meterName);
+
+            if (!meter || !Meter.is(meter)) {
+                return this.error('The meter "' + meterName + '" does not exist.');
             }
 
             meter.val(this.args[1]);
@@ -368,19 +402,21 @@
                 return this.error('This macro requires two arguments: the variable name and a value.');
             }
 
-            var varName = this.args[0];
+            var meterName = this.args[0];
 
-            if (varName[0] !== '$' && varName[0] !== '_') {
-                return this.error('Invalid variable name.');
+            if (typeof meterName !== 'string') {
+                return this.error('Invalid meter name.');
             }
 
-            var meter = State.getVar(varName);
+            meterName = meterName.trim();
 
-            if (!Meter.is(meter)) {
-                return this.error('The variable "' + varName + '" does not contain a meter.');
+            var meter = Meter.get(meterName);
+
+            if (!meter || !Meter.is(meter)) {
+                return this.error('The meter "' + meterName + '" does not exist.');
             }
 
-            meter.val(this.args[1]); // if it's on the page, should update auto-magically, if not, just let it be.
+            meter.val(this.args[1]); // if it's on the page, should update auto-magically.
 
         }
     });

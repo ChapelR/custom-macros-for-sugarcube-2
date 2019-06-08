@@ -1,4 +1,4 @@
-## The Meters Macro Set
+## The Meter Macro Set
 
 [Back to the main readme](./README.md).
 
@@ -12,22 +12,24 @@ A set of macros and JavaScript APIs for creating and working with dynamic, anima
 
 **Syntax**: 
 ```
-<<newmeter variableName [value]>>
+<<newmeter name [value]>>
     ... optional child tags (see below) ...
 <</newmeter>>
 ```
 
-The `<<newmeter>>` macro can be used to create a new meter instance and save it to a story variable. You must provide a variable for the meter to be saved to, in quotes, and can optionally pass a starting value (between `0` and `1`, inclusive) for the meter. You can configure a number of other meter options using the optional child tags `<<metercolors>>`, `<<metersizing>>`, and `<<meteranimation>>`. You do not have to include any of the child tags.
+The `<<newmeter>>` macro can be used to create a new meter instance. You must provide a name for the meter, in quotes, and can optionally pass a starting value (between `0` and `1`, inclusive) for the meter. You can configure a number of other meter options using the optional child tags `<<metercolors>>`, `<<metersizing>>`, and `<<meteranimation>>`. You do not have to include any of the child tags.
 
-> [!TIP]
-> You should define your meters before using them, but you don't need to do so in `StoryInit`; in some cases it may be better not to. You can get rid of meters you don't need anymore with the `<<unset>>` macro.
+Each `<<newmeter>>` macro call creates a defined set of attributes that the meter will use, and allows the meter system to reference and alter the meter's value and animate them. **Each meter profile should be unique on the page**; if you create a health bar meter profile for both enemy health and player health, for example, you will need to different meter profiles to show them on the same passage / page.
+
+> [!DANGER]
+> You should define your meters before using them in your `StoryInit` special passage. Meters are not stateful, thus you *must* to define them here (or in your Story JavaScript via the API) or they won't work.
 
 > [!WARNING]
 > Any other code or text in the `<<newmeter>>` macro, other than its child tags, will have no effect, and will simply be discarded.
 
 **Arguments**:
 
-- `variableName`: a valid TwineScript variable name, passed to the macro in quotes.  
+- `name`: a string name to save the meter profile to.   
 - `value`: (optional) a value for the meter to start at, must be a number between `0` and `1` (inclusive). Defaults to `1`.
 
 #### Child tag: `<<metercolors>>`
@@ -107,33 +109,33 @@ The `<<meterlabel>>` child tag can be used to configure label for your meter whi
 
 ```
 /* setting up a meter for player health */
-<<newmeter '$healthBar'>>
+<<newmeter 'healthBar'>>
     <<meteranimation 300ms>>
     <<metercolors 'yellow' 'red' 'black'>>
     <<meterlabel '$health' 'black' center>>
 <</newmeter>>
 
 /* setting up an experience bar */
-<<newmeter '$xpBar' 0>>
+<<newmeter 'xpBar' 0>>
     <<meteranimation false>>
     <<metersize '100%'>>
 <</newmeter>>
 
 /* setting up a timer meter */
-<<newmeter '_tenSeconds' 0>>
+<<newmeter 'timer' 0>>
     <<meteranimation 10s linear>>
 <</newmeter>>
 ```
 
 ### Macro: `<<showmeter>>`
 
-**Syntax**: `<<showmeter variableName [value]>>`
+**Syntax**: `<<showmeter name [value]>>`
 
 Renders the indicated meter into the passage, optionally setting the value. If you set the value, the meter will animate to that value after rendering.
 
 **Arguments**:
 
-- `variableName`: a valid TwineScript variable name, passed to the macro in quotes.  
+- `name`: the name of a Meter created via the `Meter` API or the `<<newmeter>>` macro.  
 - `value`: (optional) a value to set the meter to, must be a number between `0` and `1` (inclusive).
 
 **Usage**:
@@ -146,11 +148,12 @@ Renders the indicated meter into the passage, optionally setting the value. If y
 <<showmeter '$xpBar' _xp>>
 
 /* create a timer meter */
-<<silently>>
-    <<newmeter '_tenSeconds' 0>>
-        <<meteranimation 10s linear>>
-    <</newmeter>>
-<</silently>>\
+Given the following in StoryInit:
+<<newmeter '_tenSeconds' 0>>
+    <<meteranimation 10s linear>>
+<</newmeter>>
+
+In passage:
 You have ten seconds until the bomb explodes...
 
 <<showmeter '_tenSeconds' 1>>
@@ -160,20 +163,23 @@ You have ten seconds until the bomb explodes...
 
 ### Macro: `<<updatemeter>>`
 
-**Syntax**: `<<updatemeter variableName value>>`
+**Syntax**: `<<updatemeter name value>>`
 
 Changes the value of a meter; if the meter is on the page, it will be automatically changed, with an animation, depending on how the meter was set up
 
 **Arguments**:
 
-- `variableName`: a valid TwineScript variable name, passed to the macro in quotes.  
+- `name`: the name of a Meter created via the `Meter` API or the `<<newmeter>>` macro.  
 - `value`: (optional) a value to set the meter to, must be a number between `0` and `1` (inclusive).
 
 **Usage**:
 ```
+Given the follwing in StoryInit:
+<<newmeter '$healthBar'>><<meterlabel '$health'>><</newmeter>>
+<<newmeter '$xpBar'>><</newmeter>>
+
 /* change the player's health */
 <<set $health to 23, $maxHealth to 130>>\
-<<newmeter '$healthBar'>><<meterlabel '$health'>><</newmeter>>\
 <<showmeter '$healthBar' `$health / $maxHealth`>>
 
 <<link 'take a potion'>>
@@ -188,7 +194,6 @@ Changes the value of a meter; if the meter is on the page, it will be automatica
     
 
 /* gain some experience */
-<<newmeter '$xpBar'>><</newmeter>>
 <<show '$xpBar'>>
 
 You earned 100xp!
@@ -197,16 +202,23 @@ You earned 100xp!
 <<updatemeter '$xpBar' _xp>>
 ```
 
-### Constructor: `Meter()`
+## JavaScript API
+
+The following are all methods of the `Meter` API, which is available on the `setup` and (if possible) the global `window` objects. Meters created via the API and meters created via the `<<newmeter>>` macro are exactly the same--you can use the JavaScript APIs and the meter macros to interact with any meter, no matter how it was created.
+
+### Static Methods
+
+#### Method: `Meter.add()`
 
 **Returns**: A new `Meter` instance.
 
-**Syntax**: `new Meter([options] [, value])`
+**Syntax**: `Meter.add(name [, options] [, value])`
 
-Underlying the macros is a constructor called `Meter()` which is exposed to user code via `setup.Meter()` and (if possible) `window.Meter()`. You can use this constructor to create meters from within JavaScript.
+Functionally the same as the `<<newmeter>>` macro and its child tags, this method creates a new meter instance with a given name. Unlike the macro version and its tags, you just need to pass a flat object of options (see below) to configure the meter's settings.
 
 **Arguments**:
 
+- `name`: a string name to save the meter instance as.  
 - `options`: (optional) you can use this to edit the options of the meter; which overwrite the default settings.  
 - `value`: (optional) a value for the meter to start at, must be a number between `0` and `1` (inclusive). Defaults to `1`.
 
@@ -228,16 +240,12 @@ The default settings you can overwrite with you options object looks like this:
 
 **Usage**:
 ```javascript
-var meter = new Meter({
-    full : 'purple',
-    empty : '#222',
-    backing : '#eee'
-}, 1);
+Meter.add('healthBar', {}, 1);
 
-var otherBar = new setup.Meter({}, 0.5);
+Meter.add('timer', { animate : 10000 }, 0);
+
+Meter.add('xpBar');
 ````
-
-### Static Methods
 
 #### Method: `Meter.is()`
 
@@ -256,7 +264,7 @@ Tests if the passed *thing* is an instance of the `Meter` constructor.
 var d = new Date();
 var a = [];
 var s = 'hi';
-var m = new Meter();
+var m = Meter.add('blah');
 
 Meter.is(d); // false
 Meter.is(a); // false
@@ -264,7 +272,74 @@ Meter.is(s); // false
 Meter.is(m); // true
 ```
 
+#### Method: `Meter.has()`
+
+**Returns**: Boolean.
+
+**Syntax**: `Meter.has(name)`
+
+Tests if a meter with the given name exists.
+
+**Arguments**:
+
+- `name`: a meter name
+
+**Usage**:
+```javascript
+if (!Meter.has('blah')) {
+    Meter.add('blah');
+}
+```
+
+#### Method: `Meter.get()`
+
+**Returns**: A meter instance.
+
+**Syntax**: `Meter.get(name)`
+
+Returns the meter instance with the given name, or `null`, if it doesn't exist.
+
+**Arguments**:
+
+- `name`: a meter name
+
+**Usage**:
+```javascript
+var blah = Meter.get('blah');
+```
+
+#### Method: `Meter.del()`
+
+**Returns**: Boolean.
+
+**Syntax**: `Meter.has(name)`
+
+If a meter with the given name exists, it is deleted.
+
+**Arguments**:
+
+- `name`: a meter name
+
+**Usage**:
+```javascript
+Meter.add('blah');
+Meter.has('blah'); // true
+Meter.del('blah');
+Meter.has('blah'); // false
+```
+
 ### Instance Methods
+
+These instance methods can be used on any meter instance. The easiest way to get the meter instance is with a `Meter.get()` call, but you can also save the return value of the `Meter.add()` call to a variable and use that.
+
+```javascript
+var meter = Meter.add('myMeter', {}, 0.6);
+
+meter.val(); // 0.6
+Meter.get('myMeter').val(); // 0.6
+```
+
+The below code will generally use `Meter.get()`, but you don't have to, nor is it necessarily the recommended way, since you'll save yourself a lot of calls by assigning a the instance to a variable.
 
 #### Method: `meter#animate()`
 
@@ -279,8 +354,8 @@ Causes the meter to animate according to its settings after a new value has been
 
 **Usage**:
 ```javascript
-meter.value = 0.8;
-meter.animate();
+Meter.get('blah').value = 0.8;
+Meter.get('blah').animate();
 ```
 
 #### Method: `meter#val()`
@@ -297,10 +372,9 @@ Sets or returns the meter's value. If you set the meter's value with this method
 
 **Usage**:
 ```javascript
-var m = new Meter({}, 0.4);
-
-m.val(); // 0.4
-m.val(0.1); // sets the meter to 0.1, and returns 0.1
+Meter.add('blah', {}, 0.4);
+Meter.get('blah').val(); // 0.4
+Meter.get('blah').val(0.1); // sets the meter to 0.1, and returns 0.1
 ```
 
 #### Method: `meter#settings()`
@@ -320,10 +394,10 @@ Sets or returns the meter's settings
 
 **Usage**:
 ```javascript
-meter.settings(); // returns the settings of the meter 
-meter.settings({ animate : 1000 }); // changes the meter's `animate` setting, and returns the settings object
+Meter.get('blah').settings(); // returns the settings of the meter 
+Meter.get('blah').settings({ animate : 1000 }); // changes the meter's `animate` setting, and returns the settings object
 
-if (meter.settings().animate < 500) {
+if (Meter.get('blah').settings().animate < 500) {
     // do something if the meter's animation time is less than half a second
 }
 ```
@@ -342,7 +416,7 @@ Places the meter on the page in the `target` element.
 
 **Usage**:
 ```javascript
-meter.place('#some-element');
+Meter.get('blah').place('#some-element');
 ```
 
 ### Instance Properties
@@ -363,9 +437,9 @@ The meter's animations trigger two events you can plug into, should you need to.
 #### Usage:
 
 ```javascript
-var healthBar = new Meter();
+Meter.add('healthBar');
 
-healthmeter.$element.on(':meter-animation-start', function () {
+Meter.get('healthBar').$element.on(':meter-animation-start', function () {
     alert('Your health has changed.');
 });
 ```
@@ -373,16 +447,34 @@ healthmeter.$element.on(':meter-animation-start', function () {
 The JavaScript above could also be adapted to work with TwineScript:
 
 ```
-<<newmeter '$healthBar'>><</newmeter>>
+<<newmeter 'healthBar'>><</newmeter>>
 <<script>>
-    State.variables.healthmeter.$element.on(':meter-animation-start', function () {
+   Meter.get('healthBar').$element.on(':meter-animation-start', function () {
         alert('Your health has changed.');
     });
 <</script>>
 ```
 
-### Other usage notes:
+## Other usage notes
 
 **Configuration options**:
 
 You can alter whether the system attempts to make the `Meter` constuctor global at the top of the un-minified script. You can also change the default settings meters are created with just below the options--use this so you can spend less time configuring your meters.
+
+**HTML Structure**:
+
+The HTML structure of the generated meter looks like this:  
+```html
+<div class='chapel-meter' data-val='value*' data-label='label*'> <!-- the wrapper element -->
+    <div class='meter-bottom'> <!-- holds the 'empty' meter -->
+        <div class='meter-top'></div> <!-- holds the 'full' meter -->
+        <div class='meter-label'>label*</div> <!-- holds the label -->
+    </div>
+</div>
+```
+
+\* Filled in by the appropriate property of the meter instance.
+
+**Styling options**:
+
+You can adjust some meter styles via CSS using the above HTML structure. The styles set via the meter's configuration are applied via jQuery on the element itself, and cannot be easily overridden without liberal use of the `!important` rule.
