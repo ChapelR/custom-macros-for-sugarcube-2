@@ -24,7 +24,7 @@
 - **[Update]** Small fixes and internal improvements to several other macros.  
 - **[New]** Added the CSS Macro.  
 - **[New]** Added the Pronoun Templates system.  
-- **[New]** Added the Bars Macro Set.  
+- **[New]** Added the Meter Macro Set.  
 - **[Demo]** Updated demo.  
     - Added examples for new macros.  
     - Cleanup and fixed typos.  

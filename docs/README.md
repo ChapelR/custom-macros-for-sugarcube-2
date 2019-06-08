@@ -17,7 +17,7 @@
  * [The Message Macro](./message-macro.md)  
  * [The Notify Macro](./notify-macro.md)  
  * [Dice Roller and Fairmath Functions](./operations-api.md)  
- * [The Bars Macro Set](./bars-macros.md) (new!)  
+ * [The Meter Macro Set](./meter-macros.md) (new!)  
  * [The Playtime System](./playtime-system.md)  
  * [The Simple Inventory System](./simple-inventory.md)  
  * [The Typing Simulation Macro](./type-sim.md)

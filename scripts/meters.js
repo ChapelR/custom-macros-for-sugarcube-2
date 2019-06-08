@@ -2,7 +2,7 @@
     'use sctrict';
 
     var options = {
-        tryGlobal : true // attempt to send `Bar` to the global scope?
+        tryGlobal : true // attempt to send `Meter` to the global scope?
     };
 
 
@@ -33,9 +33,9 @@
         return def || '';
     }
 
-    function Bar (opts, value) {
-        if (!(this instanceof Bar)) {
-            return new Bar(opts, value);
+    function Meter (opts, value) {
+        if (!(this instanceof Meter)) {
+            return new Meter(opts, value);
         }
         this.settings = Object.assign(defaultSettings, opts);
 
@@ -59,9 +59,9 @@
         value = Math.clamp(value, 0, 1);
         this.value = value;
 
-        // the backing of the bar, and the container
+        // the backing of the meter, and the container
         var $wrapper = $(document.createElement('div'))
-            .addClass('chapel-bar')
+            .addClass('chapel-meter')
             .attr({
                 'data-val' : value,
                 'data-label' : this.settings.label
@@ -74,7 +74,7 @@
             });
 
         var $label = $(document.createElement('div'))
-            .addClass('bar-label')
+            .addClass('meter-label')
             .css({
                 'font-size' : this.settings.height,
                 'font-weight' : 'bold',
@@ -90,7 +90,7 @@
 
         // this is just here to give the bar a smooth transitioning coloration
         var $barTop = $(document.createElement('div'))
-            .addClass('bar-top')
+            .addClass('meter-top')
             .css({
                 'background-color' : this.settings.full,
                 'opacity' : this.value,
@@ -101,7 +101,7 @@
 
         // this actually holds the value and the 'real' bar color
         var $barBottom = $(document.createElement('div'))
-            .addClass('bar-bottom')
+            .addClass('meter-bottom')
             .css({
                 'background-color' : this.settings.empty,
                 'opacity' : 1,
@@ -121,22 +121,22 @@
         $label.css('font-size', $wrapper.height());
     }
 
-    Bar.is = function (thing) { // see if passed "thing" is a bar
-        return thing instanceof Bar;
+    Meter.is = function (thing) { // see if passed "thing" is a meter instance
+        return thing instanceof Meter;
     };
 
-    Bar._emit = function (inst, name) { // undocumented
-        if (!Bar.is(inst)) {
+    Meter._emit = function (inst, name) { // undocumented
+        if (!Meter.is(inst)) {
             return;
         }
         inst.$element.trigger({
             type : ':' + name,
-            bar : inst
+            meter : inst
         });
     };
 
-    Object.assign(Bar.prototype, {
-        constructor : Bar,
+    Object.assign(Meter.prototype, {
+        constructor : Meter,
         _label : function () {
             this.$label.empty().wiki(this.settings.label);
             this.$label.css('font-size', this.$element.height());
@@ -147,7 +147,7 @@
             this.$bars.bottom.animate({
                 'width' : (this.value * 100) + '%'
             }, this.settings.animate, this.settings.easing, function () {
-                Bar._emit(self, 'bar-animation-complete');
+                Meter._emit(self, 'meter-animation-complete');
             });
             return this;
         },
@@ -158,7 +158,7 @@
             return this;
         },
         animate : function () { // animate bar changes
-            Bar._emit(this, 'bar-animation-start');
+            Meter._emit(this, 'meter-animation-start');
             return this._color()._width()._label();
         },
         val : function (n) { // set and get bar value
@@ -191,7 +191,7 @@
                 $target = $($target);
             }
             if (!$target[0]) {
-                console.warn('bar#place() -> no valid target');
+                console.warn('meter#place() -> no valid target');
             }
             if (options && typeof options === 'object') {
                 if (options.classes && (Array.isArray(options.classes) || typeof options.classes === 'string')) {
@@ -206,28 +206,28 @@
             return this;
         },
         clone : function () {
-            return new Bar(this.settings, this.value);
+            return new Meter(this.settings, this.value);
         },
         toJSON : function () {
-            return JSON.reviveWrapper('new setup.Bar(' + JSON.stringify(this.settings) + ', ' + this.value + ')');
+            return JSON.reviveWrapper('new setup.Meter(' + JSON.stringify(this.settings) + ', ' + this.value + ')');
         }
     });
 
     // setup-spaced API
-    setup.Bar = Bar;
+    setup.Meter = Meter;
 
     if (options.tryGlobal) {
-        window.Bar = window.Bar || Bar;
+        window.Meter = window.Meter || Meter;
     }
 
-    // <<newbar '$variable' [optional: starting value (between 0 and 1)]>>...<</newbar>>
-    // optional child tags: <<barcolors full [empty] [backing]>>, <<barsizing height [width]>>, <<baranimation timeOrBool [easing]>>, <<barlabel textColor [alignment]>>...text
-    Macro.add('newbar', {
-        tags : ['barcolors', 'barsizing', 'baranimation', 'barlabel'],
+    // <<newmeter '$variable' [optional: starting value (between 0 and 1)]>>...<</newmeter>>
+    // optional child tags: <<metercolors full [empty] [backing]>>, <<metersizing height [width]>>, <<meteranimation timeOrBool [easing]>>, <<meterlabel labelText [textColor] [alignment]>>
+    Macro.add('newmeter', {
+        tags : ['metercolors', 'metersizing', 'meteranimation', 'meterlabel'],
         handler : function () {
 
             if (this.args.length < 1) {
-                return this.error('The `<<bar>>` macro requires at least one argument: the variable name to store the bar in.');
+                return this.error('The `<<newmeter>>` macro requires at least one argument: the variable name to store the meter in.');
             }
 
             var varName = this.args[0], 
@@ -242,16 +242,16 @@
 
             if (this.payload.length) {
                 colorsTag = this.payload.find( function (pl) {
-                    return pl.name === 'barcolors';
+                    return pl.name === 'metercolors';
                 });
                 sizeTag = this.payload.find( function (pl) {
-                    return pl.name === 'barsizing';
+                    return pl.name === 'metersizing';
                 });
                 animTag = this.payload.find( function (pl) {
-                    return pl.name === 'baranimation';
+                    return pl.name === 'meteranimation';
                 });
                 labelTag = this.payload.find( function (pl) {
-                    return pl.name === 'barlabel';
+                    return pl.name === 'meterlabel';
                 });
             }
 
@@ -259,7 +259,7 @@
 
             if (colorsTag) {
                 if (!colorsTag.args.length) {
-                    return this.error('No arguments passed to the `<<barcolors>>` tag.');
+                    return this.error('No arguments passed to the `<<metercolors>>` tag.');
                 }
 
                 switch (colorsTag.args.length) {
@@ -280,7 +280,7 @@
 
             if (sizeTag) {
                 if (!sizeTag.args.length) {
-                    return this.error('No arguments passed to the `<<barcolors>>` tag.');
+                    return this.error('No arguments passed to the `<<metercolors>>` tag.');
                 }
 
                 options.width = sizeTag.args[0];
@@ -293,7 +293,7 @@
 
             if (animTag) {
                 if (!animTag.args.length) {
-                    return this.error('No arguments passed to the `<<baranimation>>` tag.');
+                    return this.error('No arguments passed to the `<<meteranimation>>` tag.');
                 }
 
                 if (typeof animTag.args[0] === 'boolean' && !animTag.args[0]) {
@@ -301,7 +301,7 @@
                 } else if (typeof animTag.args[0] === 'string') {
                     options.animate = Util.fromCssTime(animTag.args[0]);
                 } else {
-                    return this.error('The argument to the `<<baranimation>>` tag should be `true`, `false`, or a valid CSS time value.');
+                    return this.error('The argument to the `<<meteranimation>>` tag should be `true`, `false`, or a valid CSS time value.');
                 }
 
                 if (animTag.args[1] && ['swing', 'linear'].includes(animTag.args[1])) {
@@ -310,26 +310,28 @@
             }
 
             if (labelTag) {
-                var text = labelTag.contents.trim();
-                if (text) {
-                    options.label = text;
+                var text = labelTag.args[0];
+                if (text && typeof text === 'string') {
+                    options.label = text.trim();
+                } else {
+                   return this.error('The first argument to the `<<meterlabel>>` tag should is required.');
                 }
 
-                if (labelTag.args[0] && typeof labelTag.args[0] === 'string') {
-                    options.text = labelTag.args[0];
-                }
                 if (labelTag.args[1] && typeof labelTag.args[1] === 'string') {
-                    options.align = labelTag.args[1];
+                    options.text = labelTag.args[1];
+                }
+                if (labelTag.args[2] && typeof labelTag.args[2] === 'string') {
+                    options.align = labelTag.args[2];
                 }
             }
 
-            State.setVar(varName, new Bar(options, this.args[1]));
+            State.setVar(varName, new Meter(options, this.args[1]));
 
         }
     });
 
-    // <<showbar '$variable' [value]>>
-    Macro.add('showbar', {
+    // <<showmeter '$variable' [value]>>
+    Macro.add('showmeter', {
         handler : function () {
 
             if (this.args.length < 1) {
@@ -342,24 +344,24 @@
                 return this.error('Invalid variable name.');
             }
 
-            var bar = State.getVar(varName);
+            var meter = State.getVar(varName);
 
-            if (!Bar.is(bar)) {
-                return this.error('The variable "' + varName + '" does not contain a bar.');
+            if (!Meter.is(meter)) {
+                return this.error('The variable "' + varName + '" does not contain a meter.');
             }
 
-            bar.val(this.args[1]);
+            meter.val(this.args[1]);
 
-            bar.place(this.output, {
+            meter.place(this.output, {
                 classes : 'macro-' + this.name,
-                attr : { id : 'bar-' + Util.slugify(varName) }
+                attr : { id : 'meter-' + Util.slugify(varName) }
             });
 
         }
     });
 
     // <<updatebar '$variable' value>>
-    Macro.add('updatebar', {
+    Macro.add('updatemeter', {
         handler : function () {
 
             if (this.args.length < 2) {
@@ -372,13 +374,13 @@
                 return this.error('Invalid variable name.');
             }
 
-            var bar = State.getVar(varName);
+            var meter = State.getVar(varName);
 
-            if (!Bar.is(bar)) {
-                return this.error('The variable "' + varName + '" does not contain a bar.');
+            if (!Meter.is(meter)) {
+                return this.error('The variable "' + varName + '" does not contain a meter.');
             }
 
-            bar.val(this.args[1]); // if it's on the page, should update auto-magically, if not, just let it be.
+            meter.val(this.args[1]); // if it's on the page, should update auto-magically, if not, just let it be.
 
         }
     });
