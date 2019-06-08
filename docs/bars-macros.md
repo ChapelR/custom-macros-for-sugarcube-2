@@ -81,6 +81,24 @@ The `<<baranimation>>` child tag can be used to configure the timing and easing 
 
 ----
 
+#### Child tag: `<<barlabel>>`
+
+**Syntax**: 
+```
+<<newbar ...>>
+    <<barlabel textColor [alignment]>> ... label text ...
+<</newbar>>
+```
+
+The `<<barlabel>>` child tag can be used to configure label for your bar which can include TwineScript values, like `$health`. The label's text goes after the `<<barlabel>>` child tag and before the next child tag or the closing tag `<</newbar>>`.
+
+**Arguments**:
+
+- `textColor`: the color of the text label, which is displayed inside the bar. Accepts any valid CSS color value.  
+- `alignment`: (optional) can be any one of the keywords `center`, `right`, or `left`.
+
+----
+
 #### Examples for `<<newbar>>` and its child tags:
 
 ```
@@ -88,6 +106,7 @@ The `<<baranimation>>` child tag can be used to configure the timing and easing 
 <<newbar '$healthBar'>>
     <<baranimation 300ms>>
     <<barcolors 'yellow' 'red' 'black'>>
+    <<barlabel 'black' center>> $health
 <</newbar>>
 
 /* setting up an experience bar */
@@ -97,7 +116,7 @@ The `<<baranimation>>` child tag can be used to configure the timing and easing 
 <</newbar>>
 
 /* setting up a timer bar */
-<<newbar '$tenSeconds' 0>>
+<<newbar '_tenSeconds' 0>>
     <<baranimation 10s linear>>
 <</newbar>>
 ```
@@ -149,16 +168,23 @@ Changes the value of a bar; if the bar is on the page, it will be automatically 
 **Usage**:
 ```
 /* change the player's health */
-<<set $health to 10, $maxHealth to 100>>\
+<<set $health to 23, $maxHealth to 130>>\
+<<newbar '$healthBar'>><<barlabel>>$health<</newbar>>\
 <<showbar '$healthBar' `$health / $maxHealth`>>
 
 <<link 'take a potion'>>
-    <<set $health to Math.clamp($health + 35, 0, $maxHealth)>>
+    <<set $health to Math.clamp($health + random(20, 35), 0, $maxHealth)>>
+    <<updatebar '$healthBar' `$health / $maxHealth`>>
+<</link>>
+
+<<link 'take damage'>>
+    <<set $health to Math.clamp($health - random(10, 25), 0, $maxHealth)>>
     <<updatebar '$healthBar' `$health / $maxHealth`>>
 <</link>>
     
 
 /* gain some experience */
+<<newbar '$xpBar'>><</newbar>>
 <<show '$xpBar'>>
 
 You earned 100xp!
@@ -183,13 +209,16 @@ Underlying the macros is a constructor called `Bar()` which is exposed to user c
 The default settings you can overwrite with you options object looks like this:
 ```javascript
 {
-    full    : '#2ECC40', // color when the bar is full
-    empty   : '#FF4136', // color when the bar is empty
-    back    : '#DDDDDD', // color of the backing
-    height  : '10px',    // overall height of the bar
-    width   : '180px',   // overall width of the bar
+    full    : "#2ECC40", // color when the bar is full
+    empty   : "#FF4136", // color when the bar is empty
+    back    : "#DDDDDD", // color of the backing
+    height  : "10px",    // overall height of the bar
+    width   : "180px",   // overall width of the bar
     animate : 400,       // animation time in ms
-    easing  : 'swing'    // the animation easing
+    easing  : "swing",   // the animation easing
+    label   : "",        // the text (including TwineScript expressions) to display in the label
+    text    : "#111111", // the text color for the label
+    align   : "center"   // the text alignment for the label
 }
 ```
 
@@ -240,6 +269,9 @@ Bar.is(b); // true
 **Syntax**: `<bar>.animate()`
 
 Causes the bar to animate according to its settings after a new value has been set.
+
+> [!NOTE]
+> As part of the animation process, the bar's label text is reprocessed, meaning dynamic content, like variables, can be used in labels and will update with the bar.
 
 **Usage**:
 ```javascript

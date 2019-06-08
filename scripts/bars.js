@@ -10,17 +10,47 @@
         full : '#2ECC40', // color when the bar is full
         empty : '#FF4136', // color when the bar is empty
         back : '#DDDDDD', // color of the backing
-        height : '10px', // height of the bar
+        height : '12px', // height of the bar
         width : '180px', // width of the bar
         animate : 400, // ms
-        easing : 'swing'
+        easing : 'swing', // animation easing
+        text : '#111111', // label text color
+        label : '', // label text
+        align : 'center' // label alignment
     };
+
+    var validAlignments = ['center', 'left', 'right'];
+    var validEasing = ['swing', 'linear'];
+
+    function _handleString (str, def) {
+        if (str && typeof str === 'string') {
+            str = str.toLowerCase().trim();
+            if (str) {
+                return str;
+            }
+            return def || '';
+        }
+        return def || '';
+    }
 
     function Bar (opts, value) {
         if (!(this instanceof Bar)) {
             return new Bar(opts, value);
         }
         this.settings = Object.assign(defaultSettings, opts);
+
+        // default malformed values
+
+        this.settings.align = _handleString(this.settings.align);
+        this.settings.easing = _handleString(this.settings.easing);
+
+        if (!validAlignments.includes(this.settings.align)) {
+            this.settings.align = 'center';
+        }
+
+        if (!validEasing.includes(this.settings.easing)) {
+            this.settings.easing = 'swing';
+        }
 
         value = Number(value);
         if (Number.isNaN(value)) {
@@ -32,12 +62,31 @@
         // the backing of the bar, and the container
         var $wrapper = $(document.createElement('div'))
             .addClass('chapel-bar')
-            .attr('data-val', value)
+            .attr({
+                'data-val' : value,
+                'data-label' : this.settings.label
+            })
             .css({
                 'background-color' : this.settings.back,
                 'height' : this.settings.height,
-                'width' : this.settings.width
+                'width' : this.settings.width,
+                'overflow' : 'hidden'
             });
+
+        var $label = $(document.createElement('div'))
+            .addClass('bar-label')
+            .css({
+                'font-size' : this.settings.height,
+                'font-weight' : 'bold',
+                'line-height' : '100%',
+                'width' : this.settings.width,
+                'text-align' : this.settings.align,
+                'color' : this.settings.text,
+                'z-index' : 1,
+                'position' : 'relative',
+                'bottom' : '100%'
+            })
+            .wiki(this.settings.label);
 
         // this is just here to give the bar a smooth transitioning coloration
         var $barTop = $(document.createElement('div'))
@@ -46,7 +95,8 @@
                 'background-color' : this.settings.full,
                 'opacity' : this.value,
                 'width' : '100%',
-                'height' : '100%'
+                'height' : '100%',
+                'z-index' : 0
             });
 
         // this actually holds the value and the 'real' bar color
@@ -58,7 +108,7 @@
                 'width' : (this.value * 100) + '%',
                 'height' : '100%'
             })
-            .append($barTop)
+            .append($barTop, $label)
             .appendTo($wrapper);
 
         this.$element = $wrapper;
@@ -66,6 +116,9 @@
             top : $barTop,
             bottom : $barBottom
         };
+        this.$label = $label;
+
+        $label.css('font-size', $wrapper.height());
     }
 
     Bar.is = function (thing) { // see if passed "thing" is a bar
@@ -80,10 +133,15 @@
             type : ':' + name,
             bar : inst
         });
-    }
+    };
 
     Object.assign(Bar.prototype, {
         constructor : Bar,
+        _label : function () {
+            this.$label.empty().wiki(this.settings.label);
+            this.$label.css('font-size', this.$element.height());
+            return this;
+        },
         _width : function () { // undocumented
             var self = this;
             this.$bars.bottom.animate({
@@ -101,7 +159,7 @@
         },
         animate : function () { // animate bar changes
             Bar._emit(this, 'bar-animation-start');
-            return this._color()._width();
+            return this._color()._width()._label();
         },
         val : function (n) { // set and get bar value
             if (n !== undefined) {
@@ -144,6 +202,7 @@
                 }
             }
             $target.append($wrapper.append(this.$element));
+            this._label();
             return this;
         },
         clone : function () {
@@ -162,16 +221,20 @@
     }
 
     // <<newbar '$variable' [optional: starting value (between 0 and 1)]>>...<</newbar>>
-    // optional child tags: <<barcolors full [empty] [backing]>>, <<barsizing height [width]>>, <<baranimation timeOrBool [easing]>>
+    // optional child tags: <<barcolors full [empty] [backing]>>, <<barsizing height [width]>>, <<baranimation timeOrBool [easing]>>, <<barlabel textColor [alignment]>>...text
     Macro.add('newbar', {
-        tags : ['barcolors', 'barsizing', 'baranimation'],
+        tags : ['barcolors', 'barsizing', 'baranimation', 'barlabel'],
         handler : function () {
 
             if (this.args.length < 1) {
                 return this.error('The `<<bar>>` macro requires at least one argument: the variable name to store the bar in.');
             }
 
-            var varName = this.args[0], colorsTag = null, sizeTag = null, animTag = null;
+            var varName = this.args[0], 
+                colorsTag = null, 
+                sizeTag = null, 
+                animTag = null,
+                labelTag = null;
 
             if (varName[0] !== '$' && varName[0] !== '_') {
                 return this.error('Invalid variable name.');
@@ -186,6 +249,9 @@
                 });
                 animTag = this.payload.find( function (pl) {
                     return pl.name === 'baranimation';
+                });
+                labelTag = this.payload.find( function (pl) {
+                    return pl.name === 'barlabel';
                 });
             }
 
@@ -240,6 +306,20 @@
 
                 if (animTag.args[1] && ['swing', 'linear'].includes(animTag.args[1])) {
                     options.easing = animTag.args[1];
+                }
+            }
+
+            if (labelTag) {
+                var text = labelTag.contents.trim();
+                if (text) {
+                    options.label = text;
+                }
+
+                if (labelTag.args[0] && typeof labelTag.args[0] === 'string') {
+                    options.text = labelTag.args[0];
+                }
+                if (labelTag.args[1] && typeof labelTag.args[1] === 'string') {
+                    options.align = labelTag.args[1];
                 }
             }
 
