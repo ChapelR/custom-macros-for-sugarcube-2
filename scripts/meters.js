@@ -1,9 +1,12 @@
 (function () {
     'use sctrict';
+    // meters.js, by Chapel; for SugarCube 2
+    // v1.0.0
 
     var options = {
         tryGlobal : true, // attempt to send `Meter` to the global scope?
-        allowClobbering : false // allow a new meter to replace a previously defined meter with the same name instead of throwing
+        allowClobbering : false, // allow a new meter to replace a previously defined meter with the same name instead of throwing
+        IAmAGrownUp : false // make sure you have enough rope to hang yourself
     };
 
 
@@ -40,7 +43,7 @@
         }
         this.settings = Object.assign(defaultSettings, opts);
 
-        // default malformed values
+        // default malformed settings
 
         this.settings.align = _handleString(this.settings.align);
         this.settings.easing = _handleString(this.settings.easing);
@@ -52,6 +55,8 @@
         if (!_validEasing.includes(this.settings.easing)) {
             this.settings.easing = 'swing';
         }
+
+        // set the value, or default to 1
 
         value = Number(value);
         if (Number.isNaN(value)) {
@@ -74,6 +79,7 @@
                 'overflow' : 'hidden'
             });
 
+        // the meter's label
         var $label = $(document.createElement('div'))
             .addClass('meter-label')
             .css({
@@ -113,44 +119,45 @@
             .appendTo($wrapper);
 
         this.$element = $wrapper;
-        this.$bars = {
+        this.$bars = { // undocumented
             top : $barTop,
             bottom : $barBottom
         };
-        this.$label = $label;
+        this.$label = $label; // undocumented
 
+        // mostly a reminder
         $label.css('font-size', $wrapper.height());
     }
 
     Object.assign(Meter, {
-        list : new Map(),
+        _list : new Map(), // undocumented; meter data dump
         is : function (thing) { // see if passed "thing" is a meter instance
             return thing instanceof Meter;
         },
-        has : function (name) {
-            return Meter.list.has(name) && Meter.is(Meter.list.get(name));
+        has : function (name) { // does the named meter exist?
+            return Meter._list.has(name) && Meter.is(Meter._list.get(name));
         },
-        get : function (name) {
+        get : function (name) { // return the meter instance
             if (Meter.has(name)) {
-                return Meter.list.get(name);
+                return Meter._list.get(name);
             }
             return null;
-        }
-        del : function (name) {
+        },
+        del : function (name) { // delete the meter with the indicated name
             if (Meter.has(name)) {
-                Meter.list.delete(name);
+                Meter._list.delete(name);
             }
         },
-        add : function (name, opts, value) {
+        add : function (name, opts, value) { // add a new meter; the constructor should not be used
             if (Meter.has(name) && !options.allowClobbering) {
                 console.error('Meter "' + name + '" already exists.');
                 return;
             }
-            var meter = new Meter(opts, value)
+            var meter = new Meter(opts, value);
             Meter.set(name, meter);
             return meter;
         },
-        _emit : function (inst, name) { // undocumented
+        _emit : function (inst, name) { // undocumented; emit an event on the given meter
             if (!Meter.is(inst)) {
                 return;
             }
@@ -163,12 +170,12 @@
 
     Object.assign(Meter.prototype, {
         constructor : Meter,
-        _label : function () {
+        _label : function () { // undocumented; reprocess the meter label and set the font size
             this.$label.empty().wiki(this.settings.label);
             this.$label.css('font-size', this.$element.height());
             return this;
         },
-        _width : function () { // undocumented
+        _width : function () { // undocumented; change the meter width
             var self = this;
             this.$bars.bottom.animate({
                 'width' : (this.value * 100) + '%'
@@ -177,7 +184,7 @@
             });
             return this;
         },
-        _color : function () { // undocumented
+        _color : function () { // undocumented; blend the full and empty meter colors
             this.$bars.top.animate({
                 'opacity' : this.value
             }, this.settings.animate, this.settings.easing);
@@ -220,6 +227,7 @@
                 console.warn('meter#place() -> no valid target');
             }
             if (options && typeof options === 'object') {
+                // options can contain classes or attributes for the wrapper
                 if (options.classes && (Array.isArray(options.classes) || typeof options.classes === 'string')) {
                     $wrapper.addClass(options.classes);
                 }
@@ -228,9 +236,51 @@
                 }
             }
             $target.append($wrapper.append(this.$element));
+            // make sure to process the label
             this._label();
             return this;
         },
+        // event methods for meters
+        on : function (eventType, cb) {
+            if (typeof cb !== 'function') {
+                return this;
+            }
+            if (!eventType || typeof eventType !== 'string' || !eventType.trim()) {
+                return this;
+            }
+            eventType = eventType.split(' ').map( function (type) {
+                type = type.split('.')[0];
+                return type + '.userland';
+            }).join(' ');
+            this.$element.on(eventType, cb.call(null, ev));
+            return this;
+        },
+        one : function (eventType, cb) {
+            if (typeof cb !== 'function') {
+                return this;
+            }
+            if (!eventType || typeof eventType !== 'string' || !eventType.trim()) {
+                return this;
+            }
+            eventType = eventType.split(' ').map( function (type) {
+                type = type.split('.')[0];
+                return type + '.userland';
+            }).join(' ');
+            this.$element.one(eventType + '.userland', cb.call(null, ev));
+            return this;
+        },
+        off : function (eventType) {
+            if (eventType && typeof eventType === 'string' && eventType.trim()) {
+                eventType = eventType.split(' ').map( function (type) {
+                    type = type.split('.')[0];
+                    return type + '.userland';
+                }).join(' ');
+            } else {
+                eventType = '.userland';
+            }
+            this.$element.off(eventType);
+        },
+        // for completeness and in case a meter winds up in the state
         clone : function () {
             return new Meter(this.settings, this.value);
         },
@@ -242,7 +292,7 @@
     // setup-spaced API
     setup.Meter = Meter;
 
-    if (options.tryGlobal) {
+    if (options.tryGlobal) { // global API, if undefined
         window.Meter = window.Meter || Meter;
     }
 
@@ -251,6 +301,11 @@
     Macro.add('newmeter', {
         tags : ['metercolors', 'metersizing', 'meteranimation', 'meterlabel'],
         handler : function () {
+
+            if (passage() !== 'StoryInit' && !options.IAmAGrownUp) {
+                // you are not a grown up
+                return this.error('The `<<newmeter>>` macro must be called in your `StoryInit` special passage. Seriously. No excuses. --Love, Chapel');
+            }
 
             if (this.args.length < 1) {
                 return this.error('The `<<newmeter>>` macro requires at least one argument: the variable name to store the meter in.');
@@ -273,6 +328,7 @@
             }
 
             if (this.payload.length) {
+                // get each child tag for processing
                 colorsTag = this.payload.find( function (pl) {
                     return pl.name === 'metercolors';
                 });
@@ -290,6 +346,7 @@
             var options = {};
 
             if (colorsTag) {
+                // process the colors tag
                 if (!colorsTag.args.length) {
                     return this.error('No arguments passed to the `<<metercolors>>` tag.');
                 }
@@ -297,7 +354,7 @@
                 switch (colorsTag.args.length) {
                     case 1:
                         options.empty = colorsTag.args[0];
-                        options.ful = 'transparent';
+                        options.full = 'transparent'; // make the meter one solid color
                         break;
                     case 2:
                         options.full = colorsTag.args[0];
@@ -311,6 +368,7 @@
             }
 
             if (sizeTag) {
+                // process the sizin tag
                 if (!sizeTag.args.length) {
                     return this.error('No arguments passed to the `<<metercolors>>` tag.');
                 }
@@ -324,6 +382,7 @@
             }
 
             if (animTag) {
+                // process the animations tag
                 if (!animTag.args.length) {
                     return this.error('No arguments passed to the `<<meteranimation>>` tag.');
                 }
@@ -342,11 +401,12 @@
             }
 
             if (labelTag) {
+                // process the label tag
                 var text = labelTag.args[0];
                 if (text && typeof text === 'string') {
                     options.label = text.trim();
                 } else {
-                   return this.error('The first argument to the `<<meterlabel>>` tag should is required.');
+                   return this.error('The labelText argument for the `<<meterlabel>>` tag is required.');
                 }
 
                 if (labelTag.args[1] && typeof labelTag.args[1] === 'string') {
@@ -367,9 +427,10 @@
         handler : function () {
 
             if (this.args.length < 1) {
-                return this.error('This macro requires at least one argument: the variable name.');
+                return this.error('This macro requires at least one argument: the meter\'s name.');
             }
 
+            // get the meter
             var meterName = this.args[0];
 
             if (typeof meterName !== 'string') {
@@ -384,8 +445,12 @@
                 return this.error('The meter "' + meterName + '" does not exist.');
             }
 
-            meter.val(this.args[1]);
+            // set the meter, if necessary
+            if (typeof this.args[1] === 'number') {
+                meter.val(this.args[1]);
+            }
 
+            // render the meter
             meter.place(this.output, {
                 classes : 'macro-' + this.name,
                 attr : { id : 'meter-' + Util.slugify(varName) }
@@ -399,9 +464,10 @@
         handler : function () {
 
             if (this.args.length < 2) {
-                return this.error('This macro requires two arguments: the variable name and a value.');
+                return this.error('This macro requires two arguments: the meter\'s name and a value.');
             }
 
+            // get the meter
             var meterName = this.args[0];
 
             if (typeof meterName !== 'string') {
@@ -416,7 +482,8 @@
                 return this.error('The meter "' + meterName + '" does not exist.');
             }
 
-            meter.val(this.args[1]); // if it's on the page, should update auto-magically.
+            // set it
+            meter.val(this.args[1]); // if it's on the page, should update and animate auto-magically.
 
         }
     });

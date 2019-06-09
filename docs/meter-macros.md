@@ -19,10 +19,10 @@ A set of macros and JavaScript APIs for creating and working with dynamic, anima
 
 The `<<newmeter>>` macro can be used to create a new meter instance. You must provide a name for the meter, in quotes, and can optionally pass a starting value (between `0` and `1`, inclusive) for the meter. You can configure a number of other meter options using the optional child tags `<<metercolors>>`, `<<metersizing>>`, and `<<meteranimation>>`. You do not have to include any of the child tags.
 
-Each `<<newmeter>>` macro call creates a defined set of attributes that the meter will use, and allows the meter system to reference and alter the meter's value and animate them. **Each meter profile should be unique on the page**; if you create a health bar meter profile for both enemy health and player health, for example, you will need to different meter profiles to show them on the same passage / page.
+Each `<<newmeter>>` macro call defines a set of attributes that the meter will use, and allows the meter system to reference and alter the meter's value and animate it. **Each meter profile should be unique on the page**; if you want to create a health bar meter for both enemy health and player health and the configurations are largely the same, for example, you will still need to create two different meters via the `<<newmeter>>` macro to show them on the same passage / page.
 
 > [!DANGER]
-> You should define your meters before using them in your `StoryInit` special passage. Meters are not stateful, thus you *must* to define them here (or in your Story JavaScript via the API) or they won't work.
+> You should define your meters before using them, and you should **always** do so in your `StoryInit` special passage. Meters are **not** stateful, thus you *must* to define them here (or in your Story JavaScript via the API) or they won't work across browser refreshes and saved games.
 
 > [!WARNING]
 > Any other code or text in the `<<newmeter>>` macro, other than its child tags, will have no effect, and will simply be discarded.
