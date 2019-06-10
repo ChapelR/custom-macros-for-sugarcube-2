@@ -17,12 +17,12 @@ A set of macros and JavaScript APIs for creating and working with dynamic, anima
 <</newmeter>>
 ```
 
-The `<<newmeter>>` macro can be used to create a new meter instance. You must provide a name for the meter, in quotes, and can optionally pass a starting value (between `0` and `1`, inclusive) for the meter. You can configure a number of other meter options using the optional child tags `<<metercolors>>`, `<<metersizing>>`, and `<<meteranimation>>`. You do not have to include any of the child tags.
+The `<<newmeter>>` macro can be used to create a new meter instance. You must provide a name for the meter, in quotes, and can optionally pass a starting value (between `0` and `1`, inclusive) for the meter. You can configure a number of other meter options using the optional child tags `<<metercolors>>`, `<<metersizing>>`, `<<meteranimation>>`, and `<<meterlabel>>`. You do not have to include any of the child tags.
 
 Each `<<newmeter>>` macro call defines a set of attributes that the meter will use, and allows the meter system to reference and alter the meter's value and animate it. **Each meter profile should be unique on the page**; if you want to create a health bar meter for both enemy health and player health and the configurations are largely the same, for example, you will still need to create two different meters via the `<<newmeter>>` macro to show them on the same passage / page.
 
 > [!DANGER]
-> You should define your meters before using them, and you should **always** do so in your `StoryInit` special passage. Meters are **not** stateful, thus you *must* to define them here (or in your Story JavaScript via the API) or they won't work across browser refreshes and saved games.
+> You should define your meters before using them, and you should **always** do so in your `StoryInit` special passage. Meters are **not** stateful, thus you *must* to define them here (or in your Story JavaScript via the API) or they won't work across browser refreshes and saved games. In fact, failing to use the `<<newmeter>>` macro before the story begins will raise an error.
 
 > [!WARNING]
 > Any other code or text in the `<<newmeter>>` macro, other than its child tags, will have no effect, and will simply be discarded.
@@ -92,7 +92,7 @@ The `<<meteranimation>>` child tag can be used to configure the timing and easin
 <</newmeter>>
 ```
 
-The `<<meterlabel>>` child tag can be used to configure label for your meter which can include TwineScript values, like `$health`.
+The `<<meterlabel>>` child tag can be used to configure label for your meter which can include TwineScript values, like `$health`. The label is always centered vertically, but you may align it horizontally. The label's font size is determined by the size of the meter. If the meter is too small, the label's font will be scaled down to fit, otherwise it will default to the font size of its most immediate parent. If you want to change the font size of the meter, wrap it in another element with the desired `font-size` style.
 
 > [!TIP]
 > Any time a meter is animated, the string content of the `labelText` is reprocessed, meaning variables and the like will be dynamically updated.
@@ -118,7 +118,7 @@ The `<<meterlabel>>` child tag can be used to configure label for your meter whi
 /* setting up an experience bar */
 <<newmeter 'xpBar' 0>>
     <<meteranimation false>>
-    <<metersize '100%'>>
+    <<metersizing '100%'>>
 <</newmeter>>
 
 /* setting up a timer meter */
@@ -310,9 +310,9 @@ var blah = Meter.get('blah');
 
 #### Method: `Meter.del()`
 
-**Returns**: Boolean.
+**Returns**: Nothing.
 
-**Syntax**: `Meter.has(name)`
+**Syntax**: `Meter.del(name)`
 
 If a meter with the given name exists, it is deleted.
 
@@ -419,11 +419,87 @@ Places the meter on the page in the `target` element.
 Meter.get('blah').place('#some-element');
 ```
 
+#### Method: `meter#on()`
+
+**Returns**: This instance (chainable).
+
+**Syntax**: `<meter>.on(event, cb)`
+
+Sets up a recurring event handler on the indicated event. Similar to jQuery's `.on()` method, but doesn't accept namespaces (namespaces passed in will be stripped from their event types). If you need mroe access and know what you're doing, use `meter.$element.on()` instead.
+
+**Arguments**:
+
+- `event`: an event type, like `click`, or one of the custom meter events (see below).  
+- `callback`: a callback function to handle the event, passed an `event` object as the first argument.
+
+**Usage**:
+```javascript
+Meter.get('blah').on('click', function (event) {
+    var meter = Meter.get('blah');
+    meter.val(meter.value + 0.1);
+});
+```
+
+#### Method: `meter#one()`
+
+**Returns**: This instance (chainable).
+
+**Syntax**: `<meter>.one(event, cb)`
+
+Sets up a one-time event handler on the indicated event. Similar to jQuery's `.one()` method, but doesn't accept namespaces (namespaces passed in will be stripped from their event types). If you need mroe access and know what you're doing, use `meter.$element.one()` instead.
+
+**Arguments**:
+
+- `event`: an event type, like `click`, or one of the custom meter events (see below).  
+- `callback`: a callback function to handle the event, passed an `event` object as the first argument.
+
+**Usage**:
+```javascript
+Meter.get('blah').one('click', function (event) {
+    alert('This is the blah meter.');
+});
+```
+
+#### Method: `meter#off()`
+
+**Returns**: This instance (chainable).
+
+**Syntax**: `<meter>.off(event)`
+
+Removes user event handlers that are bound to the meter. Only event handlers set up via `meter#on()` and `meter#one()` are affected. If you need mroe access and know what you're doing, use `meter.$element.off()` instead.
+
+**Arguments**:
+
+- `event`: an event type, like `click`, or one of the custom meter events (see below).
+
+**Usage**:
+```javascript
+Meter.get('blah').off('click'); // removes click events from the meter
+```
+
+#### Method: `meter#clone()`
+
+**Returns**: A deep copy of this meter instance.
+
+**Syntax**: `<meter>.clone() or clone(<meter>)`
+
+This method creates deep copies/clones of the meter as a new meter instance. This may not work how you expect, since the new copy is *not* accessible via the `Meter.get()` and related methods; those will still point to the old meter. This is only included so that meters may be used in story variables for authors with unusual needs, and is only documented to make you aware of that fact.
+
+#### Method: `meter#toJSON()`
+
+**Returns**: A serilaized version of the meter (for SugarCube saves).
+
+**Syntax**: `<meter>.toJSON() or JSON.stringify(<meter>)`
+
+This method creates a JSON-serializable string of a meter instance, for use this SugarCube's serialization systems. This is only included so that meters may be used in story variables for authors with unusual needs, and is only documented to make you aware of that fact.
+
 ### Instance Properties
 
 Instances of `Meter` have the following properties:
 
-- `$element`: the jQuery object representing the entire meter element.
+- `$element`: the jQuery object representing the entire meter element.  
+- `$label`: the jQuery object representing the meter's label element.  
+- `settings`: the meter's configuration settings object (see [`Meter.add()` above](#method-meter-add))
 - `value`: the current value of the meter, which is a number between `0` and `1` (inclusive).
 
 ### Events
@@ -439,7 +515,7 @@ The meter's animations trigger two events you can plug into, should you need to.
 ```javascript
 Meter.add('healthBar');
 
-Meter.get('healthBar').$element.on(':meter-animation-start', function () {
+Meter.get('healthBar').on(':meter-animation-start', function () {
     alert('Your health has changed.');
 });
 ```
@@ -465,10 +541,10 @@ You can alter whether the system attempts to make the `Meter` constuctor global 
 
 The HTML structure of the generated meter looks like this:  
 ```html
-<div class='chapel-meter' data-val='value*' data-label='label*'> <!-- the wrapper element -->
-    <div class='meter-bottom'> <!-- holds the 'empty' meter -->
-        <div class='meter-top'></div> <!-- holds the 'full' meter -->
-        <div class='meter-label'>label*</div> <!-- holds the label -->
+<div class='chapel-meter' data-val='value*' data-label='label*'>
+    <div class='meter-label'>label*</div>
+    <div class='meter-bottom'>
+        <div class='meter-top'></div>
     </div>
 </div>
 ```

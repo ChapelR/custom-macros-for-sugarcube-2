@@ -1,5 +1,5 @@
 (function () {
-    'use sctrict';
+    'use strict';
     // meters.js, by Chapel; for SugarCube 2
     // v1.0.0
 
@@ -41,7 +41,10 @@
         if (!(this instanceof Meter)) {
             return new Meter(opts, value);
         }
-        this.settings = Object.assign(defaultSettings, opts);
+
+        var defs = clone(defaultSettings);
+
+        this.settings = Object.assign(defs, opts);
 
         // default malformed settings
 
@@ -73,6 +76,7 @@
                 'data-label' : this.settings.label
             })
             .css({
+                'position' : 'relative',
                 'background-color' : this.settings.back,
                 'height' : this.settings.height,
                 'width' : this.settings.width,
@@ -83,17 +87,23 @@
         var $label = $(document.createElement('div'))
             .addClass('meter-label')
             .css({
+                'position' : 'absolute',
+                'top' : 0,
+                'right' : 0,
                 'font-size' : this.settings.height,
                 'font-weight' : 'bold',
                 'line-height' : '100%',
-                'width' : this.settings.width,
+                'width' : '100%',
+                'height' : '100%',
+                'vertical-align' : 'middle',
                 'text-align' : this.settings.align,
                 'color' : this.settings.text,
                 'z-index' : 1,
                 'position' : 'relative',
                 'bottom' : '100%'
             })
-            .wiki(this.settings.label);
+            .wiki(this.settings.label)
+            .appendTo($wrapper);
 
         // this is just here to give the bar a smooth transitioning coloration
         var $barTop = $(document.createElement('div'))
@@ -110,12 +120,16 @@
         var $barBottom = $(document.createElement('div'))
             .addClass('meter-bottom')
             .css({
+                'position' : 'absolute',
+                'top' : 0,
+                'left' : 0,
                 'background-color' : this.settings.empty,
                 'opacity' : 1,
                 'width' : (this.value * 100) + '%',
-                'height' : '100%'
+                'height' : '100%',
+                'z-index' : 0
             })
-            .append($barTop, $label)
+            .append($barTop)
             .appendTo($wrapper);
 
         this.$element = $wrapper;
@@ -126,7 +140,9 @@
         this.$label = $label; // undocumented
 
         // mostly a reminder
-        $label.css('font-size', $wrapper.height());
+        $label.css('font-size', (parseInt($wrapper.css('height'), 10) < parseInt($('.passage').css('font-size'), 10)) ? 
+            $wrapper.css('height') : $('.passage').css('font-size'));
+        $label.css('line-height', $wrapper.css('height'));
     }
 
     Object.assign(Meter, {
@@ -154,7 +170,7 @@
                 return;
             }
             var meter = new Meter(opts, value);
-            Meter.set(name, meter);
+            Meter._list.set(name, meter);
             return meter;
         },
         _emit : function (inst, name) { // undocumented; emit an event on the given meter
@@ -170,9 +186,20 @@
 
     Object.assign(Meter.prototype, {
         constructor : Meter,
-        _label : function () { // undocumented; reprocess the meter label and set the font size
-            this.$label.empty().wiki(this.settings.label);
-            this.$label.css('font-size', this.$element.height());
+        _label : function (wait) { // undocumented; reprocess the meter label and set the sizes
+            // THE LABEL IS AN ACTUAL NIGHTMARE
+            var self = this;
+            function process () {
+                self.$label.empty().wiki(self.settings.label);
+                self.$label.css('font-size', (parseInt(self.$element.css('height'), 10) < parseInt(self.$element.parent().css('font-size'), 10)) ? 
+                    self.$element.css('height') : self.$element.parent().css('font-size'));
+                self.$label.css('line-height', self.$element.css('height'));
+            }
+            if (wait) {
+                setTimeout(process, Engine.minDomActionDelay);
+            } else {
+                process();
+            }
             return this;
         },
         _width : function () { // undocumented; change the meter width
@@ -237,7 +264,7 @@
             }
             $target.append($wrapper.append(this.$element));
             // make sure to process the label
-            this._label();
+            this._label(true);
             return this;
         },
         // event methods for meters
@@ -279,6 +306,7 @@
                 eventType = '.userland';
             }
             this.$element.off(eventType);
+            return this;
         },
         // for completeness and in case a meter winds up in the state
         clone : function () {
@@ -302,7 +330,7 @@
         tags : ['metercolors', 'metersizing', 'meteranimation', 'meterlabel'],
         handler : function () {
 
-            if (passage() !== 'StoryInit' && !options.IAmAGrownUp) {
+            if (State.length > 0 && !options.IAmAGrownUp) {
                 // you are not a grown up
                 return this.error('The `<<newmeter>>` macro must be called in your `StoryInit` special passage. Seriously. No excuses. --Love, Chapel');
             }
@@ -343,7 +371,7 @@
                 });
             }
 
-            var options = {};
+            var opts = {};
 
             if (colorsTag) {
                 // process the colors tag
@@ -353,17 +381,17 @@
 
                 switch (colorsTag.args.length) {
                     case 1:
-                        options.empty = colorsTag.args[0];
-                        options.full = 'transparent'; // make the meter one solid color
+                        opts.empty = colorsTag.args[0];
+                        opts.full = 'transparent'; // make the meter one solid color
                         break;
                     case 2:
-                        options.full = colorsTag.args[0];
-                        options.empty = colorsTag.args[1];
+                        opts.full = colorsTag.args[0];
+                        opts.empty = colorsTag.args[1];
                         break;
                     default:
-                        options.full = colorsTag.args[0];
-                        options.empty = colorsTag.args[1];
-                        options.back = colorsTag.args[3];
+                        opts.full = colorsTag.args[0];
+                        opts.empty = colorsTag.args[1];
+                        opts.back = colorsTag.args[2];
                 }
             }
 
@@ -373,10 +401,10 @@
                     return this.error('No arguments passed to the `<<metercolors>>` tag.');
                 }
 
-                options.width = sizeTag.args[0];
+                opts.width = sizeTag.args[0];
 
                 if (sizeTag.args[1]) {
-                    options.height = sizeTag.args[1];
+                    opts.height = sizeTag.args[1];
                 }
 
             }
@@ -388,15 +416,15 @@
                 }
 
                 if (typeof animTag.args[0] === 'boolean' && !animTag.args[0]) {
-                    options.animate = 0; // functionally no animation--we still want the event, though, so we'll just 0 it out
+                    opts.animate = 0; // functionally no animation--we still want the event, though, so we'll just 0 it out
                 } else if (typeof animTag.args[0] === 'string') {
-                    options.animate = Util.fromCssTime(animTag.args[0]);
+                    opts.animate = Util.fromCssTime(animTag.args[0]);
                 } else {
                     return this.error('The argument to the `<<meteranimation>>` tag should be `true`, `false`, or a valid CSS time value.');
                 }
 
                 if (animTag.args[1] && ['swing', 'linear'].includes(animTag.args[1])) {
-                    options.easing = animTag.args[1];
+                    opts.easing = animTag.args[1];
                 }
             }
 
@@ -404,20 +432,20 @@
                 // process the label tag
                 var text = labelTag.args[0];
                 if (text && typeof text === 'string') {
-                    options.label = text.trim();
+                    opts.label = text.trim();
                 } else {
                    return this.error('The labelText argument for the `<<meterlabel>>` tag is required.');
                 }
 
                 if (labelTag.args[1] && typeof labelTag.args[1] === 'string') {
-                    options.text = labelTag.args[1];
+                    opts.text = labelTag.args[1];
                 }
                 if (labelTag.args[2] && typeof labelTag.args[2] === 'string') {
-                    options.align = labelTag.args[2];
+                    opts.align = labelTag.args[2];
                 }
             }
 
-            Meter.add(meterName, options, this.args[1]);
+            Meter.add(meterName, opts, this.args[1]);
 
         }
     });
@@ -453,7 +481,7 @@
             // render the meter
             meter.place(this.output, {
                 classes : 'macro-' + this.name,
-                attr : { id : 'meter-' + Util.slugify(varName) }
+                attr : { id : 'meter-' + Util.slugify(meterName) }
             });
 
         }
