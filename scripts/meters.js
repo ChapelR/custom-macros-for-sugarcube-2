@@ -234,7 +234,7 @@
             }
             return this.value;
         },
-        settings : function (opts) {
+        options : function (opts) {
             // set or get bar settings
             if (opts && typeof opts === 'object') {
                 Object.assign(this.settings, opts);
@@ -279,7 +279,7 @@
                 type = type.split('.')[0];
                 return type + '.userland';
             }).join(' ');
-            this.$element.on(eventType, cb.call(null, ev));
+            this.$element.on(eventType, cb);
             return this;
         },
         one : function (eventType, cb) {
@@ -293,7 +293,7 @@
                 type = type.split('.')[0];
                 return type + '.userland';
             }).join(' ');
-            this.$element.one(eventType + '.userland', cb.call(null, ev));
+            this.$element.one(eventType, cb);
             return this;
         },
         off : function (eventType) {
@@ -303,9 +303,15 @@
                     return type + '.userland';
                 }).join(' ');
             } else {
-                eventType = '.userland';
+                eventType = '.userland'; // remove all user events
             }
             this.$element.off(eventType);
+            return this;
+        },
+        // ariaClick-style setup
+        click : function (options, cb) {
+            // let SugarCube handle the errors
+            this.$element.ariaClick(options, cb);
             return this;
         },
         // for completeness and in case a meter winds up in the state
@@ -327,7 +333,7 @@
     // <<newmeter '$variable' [optional: starting value (between 0 and 1)]>>...<</newmeter>>
     // optional child tags: <<metercolors full [empty] [backing]>>, <<metersizing height [width]>>, <<meteranimation timeOrBool [easing]>>, <<meterlabel labelText [textColor] [alignment]>>
     Macro.add('newmeter', {
-        tags : ['metercolors', 'metersizing', 'meteranimation', 'meterlabel'],
+        tags : ['colors', 'sizing', 'animation', 'label'],
         handler : function () {
 
             if (State.length > 0 && !options.IAmAGrownUp) {
@@ -358,16 +364,16 @@
             if (this.payload.length) {
                 // get each child tag for processing
                 colorsTag = this.payload.find( function (pl) {
-                    return pl.name === 'metercolors';
+                    return pl.name === 'colors';
                 });
                 sizeTag = this.payload.find( function (pl) {
-                    return pl.name === 'metersizing';
+                    return pl.name === 'sizing';
                 });
                 animTag = this.payload.find( function (pl) {
-                    return pl.name === 'meteranimation';
+                    return pl.name === 'animation';
                 });
                 labelTag = this.payload.find( function (pl) {
-                    return pl.name === 'meterlabel';
+                    return pl.name === 'label';
                 });
             }
 
@@ -376,7 +382,7 @@
             if (colorsTag) {
                 // process the colors tag
                 if (!colorsTag.args.length) {
-                    return this.error('No arguments passed to the `<<metercolors>>` tag.');
+                    return this.error('No arguments passed to the `<<colors>>` tag.');
                 }
 
                 switch (colorsTag.args.length) {
@@ -398,7 +404,7 @@
             if (sizeTag) {
                 // process the sizin tag
                 if (!sizeTag.args.length) {
-                    return this.error('No arguments passed to the `<<metercolors>>` tag.');
+                    return this.error('No arguments passed to the `<<sizing>>` tag.');
                 }
 
                 opts.width = sizeTag.args[0];
@@ -412,7 +418,7 @@
             if (animTag) {
                 // process the animations tag
                 if (!animTag.args.length) {
-                    return this.error('No arguments passed to the `<<meteranimation>>` tag.');
+                    return this.error('No arguments passed to the `<<animation>>` tag.');
                 }
 
                 if (typeof animTag.args[0] === 'boolean' && !animTag.args[0]) {
@@ -420,7 +426,7 @@
                 } else if (typeof animTag.args[0] === 'string') {
                     opts.animate = Util.fromCssTime(animTag.args[0]);
                 } else {
-                    return this.error('The argument to the `<<meteranimation>>` tag should be `true`, `false`, or a valid CSS time value.');
+                    return this.error('The argument to the `<<animation>>` tag should be `true`, `false`, or a valid CSS time value.');
                 }
 
                 if (animTag.args[1] && ['swing', 'linear'].includes(animTag.args[1])) {
@@ -434,7 +440,7 @@
                 if (text && typeof text === 'string') {
                     opts.label = text.trim();
                 } else {
-                   return this.error('The labelText argument for the `<<meterlabel>>` tag is required.');
+                   return this.error('The labelText argument for the `<<label>>` tag is required.');
                 }
 
                 if (labelTag.args[1] && typeof labelTag.args[1] === 'string') {
