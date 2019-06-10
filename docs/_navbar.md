@@ -1,2 +1,2 @@
-* [Changelog](./changelog)
+<!--* [Changelog](./changelog)-->
 * [DEMO](./demo ':ignore')
