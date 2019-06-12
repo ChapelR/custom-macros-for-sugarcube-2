@@ -342,7 +342,7 @@
             }
 
             if (this.args.length < 1) {
-                return this.error('The `<<newmeter>>` macro requires at least one argument: the variable name to store the meter in.');
+                return this.error('The `<<newmeter>>` macro requires at least one argument: a meter name.');
             }
 
             var meterName = this.args[0], 
