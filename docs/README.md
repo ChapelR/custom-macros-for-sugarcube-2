@@ -6,10 +6,10 @@
  * [The Dialog API Macro Set](./dialog-api-macro-set.md)  
  * [The UI Macro](./ui-macro.md)  
  * [The Done Macro](./done-macro.md)
- * [The Mouseover Macro](./mouseover-macro.md) <!--(deprecated)-->  
+ * [The Mouseover Macro](./mouseover-macro.md)
  * [The Event Macros](./event-macros.md)  
  * [The Fading Macro Set](./fading-macros.md)  
- <!--* [The CSS Macro](./css-macro.md) (new!)-->  
+ * [The CSS Macro](./css-macro.md) (new!) 
  * [The Swap Macro Set](./swap-macro-set.md)  
  * [The File System Macro Set](./file-system-macros.md)  
  * [The First Macro](./first-macro.md)  
@@ -17,11 +17,12 @@
  * [The Message Macro](./message-macro.md)  
  * [The Notify Macro](./notify-macro.md)  
  * [Dice Roller and Fairmath Functions](./operations-api.md)  
- <!--* [The Meter Macro Set](./meter-macros.md) (new!)-->  
+ * [The Meter Macro Set](./meter-macros.md) (new!)  
  * [The Playtime System](./playtime-system.md)  
+ * [The Cycles System](./cycles-system.md) (new!)  
  * [The Simple Inventory System](./simple-inventory.md)  
  * [The Typing Simulation Macro](./type-sim.md)
- <!--* [The Pronoun Templates](./pronoun-templates.md) (new!)-->
+ * [The Pronoun Templates](./pronoun-templates.md) (new!)
 
 ### Installation Guide
 
