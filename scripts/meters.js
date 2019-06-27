@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     // meters.js, by Chapel; for SugarCube 2
-    // v1.0.0
+    // v1.0.1
 
     var options = {
         tryGlobal : true, // attempt to send `Meter` to the global scope?
@@ -35,6 +35,11 @@
             return def || '';
         }
         return def || '';
+    }
+
+    function _colorEasing (t) {
+        // from: https://gist.github.com/gre/1650294
+        return (t < 0.5) ? 2 * t * t : -1 + (4 - 2 * t) *t;
     }
 
     function Meter (opts, value) {
@@ -87,7 +92,6 @@
         var $label = $(document.createElement('div'))
             .addClass('meter-label')
             .css({
-                'position' : 'absolute',
                 'top' : 0,
                 'right' : 0,
                 'font-size' : this.settings.height,
@@ -110,7 +114,7 @@
             .addClass('meter-top')
             .css({
                 'background-color' : this.settings.full,
-                'opacity' : this.value,
+                'opacity' : _colorEasing(this.value),
                 'width' : '100%',
                 'height' : '100%',
                 'z-index' : 0
@@ -213,7 +217,7 @@
         },
         _color : function () { // undocumented; blend the full and empty meter colors
             this.$bars.top.animate({
-                'opacity' : this.value
+                'opacity' : _colorEasing(this.value)
             }, this.settings.animate, this.settings.easing);
             return this;
         },
