@@ -20,11 +20,13 @@
     - Refactored code base.  
     - Dice functions now respect PRNG settings.  
     - Internal improvements.  
+    - Added support for Fate/Fudge dice.  
 - **[Update]** The Fullscreen Macros now toggle the fullscreen state and now include a little bit of a JavaScript API on the `setup` object.  
 - **[Update]** Small fixes and internal improvements to several other macros.  
 - **[New]** Added the CSS Macro.  
 - **[New]** Added the Pronoun Templates system.  
 - **[New]** Added the Meter Macro Set.  
+- **[New]** Added the Cycles System (v2).  
 - **[Demo]** Updated demo.  
     - Added examples for new macros.  
     - Cleanup and fixed typos.  

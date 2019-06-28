@@ -93,8 +93,6 @@
 
         this.active = (def.active === undefined) ? true : !!def.active;
 
-        this.revive = clone(def);
-
         stack = Number(stack);
         if (Number.isNaN(stack) || stack < 0) {
             stack = 0;
@@ -156,12 +154,18 @@
 
     Object.assign(Cycle.prototype, {
         constructor : Cycle,
+        revive : function () {
+            var ownData = {};
+            Object.keys(this).forEach(function (pn) {
+                ownData[pn] = clone(this[pn]);
+            }, this);
+            return ownData;
+        },
         clone : function () { // for SC
-            return new Cycle(this.revive, this.stack);
+            return new Cycle(this.revive(), this.stack);
         },
         toJSON : function () { // for SC
-            var self = this;
-            return JSON.reviveWrapper('new setup.Cycle($reviveData$, ' + self.stack + ')', self.revive);
+            return JSON.reviveWrapper('new setup.Cycle(' + JSON.stringify(this.revive()) + ', ' + this.stack + ')');
         },
         current : function () {
             // returns the current phase based on the stack
@@ -185,6 +189,9 @@
             }
             var cache = this.current();
             this.stack += by;
+            if (this.stack < 0) {
+                this.stack = 0;
+            }
             if (!Number.isInteger(this.stack)) {
                 this.stack = Math.trunc(this.stack);
             }
@@ -354,9 +361,9 @@
 
             // change increment or period
             if (this.args.includes('increment')) {
-                var value = this.args.indexOf('increment') + 1;
+                var value = this.args[this.args.indexOf('increment') + 1];
                 if (typeof value === 'number') {
-                    cycle.editincrement(value);
+                    cycle.editIncrement(value);
                 }
             }
 
@@ -367,8 +374,9 @@
 
             // increase / decrease cycle
             if (this.args.includes('change')) {
-                var add = this.args.indexOf('increase') + 1;
-                if (typeof add === 'number') {
+                var add = this.args[this.args.indexOf('change') + 1];
+                add = Number(add);
+                if (!Number.isNaN(add) && Number.isInteger(add)) {
                     cycle.update(add);
                 }
             }

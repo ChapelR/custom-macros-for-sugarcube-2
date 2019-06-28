@@ -127,7 +127,7 @@ Prints the current phase of the indicated cycle to the page. You can optionally 
 <<showcycle 'time' upperfirst>>
 
 /* show the meal, UPPERCASED */
-<<showcycle 'meals'>>
+<<showcycle 'meals' uppercase>>
 
 /* show the day of the week, lowercased */
 <<showcycle 'days' lowercase>>

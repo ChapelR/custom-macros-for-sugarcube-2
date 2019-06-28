@@ -3,7 +3,7 @@
     // operations, by chapel; for sugarcube 2.x
     // v1.1.0
     // adds a dice roller and 'fairmath'
-
+    var setup = setup || {};
     // options object
      var options = {
         tryGlobal : true, 
@@ -16,7 +16,7 @@
     // dice helpers
     function _processDice (a, b) {
         // find the number of dice and the type of die
-        var roll = [], i, result = 0;
+        var roll = [], i, result = 0, add = +1;
         if (typeof a === 'string') {
             roll = a.split('d');
         } else if (typeof a === 'number' && b) {
@@ -27,6 +27,20 @@
         } else {
             throw new TypeError('dice(): could not process arguments...');
         }
+        // check types
+        roll[0] = Number(roll[0]);
+        // handle fate/fudge dice
+        if (typeof roll[1] === 'string' && roll[1].trim().toUpperCase() === 'F') {
+            roll[1] = 3; // -1, 0, or 1
+            add = -1;
+        } else {
+            roll[1] = Number(roll[1]);
+        }
+        if (roll.some( function (n) {
+            return Number.isNaN(n);
+        })) {
+            throw new TypeError('dice(): could not process arguments...');
+        }
         for (i = 0; i < roll[0]; i++) {
             /*
                 we're going to roll each die.  we could generate a number
@@ -35,7 +49,7 @@
                 in 10 or 11 than in 3 or 18, and pure randomization will not emulate this
             */
             var die = 0;
-            die = Math.floor(State.random() * roll[1]) + 1;
+            die = Math.floor(State.random() * roll[1]) + add;
             result += die; // update result
         }
         return result; // this prelimary result ignores modifiers; it only rolls the dice
@@ -47,7 +61,7 @@
         // remove all whitespace and trim
         string = string.trim().replace(/\s/g, '');
         // check for and return the parts of the roll (2 chunks: '1d6' and '+6')
-        parsed = string.match(/(\d*d\d*)(.*)/);
+        parsed = string.match(/(\d+[d][\df]d*)(.*)/i);
         return [parsed[1], Number(parsed[2])]; // send the data off as an array
     }
 
@@ -87,11 +101,13 @@
                 } 
                 if (this < 0) {
                     throw new TypeError('Number.prototype.dice: cannot roll a negative number of dice!');
+                } 
+                if (typeof val !== 'string' && val.trim().toUpperCase() !== 'F') {
+                    if (val == null || typeof val !== 'number' || val <= 0 || !Number.isInteger(val)) {
+                        throw new TypeError('Number.prototype.dice: error in argument');
+                    }
                 }
-                if (val == null || typeof val != 'number' || val <= 0 || arguments.length < 1) {
-                    throw new TypeError('Number.prototype.dice: error in argument');
-                }
-                if (!Number.isInteger(this) || !Number.isInteger(val)) {
+                if (!Number.isInteger(this)) {
                     throw new TypeError('Number.prototype.dice: cannot roll partial dice!');
                 }
                 

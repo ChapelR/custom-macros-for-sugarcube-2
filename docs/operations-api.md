@@ -14,9 +14,9 @@ This is a bunch of functions and methods for performing some useful number- or m
 
 A function for rolling dice.  The dice to be rolled can be provided as a string of dice notation (i.e. `1d6 + 10`, `4d4-1`, `1d20`), or as sperate arguments (`3d6` becomes `dice(3, 6)`, for example).  This funciton is global, but if it's unavailable, it can be found on the `setup` object under `setup.dice.roll()`.
 
-* **diceNotation**: a string representing dice notation (`'1d6'`, `'6d8'`, `'4d20+8'`, etc).
+* **diceNotation**: a string representing dice notation (`'1d6'`, `'6d8'`, `'4d20+8'`, `'3dF'`, etc).
 * **numberOfDice**: the number of dice to roll.
-* **sidesOfDice**: the sides of each rolled die.
+* **sidesOfDice**: the sides of each rolled die, or the string `'F'`, for Fate/Fudge dice.
 
 **Usage**:
 ```
@@ -34,7 +34,7 @@ A function for rolling dice.  The dice to be rolled can be provided as a string 
 Similar to the `dice()` function, this is another way to roll dice, and exists on the `Number` prototype, meaning it can be called directly on numbers.  `<number>.d()` and `<number>.dice()` do the same thing and can be used interchangeably.
 
 * **numberOfDice**: the number of dice to roll.
-* **sidesOfDice**: the sides of each rolled die.
+* **sidesOfDice**: the sides of each rolled die, or the string `'F'`, for Fate/Fudge dice.
 
 **Usage**:
 ```

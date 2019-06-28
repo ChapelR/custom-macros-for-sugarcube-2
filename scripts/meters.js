@@ -32,7 +32,6 @@
             if (str) {
                 return str;
             }
-            return def || '';
         }
         return def || '';
     }
