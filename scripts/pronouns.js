@@ -210,7 +210,7 @@
 
     function isUpper (name, string) {
         // is name is uppercase, return uppercased string
-        if (name[0] === name[0].toUpperCase()) {
+        if (name.first() === name.first().toUpperCase()) {
             return string.toUpperFirst();
         }
         return string;

@@ -2,7 +2,7 @@
 
 [Back to the main readme](./README.md).
 
-This script leverages SugarCube 2's new [template markup](.) and [API](.) to create a complete, user configurable pronoun system. Users are free to list their own pronouns by filling out a form, or choose from one of three presets "He/Him", "She/Her", and "They/Them". You can use the provided macro or JavaScript function to give the user access to the pronoun configuration dialog, and you can optionally allow the user to re-configure their pronouns from the Settings dialog at their pleasure. 
+This script leverages SugarCube 2's new [template markup](http://www.motoslave.net/sugarcube/2/docs/#markup-template) and [API](http://www.motoslave.net/sugarcube/2/docs/#template-api) to create a complete, user configurable pronoun system. Users are free to list their own pronouns by filling out a form, or choose from one of three presets "He/Him", "She/Her", and "They/Them". You can use the provided macro or JavaScript function to give the user access to the pronoun configuration dialog, and you can optionally allow the user to re-configure their pronouns from the Settings dialog at their pleasure. 
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/pronouns.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/pronouns.js).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=pronouns).  
@@ -23,7 +23,7 @@ This macro opens the pronoun configuration dialog, a pop-up style form where the
 
 ### Included Templates 
 
-See the [documentation](.) for more on template markup.
+See the [documentation](http://www.motoslave.net/sugarcube/2/docs/#markup-template) for more on template markup.
 
 #### Determiner warning: 
 
@@ -125,8 +125,6 @@ Here is the complete list of templates provided by this system.
 ```
 ?He went to the bank to find out what state ?his_ mortgage was in. For ?him, all that mattered was that the house remained ?his.
 ```
-
-etc...
 
 ### JavaScript API 
 
