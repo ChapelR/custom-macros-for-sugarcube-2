@@ -12,7 +12,7 @@ This macro set helps you work with SugarCube's Dialog API without having to touc
 
 **Syntax**: `<<dialog [title] [classList]>> <</dialog>>`
 
-The `<<dialog>>` macro creates a new dialog box, with an optional title and an optional list of classes for styling.  The content between the macro tags is parsed and appended to the dialog box's body.  You will generally want to pair this with some type of interaction, like a link or button.
+The `<<dialog>>` macro creates a new dialog box, with an optional title and an optional list of classes for styling.  The content between the macro tags is parsed and appended to the dialog box's body.  You will generally want to pair this with some type of interaction, like a link or button. You can use the child tags `<<onopen>>` and `<<onclose>>` to run TwineScript code when the dialog is opened and closed (see below).
 
 **Arguments**:
 
@@ -43,11 +43,47 @@ The `<<dialog>>` macro creates a new dialog box, with an optional title and an o
 <</link>>
 ```
 
+#### Child tag: `<<onopen>>`
+
+You can use this child tag to run code when the dialog is opened.
+
+**Usage**:
+```
+<<link 'View Character Sheet'>>
+	<<dialog 'Character Sheet' 'char-sheet stats'>>\
+		|Strength|$str|
+		|Dexterity|$dex|
+		|Wisdom|$wis|\
+	<<onopen>>
+		<<audio 'click' volume 1 play>>
+	<</dialog>>
+<</link>>
+```
+
+#### Child tag: `<<onclose>>`
+
+You can use this child tag to run code when the dialog is closed.
+
+**Usage**:
+```
+<<link 'View Character Sheet'>>
+	<<dialog 'Character Sheet' 'char-sheet stats'>>\
+		|Strength|$str|
+		|Dexterity|$dex|
+		|Wisdom|$wis|\
+	<<onopen>>
+		<<audio 'click' volume 1 play>>
+	<<onclose>>
+		<<audio 'close' volume 1 play>>
+	<</dialog>>
+<</link>>
+```
+
 ### Macro: `<<popup>>`
 
 **Syntax**: `<<popup passageName [title] [classList]>>`
 
-The `<<popup>>` macro provides a similar result to what you might get by pairing a `<<dialog>>` macro and an `<<include>>` macro.  The macro is generally the same as `<<dialog>>`, but the first argument must be the name of a passage, and instead of rendering content from between tags, that passage's content will be rendered into the dialog box.
+The `<<popup>>` macro provides a similar result to what you might get by pairing a `<<dialog>>` macro and an `<<include>>` macro.  The macro is generally the same as `<<dialog>>`, but the first argument must be the name of a passage, and instead of rendering content from between tags, that passage's content will be rendered into the dialog box. This macr does not support the `<<onopen>>` and `<<onclose>>` feature; if you need it, use the `<<dialog>>` macro with `<<include>>`.
 
 **Arguments**:
 

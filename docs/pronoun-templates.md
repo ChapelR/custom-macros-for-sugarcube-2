@@ -21,6 +21,29 @@ This macro opens the pronoun configuration dialog, a pop-up style form where the
 <</link>>
 ```
 
+### Macro: `<<verb>>`
+
+**Syntax**: `<<verb singularForm [pluralForm]>>`
+
+This macro will attempt to pluralize verbs when the pronouns are set to `they/them`. If you provide it a singular third person pronoun, like `plays`, `is`, `suppresses`, `does`, etc, it will attempt to pluralize it using its internal rule set. However, given the vast number of irregularities, the pluralizer will often guess wrong. In these cases, you can instead supply a second argument that provides the correct plural form.
+
+**Arguments**:
+- `singularForm` provide the third person singular verb form (the one you'd use with he or she), e.g. `is`.
+- `pluralForm` you can optionally provide a plural form for irregular verbs not understood by the pluralizer, e.g. `are` (though the pluralizer understands many common irregular verbs like the `be` forms).
+
+> [!NOTE]
+> I went with the singular-prime format here (meaning singular verb forms come first and plural forms aren't required) simply because it was easier to parse the singular forms to guess what pluralization rules were in play&mdash;not to imply any sort of preference or default for those forms.
+
+**Usage**:
+```
+/* assume the players pronouns are they/them */
+
+?He <<verb 'is'>> on the way. /* -> 'They are on the way.' */
+?She<<verb "'s" "'re">> pretty cool. /* -> They're pretty cool. */
+?He <<verb 'ran'>> away. /* -> 'They ran away.' */
+?She <<verb 'goes'>> to the beach all the time. /* -> 'They go to the beach all the time.' */
+```
+
 ### Included Templates 
 
 See the [documentation](http://www.motoslave.net/sugarcube/2/docs/#markup-template) for more on template markup.
@@ -158,6 +181,31 @@ Opens the pronoun configuration dialog should you need to access it from JavaScr
 ```
 <<run gender.dialog()>> /* roughly equivalent to `<<pronouns>>` */
 ```
+
+#### the `gender.pluralize()` function
+
+**Syntax**: `gender.pluralize(verb)`
+
+**Returns**: a string.
+
+Attempts to figure out and return a third-person plural form of a third-person singular verb by applying several rules in order. Eventually it will just attempt to remove an ending `s` if there is one, and if there isn't it'll simply return the original singular form it received
+
+**Arguments**:
+- `verb` (*string*) a verb to attempt to pluralize.
+
+**Examples:**
+```javascript
+gender.pluralize('is') // -> 'are'
+gender.pluralize('was') // -> 'were'
+gender.pluralize('does') // -> 'do'
+gender.pluralize('flies') // -> 'fly'
+gender.pluralize('dies') // -> 'die'
+gender.pluralize('went') // -> 'went'
+gender.pluralize('catches') // -> 'catch'
+```
+
+> [!WARNING]
+> Despite the rather rosy portrait painted by the above examples, there are many verbs that the function will not property pluralize.
 
 ### Configuration 
 

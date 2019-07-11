@@ -3,26 +3,32 @@
 [Try the demo!](https://macros.twinelab.net/demo)
 
 ### Documentation
- * [The Dialog API Macro Set](./dialog-api-macro-set.md)  
- * [The UI Macro](./ui-macro.md)  
- * [The Done Macro](./done-macro.md)
- * [The Mouseover Macro](./mouseover-macro.md)
- * [The Event Macros](./event-macros.md)  
- * [The Fading Macro Set](./fading-macros.md)  
- * [The CSS Macro](./css-macro.md) (new!) 
- * [The Swap Macro Set](./swap-macro-set.md)  
- * [The File System Macro Set](./file-system-macros.md)  
- * [The First Macro](./first-macro.md)  
- * [The Fullscreen Macros](./fullscreen-macros.md)  
- * [The Message Macro](./message-macro.md)  
- * [The Notify Macro](./notify-macro.md)  
- * [Dice Roller and Fairmath Functions](./operations-api.md)  
- * [The Meter Macro Set](./meter-macros.md) (new!)  
- * [The Playtime System](./playtime-system.md)  
- * [The Cycles System](./cycles-system.md) (new!)  
- * [The Simple Inventory System](./simple-inventory.md)  
- * [The Typing Simulation Macro](./type-sim.md)
- * [The Pronoun Templates](./pronoun-templates.md) (new!)
+- **Gameplay Systems and Mechanics**
+  - [The Simple Inventory System](./simple-inventory.md)
+  - [The Cycles System](./cycles-system.md)
+  - [The Playtime System](./playtime-system.md)
+- **Interface and Style**
+  - [The Dialog API Macro Set](./dialog-api-macro-set.md) (updated!)
+  - [The UI Macro](./ui-macro.md)
+  - [The Fading Macro Set](./fading-macros.md)
+  - [The CSS Macro](./css-macro.md)
+  - [The Notify Macro](./notify-macro.md)
+  - [The Fullscreen Macros](./fullscreen-macros.md)
+  - [The Meter Macro Set](./meter-macros.md)
+- **User Interaction and Events**
+  - [The Event Macros](./event-macros.md)
+  - [The Swap Macro Set](./swap-macro-set.md)
+  - [The Mouseover Macro](./mouseover-macro.md)
+  - [The Message Macro](./message-macro.md)
+  - [The Typing Simulation Macro](./type-sim.md)
+- **Grammar and Language**
+  - [The Pronoun Templates](./pronoun-templates.md) (updated!)
+  - [The Articles (A/An) Macros](./articles.md) (new!)
+- **Utilities and Other**
+  - [The Done Macro](./done-macro.md)
+  - [The File System Macro Set](./file-system-macros.md)
+  - [The First Macro](./first-macro.md)
+  - [Dice Roller and Fairmath Functions](./operations-api.md)
 
 ### Installation Guide
 

@@ -234,7 +234,68 @@
     Template.add(['man', 'woman', 'person', 'Man', 'Woman', 'Person'], function () {
         return isUpper(this.name, getGender().noun);
     });
-    
+
+    // singular endings
+    var replaceWith_are = /^is$/i; // is
+    var replaceWith_were = /^was$/i; // was
+    var replaceWith_o = /oes$/i; // does, goes
+    var replaceWith_ie = /^[dl]ies$/i; // dies
+    var replaceWith_y = /ies$/i; // dries
+    var remove_es = /sses$/i; // posesses
+    var remove_es2 = /hes$/i; // catches
+    var remove_s = /s$/i; // surpises, plays
+    // the above are tested in order; if none apply, return singular form (e.g: ran -> ran)
+
+    // test for 'they' pronoun
+    var hasThey = /they/i;
+
+    function makePlural (singular) {
+        if (!singular || typeof singular !== 'string') {
+            return singular;
+        }
+        singular = singular.trim();
+        if (replaceWith_are.test(singular)) {
+            return singular.replace(replaceWith_are, 'are');
+        }
+        if (replaceWith_were.test(singular)) {
+            return singular.replace(replaceWith_were, 'were');
+        }
+        if (replaceWith_o.test(singular)) {
+            return singular.replace(replaceWith_o, 'o');
+        }
+        if (replaceWith_ie.test(singular)) {
+            // need to use replaceWith_y regex here.
+            return singular.replace(replaceWith_y, 'ie');
+        }
+        if (replaceWith_y.test(singular)) {
+            return singular.replace(replaceWith_y, 'y');
+        }
+        if (remove_es.test(singular)) {
+            return singular.replace(remove_es, 'ss');
+        }
+        if (remove_es2.test(singular)) {
+            return singular.replace(remove_es2, 'h');
+        }
+        if (remove_s.test(singular)) {
+            return singular.replace(remove_s, '');
+        }
+        return singular;
+    }
+
+    function _getPronounsArePlural () {
+        return hasThey.test(getGender().subjective.trim());
+    }
+
+    // usage: pluralize('dries', null, true) -> dry; pluralize('supresses', 'supress') -> supresses
+    function pluralize (singular, plural, forcePlural) {
+        if (!forcePlural) {
+            return singular;
+        }
+        if (plural && typeof plural === 'string') {
+            return plural;
+        }
+        return makePlural(singular);
+    }
 
     // MACRO
 
@@ -246,13 +307,32 @@
         }
     });
 
+    // <<verb singular [plural] [makePlural]>>
+    Macro.add('verb', {
+        handler: function () {
+            var pl = _getPronounsArePlural();
+
+            if (this.args.length < 1) {
+                return this.error('Please pass at least a singular third person pronoun to this macro.');
+            }
+
+            if (this.args.includes('plural')) {
+                pl = true;
+            }
+
+            this.output.append(pluralize(String(this.args[0]), (this.args[1]) ? String(this.args[1]) : null, !!pl));
+        }
+    });
+
     // JAVASCRIPT API
 
     setup.gender = {
         // get the pronoun object; `setup.gender.pronouns().subjective` -> get `he`, `she`, etc
         pronouns : getGender,
         // open the pronoun config modal from JS; `setup.gender.dialog()`
-        dialog : handleGender
+        dialog : handleGender,
+        // pluralizer function
+        pluralize : makePlural
     };
 
     window.gender = window.gender || setup.gender;
