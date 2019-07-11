@@ -17,8 +17,8 @@ This macro pops a message up that slides out from the right side of the screen, 
 
 The `<<notify>>` macro displays everything between it's tags in a small message box on the top right of the screen that slides in and slides out after a brief delay.
 
- * **delay**: (optional) The amount of time the notification should remain visible, in milliseconds (working on getting this to CSS time).  If omitted, the delay defaults to 2 seconds, or `2000`.
- * **classList**: (optional) An array of strings, list of space seperated stings, or some combination of the two, will be added to the notification as classes for styling.
+- `delay` (optional) The amount of time the notification should remain visible, in milliseconds or CSS time. Defaults to two seconds.
+- `classList` (optional) An array of strings, list of space seperated stings, or some combination of the two, will be added to the notification as classes for styling.
 
 **Usage**:
 ```
@@ -26,11 +26,24 @@ The `<<notify>>` macro displays everything between it's tags in a small message 
 <<notify>>Achievement unlocked!<</notify>>
 
 /% a one-second-long notification with the 'inventory-update' class %/
-<<notify 1000 'inventory-update'>>Found gold.<</notify>>
+<<notify 1s 'inventory-update'>>Found gold.<</notify>>
 
 /% a lengthy five-second-long notification %/
-<<notify 5000>>$xp experience points earned.<</notify>>
+<<notify 5s>>$xp experience points earned.<</notify>>
 ```
+
+### Function: `setup.notify()`
+
+**Syntax**: `setup.notify(message, delay, classes)`
+
+Simply a JavaScript version of the macro, for when you're working in JavaScript. Pass in the message to display as the first argument. Like with the macro, everything else is optional.
+
+**Returns**: nothing.
+
+**Arguments**:
+- `message` (*string*) the message the notification should display.
+- `delay` (*number*) (optional) The amount of time the notification should remain visible, in milliseconds. Defaults to `2000`.
+- `classList` (*string*|*string array*) (optional) An array of strings, or list of space seperated stings, which will be added to the notification as classes for styling.
 
 ## Other Usage Notes:
 

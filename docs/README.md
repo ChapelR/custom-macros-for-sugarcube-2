@@ -12,7 +12,7 @@
   - [The UI Macro](./ui-macro.md)
   - [The Fading Macro Set](./fading-macros.md)
   - [The CSS Macro](./css-macro.md)
-  - [The Notify Macro](./notify-macro.md)
+  - [The Notify Macro](./notify-macro.md) (updated!)
   - [The Fullscreen Macros](./fullscreen-macros.md)
   - [The Meter Macro Set](./meter-macros.md)
 - **User Interaction and Events**

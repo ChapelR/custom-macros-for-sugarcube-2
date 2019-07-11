@@ -17,7 +17,7 @@ function build () {
         
         result = uglify.minify(source);
         
-        console.log(result.error)
+        console.log(result.error);
         
         path.unshift('.');
         path.push('minified');
