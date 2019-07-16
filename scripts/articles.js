@@ -36,7 +36,7 @@
     }
 
     function _isDefaultIrregular (word, article) {
-        if (_defaultIrregulars.includes(word)) {
+        if (_defaultIrregulars.includes(word.toLowerCase())) {
             return _switch(article);
         }
         return false;
@@ -114,9 +114,9 @@
         if (!word || typeof word !== 'string') {
             return;
         }
-        var cleanedWord = word.trim().split()[0].trim();
+        var cleanedWord = word.trim().split(' ')[0].trim();
         cleanedWord = cleanedWord.replace(_punctuation, '');
-        return _checkOverrides(firstWord) || _checkVowels(firstWord);
+        return _checkOverrides(cleanedWord) || _checkVowels(cleanedWord);
     }
 
     function article (word, upper) {
@@ -128,7 +128,7 @@
         return (upper ? article.toUpperFirst() : article) + ' ' + word;
     }
 
-    setup.aritcles = {
+    setup.articles = {
         find : find,
         output : article,
         override : addOverride

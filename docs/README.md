@@ -1,6 +1,9 @@
 ## Chapel's Custom Macro Collection 
 
-[Try the demo!](https://macros.twinelab.net/demo)
+- [Try the demo!](https://macros.twinelab.net/demo)
+- [Downloads](./download ':ignore')
+- [Changelog](./changelog.md)
+- [Release Notes](https://twinelab.net/blog/tags/macros/)
 
 ### Documentation
 - **Gameplay Systems and Mechanics**
@@ -32,12 +35,14 @@
 
 ### Installation Guide
 
-To install these macros, all you need is the code.  It is highly recommended that you install the minified version (found in the `scripts/minified/` directory of the repo), as these versions will have improved performance.  You will only need the non-minified versions if you plan to edit the code in some way. Links to both the minified and pretty scripts are available on the individual documentation pages for each macro / system.
+To install these macros, all you need is the code. You can get the code by copy and pasting from the [repo](https://github.com/ChapelR/custom-macros-for-sugarcube-2/tree/master/scripts), or by generating a custom download using the [download utility](./download ':ignore'). If you use the downloader, select the scripts you want and click the `Create Download` button. Extract the files from the downloaded zip file and install the `bundle.js` and `bundle.css` files (see below).
+
+If you opt to get the files from GitHub, It is highly recommended that you install the minified versions (found in the `scripts/minified/` [directory of the repo](https://github.com/ChapelR/custom-macros-for-sugarcube-2/tree/master/scripts/minified)), as these versions will have improved performance.  You will only need the non-minified versions if you plan to edit the code in some way. Links to both the minified and pretty scripts are available on the individual documentation pages for each macro / system.
 
 > [!WARNING]
 > To install these macros, you will need to be using the most recent version of SugarCube 2 in most cases, and this is almost never the version that comes with Twine 2.  See [SugarCube's website](http://www.motoslave.net/sugarcube/2/#downloads) for updating / installation instructions.
 
-- For **Twine 2** users: copy and paste the required JavaScript code from this repo into your [story JavaScript area](https://twinery.org/wiki/twine2:adding_custom_javascript_and_css).  Some macros may also require CSS code, which goes in your story stylehseet.
+- For **Twine 2** users: copy and paste the JavaScript code into your [story JavaScript area](https://twinery.org/wiki/twine2:adding_custom_javascript_and_css).  Some macros may also require CSS code, which goes in your story stylehseet.
 
 - For **Twine 1**, you'll need to copy and paste the JavaSCript portions into a script-tagged passage, and the CSS portions (if any) into a stylesheet-tagged passage. You can create new passages and add the tags yourself, or right-click on a blank spot in the editor and select new script here and new stylesheet here to generate each passage.
 
@@ -49,7 +54,9 @@ To install these macros, all you need is the code.  It is highly recommended tha
 
 If you're having issues, please try some of these solutions.
 
-- Before copying the script you want from GitHub, you can find a button above the code on the right called `raw`.  Try using this code instead, as it takes you to a page with only the code allowing you to copy it and paste it much more easily, and preventing potential encoding issues.
+- If you're getting the code from GitHub, before copying the script you want from GitHub, you can find a button above the code on the right called `raw`.  Try using this code instead, as it takes you to a page with only the code allowing you to copy it and paste it much more easily, and preventing potential encoding issues.
+
+- If you downloaded the files with the download utility, make sure to open the files and copy them with a text editor, **not** a word processor.
 
 - Make sure you're using the latest version of SugarCube 2 and of your preferred compiler.
 

@@ -28,7 +28,7 @@ This macro attempts to take the following text and prepend it with the appropria
 
 **Examples**:
 ```
-<<set _adjective to either('steel', 'adamantium', 'stone', 'iron', 'bronze', 'uridium');
+<<set _adjective to either('steel', 'adamantium', 'stone', 'iron', 'bronze', 'iridium');
 
 You found <<a _adjective>> sword!
 
@@ -47,7 +47,7 @@ This macro adds an *override* to the `<<a>>`-style macros, allowing you to assig
 **Arguments**:
 - `article` the string `'a'` or the string `'an'`&mdash;the article to set the provided text to use.
 - `text` a string of text, can be a word or a bunch or words, to assign an article.
-- `caseSensitive` if a third argument is provided and truthy, the text will only be overridden if it matches the exact case of the override.
+- `caseSensitive` if a third argument is provided and truth-y, the text will only be overridden if it matches the exact case of the override.
 
 **Examples**:
 ```
