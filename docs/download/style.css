@@ -1,0 +1,38 @@
+html {
+    font-family: Verdana, Geneva, san-serif;
+    font-size: 15px;
+}
+
+body {
+    background: #eee;
+    color: #111;
+}
+
+#content {
+    padding: 1em 3em;
+}
+
+#checks p {
+    padding: 0;
+    margin: 0.5em;
+}
+
+#submit {
+    position: fixed;
+    top: 5em;
+    right: 5em;
+    padding: 0.7em;
+    background: violet;
+    border: 0;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#submit:active, #submit:focus, #submit:hover {
+    opacity: 0.8; 
+}
+
+#checks label {
+    cursor: pointer;
+}
