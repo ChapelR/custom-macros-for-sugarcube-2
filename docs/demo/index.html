@@ -100,7 +100,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Custom Macros Demo" startnode="3" creator="Tweego" creator-version="2.0.0-alpha.1" ifid="5A1C9F24-6A3D-4BCC-B2CE-2AE73ECCDFD4" zoom="1" format="SugarCube" format-version="2.29.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "notify.min.css" */
+	<!-- UUID://5A1C9F24-6A3D-4BCC-B2CE-2AE73ECCDFD4// --><tw-storydata name="Custom Macros Demo" startnode="3" creator="Tweego" creator-version="2.0.0+089d4ca77e5b" ifid="5A1C9F24-6A3D-4BCC-B2CE-2AE73ECCDFD4" zoom="1" format="SugarCube" format-version="2.29.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "notify.min.css" */
 /* notify.min.css, by chapel; for use with notify.js; v1.0.0 */
 #notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition:right .3s;-moz-transition:right .3s;-o-transition:right .3s;transition:right .3s}#notify.open{right:0}
 /* twine-user-stylesheet #2: "style.css" */
@@ -416,8 +416,10 @@ The computer says &quot;&lt;&lt;= _bye.random()&gt;&gt;&quot;</tw-passagedata><t
 &lt;&lt;link &#39;Click here!&#39;&gt;&gt;
     &lt;&lt;dialog &#39;some message&#39;&gt;&gt;
         This dialog shows an alert for some reason?
-    &lt;&lt;onopen&gt;&gt;
-        &lt;&lt;run alert(&#39;You opened a dialog!&#39;)&gt;&gt;
+    &lt;&lt;onclose&gt;&gt;
+        &lt;&lt;dialog &#39;some message&#39;&gt;&gt;
+            This is another dialog!
+        &lt;&lt;/dialog&gt;&gt;
     &lt;&lt;/dialog&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
@@ -808,7 +810,7 @@ There&#39;s also a passage tag, {{{pausetimer}}}, which can be used to pause the
 -----
 [[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/playtime-system]]</tw-passagedata><tw-passagedata pid="38" name="pronouns" tags="" position="975,475" size="100,100">The &#39;&#39;pronoun templates&#39;&#39; system is a drop-in system for handling player characters with configurable genders. It allows users to define and customize their preferred pronouns via a dialog modal that can be accessed via a macro or the {{{Setting}}} API. You can then leverage SugarCube&#39;s new {{{Template}}} API (add docs link) to use the templates in your game.
 
-&lt;&lt;link &#39;Cofigure your pronouns.&#39;&gt;&gt;
+&lt;&lt;link &#39;Configure your pronouns.&#39;&gt;&gt;
     &lt;&lt;pronouns&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 
