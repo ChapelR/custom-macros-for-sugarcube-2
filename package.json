@@ -1,6 +1,6 @@
 {
   "name": "custom-macros-for-sugarcube-2",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Collection of custom macros and systems for Twine/SugarCube2.",
   "main": "build.js",
   "directories": {
