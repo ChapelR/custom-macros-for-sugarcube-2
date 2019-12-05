@@ -11,11 +11,11 @@
   - [The Cycles System](./cycles-system.md)
   - [The Playtime System](./playtime-system.md)
 - **Interface and Style**
-  - [The Dialog API Macro Set](./dialog-api-macro-set.md) (updated!)
+  - [The Dialog API Macro Set](./dialog-api-macro-set.md)
   - [The UI Macro](./ui-macro.md)
   - [The Fading Macro Set](./fading-macros.md)
   - [The CSS Macro](./css-macro.md)
-  - [The Notify Macro](./notify-macro.md) (updated!)
+  - [The Notify Macro](./notify-macro.md)
   - [The Fullscreen Macros](./fullscreen-macros.md)
   - [The Meter Macro Set](./meter-macros.md)
 - **User Interaction and Events**
@@ -25,8 +25,8 @@
   - [The Message Macro](./message-macro.md)
   - [The Typing Simulation Macro](./type-sim.md)
 - **Grammar and Language**
-  - [The Pronoun Templates](./pronoun-templates.md) (updated!)
-  - [The Articles (A/An) Macros](./articles.md) (new!)
+  - [The Pronoun Templates](./pronoun-templates.md)
+  - [The Articles (A/An) Macros](./articles.md)
 - **Utilities and Other**
   - [The Done Macro](./done-macro.md)
   - [The File System Macro Set](./file-system-macros.md)
@@ -86,7 +86,7 @@ Have ideas? I'm open to contributions, both in the form of ideas and code. Open 
 
 If you're having an issue with these macros and suspect that it's operator error rather than a bug, you can still open an issue, but a faster way to get help would be to post in one of these Twine communities:
 
- * [The Official Twine Q&A](https://twinery.org/questions/)
+ * [The Twine Category at IntFiction.org](https://intfiction.org/c/authoring/twine)
  * [The Official Twine Discord Server](https://discordapp.com/invite/n5dJvPp)
  * [The Unoffical Twine Subreddit](https://www.reddit.com/r/twinegames/)
 
