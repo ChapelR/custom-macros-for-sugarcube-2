@@ -2,7 +2,7 @@
 
 [Back to the main readme](./README.md).
 
-Blurb.
+DO NOT USE THIS MACRO YET.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/continue.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/continue.js).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=continue).  
