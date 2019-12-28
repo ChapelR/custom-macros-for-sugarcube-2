@@ -102,7 +102,7 @@
                 if (this < 0) {
                     throw new TypeError('Number.prototype.dice: cannot roll a negative number of dice!');
                 } 
-                if (typeof val !== 'string' && val.trim().toUpperCase() !== 'F') {
+                if (typeof val !== 'string' || val.trim().toUpperCase() !== 'F') {
                     if (val == null || typeof val !== 'number' || val <= 0 || !Number.isInteger(val)) {
                         throw new TypeError('Number.prototype.dice: error in argument');
                     }

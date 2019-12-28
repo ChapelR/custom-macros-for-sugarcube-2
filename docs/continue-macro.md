@@ -12,12 +12,69 @@ Blurb.
 
 **Syntax**: `<<cont [keywords]>>...<</cont>>`
 
-Description.
+This macro waits for user input before evaluating its contents, and can be used to create situations where the user can click anywhere, or press any key (with the right keywords), to continue.
 
 **Arguments**:
-- `keywords`:
+- `keywords`: by default, the contents of the macro are executed silently, like a link. You can pass the macro the keyword `append` to cause it to instead display it's content in place. By default only mouse clicks will activate the macro, but you can use the keyword `keypress` to make any keypress also activate the macro.
 
 **Examples**:
+
 ```
-Ex
+/* click anywhere to go to the next passage */
+<<cont>><<goto 'Next'>><</cont>>
+
+/* click anywhere or press any key to continue */
+You slowly turn around...
+<<cont append keypress>>The ghost is behind you!<</cont>>
 ```
+
+### Macro: `<<ignore>>`
+
+**Syntax**: `<<ignore selectorList>>`
+
+By default clicks on any link or button elements or any elements with the `role="button"` attribute, and clicks on dialogs or the sidebar will not trigger the `<<cont>>` macro. Additionally, any element with the class `continue-macro-ignore` will also be ignored. You can use this macro to add more selectors to the ignore list. Note that this macro can only be triggered before the story starts&mdash;for example, from the `StoryInit` special passage.
+
+**Arguments**:
+
+- `selectorList`:  a list of jQuery-style selectors.
+
+**Examples**:
+
+```
+/* ignore <i> elements */
+<<ignore 'i'>>
+
+/* ignore elements with the classes 'click' or 'hello' */
+<<ignore '.click' '.hello'>>
+```
+
+### Function: `cont()`
+
+**Syntax**: `cont(keypress, callback)` or `setup.cont(keypress, callback)`
+
+The `cont()` function can be used to create a similar effect to the continue macro from JavaScript.
+
+**Arguments**:
+
+- `keypress` (*`boolean`*): whether keypresses should activate the continue effect. Similar in function to the `keypress` keyword of the `<<cont>>` macro.
+- `callback` (*`function`*): the function to run when the continue effect is triggered.
+
+### Function: `cont.ignore()`
+
+**Syntax**: `cont.ignore(selectorList)` or `setup.cont.ignore(selectorList)`
+
+Adds to the ignore list just like `<<ignore>>`. Must be used before the story starts.
+
+**Arguments**:
+
+- `selectorList` (*`string`*|*`string array`*):  a list of jQuery-style selectors.
+
+### Function: `cont.reset()`
+
+**Syntax**: `cont.reset(selectorList)` or `setup.cont.reset(selectorList)`
+
+This function removes all current continue event handlers, and can be used to add to the ignore list if supplied with appropriate arguments.
+
+**Arguments**:
+
+- `selectorList` (*`string`*|*`string array`*):  a list of jQuery-style selectors.
