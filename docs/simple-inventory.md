@@ -33,7 +33,7 @@ The simple inventory allows Twine authors to create and manipulate array-based i
  * [Changelog](#changelog)
 
 ### The Options Object
-	
+
 The options object can be found near the top of the script (in the pretty version).  It looks like this:
 		
 ```javascript
@@ -46,11 +46,11 @@ var options = {
 	}
 };
 ```
-		
+
 It is recommended that you leave the `tryGlobal` option as `true` unless you know what you're doing.
 
 #### Option: `tryGlobal`
-		
+
 The functions, methods, and variables used by these systems all exist on the special SugarCube `setup` object.  For ease of access to authors, everything that might be of use to them is then sent to the global scope as `window.Inventory`.  If you don't want to send this object to the global scope, you can change this option to `false`.  
 
 > [!NOTE]
@@ -59,7 +59,7 @@ The functions, methods, and variables used by these systems all exist on the spe
 If the global `Inventory` object is unavailable, either because you changed this setting or because it was already in use, you can still access things: replace `Inventory...` with `setup.Inventory...` in your code, or create your own gobal reference.
 
 #### Option: `defaultStings`
-			
+
 This set of options represents the default strings used for certain situations:
 
  * `empty`: when the inventory is empty, this text is displayed instead of a list of items.  You can use valid TwineScript syntax in the string, i.e. `empty:  "<<include 'EmptyMessagePassage'>>"` would be a valid value.
@@ -80,7 +80,7 @@ This macro creates a new inventory.  Creating a new inventory is much like initi
 
  * **variableName**: The name of a $variable, which must be quoted, in which to store the newly created inventory.
  * **itemList**: (optional) A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two. If you use array literals directly in the macro's arguments, you need to wrap them in backticks (\`). See "Passing an expression as an argument" [in the SugarCube docs](http://www.motoslave.net/sugarcube/2/docs/#macros-arguments).
- 
+
 **Usage**:
 ```
 /% create a new, empty inventory in the $inventory variable %/
@@ -108,7 +108,7 @@ The `<<pickup>>` macro adds items to inventory indicated by the $variable.  Thes
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
  * **unique**: (optional) The keyword `unique`.  If passed before the item list, will enforce uniqueness--that is, items already in the inventory will not be picked up.
  * **itemList**: A list of items to place in the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two. If you use array literals directly in the macro's arguments, you need to wrap them in backticks (\`). See "Passing an expression as an argument" [in the SugarCube docs](http://www.motoslave.net/sugarcube/2/docs/#macros-arguments).
- 
+
 **Usage**:
 ```
 /% add an item to the inventory %/
@@ -121,7 +121,7 @@ The `<<pickup>>` macro adds items to inventory indicated by the $variable.  Thes
 		<<replace '#links'>>You already have a gun, you don't need another...<</replace>>
 	<<else>>
 		<<pickup '$playerInventory' 'a gun'>>
-		<<replace '#links'>>You take the gun and hide it in your coat.<</replace>>
+		<<replace '#link'>>You take the gun and hide it in your coat.<</replace>>
 	<</if>>
 <</link>>
 @@
@@ -159,7 +159,7 @@ The `<<drop>>` macro removes items from the inventory indicated by the $variable
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
  * **itemList**: A list of items to remove from the inventory.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two. If you use array literals directly in the macro's arguments, you need to wrap them in backticks (\`). See "Passing an expression as an argument" [in the SugarCube docs](http://www.motoslave.net/sugarcube/2/docs/#macros-arguments).
- 
+
 **Usage**:
 ```
 /% drop an item %/
@@ -189,7 +189,7 @@ The `<<dropall>>` macro removes **all** items from the inventory indicated by th
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
- 
+
 **Usage**:
 ```
 /% clears the inventory %/
@@ -210,7 +210,7 @@ The `<<transfer>>` macro moves items from one inventory to another. The first in
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
  * **itemList**: A list of items to transfer between the inventories.  This list should be one or more arrays of quoted strings, a space-separated list of quoted strings, or any combination of the two. If you use array literals directly in the macro's arguments, you need to wrap them in backticks (\`). See "Passing an expression as an argument" [in the SugarCube docs](http://www.motoslave.net/sugarcube/2/docs/#macros-arguments).
- 
+
 **Usage**:
 ```
 /% containers %/
@@ -245,7 +245,7 @@ The `<<sort>>` macro sorts the indicated inventory in alphanumeric order.
 **Arguments**:
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
- 
+
 **Usage**:
 ```
 <<sort '$inventory'>>
@@ -261,7 +261,7 @@ The `<<inventory>>` macro displays a list of the items in the indicated inventor
 
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
  * **separator**: (optional) The string used to separate the list of items.  If omitted, the [default string](#option-defaultstrings) is used.
- 
+
 **Usage**:
 
 Assume the inventory `$playerInv` contains: `'wallet'`, `'keys'`, `'phone'`, `'pocket knife'`, and `'candy bar'`.
@@ -317,7 +317,7 @@ The `<<linkedinventory>>` macro creates a list of items from the indicated inven
 
  * **actionName**: The name the link should be given for each entry.  Use an empty string to shortcut to the [default action](#option-defaultstrings).
  * **variableName**: The name of a $variable, which must be quoted, and which is storing an inventory created by `<<newinventory>>` or the `Inventory()` constructor.
- 
+
 **Usage**:
 ```
 /% containers %/
@@ -739,6 +739,7 @@ When an event is fired, a variety of information is sent to the event handlers. 
    * `'initialized'`: A new inventory was created.  If items were also added, they'll be in the `<event>.moved` property.
    * `'sort'`: The inventory was sorted.
    
+
  When defining an event handler, you can access these propertied on the event object like so:
  ```javascript
  $(document).on(':inventory-update', function (ev) {
