@@ -15,11 +15,13 @@
   - [The UI Macro](./ui-macro.md)
   - [The Fading Macro Set](./fading-macros.md)
   - [The CSS Macro](./css-macro.md)
-  - [The Notify Macro](./notify-macro.md)
+  - [The Notify Macro](./notify-macro.md) **(updated!)**
   - [The Fullscreen Macros](./fullscreen-macros.md)
   - [The Meter Macro Set](./meter-macros.md)
+  - [The Speech Box System](./speech-box-system.md) **(new!)**
 - **User Interaction and Events**
   - [The Event Macros](./event-macros.md)
+  - [The Continue Macro Set](./continue-macro.md) **(new!)**
   - [The Swap Macro Set](./swap-macro-set.md)
   - [The Mouseover Macro](./mouseover-macro.md)
   - [The Message Macro](./message-macro.md)
@@ -73,7 +75,7 @@ If a script doesn't seem to be working right, remember:
  * Everything is case-sensitive--`<<message>>` and `<<MESSAGE>>` are not going to point to the same macro.
 
  * Follow the instructions carefully.  There are a few places where my macros break with traditional SugarCube things, like the orders of arguments and stuff.  I'm trying to hew closer to SugarCube's standards moving forward, though.
- 
+
  * Make sure you're using SugarCube 2, the most recent version you can.  This is very rarely the same as the version packaged with Twine 2 or the other compilers.
 
 If you're reasonably sure you've read the docs and are using the right version and such, feel free to open an issue.
