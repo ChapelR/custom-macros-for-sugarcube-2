@@ -1,7 +1,9 @@
 (function () {
     // notify.js, by chapel; for sugarcube 2
-    // version 1.0.0
+    // version 1.1.1
     // requires notify.css / notify.min.css
+
+    var DEFAULT_TIME = 2000; // default notification time (in MS)
 
     var isCssTime = /\d+m?s$/;
 
@@ -29,10 +31,10 @@
                     ev.delay = Number(ev.delay);
                 }
                 if (Number.isNaN(ev.delay)) {
-                    ev.delay = 2000;
+                    ev.delay = DEFAULT_TIME;
                 }
             } else {
-                ev.delay = 2000;
+                ev.delay = DEFAULT_TIME;
             }
             
             $('#notify')
@@ -77,7 +79,7 @@
             if (this.args.length > 0) {
                 var cssTime = isCssTime.test(this.args[0]);
                 if (typeof this.args[0] === 'number' || cssTime) {
-                    time    = cssTime ? Util.fromCssTime(cssTime) : this.args[0];
+                    time    = cssTime ? Util.fromCssTime(this.args[0]) : this.args[0];
                     classes = (this.args.length > 1) ? this.args.slice(1).flatten() : false;
                 } else {
                     classes = this.args.flatten().join(' ');
