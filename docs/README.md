@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection 
+## Chapel's Custom Macro Collection (v2.5.0)
 
 - [Try the demo!](https://macros.twinelab.net/demo)
 - [Downloads](./download ':ignore')
