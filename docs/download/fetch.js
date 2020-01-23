@@ -7,6 +7,7 @@
 
     var fileNameMap = {
         'Articles (A/An) Macros' : 'articles',
+        'The Continue Macro Set': 'continue',
         'The CSS Macro' : 'css-macro',
         'Cyles System' : 'cycles',
         'Dialog API Macros' : 'dialog-api-macro-set',
@@ -24,6 +25,7 @@
         'Playtime System' : 'playtime',
         'Pronoun Templates' : 'pronouns',
         'Simple Inventory' : 'simple-inventory',
+        'The Speech Box System' : 'speech+css',
         'Swap Macro Set' : 'swap-macro-set',
         'The Typesim Macro' : 'type-sim',
         'The UI Macro' : 'ui-macro'

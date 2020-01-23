@@ -20,6 +20,7 @@
     }
 
     $(document).one(':passagerender', function () {
+        // on first render, set up the ignore list
         ignoreMe();
     });
 
@@ -33,7 +34,7 @@
             events = events + ' keyup.continue-macro';
         }
         $(document).one(events, function () {
-            cb();
+            cb.call();
         });
     }
 
@@ -60,17 +61,26 @@
     Macro.add('cont', {
         tags : null,
         handler : function () {
-            var append = this.args.includes('append'),
-                press = this.args.includesAny('key', 'keypress', 'press', 'button'),
-                self = this,
-                wiki = self.payload[0].contents;
-            cont(press, function () {
-                if (append) {
-                    $(self.output).wiki(wiki);
+            var append = this.args.includes('append'), // append keyword
+                press = this.args.includesAny('key', 'keypress', 'press', 'button'), // keypress keyword
+                wiki = this.payload[0].contents, // content to wikify
+                $output; // output element (if needed)
+
+            if (append) {
+                // create output element, but only if needed (e.g. if appending content)
+                $output = $(document.createElement('span'))
+                    .addClass('macro-' + this.name)
+                    .appendTo(this.output);
+            }
+
+            cont(press, this.createShadowWrapper( function () {
+                // wikify 
+                if (append && $output && $output instanceof $) {
+                    $output.wiki(wiki);
                 } else {
                     $.wiki(wiki);
                 }
-            });
+            }));
         }
     });
 

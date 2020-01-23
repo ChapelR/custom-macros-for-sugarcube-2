@@ -5,6 +5,17 @@
 > [!NOTE]
 > I'm going to start keeping a changelog for these macros because keeping track of them is becoming a nightmare. The overall version numbers are not really helpful for tracking what's happening on a macro-by-macro basis, but I'm trying to stick to major version bumps meaning breaking changes in any macro, or complete refactors of the whole collection, like what v2.0.0 was. Minor version updates indicate new macros have been added. Patch version updates means individual macro updates and bug fixes, or documentation, website, or demo updates.
 
+### January X, 2020 (v2.5.0)
+
+- **[New]** Added the Speech Box System.
+- **[New]** Added the `<<cont>>` continue macro set.
+- **[Demo]** Updated demo.
+  - Added new scripts.
+  - Fixed issues.
+  - Updated `<<notify>>` example.
+- **[Docs]** Added new scripts.
+- **[Meta]** Added new scripts.
+
 ### January 22, 2020 (v2.4.1)
 
 - **[Update]** Fixed bug in `<<notify>>` CSS time parsing.

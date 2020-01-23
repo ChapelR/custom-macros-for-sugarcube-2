@@ -2,7 +2,7 @@
 
 [Back to the main readme](./README.md).
 
-DO NOT USE THIS MACRO YET.
+Used to create basic "press any key" or "click anywhere to continue" style interactions. You can nest `<<cont>>` macros to create chains of such interactions, too. Something I see requested frequently, but had to sit down and really dwell on to develop a decent implementation that doesn't break other interactions or generally suck.
 
 **THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/continue.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/continue.js).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=continue).  
@@ -26,6 +26,24 @@ This macro waits for user input before evaluating its contents, and can be used 
 /* click anywhere or press any key to continue */
 You slowly turn around...
 <<cont append keypress>>The ghost is behind you!<</cont>>
+
+/* nest <<cont>> macros to create text you can "advance" through, like so */
+@@#exposition;
+Many years ago, the knights of the round table were gathered in opposition to the witch Morgan La Fey.
+@@
+
+<<silently>>
+	<<cont keypress>>
+		<<replace '#exposition'>>\
+			However, all but King Arthur fell in the ensuing battle.\
+		<</replace>>
+		<<cont keypress>>
+            <<replace '#exposition'>>\
+                King Arthur swore revenge, and set out from his castle!\
+            <</replace>>
+        <</cont>>
+    <</cont>>
+<</silently>>
 ```
 
 ### Macro: `<<ignore>>`
