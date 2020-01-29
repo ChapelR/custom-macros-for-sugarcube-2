@@ -69,12 +69,12 @@
         word = word.trim();
 
         if (caseSensitive) {
-            _overrides.add(word, {
+            _overrides.set(word, {
                 article : article,
                 caseSensitive : !!caseSensitive
             });
         } else {
-            _overrides.add(word.toLowerCase(), {
+            _overrides.set(word.toLowerCase(), {
                 article : article,
                 caseSensitive : !!caseSensitive
             });
