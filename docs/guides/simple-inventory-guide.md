@@ -57,7 +57,7 @@ One of two events is triggered in relation to the inventories:
 
  * `:inventory-init`: This event is fired whenever a new inventory is created.
  * `:inventory-update`: This event is fired whenever an inventory is updated, but only after it has been created.
- 
+
 Both of these events are sent to the handler with the following information you can use:
 
  * `<event>.instance`: A reference to the calling instance.  In transfers, that's the giving inventory.
@@ -76,7 +76,7 @@ Before you do anything else, you need to setup the inventory or inventories you 
 
 ```
 <<newinventory '$inventory'>>
-``` 
+```
 
 The above code sets the story variable `$inventory` to a new *instance* of an `Inventory`.  This is similar to how we setup arrays and objects for use; in order to start treating the variable like an inventory we have to initialize it to be an inventory.
 
@@ -137,7 +137,7 @@ As you can see, this is a labor-intensive and difficult process. This inventory 
 If you instead want the player to only be able to carry a single item of each name in the inventory at a time, i.e., the player can only have one hammer at a time, this is much simpler to achieve.
 
 ```
-<<pickup '$inventory' unique 'a hammer', 'a wrench'>>
+<<pickup '$inventory' unique 'a hammer' 'a wrench'>>
 <<inventory '$inventory'>>
 ```
 ```

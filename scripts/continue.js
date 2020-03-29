@@ -4,6 +4,19 @@
     // selectors to ignore
     var ignored = ['a', ':button', '*[role="button"]', '.continue-macro-ignore', '#ui-bar', '#ui-dialog'];
 
+    var _i = 0;
+
+    prehistory['%%continue-expiration'] = function () {
+        _i = 0;
+    };
+
+    function ns () {
+        // create unique namespace
+        var namespace = '.' + Date.now().toString(36) + '-' + _i;
+        _i++;
+        return namespace;
+    }
+
     function ignoreMe () {
         $(document).on('click.continue-macro keyup.continue-macro', ignored.join(', '), function (ev) { 
             ev.stopPropagation(); 
@@ -26,22 +39,25 @@
 
     // continue functions
     function cont (press, cb) {
+        var namespace = ns();
         if (!cb || typeof cb !== 'function') {
             return;
         }
-        var events = 'click.continue-macro';
+        var events = 'click.continue-macro' + namespace;
         if (press) {
-            events = events + ' keyup.continue-macro';
+            events = events + ' keyup.continue-macro' + namespace;
         }
         $(document).one(events, function () {
             cb.call();
+            // expire all namespaced events
+            $(document).off(namespace);
         });
     }
 
     function reset () {
         var args = [].slice.call(arguments).flatten();
         ignored = ignored.concat(args);
-        $(document).off('click.continue-macro  keyup.continue-macro');
+        $(document).off('.continue-macro');
         ignoreMe();
     }
 
