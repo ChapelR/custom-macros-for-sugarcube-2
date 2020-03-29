@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.5.0)
+## Chapel's Custom Macro Collection (v2.5.1)
 
 - [Try the demo!](https://macros.twinelab.net/demo)
 - [Downloads](./download ':ignore')
@@ -15,13 +15,13 @@
   - [The UI Macro](./ui-macro.md)
   - [The Fading Macro Set](./fading-macros.md)
   - [The CSS Macro](./css-macro.md)
-  - [The Notify Macro](./notify-macro.md) **(updated!)**
+  - [The Notify Macro](./notify-macro.md)
   - [The Fullscreen Macros](./fullscreen-macros.md)
   - [The Meter Macro Set](./meter-macros.md)
-  - [The Speech Box System](./speech-box-system.md) **(new!)**
+  - [The Speech Box System](./speech-box-system.md)
 - **User Interaction and Events**
   - [The Event Macros](./event-macros.md)
-  - [The Continue Macro Set](./continue-macro.md) **(new!)**
+  - [The Continue Macro Set](./continue-macro.md) **(updated!)**
   - [The Swap Macro Set](./swap-macro-set.md)
   - [The Mouseover Macro](./mouseover-macro.md)
   - [The Message Macro](./message-macro.md)

@@ -5,6 +5,11 @@
 > [!NOTE]
 > I'm going to start keeping a changelog for these macros because keeping track of them is becoming a nightmare. The overall version numbers are not really helpful for tracking what's happening on a macro-by-macro basis, but I'm trying to stick to major version bumps meaning breaking changes in any macro, or complete refactors of the whole collection, like what v2.0.0 was. Minor version updates indicate new macros have been added. Patch version updates means individual macro updates and bug fixes, or documentation, website, or demo updates.
 
+### March 29, 2020 (v2.5.1)
+
+- **[Update]** Fixed the `<<cont>>` macro so that expired event handlers are properly removed.
+- **[Docs]** Typos and grammar fixes.
+
 ### January 23, 2020 (v2.5.0)
 
 - **[New]** Added the Speech Box System.
