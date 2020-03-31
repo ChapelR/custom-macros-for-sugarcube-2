@@ -5,6 +5,20 @@
 > [!NOTE]
 > I'm going to start keeping a changelog for these macros because keeping track of them is becoming a nightmare. The overall version numbers are not really helpful for tracking what's happening on a macro-by-macro basis, but I'm trying to stick to major version bumps meaning breaking changes in any macro, or complete refactors of the whole collection, like what v2.0.0 was. Minor version updates indicate new macros have been added. Patch version updates means individual macro updates and bug fixes, or documentation, website, or demo updates.
 
+### March 31, 2020 (v2.5.2)
+
+- **[Retired]** Removed the fullscreen macros. 
+  - As of v2.31.0, SugarCube 2 now has a [built-in `Fullscreen` API](http://www.motoslave.net/sugarcube/2/docs/#fullscreen-api).
+- **[Update]** Added a synthetic event to the `<<import>>` macro, `:import-macro`, that fires when the data is finished loading, or when said loading fails.
+- **[Docs]** Updated docs.
+  - Removed the fullscreen macro docs and marked it as removed in the contents.
+  - Added the `:import-macro` synthetic event to the file system macro docs.
+- **[Demo]** Updated demo.
+  - Removed fullscreen macro demo.
+  - Updated to SugarCube v2.31.0.
+  - Updated bundled macros.
+- **[Meta]** Removed fullscreen macros from download utility.
+
 ### March 29, 2020 (v2.5.1)
 
 - **[Update]** Fixed the `<<cont>>` macro so that expired event handlers are properly removed.

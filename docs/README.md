@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.5.1)
+## Chapel's Custom Macro Collection (v2.5.2)
 
 - [Try the demo!](https://macros.twinelab.net/demo)
 - [Downloads](./download ':ignore')
@@ -16,12 +16,12 @@
   - [The Fading Macro Set](./fading-macros.md)
   - [The CSS Macro](./css-macro.md)
   - [The Notify Macro](./notify-macro.md)
-  - [The Fullscreen Macros](./fullscreen-macros.md)
+  - ~~The Fullscreen Macros~~ **(removed)**
   - [The Meter Macro Set](./meter-macros.md)
   - [The Speech Box System](./speech-box-system.md)
 - **User Interaction and Events**
   - [The Event Macros](./event-macros.md)
-  - [The Continue Macro Set](./continue-macro.md) **(updated!)**
+  - [The Continue Macro Set](./continue-macro.md)
   - [The Swap Macro Set](./swap-macro-set.md)
   - [The Mouseover Macro](./mouseover-macro.md)
   - [The Message Macro](./message-macro.md)
@@ -31,7 +31,7 @@
   - [The Articles (A/An) Macros](./articles.md)
 - **Utilities and Other**
   - [The Done Macro](./done-macro.md)
-  - [The File System Macro Set](./file-system-macros.md)
+  - [The File System Macro Set](./file-system-macros.md) **(updated!)**
   - [The First Macro](./first-macro.md)
   - [Dice Roller and Fairmath Functions](./operations-api.md)
 
@@ -44,7 +44,7 @@ If you opt to get the files from GitHub, It is highly recommended that you insta
 > [!WARNING]
 > To install these macros, you will need to be using the most recent version of SugarCube 2 in most cases, and this is almost never the version that comes with Twine 2.  See [SugarCube's website](http://www.motoslave.net/sugarcube/2/#downloads) for updating / installation instructions.
 
-- For **Twine 2** users: copy and paste the JavaScript code into your [story JavaScript area](https://twinery.org/wiki/twine2:adding_custom_javascript_and_css).  Some macros may also require CSS code, which goes in your story stylehseet.
+- For **Twine 2** users: copy and paste the JavaScript code into your [story JavaScript area](https://twinery.org/wiki/twine2:adding_custom_javascript_and_css).  Some macros may also require CSS code, which goes in your story stylesheet.
 
 - For **Twine 1**, you'll need to copy and paste the JavaSCript portions into a script-tagged passage, and the CSS portions (if any) into a stylesheet-tagged passage. You can create new passages and add the tags yourself, or right-click on a blank spot in the editor and select new script here and new stylesheet here to generate each passage.
 

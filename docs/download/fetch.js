@@ -16,7 +16,7 @@
         'The Fading Macro Set' : 'fading-macro-set',
         'The First Macro' : 'first-macro',
         'File System Macros' : 'fs',
-        'Fullscreen Macros' : 'fullscreen',
+        // 'Fullscreen Macros' : 'fullscreen',
         'The Message Macro' : 'message-macro',
         'The Meters Macro Set' : 'meters',
         'The Mouseover Macro' : 'mouseover',

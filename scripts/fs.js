@@ -1,4 +1,4 @@
-// fs.js v1.0.0; for SugarCube 2, by chapel
+// fs.js v1.1.0; for SugarCube 2, by chapel
 
 (function () {
     
@@ -128,9 +128,28 @@
                 var data = readData(dataType, target.result);
                 
                 saveToState(data, storyVar);
-                
+
+                $(document).trigger({
+                    type : ':import-macro',
+                    success : true,
+                    data : clone(data),
+                    raw : target.result,
+                    storyVar : storyVar
+                });
+
             } catch (err) {
                 return bail(err);
+
+                saveToState(null, storyVar);
+
+                $(document).trigger({
+                    type : ':import-macro',
+                    success : false,
+                    data : null,
+                    raw : null,
+                    storyVar : storyVar
+                });
+
             }
         });
         

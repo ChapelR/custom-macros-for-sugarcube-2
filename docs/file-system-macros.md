@@ -38,6 +38,9 @@ The `<<export>>` macro is a way to save a little bit of data on your user's hard
 
 The `<<import>>` macro can be used to import some data you've previously saved to the user's hard disk.  This macro will create a button that, when clicked, will prompt the user to select a file.  That file will be read and the data stored in the indicated variable.  You can also import SugarCube 2 saved data and access it without loading it, such as to create an episodic game, or let users import characters or choices into sequels.  To import SugarCube 2 saves, use the `base64` data type option, and take a look at [the Save API](http://www.motoslave.net/sugarcube/2/docs/api-save.html) to get a handle on the data structure.
 
+> [!NOTE]
+> If the data is not able to be successfully loaded or any errors are encountered, the data sent to the variable will be `null`.
+
 **Arguments**:
 
  * **variableName**: The name of a variable, passed in quotes.  The data pulled from the file will be saved to this variable.
@@ -53,3 +56,12 @@ The `<<import>>` macro can be used to import some data you've previously saved t
 
 <<import '$oldGame' 'base64' 'Import Saved Data'>>
 ```
+
+### Events
+
+The `:import-macro` synthetic event is fired after the data is loaded, whether the load was successful or not. This event object has the following properties:
+
+- `success` ( *boolean* ) Whether the data was successfully loaded without errors; `true` if the load completed successfully, `false` if any errors were encountered.
+- `data` ( *any* ) The loaded data, converted from Base64 or JSON as appropriate.
+- `raw` ( *string* ) The raw file data.
+- `storyVar` ( *string* ) The string name of the variable, including sigil, that the data was stored in.
