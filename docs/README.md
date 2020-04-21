@@ -16,7 +16,6 @@
   - [The Fading Macro Set](./fading-macros.md)
   - [The CSS Macro](./css-macro.md)
   - [The Notify Macro](./notify-macro.md)
-  - ~~The Fullscreen Macros~~ **(removed)**
   - [The Meter Macro Set](./meter-macros.md)
   - [The Speech Box System](./speech-box-system.md)
 - **User Interaction and Events**
@@ -31,7 +30,7 @@
   - [The Articles (A/An) Macros](./articles.md)
 - **Utilities and Other**
   - [The Done Macro](./done-macro.md)
-  - [The File System Macro Set](./file-system-macros.md) **(updated!)**
+  - [The File System Macro Set](./file-system-macros.md)
   - [The First Macro](./first-macro.md)
   - [Dice Roller and Fairmath Functions](./operations-api.md)
 
