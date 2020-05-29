@@ -1,3 +1,3 @@
-* [Downloads](/download ':ignore')
+* [Downloads](https://macros.twinelab.net/download ':ignore')
 * [Changelog](changelog)
-* [DEMO](/demo ':ignore')
+* [DEMO](https://macros.twinelab.net/demo ':ignore')
