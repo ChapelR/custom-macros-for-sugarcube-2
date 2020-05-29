@@ -1,3 +1,3 @@
-* [Downloads](./download ':ignore')
-* [Changelog](./changelog)
-* [DEMO](./demo ':ignore')
+* [Downloads](/download ':ignore')
+* [Changelog](changelog)
+* [DEMO](/demo ':ignore')
