@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.5.2)
+## Chapel's Custom Macro Collection (v2.5.3)
 
 - [Try the demo!](https://macros.twinelab.net/demo)
 - [Downloads](./download ':ignore')
@@ -26,7 +26,7 @@
   - [The Message Macro](./message-macro.md)
   - [The Typing Simulation Macro](./type-sim.md)
 - **Grammar and Language**
-  - [The Pronoun Templates](./pronoun-templates.md)
+  - [The Pronoun Templates](./pronoun-templates.md) *updated*
   - [The Articles (A/An) Macros](./articles.md)
 - **Utilities and Other**
   - [The Done Macro](./done-macro.md)

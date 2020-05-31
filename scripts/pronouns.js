@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    // v1.0.0; by Chapel, for SugarCube 2 (>= v2.29.0)
+    // v1.1.0; by Chapel, for SugarCube 2 (>= v2.29.0)
 
     if (!Template || !Template.add || typeof Template.add !== 'function') {
         alert('Warning, this version of SugarCube does not include the Template API. Please upgrade to v2.29.0 or higher.');
@@ -165,6 +165,18 @@
         createDialog('Customize Gender', genderForm(), 'custom-gender');
     }
 
+    function getFromPreset (n) {
+        // default
+        if (typeof n !== "number" || Number.isNaN(n) || n > 2 || n < 0) {
+            n = 0;
+        }
+        var ret = {};
+        Object.keys(genderMap).forEach( function (key) {
+            ret[key] = genderMap[key][n];
+        });
+        return ret;
+    }
+
     function getGender () {
         // get the player's gender (custom or grab the default)
         // custom
@@ -172,17 +184,31 @@
             return State.variables[config.storyVar];
         }
         // default
-        var idx = 2;
-        if (config.default === 'male') {
-            idx = 1;
-        } else if (config.default === 'female') {
-            idx = 0;
+        return getFromPreset(config.default === 'male' ? 1 : 0);
+    }
+
+    function setPreset (gender) {
+        var pn;
+        switch (gender) {
+            case 'female':
+                pn = getFromPreset(0);
+                break;
+            case 'male':
+                pn = getFromPreset(1);
+                break;
+            default:
+                pn = getFromPreset(2);
         }
-        var ret = {};
-        Object.keys(genderMap).forEach( function (key) {
-            ret[key] = genderMap[key][idx];
-        });
-        return ret;
+        State.variables[config.storyVar] = clone(pn);
+        return pn;
+    }
+
+    function setPronouns (obj) {
+        if (typeof obj !== 'object') {
+            return;
+        }
+        State.variables[config.storyVar] = setPreset(config.default === 'male' ? 1 : 0);
+        return Object.assign(State.variables[config.storyVar], obj);
     }
 
     // SETTINGS API
@@ -206,38 +232,10 @@
         });
     }
 
-    // TEMPLATES
-
-    function isUpper (name, string) {
-        // is name is uppercase, return uppercased string
-        if (name.first() === name.first().toUpperCase()) {
-            return string.toUpperFirst();
-        }
-        return string;
-    }
-    
-    Template.add(['he', 'she', 'they', 'He', 'She', 'They'], function () {
-        return isUpper(this.name, getGender().subjective);
-    });
-    Template.add(['him', 'her', 'them', 'Him', 'Her', 'Them'], function () {
-        return isUpper(this.name, getGender().objective);
-    });
-    Template.add(['his', 'hers', 'theirs', 'His', 'Hers', 'Theirs'], function () {
-        return isUpper(this.name, getGender().possessive);
-    });
-    Template.add(['his_', 'her_', 'their', 'His_', 'Her_', 'Their'], function () {
-        return isUpper(this.name, getGender().determiner);
-    });
-    Template.add(['himself', 'herself', 'themself', 'Himself', 'Herself', 'Themself'], function () {
-        return isUpper(this.name, getGender().reflexive);
-    });
-    Template.add(['man', 'woman', 'person', 'Man', 'Woman', 'Person'], function () {
-        return isUpper(this.name, getGender().noun);
-    });
-
     // singular endings
     var replaceWith_are = /^is$/i; // is
     var replaceWith_were = /^was$/i; // was
+    var replaceWith_have = /^has$/i; // has
     var replaceWith_o = /oes$/i; // does, goes
     var replaceWith_ie = /^[dl]ies$/i; // dies
     var replaceWith_y = /ies$/i; // dries
@@ -259,6 +257,9 @@
         }
         if (replaceWith_were.test(singular)) {
             return singular.replace(replaceWith_were, 'were');
+        }
+        if (replaceWith_have.test(singular)) {
+            return singular.replace(replaceWith_have, 'have');
         }
         if (replaceWith_o.test(singular)) {
             return singular.replace(replaceWith_o, 'o');
@@ -297,6 +298,38 @@
         return makePlural(singular);
     }
 
+    // TEMPLATES
+
+    function isUpper (name, string) {
+        // is name is uppercase, return uppercased string
+        if (name.first() === name.first().toUpperCase()) {
+            return string.toUpperFirst();
+        }
+        return string;
+    }
+    
+    Template.add(['he', 'she', 'they', 'He', 'She', 'They'], function () {
+        return isUpper(this.name, getGender().subjective);
+    });
+    Template.add(['him', 'her', 'them', 'Him', 'Her', 'Them'], function () {
+        return isUpper(this.name, getGender().objective);
+    });
+    Template.add(['his', 'hers', 'theirs', 'His', 'Hers', 'Theirs'], function () {
+        return isUpper(this.name, getGender().possessive);
+    });
+    Template.add(['his_', 'her_', 'their', 'His_', 'Her_', 'Their'], function () {
+        return isUpper(this.name, getGender().determiner);
+    });
+    Template.add(['himself', 'herself', 'themself', 'Himself', 'Herself', 'Themself'], function () {
+        return isUpper(this.name, getGender().reflexive);
+    });
+    Template.add(['man', 'woman', 'person', 'Man', 'Woman', 'Person'], function () {
+        return isUpper(this.name, getGender().noun);
+    });
+    Template.add(['he-s', 'she-s', 'they-re', 'He-s', 'She-s', 'They-re'], function () {
+        return isUpper(this.name, getGender().subjective + pluralize("&apos;s", "&apos;re", _getPronounsArePlural()));
+    });
+
     // MACRO
 
     // `<<pronouns>>` -> opens the modal for pronoun configuration, probably best paired with a link
@@ -329,6 +362,15 @@
     setup.gender = {
         // get the pronoun object; `setup.gender.pronouns().subjective` -> get `he`, `she`, etc
         pronouns : getGender,
+        // set pronouns from presets or manually
+        setPronouns : function (presetOrObj) {
+            if (typeof presetOrObj === 'string') {
+                return setPreset(presetOrObj);
+            }
+            if (typeof presetOrObj === 'object') {
+                return setPronouns(presetOrObj);
+            }
+        },
         // open the pronoun config modal from JS; `setup.gender.dialog()`
         dialog : handleGender,
         // pluralizer function

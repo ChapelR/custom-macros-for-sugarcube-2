@@ -5,6 +5,14 @@
 > [!NOTE]
 > I'm going to start keeping a changelog for these macros because keeping track of them is becoming a nightmare. The overall version numbers are not really helpful for tracking what's happening on a macro-by-macro basis, but I'm trying to stick to major version bumps meaning breaking changes in any macro, or complete refactors of the whole collection, like what v2.0.0 was. Minor version updates indicate new macros have been added. Patch version updates means individual macro updates and bug fixes, or documentation, website, or demo updates.
 
+### March 31, 2020 (v2.5.3)
+
+- **[Update]** Several improvements to the pronoun macros:
+  - Additional verb support.
+  - Manually setting pronouns from code, either via presets or otherwise, is now possible.
+  - Added a set of templates for the common "to be" contractions like "he's" and "they're."
+  - Thanks to AcademyOfFetishes on the Twine Discord server for suggestions, feedback, and implementation ideas.
+
 ### March 31, 2020 (v2.5.2)
 
 - **[Retired]** Removed the fullscreen macros. 

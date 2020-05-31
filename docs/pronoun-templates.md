@@ -46,7 +46,7 @@ This macro will attempt to pluralize verbs when the pronouns are set to `they/th
 
 ### Included Templates 
 
-See the [documentation](http://www.motoslave.net/sugarcube/2/docs/#markup-template) for more on template markup.
+See the [documentation](http://www.motoslave.net/sugarcube/2/docs/#markup-template) for more on template markup. Contractions `he's`, `she's` and `they're` are represented with a hyphen (e.g., `?he-s`) rather than an apostrophe.
 
 #### Determiner warning: 
 
@@ -141,6 +141,15 @@ Here is the complete list of templates provided by this system.
 - `?person`  
 - `?Person`
 
+##### **Contractions**
+
+- `?he-s`  
+- `?He-s`  
+- `?she-s`  
+- `?She-s`  
+- `?they-re`  
+- `?They-re`
+
 <!-- tabs:end -->
 
 #### Template Examples
@@ -157,6 +166,8 @@ The following functions are available on `window.gender` and on `setup.gender`.
 
 **Syntax**: `gender.pronouns()` or `setup.gender.pronouns()`
 
+**Returns**: a pronoun object.
+
 Returns an object containing all of the configured pronouns. Has the following properties:
 
 - `subjective`  
@@ -169,6 +180,38 @@ Returns an object containing all of the configured pronouns. Has the following p
 **Example:**
 ```
 <<= gender.pronouns().subjective>> /* prints the subjective pronoun, eg. "he" */
+```
+
+#### the `gender.setPronouns()` function
+
+**Syntax**: `gender.setPronouns(presetOrObj)` or `setup.gender.setPronouns(presetOrObj)`
+
+**Returns**: a pronoun object, as above.
+
+Allows you to set the pronouns. You may set them by providing the name of a preset as a string  (`"male"`, `"female"`, or `"other"`), or by passing an object. If you pass an object you may set as many or as few of the pronouns as you want.
+
+**Arguments**:
+
+- `presetOrObj` (*string* | *object*) a string representing a built-in preset to set the pronouns to, or an object enumerating the pronouns you wish to set. See above for a list of pronoun properties you can set.
+
+**Example:**
+
+```
+/* set the pronouns to female */
+<<run gender.setPronouns("female")>>
+
+/* set the pronouns to e/em */
+<<run gender.setPronouns({
+	"subjective" : "e",
+	"objective" : "em",
+	"possessive" : "eirs",
+	"determiner" : "eir",
+	"reflexive" : "eirself",
+	"noun" : "person"
+})>>
+
+/* set only one pronoun */
+<<run gender.setPronouns({ "noun" : "person" })>>
 ```
 
 #### the `gender.dialog()` function
