@@ -139,6 +139,11 @@
             }
             return false;
         },
+        check : function (name, phase) {
+            if (Cycle.has(name)) {
+                return Cycle.get(name).check(phase);
+            }
+        },
         clear : function (name) {
             var got = _get();
             got = {};
@@ -248,6 +253,9 @@
                 this.increment = set;
             }
             return this.increment;
+        },
+        check : function (phase) {
+            return this.current() === phase;
         }
     });
 

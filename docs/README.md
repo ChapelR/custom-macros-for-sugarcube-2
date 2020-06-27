@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.5.3)
+## Chapel's Custom Macro Collection (v2.5.4)
 
 - [Try the demo!](https://macros.twinelab.net/demo)
 - [Downloads](./download ':ignore')
@@ -8,7 +8,7 @@
 ### Documentation
 - **Gameplay Systems and Mechanics**
   - [The Simple Inventory System](./simple-inventory.md)
-  - [The Cycles System](./cycles-system.md)
+  - [The Cycles System](./cycles-system.md) *updated*
   - [The Playtime System](./playtime-system.md)
 - **Interface and Style**
   - [The Dialog API Macro Set](./dialog-api-macro-set.md)
@@ -26,7 +26,7 @@
   - [The Message Macro](./message-macro.md)
   - [The Typing Simulation Macro](./type-sim.md)
 - **Grammar and Language**
-  - [The Pronoun Templates](./pronoun-templates.md) *updated*
+  - [The Pronoun Templates](./pronoun-templates.md)
   - [The Articles (A/An) Macros](./articles.md)
 - **Utilities and Other**
   - [The Done Macro](./done-macro.md)

@@ -159,6 +159,7 @@ Of particular note to authors:
 
 - [`Cycle.add()`](#method-cycleadd)
 - [`Cycle.get()`](#method-cycleget)
+- [`Cycle.check()`](#method-cyclecheck)
 
 #### Method: `Cycle.add()`
 
@@ -256,6 +257,27 @@ Returns the `Cycle` instance with the given name, or `null` if it doesn't exist.
 var cycle = Cycle.get('blah');
 ```
 
+#### Method: `Cycle.check()`
+
+**Returns**: boolean.
+
+**Syntax**: `Cycle.check(name, phase)`
+
+Returns a whether the indicated `Cycle` instance is at the indicated phase
+
+**Arguments**:
+
+- `name`: The name of a previously defined cycle, by the [`<<newcycle>>` macro](#macro-ltltnewcyclegtgt) or the [`Cycle` API](#javascript-api).
+- `phase`: The string name of one of the phases in this cycle.
+
+**Usage**:
+
+```
+<<if Cycle.check('time', 'afternoon')>>
+    It's afternoon!
+<</if>>
+```
+
 #### Method: `Cycle.del()`
 
 **Returns**: boolean.
@@ -284,6 +306,7 @@ Cycle.get('blah'); // null
 Deletes all registered cycles.
 
 **Usage**:
+
 ```javascript
 Cycle.add('blah', { phases : ['hey', 'hello'] });
 Cycle.clear();
@@ -297,6 +320,7 @@ These are the methods of the `Cycle` instance. Methods that return the `Cycle` i
 Of particular note to authors:
 
 - [`cycle#current()`](#method-cyclecurrent)
+- [`cycle#check()`](#method-instance-cyclecheck)
 - [`cycle#update()`](#method-cycleupdate)
 
 #### Method: `cycle#current()`
@@ -315,6 +339,26 @@ Cycle.get('blah').current();
 ```
 /* roughly equivalent to `<<showcycle 'blah' upperfirst>>` */
 <<= Cycle.get('blah').current().toUpperFirst()>>
+```
+
+#### Method (Instance): `cycle#check()`
+
+**Returns**: boolean.
+
+**Syntax**: `<cycle>.check(phase)`
+
+Returns whether the cycle is at the indicated phase.
+
+**Arguments**:
+
+- `phase`: The string name of one of the phases in this cycle.
+
+**Usage**:
+
+```
+<<if Cycle.get('time').check('afternoon')>>
+	It's afternoon.
+<</if>>
 ```
 
 #### Method: `cycle#update()`

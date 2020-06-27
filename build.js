@@ -1,7 +1,7 @@
 // build me
 
 var jetpack = require('fs-jetpack'),
-    uglify = require('uglify-js');
+    Terser  = require('terser');
 
 function build () {
     var jsFiles = jetpack.find('./scripts', {
@@ -11,11 +11,11 @@ function build () {
     
     jsFiles.forEach( function (file) {
         var source = jetpack.read(file),
-            path = file.split(/[\\\/]/g),
-            name = path.pop().split('.').join('.min.'),
+            path   = file.split(/[\\\/]/g),
+            name   = path.pop().split('.').join('.min.'),
             result, ret;
         
-        result = uglify.minify(source);
+        result = Terser.minify(source);
         
         console.log(result.error);
         

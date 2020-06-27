@@ -11,6 +11,9 @@ The default look and styling is very bare bones, and meant to be a basic startin
 > [!NOTE]
 > Unlike most of my macros, this code relies on CSS files as well as JavaScript! Be sure to download and install the relevant CSS files as well!
 
+> [!WARNING]
+> If you want to use this system with the `typed.js` integration module, you'll need to use this custom JavaScript in place of that provided by the module: https://gist.github.com/tmedwards/4921bdcd7bfbb955530c135ee3feff83
+
 **THE CODE:** [Minified JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/speech.min.js). [Pretty JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/speech.js). [Minified CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/speech.min.css). [Pretty CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/speech.css).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=speech).  
 **GUIDE:** Not available.
