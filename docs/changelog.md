@@ -1,9 +1,10 @@
 ## Changelog
 
-[Back to the main readme](./README.md).
+[Back to the main page](./README.md).
 
-> [!NOTE]
-> I'm going to start keeping a changelog for these macros because keeping track of them is becoming a nightmare. The overall version numbers are not really helpful for tracking what's happening on a macro-by-macro basis, but I'm trying to stick to major version bumps meaning breaking changes in any macro, or complete refactors of the whole collection, like what v2.0.0 was. Minor version updates indicate new macros have been added. Patch version updates means individual macro updates and bug fixes, or documentation, website, or demo updates.
+### June 28, 2020 (v2.5.5)
+
+- **[Update]** Updated `Cycle.check()` and `cycle#check()` to accept multiple phases to check.
 
 ### June 27, 2020 (v2.5.4)
 

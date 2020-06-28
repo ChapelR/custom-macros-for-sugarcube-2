@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     // cycles.js, by chapel; for SugarCube 2
-    // version 2.0.0
+    // version 2.1.1
 
     // OPTIONS
 
@@ -139,9 +139,10 @@
             }
             return false;
         },
-        check : function (name, phase) {
+        check : function (name) {
             if (Cycle.has(name)) {
-                return Cycle.get(name).check(phase);
+                var phases = [].slice.call(arguments).flatten().slice(1);
+                return Cycle.get(name).check(phases);
             }
         },
         clear : function (name) {
@@ -254,8 +255,9 @@
             }
             return this.increment;
         },
-        check : function (phase) {
-            return this.current() === phase;
+        check : function () {
+            var phases = [].slice.call(arguments).flatten();
+            return phases.includes(this.current());
         }
     });
 

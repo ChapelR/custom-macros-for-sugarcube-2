@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.5.4)
+## Chapel's Custom Macro Collection (v2.5.5)
 
 - [Try the demo!](https://macros.twinelab.net/demo)
 - [Downloads](./download ':ignore')
@@ -8,7 +8,7 @@
 ### Documentation
 - **Gameplay Systems and Mechanics**
   - [The Simple Inventory System](./simple-inventory.md)
-  - [The Cycles System](./cycles-system.md) *updated*
+  - [The Cycles System](./cycles-system.md)
   - [The Playtime System](./playtime-system.md)
 - **Interface and Style**
   - [The Dialog API Macro Set](./dialog-api-macro-set.md)
@@ -45,7 +45,7 @@ If you opt to get the files from GitHub, It is highly recommended that you insta
 
 - For **Twine 2** users: copy and paste the JavaScript code into your [story JavaScript area](https://twinery.org/wiki/twine2:adding_custom_javascript_and_css).  Some macros may also require CSS code, which goes in your story stylesheet.
 
-- For **Twine 1**, you'll need to copy and paste the JavaSCript portions into a script-tagged passage, and the CSS portions (if any) into a stylesheet-tagged passage. You can create new passages and add the tags yourself, or right-click on a blank spot in the editor and select new script here and new stylesheet here to generate each passage.
+- For **Twine 1**, you'll need to copy and paste the JavaScript portions into a script-tagged passage, and the CSS portions (if any) into a stylesheet-tagged passage. You can create new passages and add the tags yourself, or right-click on a blank spot in the editor and select new script here and new stylesheet here to generate each passage.
 
 - For **Twee2**, refer to [its documentation](https://dan-q.github.io/twee2/documentation.html#twee2-syntax-special-passages) for how to create the tagged passages you need.
 

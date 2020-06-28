@@ -261,14 +261,14 @@ var cycle = Cycle.get('blah');
 
 **Returns**: boolean.
 
-**Syntax**: `Cycle.check(name, phase)`
+**Syntax**: `Cycle.check(name, phase [, phase...])`
 
-Returns a whether the indicated `Cycle` instance is at the indicated phase
+Returns a whether the indicated `Cycle` instance is any of the indicated phases. You may pass any number of phases as an array, or as separate arguments, or as any combination of arrays and separate arguments. If the cycle is currently at any of the phases, this method will return `true`.
 
 **Arguments**:
 
 - `name`: The name of a previously defined cycle, by the [`<<newcycle>>` macro](#macro-ltltnewcyclegtgt) or the [`Cycle` API](#javascript-api).
-- `phase`: The string name of one of the phases in this cycle.
+- `phase`: The string name of one of the phases in this cycle. You may pass any number of phases as a series of arguments or as an array, or as any combination of the two.
 
 **Usage**:
 
@@ -345,13 +345,13 @@ Cycle.get('blah').current();
 
 **Returns**: boolean.
 
-**Syntax**: `<cycle>.check(phase)`
+**Syntax**: `<cycle>.check(phase [, phase...])`
 
-Returns whether the cycle is at the indicated phase.
+Returns whether the cycle is at the indicated phase. You may pass any number of phases as an array, or as separate arguments, or as any combination of arrays and separate arguments. If the cycle is currently at any of the phases, this method will return `true`.
 
 **Arguments**:
 
-- `phase`: The string name of one of the phases in this cycle.
+- `phase`: The string name of one of the phases in this cycle. You may pass any number of phases as a series of arguments or as an array, or as any combination of the two.
 
 **Usage**:
 
