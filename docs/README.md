@@ -1,6 +1,6 @@
 ## Chapel's Custom Macro Collection (v2.6.0)
 
-- [Try the demo!](https://macros.twinelab.net/demo)
+- [Try the demo!](https://macros.twinelab.net/demo) ([Sausage](https://github.com/ChapelR/custom-macros-demo))
 - [Downloads](./download ':ignore')
 - [Changelog](./changelog.md)
 - [Release Notes](https://twinelab.net/blog/tags/macros/)
