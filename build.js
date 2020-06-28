@@ -1,21 +1,29 @@
-// build me
+// jshint esversion: 6, node: true
 
-var jetpack = require('fs-jetpack'),
+const jetpack = require('fs-jetpack'),
     Terser  = require('terser');
 
 function build () {
-    var jsFiles = jetpack.find('./scripts', {
+    const jsFiles = jetpack.find('./scripts', {
         matching : '*.js',
         recursive : false
     });
     
-    jsFiles.forEach( function (file) {
-        var source = jetpack.read(file),
-            path   = file.split(/[\\\/]/g),
-            name   = path.pop().split('.').join('.min.'),
-            result, ret;
+    jsFiles.forEach( file => {
+        const source = jetpack.read(file);
+        let path = file.split(/[\\\/]/g);
+
+        const name = path.pop().split('.').join('.min.');
+
+        let version = source.match(/(v|version\s+)(\d+\.\d+.\d+)/);
+        if (version == null) {
+            version = '0.0.1';
+            console.log(`missing version info: ${file}`);
+        } else {
+            version = version[2];
+        }
         
-        result = Terser.minify(source);
+        const result = Terser.minify(source);
         
         console.log(result.error);
         
@@ -24,7 +32,7 @@ function build () {
         path.push(name);
         path = path.join('/');
         
-        ret = '// ' + name + ', for SugarCube 2, by Chapel\n;' + result.code + '\n// end ' + name; 
+        const ret = `// ${name}@v${version}, for SugarCube 2, by Chapel\n;${result.code}\n// end ${name}`;
         
         jetpack.write(path, ret, {atomic : true});
     });

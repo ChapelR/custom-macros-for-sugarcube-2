@@ -1,5 +1,5 @@
 (function () {
-    // mouseover macro, v 1.0.1, by chapel, for sugarcube 2
+    // mouseover macro, v1.0.1, by chapel, for sugarcube 2
 
     Macro.add('mouseover', {
 

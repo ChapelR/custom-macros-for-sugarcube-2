@@ -2,6 +2,10 @@
 
 [Back to the main page](./README.md).
 
+### Month Day, Year (v2.x.x)
+
+- **[Meta]** Updated build process.
+
 ### June 28, 2020 (v2.5.5)
 
 - **[Update]** Updated `Cycle.check()` and `cycle#check()` to accept multiple phases to check.

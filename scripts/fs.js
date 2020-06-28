@@ -138,7 +138,6 @@
                 });
 
             } catch (err) {
-                return bail(err);
 
                 saveToState(null, storyVar);
 
@@ -149,6 +148,8 @@
                     raw : null,
                     storyVar : storyVar
                 });
+                
+                return bail(err);
 
             }
         });

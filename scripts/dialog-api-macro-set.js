@@ -84,6 +84,6 @@ Macro.add('popup', {
 Macro.add('dialogclose', { 
     skipArgs : true, 
     handler : function () {
-        Dialog.close()
+        Dialog.close();
     } 
 });

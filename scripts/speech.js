@@ -1,4 +1,5 @@
 (function () {
+    // v1.0.1
     'use strict';
 
     var characters = new Map();

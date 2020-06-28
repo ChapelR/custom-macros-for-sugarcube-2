@@ -48,7 +48,7 @@ Temporary Items
 
 /old
 /node_modules
-build.bat
+**.bat
 **.sublime-*
-
+**.log
 test/

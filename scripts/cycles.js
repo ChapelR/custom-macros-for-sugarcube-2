@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     // cycles.js, by chapel; for SugarCube 2
-    // version 2.1.1
+    // v2.1.1
 
     // OPTIONS
 
