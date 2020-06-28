@@ -2,9 +2,9 @@
 
 [Back to the main page](./README.md).
 
-### Month Day, Year (v2.x.x)
+### Month Day, Year (v2.6.0)
 
-- **[Meta]** Updated build process.
+- **[Meta]** Overhauled build and code quality processes.
 
 ### June 28, 2020 (v2.5.5)
 
