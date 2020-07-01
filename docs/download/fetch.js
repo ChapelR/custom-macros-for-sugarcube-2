@@ -16,7 +16,6 @@
         'The Fading Macro Set' : 'fading-macro-set',
         'The First Macro' : 'first-macro',
         'File System Macros' : 'fs',
-        // 'Fullscreen Macros' : 'fullscreen',
         'The Message Macro' : 'message-macro',
         'The Meters Macro Set' : 'meters',
         'The Mouseover Macro' : 'mouseover',
@@ -28,7 +27,8 @@
         'The Speech Box System' : 'speech+css',
         'Swap Macro Set' : 'swap-macro-set',
         'The Typesim Macro' : 'type-sim',
-        'The UI Macro' : 'ui-macro'
+        'The UI Macro' : 'ui-macro',
+        'The Preload Macro' : 'preload'
     };
 
     var macros = Object.keys(fileNameMap);

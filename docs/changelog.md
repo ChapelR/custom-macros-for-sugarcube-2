@@ -4,7 +4,10 @@
 
 ### Month Day, Year (v2.6.0)
 
-- **[Meta]** Overhauled build and code quality processes.
+- **[New]** Added the preload macro.
+- **[Meta]** Repository changes.
+  - Overhauled build and code quality check processes.
+  - Spun out demo project into its own repo.
 
 ### June 28, 2020 (v2.5.5)
 
