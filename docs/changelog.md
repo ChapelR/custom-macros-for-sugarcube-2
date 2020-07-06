@@ -2,9 +2,11 @@
 
 [Back to the main page](./README.md).
 
-### Month Day, Year (v2.6.0)
+### July 0, 2020 (v2.6.0)
 
-- **[New]** Added the preload macro.
+- **[New]** New macros.
+  - Added the preload macro for preloading images.
+  - Added the popover macro for creating special transparent dialogs and splash screens.
 - **[Meta]** Repository changes.
   - Overhauled build and code quality check processes.
   - Spun out demo project into its own repo.

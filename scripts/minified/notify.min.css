@@ -1,2 +1,3 @@
 /* notify.min.css, by chapel; for use with notify.js; v1.0.0 */
 #notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition:right .3s;-moz-transition:right .3s;-o-transition:right .3s;transition:right .3s}#notify.open{right:0}
+/* end notify.min.css */

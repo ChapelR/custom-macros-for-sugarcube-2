@@ -19,6 +19,7 @@
         'The Message Macro' : 'message-macro',
         'The Meters Macro Set' : 'meters',
         'The Mouseover Macro' : 'mouseover',
+        'The Popover Macro' : 'popover+css',
         'The Notify Macro' : 'notify+css',
         'Dice Roller and Fairmath Functions' : 'operations',
         'Playtime System' : 'playtime',

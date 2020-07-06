@@ -8,10 +8,11 @@
 ### Documentation
 - **Gameplay Systems and Mechanics**
   - [The Simple Inventory System](simple-inventory.md)
-  - [The Cycles System](cycles-system.md)
+  - Updated [The Cycles System](cycles-system.md) 
   - [The Playtime System](playtime-system.md)
 - **Interface and Style**
   - [The Dialog API Macro Set](dialog-api-macro-set.md)
+  - New [The Popover Macro](popover.md)
   - [The UI Macro](ui-macro.md)
   - [The Fading Macro Set](fading-macros.md)
   - [The CSS Macro](css-macro.md)
@@ -29,7 +30,7 @@
   - [The Pronoun Templates](pronoun-templates.md)
   - [The Articles (A/An) Macros](articles.md)
 - **Utilities and Other**
-  - [The Preload Macro](preload.md)
+  - New [The Preload Macro](preload.md)
   - [The Done Macro](done-macro.md)
   - [The File System Macro Set](file-system-macros.md)
   - [The First Macro](first-macro.md)

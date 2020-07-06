@@ -18,7 +18,7 @@ The `<<dialog>>` macro creates a new dialog box, with an optional title and an o
 
  * **title**: (optional) A title to appear at the top of the dialog box.  If you want to omit a title but include classes, this argument can be an empty string (`''`).
  * **classList**: (optional) A list of CSS classes to add to the dialog, for styling.  The classes should be a space-separated list of quoted class names (i.e. `'class-a' 'class-b' 'class-c'`), a quoted list of space-separated class names (i.e. `'class-a class-b class-c'`), or one or more string arrays (i.e. `['class-a', 'class-b', 'class-c']`), or any combination of thereof.
- 
+
 **Usage**:
 ```
 /% creates a link that opens a dialog box called 'Character Sheet' with the classes .char-sheet and .stats %/
@@ -90,8 +90,9 @@ The `<<popup>>` macro provides a similar result to what you might get by pairing
  * **passageName**: The name of one of your passages.  The indicated passage's content will be rendered into the dialog box's body.
  * **title**: (optional) A title to appear at the top of the dialog box.  If you want to omit a title but include classes, this argument can be an empty string (`''`).
  * **classList**: (optional) A list of CSS classes to add to the dialog, for styling.  The classes should be a space-separated list of quoted class names (i.e. `'class-a' 'class-b' 'class-c'`), a quoted list of space-separated class names (i.e. `'class-a class-b class-c'`), or one or more string arrays (i.e. `['class-a', 'class-b', 'class-c']`), or any combination of thereof.
- 
+
 **Usage**:
+
 ```
 /% 
 	creates a link that opens a dialog box called 'Character Sheet' 
@@ -107,3 +108,25 @@ The `<<popup>>` macro provides a similar result to what you might get by pairing
 	<<popup 'credits-passage' 'Credits'>>
 <</button>>
 ```
+
+### Macro: `<<dialogclose>>`
+
+**Syntax**: `<<dialogclose>>`
+
+Closes the dialog.
+
+**Usage**:
+
+```
+<<link 'View Character Sheet'>>
+	<<dialog 'Character Sheet' 'char-sheet stats'>>\
+		|Strength|$str|
+		|Dexterity|$dex|
+		|Wisdom|$wis|\
+	@@float:right;
+		<<button "Close">><<dialogclose>><</button>>
+    @@
+	<</dialog>>
+<</link>>
+```
+
