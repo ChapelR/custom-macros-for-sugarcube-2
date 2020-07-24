@@ -2,6 +2,15 @@
 
 [Back to the main page](./README.md).
 
+### July 24, 2020 (v2.6.0)
+
+- **[New]** New macros.
+  - Added the preload macro for preloading images.
+  - Added the popover macro for creating special transparent dialogs and splash screens.
+- **[Meta]** Repository changes.
+  - Overhauled build and code quality check processes.
+  - Spun out demo project into its own repo.
+
 ### June 28, 2020 (v2.5.5)
 
 - **[Update]** Updated `Cycle.check()` and `cycle#check()` to accept multiple phases to check.

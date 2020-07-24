@@ -1,4 +1,5 @@
 (function () {
+    // v1.0.0
     'use strict';
 
     var _overrides = new Map();

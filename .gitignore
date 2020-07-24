@@ -46,9 +46,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-/old
-/node_modules
-build.bat
+old/
+node_modules/
+**.bat
 **.sublime-*
-
+**.log
 test/
+proto/

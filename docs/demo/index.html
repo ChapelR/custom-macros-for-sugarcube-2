@@ -103,10 +103,14 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 	<!-- UUID://5A1C9F24-6A3D-4BCC-B2CE-2AE73ECCDFD4// --><tw-storydata name="Custom Macros Demo" startnode="3" creator="Tweego" creator-version="2.0.0+089d4ca77e5b" ifid="5A1C9F24-6A3D-4BCC-B2CE-2AE73ECCDFD4" zoom="1" format="SugarCube" format-version="2.31.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "notify.min.css" */
 /* notify.min.css, by chapel; for use with notify.js; v1.0.0 */
 #notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition:right .3s;-moz-transition:right .3s;-o-transition:right .3s;transition:right .3s}#notify.open{right:0}
-/* twine-user-stylesheet #2: "speech.min.css" */
+/* twine-user-stylesheet #2: "popover.min.css" */
+/* popover.min.css, by chapel; for use with popover.js; v1.0.0 */
+#ui-dialog-body.popover{background:0 0;border:0;padding:0}.popover #ui-dialog-titlebar{background:0 0}.popover #ui-dialog-title{display:none}.popover #ui-dialog-close{position:fixed;display:block;top:0;right:0;height:3em}.popover #ui-dialog-close:hover{background-color:transparent;border-color:transparent;color:#c22}#ui-overlay.popover.opaque{opacity:1}#ui-overlay.popover.transparent{opacity:0}#ui-overlay.popover.invert{background-color:#f8f8f8}#ui-dialog-body.popover.invert{color:#111}
+/* end popover.min.css */
+/* twine-user-stylesheet #3: "speech.min.css" */
 /* speech.min.css, by chapel; for use with speech.js */
 .say{border:1px solid #eee;overflow:auto}.say img{max-width:20%;float:left;margin-right:1em}.say p:first-of-type{font-weight:700;margin:.2em 0;border-bottom:1px solid #eee}.say p:last-of-type{padding:.5em;margin:0}
-/* twine-user-stylesheet #3: "style.css" */
+/* twine-user-stylesheet #4: "style.css" */
 .hide {
     display: none;
 }
@@ -224,27 +228,36 @@ postdisplay['gists'] = function () {
 // playtime.min.js, for SugarCube 2, by Chapel
 ;!function(){"use strict";var e=!0,t="playtime",a="pausetimer";function n(){return Date.now()-State.variables[t]}function r(e){if(e&&!(e<0)&&"number"==typeof e){var t=[];return t.push(Math.floor(e/1e3)%60),t.push(Math.floor(e/6e4)%60),t.push(Math.floor(e/36e5)),t}}State.variables[t]=Date.now(),predisplay["start-playtime"]=function(e){delete predisplay[e],State.variables[t]||(State.variables[t]=Date.now())},prehistory["pause-playtime"]=function(e){tags().includes(a)&&(State.variables[t]+=time())};var i=["h","hr","hrs","hour","hours"],s=["m","min","mins","minute","minutes"],u=["s","sec","secs","second","seconds"];function o(e){return function(e,t){if(e&&Array.isArray(e)&&!(e.length<3)){var a=e[2]<10?"0"+e[2]:""+e[2],n=e[1]<10?"0"+e[1]:""+e[1],r=e[0]<10?"0"+e[0]:""+e[0];return t?"<b>"+a+":"+n+"</b>:"+r:a+":"+n+":"+r}}(r(n()),e)}setup.playTime=function(e){return"string"==typeof e?function(e){var t=n(),a=r(t);return i.includes(e)?a[2]:s.includes(e)?a[1]:u.includes(e)?a[0]:t}(e):o(e)},e&&(window.playTime=window.playTime||setup.playTime),Macro.add("playtime",{handler:function(){var e=this.args.map((function(e){return String(e).trim().toLowerCase()})),t=$(document.createElement("span")),a=o(e.includesAny(["format","f","fmt","b","bold","true"]));t.wiki(a).addClass("macro-"+this.name).appendTo(this.output)}})}();
 // end playtime.min.js
-/* twine-user-script #19: "pronouns.min.js" */
+/* twine-user-script #19: "popover.min.js" */
+// popover.min.js, for SugarCube 2, by Chapel
+// v1.0.0, 2020-07-06, 92d87a1d979055f318ee94bcad96cb25ae2a23aa
+;!function(){"use strict";function o(o,i){i=function(){return[].slice.call(arguments).flatten().filter((function(o){return o&&"string"==typeof o&&o.trim()}))||[]}(i),$("#ui-overlay, #ui-dialog").addClass("popover"),$("#ui-overlay, #ui-dialog, #ui-dialog-body").addClass(i),i.includesAny("noclick","no-click")&&$("#ui-overlay").removeClass("ui-close"),Dialog.setup("","popover"),Dialog.wiki(o),Dialog.open(),$(document).one(":dialogclosed",(function(){$("#ui-overlay").addClass("ui-close"),$("#ui-overlay, #ui-dialog").removeClass("popover"),$("#ui-overlay, #ui-dialog, #ui-dialog-body").removeClass(i)}))}Macro.add("popover",{tags:null,handler:function(){o(this.payload[0].contents,this.args)}}),Macro.add("dismisspopover",{skipArgs:!0,handler:function(){$("ui-overlay").hasClass("popover")&&Dialog.close()}}),setup.popover=o}();
+// end popover.min.js
+/* twine-user-script #20: "preload.min.js" */
+// preload.min.js@v1.0.0, for SugarCube 2, by Chapel
+;!function(){"use strict";function t(t,e){var n=0,r=t.length;t.forEach((function(t){!function(t,e){var n=new Image;n.onload=e,n.onerror=e,n.src=t}(t,(function(){++n===r&&e()}))}))}function e(){return State.length<=0}function n(){var n=[].slice.call(arguments).flatten(),r=!!e()&&LoadScreen.lock();return t(n,(function(){r&&LoadScreen.unlock(r)})),r}setup.preload=n,setup.preload.force=!1,Macro.add("preload",{handler:function(){if(!e()&&!setup.preload.force)return this.error("Attempting to preload images outside of `StoryInit` or similar can cause performance issues. Set `setup.preload.force` to `true` if you want to do it anyway.");n(this.args.flatten().filter((function(t){return"string"==typeof t})))}})}();
+// end preload.min.js
+/* twine-user-script #21: "pronouns.min.js" */
 // pronouns.min.js, for SugarCube 2, by Chapel
 ;!function(){"use strict";if(Template&&Template.add&&"function"==typeof Template.add){var e={name:"gender",showSetting:!0,label:"Gender",desc:"",storyVar:"%%gender",default:"female"},t="#setting-control-"+e.name,r={subjective:["she","he","they"],objective:["her","him","them"],possessive:["hers","his","theirs"],determiner:["her","his","their"],reflexive:["herself","himself","themself"],noun:["woman","man","person"]};e.showSetting&&(Setting.addToggle(e.name,{label:e.label,desc:e.desc&&"string"==typeof e.desc&&e.desc.trim()?e.desc.trim():void 0}),$(document).on(":dialogopen :dialogopened",(function(){$("#ui-dialog-body").hasClass("settings")&&$(t).parent("div").empty().append($(document.createElement("button")).append("Configure...").ariaClick((function(){h()})))})));var a=/^is$/i,n=/^was$/i,s=/^has$/i,i=/oes$/i,o=/^[dl]ies$/i,l=/ies$/i,u=/sses$/i,c=/hes$/i,d=/s$/i,p=/they/i;Template.add(["he","she","they","He","She","They"],(function(){return S(this.name,g().subjective)})),Template.add(["him","her","them","Him","Her","Them"],(function(){return S(this.name,g().objective)})),Template.add(["his","hers","theirs","His","Hers","Theirs"],(function(){return S(this.name,g().possessive)})),Template.add(["his_","her_","their","His_","Her_","Their"],(function(){return S(this.name,g().determiner)})),Template.add(["himself","herself","themself","Himself","Herself","Themself"],(function(){return S(this.name,g().reflexive)})),Template.add(["man","woman","person","Man","Woman","Person"],(function(){return S(this.name,g().noun)})),Template.add(["he-s","she-s","they-re","He-s","She-s","They-re"],(function(){return S(this.name,g().subjective+T("&apos;s","&apos;re",y()))})),Macro.add("pronouns",{skipArgs:!0,handler:function(){h()}}),Macro.add("verb",{handler:function(){var e=y();if(this.args.length<1)return this.error("Please pass at least a singular third person pronoun to this macro.");this.args.includes("plural")&&(e=!0),this.output.append(T(String(this.args[0]),this.args[1]?String(this.args[1]):null,!!e))}}),setup.gender={pronouns:g,setPronouns:function(t){return"string"==typeof t?v(t):"object"==typeof t?function(t){if("object"==typeof t)return State.variables[e.storyVar]=v("male"===e.default?1:0),Object.assign(State.variables[e.storyVar],t)}(t):void 0},dialog:h,pluralize:b},window.gender=window.gender||setup.gender}else alert("Warning, this version of SugarCube does not include the Template API. Please upgrade to v2.29.0 or higher.");function m(){var t=$(document.createElement("div"));var a=Object.keys(r).map((function(t){var a=2;"male"===e.default?a=1:"female"===e.default&&(a=0);var n=State.variables,s=r[t][a];return n[e.storyVar]&&n[e.storyVar][t]&&(s=n[e.storyVar][t]),function(e,t,r){return $(document.createElement("label")).append(e).css("display","block").append($(document.createElement("input")).attr({type:"text",name:t}).css({float:"right","margin-left":"0.2em"}).val(r))}(t.toUpperFirst()+": ","gender-"+t,s)})),n=function(e,t,r){var a=$(document.createElement("select")).attr("name",t).css("float","right");return r.forEach((function(e,t){console.log(t),$(document.createElement("option")).attr("value",String(t)).append(e).appendTo(a)})),$(document.createElement("label")).css("display","block").append(e,a)}("Presets: ","gender-preset",["She/Her","He/Him","They/Them"]).on("change",(function(){var e=Number($(this).find("select").val());Number.isNaN(e)||a.forEach((function(t){var a=t.find("input"),n=a.attr("name").split("-")[1];a.val(r[n][e])}))})),s=n.find("select");State.variables[e.storyVar]?s.val(""):"male"===e.default?s.val("1"):"female"===e.default?s.val("0"):s.val("2");var i,o=$(document.createElement("button")).wiki("Confirm").addClass("gender-confirm").ariaClick({label:"Confirm pronoun selection."},(function(){var t=State.variables;t[e.storyVar]={},a.forEach((function(r){var a=r.find("input"),n=a.attr("name").split("-")[1];t[e.storyVar][n]=a.val().trim().toLowerCase()})),$("#ui-dialog-body").hasClass("reopen")&&UI.settings(),Dialog.close()})),l=(i=[n,"<br>"],a.forEach((function(e){i.push(e),i.push("<br>")})),i.push(o),i);return t.append(l)}function h(){var e,t,r,a;e="Customize Gender",t=m(),r="custom-gender",a=!1,Dialog.isOpen()&&$("#ui-dialog-body").hasClass("settings")&&(a=!0),Dialog.close(),Dialog.setup(e,a?r+" reopen":r),Dialog.append(t),Dialog.open()}function f(e){("number"!=typeof e||Number.isNaN(e)||e>2||e<0)&&(e=0);var t={};return Object.keys(r).forEach((function(a){t[a]=r[a][e]})),t}function g(){return State.variables[e.storyVar]&&State.variables[e.storyVar].subjective?State.variables[e.storyVar]:f("male"===e.default?1:0)}function v(t){var r;switch(t){case"female":r=f(0);break;case"male":r=f(1);break;default:r=f(2)}return State.variables[e.storyVar]=clone(r),r}function b(e){return e&&"string"==typeof e?(e=e.trim(),a.test(e)?e.replace(a,"are"):n.test(e)?e.replace(n,"were"):s.test(e)?e.replace(s,"have"):i.test(e)?e.replace(i,"o"):o.test(e)?e.replace(l,"ie"):l.test(e)?e.replace(l,"y"):u.test(e)?e.replace(u,"ss"):c.test(e)?e.replace(c,"h"):d.test(e)?e.replace(d,""):e):e}function y(){return p.test(g().subjective.trim())}function T(e,t,r){return r?t&&"string"==typeof t?t:b(e):e}function S(e,t){return e.first()===e.first().toUpperCase()?t.toUpperFirst():t}}();
 // end pronouns.min.js
-/* twine-user-script #20: "simple-inventory.min.js" */
+/* twine-user-script #22: "simple-inventory.min.js" */
 // simple-inventory.min.js, for SugarCube 2, by Chapel
 ;!function(){"use strict";var r={tryGlobal:!0,defaultStrings:{empty:"The inventory is empty...",listDrop:"Discard",separator:"\n"}};function i(r,i,t,n){$(document).trigger({type:"initialized"===n?":inventory-init":":inventory-update",instance:r,receiving:i,moved:t,context:n})}function t(r){if(r=r?(r=[].slice.call(arguments)).flatten():[],!(this instanceof t))return new t(r);this.inv=r,i(this,null,r=r.length?r:null,"initialized")}Object.assign(t,{is:function(r){return r instanceof t},log:function(r){return t.is(r)?"Inventory.log() -> "+r.toArray().join(" - "):"Inventory.log() -> object is not an inventory..."},removeDuplicates:function(r){if(t.is(r)){var i,n=r.toArray();return i=[],n.forEach((function(r){i.includes(r)||i.push(r)})),i}}}),Object.assign(t.prototype,{transfer:function(r){if(arguments.length<2)return this;if(!t.is(r))return this;for(var n=[].slice.call(arguments),e=[],s=0,a=(n=n.slice(1).flatten()).length;s<a;s++)this.inv.includes(n[s])&&(this.inv.delete(n[s]),e.push(n[s]));return e.length?(r.inv=r.inv.concat(e),i(this,r,e,"transfer"),this):this},has:function(){var r=[].slice.call(arguments).flatten();return!(!r||!r.length)&&this.inv.includesAny(r)},hasAll:function(){var r=[].slice.call(arguments).flatten();return!(!r||!r.length)&&this.inv.includesAll(r)},pickUp:function(r){var t=[].slice.call(arguments).flatten(),n=this;return t&&t.length&&("unique"!==r&&"unique"!==t[0]||(t=function(r){var i=[];return r.forEach((function(r){n.inv.includes(r)||i.includes(r)||i.push(r)})),i}(t=t.splice(1))),this.inv=this.inv.concat(t),i(this,null,t,"pickup")),this},drop:function(){var r,t=[].slice.call(arguments).flatten(),n=this;if(t&&t.length){var e=[];t.forEach((function(i){n.has(i)&&(e.push(i),r=n.inv.indexOf(i),n.inv.deleteAt(r))})),i(this,null,e,"drop")}return this},sort:function(){return this.inv=this.inv.sort(),i(this,null,null,"sort"),this},show:function(i){return i&&"string"==typeof i||(i=r.defaultStrings.separator),this.inv.length?this.inv.join(i):r.defaultStrings.empty},empty:function(){var r=clone(this.inv);return this.inv=[],i(this,null,r,"drop"),this},toArray:function(){return this.inv},count:function(r){if(r&&"string"==typeof r){var i=0;return this.toArray().forEach((function(t){t===r&&i++})),i}return this.toArray().length},isEmpty:function(){return 0===this.toArray().length},linkedList:function(i,n){i&&t.is(i)||(i=!1);var e=this.toArray(),s=this,a=$(document.createElement("span"));return e&&e.length?(e.forEach((function(t,e,o){var l=$(document.createElement("span")),u=$(document.createElement("a")),h=n||r.defaultStrings.drop,c=function(r,i){var t=Math.random().toString(36).substring(7);return arguments.length<2&&(r=Math.random().toString(36).substring(7),i=random(99)),"simple-inv-"+i+"-"+Date.now()+"-"+r.replace(/[^A-Za-z0-9]/g,"")+"-"+t}(t,e);u.wiki(h).addClass("simple-inv drop-link"),u.ariaClick((function(){i?s.transfer(i,t):s.drop(t),$("#"+c).empty()})),l.attr("id",c).addClass("simple-inv link-listing").wiki(t+" ").append(u),e<o.length-1&&l.wiki("<br />"),a.append(l)})),a):(a.wiki(r.defaultStrings.empty),a)},constructor:t,toJSON:function(){return JSON.reviveWrapper("new setup.Inventory("+JSON.stringify(this.inv)+")")},clone:function(){return new t(this.inv)}}),setup.Inventory=t,setup.simpleInv={inventory:t},r.tryGlobal&&(window.Inventory=window.Inventory||t),Macro.add("newinventory",{handler:function(){if(this.args.length<1)return this.error("incorrect number of arguments");var r=this.args[0].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');Wikifier.setValue(r,new t(this.args.slice(1).flatten()))}}),Macro.add("pickup",{handler:function(){if(this.args.length<2)return this.error("incorrect number of arguments");var r=this.args[0].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var i=Wikifier.getValue(r);if(!t.is(i))return this.error("variable "+r+" is not an inventory!");i.pickUp(this.args.slice(1).flatten())}}),Macro.add("drop",{handler:function(){if(this.args.length<2)return this.error("incorrect number of arguments");var r=this.args[0].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var i=Wikifier.getValue(r);if(!t.is(i))return this.error("variable "+r+" is not an inventory!");i.drop(this.args.slice(1).flatten())}}),Macro.add("transfer",{handler:function(){if(this.args.length<3)return this.error("incorrect number of arguments");var r=this.args[0].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var i=Wikifier.getValue(r);if(!t.is(i))return this.error("variable "+r+" is not an inventory!");var n=this.args[1].trim();if("$"!==n[0]&&"_"!==n[0])return this.error('variable name "'+this.args[1]+'" is missing its sigil ($ or _)');var e=Wikifier.getValue(n);if(!t.is(e))return this.error("variable "+n+" is not an inventory!");i.transfer(e,this.args.slice(2).flatten())}}),Macro.add("dropall",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var r=this.args[0].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var i=Wikifier.getValue(r);if(!t.is(i))return this.error("variable "+r+" is not an inventory!");i.empty()}}),Macro.add("clear","dropall",!1),Macro.add("sort",{handler:function(){if(1!==this.args.length)return this.error("incorrect number of arguments");var r=this.args[0].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var i=Wikifier.getValue(r);if(!t.is(i))return this.error("variable "+r+" is not an inventory!");i.sort()}}),Macro.add("inventory",{handler:function(){if(this.args.length<1||this.args.length>2)return this.error("incorrect number of arguments");var r=this.args[0].trim();if("$"!==r[0]&&"_"!==r[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var i=Wikifier.getValue(r);if(!t.is(i))return this.error("variable "+r+" is not an inventory!");var n=$(document.createElement("span")),e=!!this.args[1]&&this.args[1];n.wiki(i.show(e)).addClass("macro-"+this.name).appendTo(this.output)}}),Macro.add("linkedinventory",{handler:function(){if(this.args.length<2||this.args.length>3)return this.error("incorrect number of arguments");var r=!1,i="",n=this.args[1].trim(),e="string"==typeof this.args[0]&&this.args[0];if(!e)return this.error("first argument should be the link text");if("$"!==n[0]&&"_"!==n[0])return this.error('variable name "'+this.args[1]+'" is missing its sigil ($ or _)');var s=Util.slugify(n);s=this.name+"-"+s;var a=Wikifier.getValue(n);if(!t.is(a))return this.error("variable "+n+" is not an inventory!");if(this.args.length>2){if("$"!==(i=this.args[2].trim())[0]&&"_"!==i[0])return this.error('variable name "'+this.args[2]+'" is missing its sigil ($ or _)');if(r=Wikifier.getValue(i),!t.is(r))return this.error("variable "+i+" is not an inventory!")}a.linkedList(r,e).attr({id:s,"data-rec":i,"data-self":n,"data-action":e}).addClass("macro-"+this.name).appendTo(this.output)}})}();
 // end simple-inventory.min.js
-/* twine-user-script #21: "speech.min.js" */
+/* twine-user-script #23: "speech.min.js" */
 // speech.min.js, for SugarCube 2, by Chapel
 ;!function(){"use strict";var t=new Map;function a(a,e){if(State.length)throw new Error("addCharacter() -> must be called before story starts");a&&e?(t.has(a)&&console.error('addCharacter() -> overwriting character "'+a+'"'),t.set(a,e)):console.error("addCharacter() -> invalid arguments")}function e(a,e,r,s){var n=$(document.createElement("div")).addClass(Util.slugify(e)+" say"),c=$(document.createElement("img")).attr("src",s||t.get(e)||"");return c.attr("src")&&c.attr("src").trim()&&n.append(c),n.append($(document.createElement("p")).wiki(e.toUpperFirst())).append($(document.createElement("p")).wiki(r)),a&&(a instanceof $||(a=$(a)),n.appendTo(a)),n}setup.say=e,setup.addCharacter=a,Macro.add("character",{handler:function(){a(this.args[0],this.args[1])}}),$(document).one(":passagestart",(function(){var a=Array.from(t.keys());a.push("say"),Macro.add(a,{tags:null,handler:function(){"say"!==this.name?e(this.output,this.name,this.payload[0].contents):e(this.output,this.args[0],this.payload[0].contents,this.args[1])}})}))}();
 // end speech.min.js
-/* twine-user-script #22: "swap-macro-set.min.js" */
+/* twine-user-script #24: "swap-macro-set.min.js" */
 // swap-macro-set.min.js, for SugarCube 2, by Chapel
 ;!function(){"use strict";var t=!0,a=!0,e="violet",s="red",r="swappable";setup.swap=setup.swap||{};var n=null;function i(a){var e=function(){return a};setup.swap.current=e,t&&(window.swapCurrent=e)}function o(a,o){var p=$(document.createElement("span"));return $(document.createElement("a")).wiki(a).css("color",e).attr({"data-swap-flag":"false","data-orig-content":a,"data-wiki-code":o||""}).addClass(r).appendTo(p).ariaClick((function(a){a.preventDefault();var r=$(this);if("true"===r.attr("data-swap-flag"))r.attr("data-swap-flag","false").css("color",e),n=null;else if(n){var o=n.text(),p=r.text(),l=n.attr("data-wiki-code"),c=r.attr("data-wiki-code");n.attr("data-swap-flag","false").css("color",e).empty().wiki(p),r.attr("data-swap-flag","false").css("color",e).empty().wiki(o),l&&"string"==typeof l&&l.trim()&&(i(p),$.wiki(l)),c&&"string"==typeof c&&c.trim()&&(i(o),$.wiki(c)),setup.swap.current&&"function"==typeof setup.swap.current&&delete setup.swap.current,t&&window.swapCurrent&&"function"==typeof window.swapCurrent&&delete window.swapCurrent,n=null}else n=r,r.attr("data-swap-flag","true").css("color",s)})),p}function p(){n=null,$("a."+r).each((function(){var t=$(this);t.empty().wiki(t.attr("data-orig-content")).attr("data-swap-flag","false").css("color",e)}))}Macro.add("swap",{tags:["onswap"],skipArgs:!0,handler:function(){var t=this.payload[0].contents,a=this.payload[1]?this.payload[1].contents:"",e=this.output,s=this.name;o(t,a).addClass("macro-"+s).appendTo(e)}}),Macro.add("resetswap",{handler:function(){var t=this.args&&this.args[0]&&"string"==typeof this.args[0]?this.args[0]:"Reset";$(document.createElement(a?"button":"a")).wiki(t).ariaClick({label:"Reset all swappable elements."},(function(t){t.preventDefault(),p()})).appendTo(this.output)}}),setup.swap.create=o,setup.swap.reset=p}();
 // end swap-macro-set.min.js
-/* twine-user-script #23: "type-sim.min.js" */
+/* twine-user-script #25: "type-sim.min.js" */
 // type-sim.min.js, for SugarCube 2, by Chapel
 ;Macro.add("typesim",{tags:null,handler:function(){var t=$(document.createElement("textarea")),e=$(document.createElement("div"));if(1!==this.args.length)return this.error("incorrect number of arguments");if("string"!=typeof this.args[0])return this.error("argument should be a string");var r=this.args[0],a="",n=r.length,i=0,s="typesim-output-"+r.replace(/[^A-Za-z0-9]/g,""),o="macro-"+this.name,d=this.payload[0].contents;t.wiki(a).attr({id:s,readonly:!0}).addClass(o).appendTo(this.output),$(document).on("keydown","#"+s,this.createShadowWrapper((function(t){i<n&&(a+=r.charAt(i),$("#"+s).empty().wiki(a)),i===n&&e.wiki(d).addClass(o).insertAfter("#"+s),i++})))}});
 // end type-sim.min.js
-/* twine-user-script #24: "ui-macro.min.js" */
+/* twine-user-script #26: "ui-macro.min.js" */
 // ui-macro.min.js, for SugarCube 2, by Chapel
 ;!function(){var s={update:UIBar.setStoryElements,stow:UIBar.stow,unstow:UIBar.unstow,toggle:function(){$("#ui-bar").hasClass("stowed")?UIBar.unstow():UIBar.stow()},hide:function(){$("#ui-bar").css("display","none")},show:function(){$("#ui-bar").css("display","block")},kill:function(){$("#ui-bar").css("display","none"),$("#story").css("margin-left","2.5em")},restore:function(){$("#ui-bar").css("display","block"),$("#story").css("margin-left","20em")},jump:UI.jumpto,saves:UI.saves,restart:UI.restart,settings:UI.settings,share:UI.share,aliases:{refresh:"update",reload:"update",destroy:"kill",revive:"restore",jumpto:"jump",save:"saves",load:"saves",setting:"settings",sharing:"share"}},r=Object.keys(s);function t(t){return t&&"string"==typeof t?function(s){return r.includes(s)}(t=t.toLowerCase().trim())||(t=function(r){return s.aliases[r]||null}(t))?(s[t](),!1):'Command "'+t+'" is not a valid command.':"Command is not a string."}Macro.add("ui",{handler:function(){Array.isArray(this.args)&&this.args.length||this.error("No commands passed to macro.");var s,r=function(s){if(!Array.isArray(s))return"Command list error.";var r=[];return s.forEach((function(s){r.push(t(s))})),r}(this.args.flatten());s=(r=r.filter((function(s){return"string"==typeof s}))).join(" "),r.length&&s&&this.error(s)}})}();
 // end ui-macro.min.js</script><tw-passagedata pid="1" name="articles" tags="" position="100,100" size="100,100">The articles macro set allows you to prepend words or phrases with the appropriate idenfitine article (&quot;a&quot; or &quot;an&quot;).
@@ -266,6 +279,8 @@ You can use this macro set for when you need to determine the correct article to
 [[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/articles]]</tw-passagedata><tw-passagedata pid="2" name="StoryInit" tags="" position="225,100" size="100,100">&lt;&lt;set $gist to &quot;https://gist.github.com/ChapelR/3759a9ad0246eb72bc47a621f1edbf43.js&quot;&gt;&gt;
 &lt;&lt;set $gistCode to &quot;3759a9ad0246eb72bc47a621f1edbf43&quot;&gt;&gt;
 
+&lt;&lt;preload &#39;assets/lisa.jpg&#39; &#39;assets/bob.jpg&#39;&gt;&gt;
+
 &lt;&lt;set $health to 100, $maxHealth to 100&gt;&gt;
 &lt;&lt;newmeter &#39;timer&#39; 0&gt;&gt;
     &lt;&lt;colors &#39;red&#39; &#39;green&#39;&gt;&gt;
@@ -284,8 +299,10 @@ You can use this macro set for when you need to determine the correct article to
 &lt;&lt;character &#39;lisa&#39; &#39;assets/lisa.jpg&#39;&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Start" tags="no-gist" position="350,100" size="100,100">Welcome to the [[Custom Macros for SugarCube 2|https://macros.twinelab.net]] demo.
 
 This file will include demos and examples of my macro collection in action. To get started, pick a macro in the story menu to the left.</tw-passagedata><tw-passagedata pid="4" name="StoryMenu" tags="" position="475,100" size="100,100">[[Dialog API Macros|dialog]]
+[[The Popover Macro|popover]]
 [[The UI Macro|ui]]
 [[The Done Macro|done]]
+[[The Preload Macro|preload]]
 [[The Mouseover Macro|mouseover]]
 [[The Continue Macro|continue]]
 [[The Event Macros|event]]
@@ -833,7 +850,42 @@ You&#39;ve been playing for &lt;&lt;= playTime(&#39;minutes&#39;)&gt;&gt; minute
 There&#39;s also a passage tag, {{{pausetimer}}}, which can be used to pause the play timer, for example when the user is in menus.
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/playtime-system]]</tw-passagedata><tw-passagedata pid="39" name="pronouns" tags="" position="1100,475" size="100,100">The &#39;&#39;pronoun templates&#39;&#39; system is a drop-in system for handling player characters with configurable genders. It allows users to define and customize their preferred pronouns via a dialog modal that can be accessed via a macro or the {{{Setting}}} API. You can then leverage SugarCube&#39;s new {{{Template}}} API (add docs link) to use the templates in your game.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/playtime-system]]</tw-passagedata><tw-passagedata pid="39" name="popover" tags="" position="1100,475" size="100,100">The {{{&lt;&lt;popover&gt;&gt;}}} macro can be used to generate special dialog API modals that are designed to display full screen content. For example, consider try the following.
+
+&lt;&lt;link &quot;Click me!&quot;&gt;&gt;
+    &lt;&lt;popover &#39;noclick&#39;&gt;&gt;[img[assets/lisa.jpg]]&lt;&lt;/popover&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Click me!&quot;&gt;&gt;
+    &lt;&lt;popover &#39;noclick&#39; &#39;invert&#39;&gt;&gt;[img[assets/bob.jpg]]&lt;&lt;/popover&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+You can also display text using the popover:
+
+&lt;&lt;link &quot;Click me!&quot;&gt;&gt;
+    &lt;&lt;popover &#39;opaque&#39;&gt;&gt;\
+        Once upon a time... In a distant land...
+
+        Chapel made a macro set that required a constant barrage of unending examples.
+    \&lt;&lt;/popover&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/popover]]</tw-passagedata><tw-passagedata pid="40" name="preload" tags="" position="1225,475" size="100,100">The {{{&lt;&lt;preload&gt;&gt;}}} macro can be used to preload images. Preloading will improve performance as players click through the game, but will also increase startup time. It is recommended that users only load important images, like icons, and that users avoid loading tons of large images, like high-quality backgrounds.
+
+The {{{&lt;&lt;preload&gt;&gt;}}} macro must be generally used in {{{StoryInit}}}. For example, this demo includes this line in {{{StoryInit}}}:
+
+\&lt;pre&gt;&lt;code&gt;&lt;nowiki&gt;
+&lt;&lt;preload &#39;assets/lisa.jpg&#39; &#39;assets/bob.jpg&#39;&gt;&gt;
+&lt;/nowiki&gt;&lt;/code&gt;&lt;/pre&gt;\
+
+If you need to preload images at some other time it is possible, however, very much not recommended. You can add the following to {{{StoryInit}}} to enable you to preload at any time:
+
+\&lt;pre&gt;&lt;code&gt;&lt;nowiki&gt;
+&lt;&lt;set setup.preload.force to true&gt;&gt;
+&lt;/nowiki&gt;&lt;/code&gt;&lt;/pre&gt;\
+
+-----
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/preload]]</tw-passagedata><tw-passagedata pid="41" name="pronouns" tags="" position="100,600" size="100,100">The &#39;&#39;pronoun templates&#39;&#39; system is a drop-in system for handling player characters with configurable genders. It allows users to define and customize their preferred pronouns via a dialog modal that can be accessed via a macro or the {{{Setting}}} API. You can then leverage SugarCube&#39;s new {{{Template}}} API (add docs link) to use the templates in your game.
 
 &lt;&lt;link &#39;Configure your pronouns.&#39;&gt;&gt;
     &lt;&lt;pronouns&gt;&gt;
@@ -842,7 +894,7 @@ There&#39;s also a passage tag, {{{pausetimer}}}, which can be used to pause the
 [[Next|pronouns2]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/pronoun-templates]]</tw-passagedata><tw-passagedata pid="40" name="pronouns2" tags="" position="1225,475" size="100,100">&lt;div class=&#39;poem&#39;&gt;\
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/pronoun-templates]]</tw-passagedata><tw-passagedata pid="42" name="pronouns2" tags="" position="225,600" size="100,100">&lt;div class=&#39;poem&#39;&gt;\
 Nobody heard ?him, the dead ?man,   
 But still ?he &lt;&lt;verb &#39;lies&#39;&gt;&gt; moaning:
 I was much further out than you thought   
@@ -865,7 +917,7 @@ And not waving but drowning.
 [[Handling verbs.|pronouns3]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/pronoun-templates]]</tw-passagedata><tw-passagedata pid="41" name="pronouns3" tags="" position="100,600" size="100,100">Pronouns also include a {{{&lt;&lt;verb&gt;&gt;}}} macro for pluralizing the verb forms or third person verbs.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/pronoun-templates]]</tw-passagedata><tw-passagedata pid="43" name="pronouns3" tags="" position="350,600" size="100,100">Pronouns also include a {{{&lt;&lt;verb&gt;&gt;}}} macro for pluralizing the verb forms or third person verbs.
 
 ?He &lt;&lt;verb &#39;waits&#39;&gt;&gt;.
 
@@ -879,7 +931,7 @@ The macro accepts a singular verb form and attempts to process it and turn it in
 [[Start over.|pronouns]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/pronoun-templates]]</tw-passagedata><tw-passagedata pid="42" name="speech" tags="" position="225,600" size="100,100">The speech box system set is a set of macros and functions for creating speech boxes, like
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/pronoun-templates]]</tw-passagedata><tw-passagedata pid="44" name="speech" tags="" position="475,600" size="100,100">The speech box system set is a set of macros and functions for creating speech boxes, like
 
 You can use the {{{&lt;&lt;character&gt;&gt;}}} macro in your {{{StoryInit}}} special passage to create other custom macros that you can then use to display speech boxes. For example, the following line of code is in this demo file&#39;s {{{StoryInit}}} special passage:
 
@@ -894,7 +946,7 @@ If you can&#39;t or don&#39;t want to predefine characters, you can instead use 
 &lt;&lt;say &#39;bob&#39; &#39;assets/bob.jpg&#39;&gt;&gt;I am basically a meme now.&lt;&lt;/say&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/speech-box-system]]</tw-passagedata><tw-passagedata pid="43" name="swap" tags="" position="350,600" size="100,100">The {{{&lt;&lt;swap&gt;&gt;}}} macro can be used to create puzzles or other creative forms of user interaction that invloves swapping words around on the page. The {{{&lt;&lt;onswap&gt;&gt;}}} macro can be used to make adjustments and run code when swaps occur, and inside the {{{&lt;&lt;onswap&gt;&gt;}}} block, the {{{swapCurrent()}}} function returns the text that is currently swapped in.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/speech-box-system]]</tw-passagedata><tw-passagedata pid="45" name="swap" tags="" position="600,600" size="100,100">The {{{&lt;&lt;swap&gt;&gt;}}} macro can be used to create puzzles or other creative forms of user interaction that invloves swapping words around on the page. The {{{&lt;&lt;onswap&gt;&gt;}}} macro can be used to make adjustments and run code when swaps occur, and inside the {{{&lt;&lt;onswap&gt;&gt;}}} block, the {{{swapCurrent()}}} function returns the text that is currently swapped in.
 
 &lt;&lt;set _catsPred to &#39;They meow constantly.&#39;&gt;&gt;\
 I &lt;&lt;swap&gt;&gt;own&lt;&lt;onswap&gt;&gt;
@@ -909,7 +961,7 @@ I &lt;&lt;swap&gt;&gt;own&lt;&lt;onswap&gt;&gt;
 [[Try another example.|swap2]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="44" name="swap2" tags="" position="475,600" size="100,100">Here&#39;s an example of a simple number code puzzle implemented with the swap macro:
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="46" name="swap2" tags="" position="725,600" size="100,100">Here&#39;s an example of a simple number code puzzle implemented with the swap macro:
 
 &lt;&lt;set _correct to [false, false, false]&gt;&gt;\
 Enter the code:
@@ -953,14 +1005,14 @@ Enter the code:
 [[Previous|swap]]
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="45" name="typesim" tags="" position="600,600" size="100,100">The {{{&lt;&lt;typesim&gt;&gt;}}} macro allows you to //simulate// user input, but actually show them a predefined message. Try typing in the box below for an example:
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/swap-macro-set]]</tw-passagedata><tw-passagedata pid="47" name="typesim" tags="" position="850,600" size="100,100">The {{{&lt;&lt;typesim&gt;&gt;}}} macro allows you to //simulate// user input, but actually show them a predefined message. Try typing in the box below for an example:
 
 &lt;&lt;typesim &quot;You get to feel like you&#39;re typing, and that can be a cool interaction, but in reality, we just show you what we want you to see and make you say what we want you to say.&quot;&gt;&gt;\
     Once the user finishes the message, you can run any code you like!\
 &lt;&lt;/typesim&gt;&gt;\
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/type-sim]]</tw-passagedata><tw-passagedata pid="46" name="ui" tags="" position="725,600" size="100,100">The {{{&lt;&lt;ui&gt;&gt;}}} macro can be used to control many features of SugarCube&#39;s default UI from within macro code.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/type-sim]]</tw-passagedata><tw-passagedata pid="48" name="ui" tags="" position="975,600" size="100,100">The {{{&lt;&lt;ui&gt;&gt;}}} macro can be used to control many features of SugarCube&#39;s default UI from within macro code.
 
 &lt;&lt;link &#39;Toggle the UI Bar&#39;&gt;&gt;
     &lt;&lt;ui &#39;toggle&#39;&gt;&gt;

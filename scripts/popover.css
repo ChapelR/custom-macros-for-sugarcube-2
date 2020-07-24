@@ -1,0 +1,45 @@
+/* popover.css, by chapel; for use with popover.js; v1.0.0 */
+
+#ui-dialog-body.popover {
+    background: transparent;
+    border: 0;
+    padding: 0;
+}
+
+.popover #ui-dialog-titlebar {
+    background: transparent;
+}
+
+.popover #ui-dialog-title {
+    display: none;
+}
+
+.popover #ui-dialog-close {
+    position: fixed;
+    display: block;
+    top: 0;
+    right: 0;
+    height: 3em;
+}
+
+.popover #ui-dialog-close:hover {
+    background-color: transparent;
+    border-color: transparent;
+    color: #c22;
+}
+
+#ui-overlay.popover.opaque {
+    opacity: 1;
+}
+
+#ui-overlay.popover.transparent {
+    opacity: 0;
+}
+
+#ui-overlay.popover.invert {
+    background-color: #f8f8f8;
+}
+
+#ui-dialog-body.popover.invert {
+    color: #111;
+}

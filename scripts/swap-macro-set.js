@@ -7,6 +7,8 @@
 
 (function () {
 
+    // v1.1.0
+
     /*
         in SC, all of your scripts run in-engine are run in strict mode no matter what you do, so the below
         statement is optional. still, it's best to be explicit with what's happening. generally speaking, I
