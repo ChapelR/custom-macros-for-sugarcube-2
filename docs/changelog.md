@@ -2,7 +2,7 @@
 
 [Back to the main page](./README.md).
 
-### July 0, 2020 (v2.6.0)
+### July 24, 2020 (v2.6.0)
 
 - **[New]** New macros.
   - Added the preload macro for preloading images.
