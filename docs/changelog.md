@@ -2,6 +2,14 @@
 
 [Back to the main page](./README.md).
 
+### August 2, 2020 (v2.6.1)
+
+- **[Update]** Updated the event macro set.
+  - Added `<<on>>`,`<<one>>`, and `<<off>>`. Deprecated `<<event>>`.
+  - Support for single-use event handlers.
+  - Added default namespaces.
+  - Internal improvements.
+
 ### July 24, 2020 (v2.6.0)
 
 - **[New]** New macros.
