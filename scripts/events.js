@@ -34,24 +34,12 @@
 
     // the <<event>> macro: <<event type [selector] [once]>>
     Macro.add(['event', 'on', 'one'], {
-           tags : ['which', 'namespace'],
+           tags : ['which'],
         handler : function () {
             
             var payload = this.payload;
             var method = 'on';
-            var evt, sel = '', code = '', i, userNamespace = '';
-
-            var namespacePayload = payload.find( function (pl) {
-                // user defined namespace
-                return pl.name === 'namespace';
-            });
-
-            if (namespacePayload && namespacePayload.name && typeof namespacePayload.name === 'string') {
-                userNamespace = namespacePayload.name.trim();
-                if (userNamespace && userNamespace.first() !== '.') {
-                    userNamespace = '.' + userNamespace;
-                }
-            }
+            var evt, sel = '', code = '', i;
             
             if (this.args.length > 3 || this.args.length === 0) {
                 return this.error('incorrect number of arguments');
