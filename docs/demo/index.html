@@ -190,7 +190,8 @@ postdisplay['gists'] = function () {
 // end done.min.js
 /* twine-user-script #9: "events.min.js" */
 // events.min.js, for SugarCube 2, by Chapel
-;Macro.add("trigger",{handler:function(){var t;return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(t=this.args[0],void(1===this.args.length||this.args[1]&&"string"==typeof this.args[1]&&"document"===this.args[1].toLowerCase().trim()?$(document):$(this.args[1])).trigger(t))}}),Macro.add("event",{tags:["which"],handler:function(){var t,r,s=this.payload,e="",i="";return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(2===this.args.length&&"string"==typeof this.args[1]&&(e=this.args[1]),t=this.args[0],void $(document).on(t,e,(function(t){if(i=s[0].contents,s.length>1)for(r=1;r<s.length;r++)s[r].args.includes(t.which)&&(i+=s[r].contents);new Wikifier(null,i)})))}});
+// v2.0.0, 2020-08-02, 1d6b869ee7a4b36293aaf4003bfe47ffdfbdeba8
+;setup.eventMacroNamespace="macro-event",Macro.add("trigger",{handler:function(){var t;return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(t=this.args[0],void(1===this.args.length||this.args[1]&&"string"==typeof this.args[1]&&"document"===this.args[1].toLowerCase().trim()?$(document):$(this.args[1])).trigger(t))}}),Macro.add(["event","on","one"],{tags:["which"],handler:function(){var t,r,s=this.payload,e="on",n="",a="";return this.args.length>3||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type"):(2===this.args.length&&"string"==typeof this.args[1]&&"once"!==this.args[1]&&(n=this.args[1]),(this.args.includes("once")||"one"===this.name)&&(e="one"),t=this.args[0],void $(document)[e](t+"."+setup.eventMacroNamespace,n,(function(t){if(a=s[0].contents,s.length>1)for(r=1;r<s.length;r++)s[r].args.includes(t.which)&&(a+=s[r].contents);new Wikifier(null,a)})))}}),Macro.add("off",{handler:function(){var t;return this.args.length>2||0===this.args.length?this.error("incorrect number of arguments"):"string"!=typeof this.args[0]?this.error("first argument should be a string and a valid event type or namespace"):(t=this.args[0],void(1===this.args.length||this.args[1]&&"string"==typeof this.args[1]&&"document"===this.args[1].toLowerCase().trim()?$(document):$(this.args[1])).off(t))}});
 // end events.min.js
 /* twine-user-script #10: "fading-macro-set.min.js" */
 // fading-macro-set.min.js, for SugarCube 2, by Chapel
@@ -517,21 +518,28 @@ With the macro, you can do it:
 &lt;&lt;done&gt;&gt;&lt;&lt;replace &#39;#done-replace&#39;&gt;&gt;This was successfully replaced!&lt;&lt;/replace&gt;&gt;&lt;&lt;/done&gt;&gt;
 
 -----
-[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/done-macro]]</tw-passagedata><tw-passagedata pid="19" name="event" tags="" position="1100,225" size="100,100">The {{{&lt;&lt;event&gt;&gt;}}} macro can be used to set up event handlers using macro code. You can use this code to set up keyboard controls, hotkeys, double click events, and click events on normally not clickable elements.  The {{{&lt;&lt;trigger&gt;&gt;}}} macro can be used to artificially trigger events, like clicking links.
-
-Events are usually best set up in your [[StoryInit special passage|http://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinit]], and once set up they are essetnially permanent. We set the events up here, in this passage, only to show some examples, but doing this in an actual game is a bad idea.
+[[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/done-macro]]</tw-passagedata><tw-passagedata pid="19" name="event" tags="" position="1100,225" size="100,100">The {{{&lt;&lt;on&gt;&gt;}}} macro can be used to set up event handlers using macro code. You can use this code to set up keyboard controls, hotkeys, double click events, and click events on normally not clickable elements.  The {{{&lt;&lt;trigger&gt;&gt;}}} macro can be used to artificially trigger events, like clicking links, the {{{&lt;&lt;off&gt;&gt;}}} macro can remove event handlers, and the {{{&lt;&lt;one&gt;&gt;}}} macro can set up single-use handlers.
 
 Try pressing the space bar and/or escape.
 
 &lt;&lt;nobr&gt;&gt;
-&lt;&lt;event &#39;keyup&#39;&gt;&gt;
+&lt;&lt;on &#39;keyup&#39;&gt;&gt;
 &lt;&lt;which 32&gt;&gt;
     &lt;&lt;trigger &#39;click&#39; &#39;#space-hotkey a&#39;&gt;&gt; 
 &lt;&lt;which 27&gt;&gt;
     &lt;&lt;dialog &#39;Escape&#39;&gt;&gt;You can&#39;t escape!&lt;&lt;/dialog&gt;&gt;
-&lt;&lt;/event&gt;&gt;
+&lt;&lt;/on&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;\
-@@#space-hotkey;&lt;&lt;link &#39;This link is also activated with the spacebar!&#39;&gt;&gt;&lt;&lt;run UI.alert(&#39;Spacebar pressed!&#39;)&gt;&gt;&lt;&lt;/link&gt;&gt;
+@@#space-hotkey;&lt;&lt;link &#39;This link is also activated with the spacebar!&#39;&gt;&gt;&lt;&lt;run UI.alert(&#39;Spacebar pressed!&#39;)&gt;&gt;&lt;&lt;/link&gt;&gt;@@
+
+&lt;&lt;link &quot;Remove key events!&quot;&gt;&gt;&lt;&lt;off &quot;keyup.macro-event&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+
+@@#clicky;Click this text for a one-time only (per visit) message!@@
+&lt;&lt;nobr&gt;&gt;
+    &lt;&lt;one &#39;click&#39; &#39;#clicky&#39;&gt;&gt;
+        &lt;&lt;run UI.alert(&quot;There&#39;s no going back!&quot;)&gt;&gt;
+    &lt;&lt;/one&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
 
 -----
 [[Documentation|https://twinelab.net/custom-macros-for-sugarcube-2/#/event-macros]]</tw-passagedata><tw-passagedata pid="20" name="fading" tags="" position="1225,225" size="100,100">The {{{&lt;&lt;fadein&gt;&gt;}}} and {{{&lt;&lt;fadeout&gt;&gt;}}} macros can be used to display simple, timed fading animations on blocks of text.
