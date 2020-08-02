@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.6.0)
+## Chapel's Custom Macro Collection (v2.6.1)
 
 - [Try the demo!](https://macros.twinelab.net/demo) ([Sausage](https://github.com/ChapelR/custom-macros-demo))
 - [Downloads](./download ':ignore')
@@ -8,11 +8,11 @@
 ### Documentation
 - **Gameplay Systems and Mechanics**
   - [The Simple Inventory System](simple-inventory.md)
-  - Updated [The Cycles System](cycles-system.md) 
+  - [The Cycles System](cycles-system.md) 
   - [The Playtime System](playtime-system.md)
 - **Interface and Style**
   - [The Dialog API Macro Set](dialog-api-macro-set.md)
-  - New [The Popover Macro](popover.md)
+  - [The Popover Macro](popover.md)
   - [The UI Macro](ui-macro.md)
   - [The Fading Macro Set](fading-macros.md)
   - [The CSS Macro](css-macro.md)
@@ -20,7 +20,7 @@
   - [The Meter Macro Set](meter-macros.md)
   - [The Speech Box System](speech-box-system.md)
 - **User Interaction and Events**
-  - [The Event Macros](event-macros.md)
+  - *Updated!* [The Event Macros](event-macros.md)
   - [The Continue Macro Set](continue-macro.md)
   - [The Swap Macro Set](swap-macro-set.md)
   - [The Mouseover Macro](mouseover-macro.md)
@@ -30,7 +30,7 @@
   - [The Pronoun Templates](pronoun-templates.md)
   - [The Articles (A/An) Macros](articles.md)
 - **Utilities and Other**
-  - New [The Preload Macro](preload.md)
+  - [The Preload Macro](preload.md)
   - [The Done Macro](done-macro.md)
   - [The File System Macro Set](file-system-macros.md)
   - [The First Macro](first-macro.md)
