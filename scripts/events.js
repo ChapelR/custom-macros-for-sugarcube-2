@@ -51,13 +51,13 @@
                 sel = this.args[1];
             }
             
-            if (this.args.inlcudes('once') || this.name === 'one') {
+            if (this.args.includes('once') || this.name === 'one') {
                 method = 'one';
             }
 
             evt = this.args[0];
             
-            $(document)[method](evt + '.' + setup.eventMacroNamespace + userNamespace, sel, function (e) {
+            $(document)[method](evt + '.' + setup.eventMacroNamespace, sel, function (e) {
                 code = payload[0].contents;
                 if (payload.length > 1) {
                     for (i = 1; i < payload.length; i++) {
