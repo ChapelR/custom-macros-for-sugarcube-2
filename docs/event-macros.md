@@ -18,7 +18,7 @@ This macro set allows Twine authors to create event handlers without needing to 
 	    ...
 	<<which keycode>>
 	    ...
-<</event>>
+<</on>>
 ```
 
 This macro be used to handle events in your game; things like keyboard hotkeys, controls, clickable non-link elements, and more. Note that the element the event is tied to does not need to be rendered (or currently on the page or in the passage) in order to attach an event to it.
@@ -83,10 +83,10 @@ Allows you to simulate any event on any element.  This macro is useful for trigg
 **Usage**:
 ```
 /% close any dialog box when the player presses esc %/
-<<event 'keydown'>>
+<<on 'keydown'>>
 <<which 27>>
 	<<trigger 'click' '#ui-dialog-close'>>
-<</event>>
+<</on>>
 ```
 
 ### Macro: `<<off>>`
