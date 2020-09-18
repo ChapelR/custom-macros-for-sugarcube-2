@@ -1,0 +1,228 @@
+sugarcube:
+
+  macros:
+  
+    # start simple inventory
+    newinventory: {}
+    pickup: {}
+    drop: {}
+    dropall: {}
+    clear: {}
+    transfer: {}
+    sort: {}
+    inventory: {}
+    linkedinventory: {}
+    # end simple inventory
+    
+    # start cycles system
+    newcycle:
+      container: true
+      children:
+        - phase
+    phase:
+      parents:  
+        - newcycle
+    editcycle: {}
+    showcycle: {}
+    # end cycles system
+    
+    # start playtime system
+    playtime: {}
+    # end playtime system
+    
+    # start dialog api macros
+    dialog:
+      container: true
+      children:
+        - onopen
+        - onclose
+    onopen:
+      parents:  
+        - dialog
+    onclose:
+      parents:  
+        - dialog
+    popup: {}
+    dialogclose: {}
+    # end dialog api macros
+    
+    # start popover
+    popover:
+      container: true
+    dismisspopover: {}
+    # end popover
+    
+    # start ui
+    ui: {}
+    # end ui
+    
+    # start fading
+    fadein:
+      container: true
+    fadeout:
+      container: true
+    # end fading
+    
+    # start css
+    css: {}
+    # end css
+    
+    # start notify
+    notify:
+      container: true
+    # end notify
+    
+    # start meter macros
+    newmeter:
+      container: true
+      children:
+        - colors
+        - sizing
+        - animation
+        - label
+    colors:
+      parents: 
+        - newmeter
+    sizing:
+      parents: 
+        - newmeter
+    animation:
+      parents:  
+        - newmeter
+    label:
+      parents:  
+        - newmeter
+    showmeter: {}
+    updatemeter: {}
+    # end meter macros
+    
+    # start speech box system
+    character: {}
+    say:
+      container: true
+    ### you'll have to add your own character macros! use this format:
+    
+    ### characterName:
+    ###   container: true
+    
+    # end speech box system
+    
+    # start events
+    on:
+      container: true
+      children:
+        - which
+    one:
+      container: true
+      children:
+        - which
+    event:
+      container: true
+      children:
+        - which
+      deprecated: true
+      depecatedSuggestions:
+        - on
+        - off
+    which:
+      parents:  
+        - on
+        - off
+        - event
+    trigger: {}
+    off: {}
+    # end events
+    
+    # start continue
+    cont:
+      container: true
+    ignore: {}
+    # end continue
+    
+    # start swap
+    swap:
+      container: true
+      children:
+        - onswap
+    onswap:
+      parents:  
+        - swap
+    resetswap: {}
+    # end swap
+    
+    # start mouse events
+    mouseover:
+      container: true
+      children:
+        - onmouseover
+        - onhover
+        - onmousein
+        - onmouseenter
+        - onmouseout
+    onmouseover:
+      parents:  
+        - mouseover
+    onhover:
+      parents:  
+        - mouseover
+    onmousein:
+      parents:  
+        - mouseover
+    onmouseenter:
+      parents:  
+        - mouseover
+    onmouseout:
+      parents:  
+        - mouseover
+    # end mouse events
+    
+    # start message
+    message:
+      container: true
+    # end message
+    
+    # start typesime
+    typesime:
+      container: true
+    # end typesime
+    
+    # start pronouns
+    pronouns: {}
+    verb: {}
+    # end pronouns
+    
+    # start articles
+    a: {}
+    an: {}
+    A: {}
+    An: {}
+    setarticle: {}
+    # end articles
+    
+    # start preload
+    preload: {}
+    # end preload
+    
+    # start done
+    done:
+      container: true
+    # end done
+    
+    # start file system
+    import: {}
+    export: {}
+    # end file system
+    
+     # start first
+    first:
+      container: true
+      children:
+        - then
+        - finally
+    then:
+      parents:  
+        - first
+    finally:
+      parents:  
+        - first
+    # end first

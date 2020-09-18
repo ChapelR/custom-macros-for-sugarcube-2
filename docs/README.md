@@ -20,7 +20,7 @@
   - [The Meter Macro Set](meter-macros.md)
   - [The Speech Box System](speech-box-system.md)
 - **User Interaction and Events**
-  - *Updated!* [The Event Macros](event-macros.md)
+  - [The Event Macros](event-macros.md)
   - [The Continue Macro Set](continue-macro.md)
   - [The Swap Macro Set](swap-macro-set.md)
   - [The Mouseover Macro](mouseover-macro.md)
@@ -46,12 +46,12 @@ If you opt to get the files from GitHub, It is highly recommended that you insta
 > To install these macros, you will need to be using the most recent version of SugarCube 2 in most cases, and this is almost never the version that comes with Twine 2.  See [SugarCube's website](http://www.motoslave.net/sugarcube/2/#downloads) for updating / installation instructions.
 
 - For **Twine 2** users: copy and paste the JavaScript code into your [story JavaScript area](https://twinery.org/wiki/twine2:adding_custom_javascript_and_css).  Some macros may also require CSS code, which goes in your story stylesheet.
-
 - For **Twine 1**, you'll need to copy and paste the JavaScript portions into a script-tagged passage, and the CSS portions (if any) into a stylesheet-tagged passage. You can create new passages and add the tags yourself, or right-click on a blank spot in the editor and select new script here and new stylesheet here to generate each passage.
-
 - For **Twee2**, refer to [its documentation](https://dan-q.github.io/twee2/documentation.html#twee2-syntax-special-passages) for how to create the tagged passages you need.
-
 - For **Tweego**, simply place the code in `.js` and `.css` files as appropriate and include them in your directory / command line options just as you would any other code files.
+
+> [!NOTE]
+> If you're using [Cyrus Firheir's excellent Twee3 Language Tools for VSCode](https://marketplace.visualstudio.com/items?itemName=cyrusfirheir.twee3-language-tools) you can find macro definitions in the `chapel.twee-config.yaml` file in the root of this repository. You can copy the whole file over and remove the macros you don't have installed. You don't *have* to remove the macros you aren't using, but they will make the tool that much more effective if you do. More on where to put the file and how to use the language tools can be found at the above link.
 
 #### Installation: Troubleshooting
 
