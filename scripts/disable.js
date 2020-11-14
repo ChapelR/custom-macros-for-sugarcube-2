@@ -5,28 +5,22 @@
     'use strict';
 
     var cls = 'disabled';
-    var interactive = [
-        'button',
-        '*[role="button"]',
-        'input',
-        'optgroup',
-        'option',
-        'select',
-        'textarea',
-        'fieldset'
-    ];
+    var interactive = ['button', 'fieldset', 'input', 'menuitem', 'optgroup', 'option', 'select', 'textarea'];
 
     function getEl (self) {
         // get the first interactive element
         var $el = $(self).find(interactive.join(',')).first();
         if (!$el[0]) {
-            return $(self);
+            $el = $(self).children().eq(0);
+            if (!$el[0]) {
+                return $(self);
+            }
         }
         return $el;
     }
 
     function changeCls ($el) {
-        if ($el.prop('disabled')) {
+        if ($el.ariaIsDisabled()) {
             $el.addClass(cls);
         } else {
             $el.removeClass(cls);
@@ -37,16 +31,12 @@
         if (!($el instanceof $)) {
             $el = $($el);
         }
-        if (bool == null) {
-            $el.prop('disabled', !$el.prop('disabled'));
-        } else {
-            $el.prop('disabled', bool);
-        }
+        $el.ariaDisabled((bool === undefined) ? true : !!bool);
         changeCls($el);
         return $el;
     }
 
-    setup.disable = disable;
+    // no need for JS API as there us a built-in jQuery extension
 
     Macro.add('disable', {
         tags : null,
