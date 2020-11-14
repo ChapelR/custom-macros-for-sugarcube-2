@@ -110,6 +110,12 @@ This code is dedicated to the public domain.  You **don't** need to provide cred
 > [!TIP]
 > If you have any questions or concerns about this, refer to the [license](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/LICENSE) or reach out to me.
 
+#### This macro set features contributions from these awesome folks:
+
+- [Thomas M. Edwards](https://github.com/tmedwards)
+- [Matilde Park](https://github.com/matildepark)
+- [Zachary Chandler](https://github.com/Zachac)
+
 ### Donations
 
 > [!NOTE]
