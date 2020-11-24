@@ -172,6 +172,7 @@
                 console.error('Meter "' + name + '" already exists.');
                 return;
             }
+            Object.assign(opts, { id : name });
             var meter = new Meter(opts, value);
             Meter._list.set(name, meter);
             return meter;

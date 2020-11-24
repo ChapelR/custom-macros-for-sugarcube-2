@@ -15,6 +15,7 @@
   - [The Popover Macro](popover.md)
   - [The UI Macro](ui-macro.md)
   - [The Fading Macro Set](fading-macros.md)
+  - [The Disable Macro](disable-macro.md)
   - [The CSS Macro](css-macro.md)
   - [The Notify Macro](notify-macro.md)
   - [The Meter Macro Set](meter-macros.md)
