@@ -98,14 +98,14 @@ This function takes a string and finds the correct indefinite article, then appe
 
 **Examples**:
 ```
-setup.articles.find('UFO'); // 'a UFO'
-setup.articles.find('animal'); // 'an animal'
-setup.articles.find('1'); // 'a 1'
-setup.articles.find('86'); // 'an 86'
-setup.articles.find('honorable man'); // 'an honorable man'
-setup.articles.find('heir to the king'); // 'an heir to the king'
-setup.articles.find('horrible day'); // 'a horrible day'
-setup.articles.find('painting'); // 'a painting'
+setup.articles.output('UFO'); // 'a UFO'
+setup.articles.output('animal'); // 'an animal'
+setup.articles.output('1'); // 'a 1'
+setup.articles.output('86'); // 'an 86'
+setup.articles.output('honorable man'); // 'an honorable man'
+setup.articles.output('heir to the king'); // 'an heir to the king'
+setup.articles.output('horrible day'); // 'a horrible day'
+setup.articles.output('painting'); // 'a painting'
 ```
 
 #### Function: `setup.articles.override()`

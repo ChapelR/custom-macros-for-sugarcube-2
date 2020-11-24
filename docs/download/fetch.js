@@ -14,6 +14,7 @@
         'The Done Macro' : 'done',
         'The Event Macro Set' : 'events',
         'The Fading Macro Set' : 'fading-macro-set',
+        'The Disable Macro' : 'disable',
         'The First Macro' : 'first-macro',
         'File System Macros' : 'fs',
         'The Message Macro' : 'message-macro',

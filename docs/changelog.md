@@ -2,6 +2,11 @@
 
 [Back to the main page](./README.md).
 
+### November 24, 2020 (v2.7.0)
+
+- **[New]** Added the `<<disable>>` macro.
+- **[Update]** Updated the meter macro set. Now has a `this.settings.id` property.
+
 ### August 2, 2020 (v2.6.1)
 
 - **[Update]** Updated the event macro set.
