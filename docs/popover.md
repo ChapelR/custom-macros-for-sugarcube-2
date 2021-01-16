@@ -6,7 +6,8 @@ Creates a special transparent dialog modal for images and text.
 
 ![The Popover Macro](https://i.imgur.com/vW7soRX.png)
 
-**THE CODE:** [Minified](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/popover.min.js). [Pretty](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/popover.js).  
+**THE CODE:** [Minified JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/popover.min.js). [Pretty JS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/popover.js).  
+[Minified CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/minified/popover.min.css). [Pretty CSS](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/scripts/popover.css).  
 **DEMO:** [Available](http://macros.twinelab.net/demo?macro=popover).  
 **GUIDE:** Not available.
 
