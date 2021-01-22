@@ -203,7 +203,7 @@
             }
             if (cache !== this.current()) {
                 // the phase changed
-                Cycle._emit('change');
+                Cycle._emit(this, 'change');
             }
             return this;
         },

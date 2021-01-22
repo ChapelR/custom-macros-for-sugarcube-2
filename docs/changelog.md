@@ -2,6 +2,10 @@
 
 [Back to the main page](./README.md).
 
+### January 22, 2021 (v2.7.1)
+
+- **[Update]** Fixed the `:cycle-change` event so that it is now properly emitted.
+
 ### November 24, 2020 (v2.7.0)
 
 - **[New]** Added the `<<disable>>` macro.
