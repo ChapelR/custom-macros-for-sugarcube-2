@@ -1,14 +1,14 @@
 (function () {
-    // v1.1.0
+    // v1.1.1
     'use strict';
 
     var characters = new Map();
 
     function addCharacter (name, displayname, icon) {
-				if(icon == null && displayname != null){
-					icon = displayname;
-					displayname = null;
-				}
+		if(icon == null && displayname != null){
+			icon = displayname;
+			displayname = null;
+		}
         if (State.length) {
             throw new Error('addCharacter() -> must be called before story starts');
         }
@@ -27,17 +27,23 @@
         var $box = $(document.createElement('div'))
             .addClass(Util.slugify(character) + ' say');
 
+			
         // portrait
+        let _img = characters.has(character) ? characters.get(character).image : null;        
         var $img = $(document.createElement('img'))
-            .attr('src', imgSrc || characters.get(character).image || '');
+            .attr('src', imgSrc || _img || '');
 
         if ($img.attr('src') && $img.attr('src').trim()) {
             $box.append($img);
         }
-        
+
         // name and content boxes
+		let _name =  character.toUpperFirst();
+		if(characters.has(character) && characters.get(character).displayName){
+            _name = characters.get(character).displayName;
+        }
         $box.append($(document.createElement('p'))
-            .wiki(characters.get(character).displayName || character.toUpperFirst()))
+            .wiki(_name))
             .append($(document.createElement('p'))
                 .wiki(text));
 
