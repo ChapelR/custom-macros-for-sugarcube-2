@@ -20,7 +20,7 @@ The default look and styling is very bare bones, and meant to be a basic startin
 
 ### Macro: `<<character>>`
 
-**Syntax**:`<<character name imageSrc>>`
+**Syntax**:`<<character name [displayname] imageSrc>>`
 
 This macro associates a character name, which will automatically become a macro, with an image resourcem provided as a URL (can be relative or absolute). This macro is essentially a macro factory&mdash;it creates other macros based on the arguments you pass. This means that the `name` argument must therefore follow the parameters of normal macros: it must not contain spaces or special characters outside what macro names ordiarily allow. If you need character names without these limitations, you can use the `<<say>>` macro (see below). 
 
@@ -30,6 +30,7 @@ This macro associates a character name, which will automatically become a macro,
 **Arguments**:
 
 - `name`: a character name that can be used as a macro name. This is used to create a macro, and to fill in the name area on the generated speech box. The latter will be automatically capitalized, so if you pass `"lisa"`, the generated macro will be `<<lisa>>` and the name in the speech box will display as `Lisa`. If you pass `"Lisa"`, the name in the speech box will appear `Lisa`, but the macro will be `<<Lisa>>`.
+- `displayname`: optinal argument that will get used to be displayed instead of the `name`, this allows for naming such as `???` or `Maxine Delacroix`. If a display name is provided it will take priority over the above mentioned `name` argument, if none is provided then the `name` argument will be used like explained above. 
 - `imageSrc`: a URL to an image resource to be used as a character portrait. Portraits should generally be taller than they are wide, as the name suggests, though squares will work fine. Large images will be shrunk to a reasonable size, butvery  small images will not be enlarged to fit and may not look right.
 
 **Usage**:
@@ -39,9 +40,10 @@ This macro associates a character name, which will automatically become a macro,
 <<character 'lisa' 'images/portraits/lisa.jpg'>>
 <<character 'bob' 'https://some.website.net/url/to/an/image_file.png'>>
 <<character 'billy' 'data:image/jpg;base64, [base64 encoded data]'>>
-
+<<character 'maxine' '???' 'images/portraits/unkown-person.jpg'>>
 /* using the generated macros */
 <<lisa>>Hey there!<</lisa>>
+<<maxine>>Do i know you?<</maxine>>
 
 <<billy>>You just use the name you passed into the {{{<<character>>}}} macro as its own macro to create speech boxes!<</billy>>
 ```
@@ -68,7 +70,7 @@ This macro can be used to create speech boxes that aren't based on predefined ch
 
 ### Function: `setup.addCharacter()`
 
-**Syntax**: `setup.addCharacter(name, imageSrc)`
+**Syntax**: `setup.addCharacter(name, [displayname,] imageSrc)`
 
 This function serves the same purpose as the `<<character>>` macro, and creates macros in the exact same way.
 
@@ -77,6 +79,7 @@ This function serves the same purpose as the `<<character>>` macro, and creates 
 **Arguments**:
 
 - `name` ( *`string`* ) a character name that can be used as a macro name. This is used to create a macro, and to fill in the name area on the generated speech box. The latter will be automatically capitalized, so if you pass `"lisa"`, the generated macro will be `<<lisa>>` and the name in the speech box will display as `Lisa`. If you pass `"Lisa"`, the name in the speech box will appear `Lisa`, but the macro will be `<<Lisa>>`.
+- `displayname` ( *`string`* ) optional name that gets displayed, takes priority over the above mentioned `name` argument, but if not provided it will take `name` argument instead, allows for using special characters such as `???` or `Firstname Surname` display without having to name the macro firstnameLastname and then resulting in `FirstnameLastname`.
 - `imageSrc` ( *`string`* ) a URL to an image resource to be used as a character portrait. Portraits should generally be taller than they are wide, as the name suggests, though squares will work fine. Large images will be shrunk to a reasonable size, butvery  small images will not be enlarged to fit and may not look right.
 
 **Usage**:
