@@ -2,6 +2,10 @@
 
 [Back to the main page](./README.md).
 
+### February 25, 2021 (v2.7.2)
+
+- **[Update]** Added display name feature to speech box system, courtesy of [GwenTastic](https://github.com/GwenTastic).
+
 ### January 22, 2021 (v2.7.1)
 
 - **[Update]** Fixed the `:cycle-change` event so that it is now properly emitted.

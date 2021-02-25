@@ -5,7 +5,7 @@
     var characters = new Map();
 
     function addCharacter (name, displayname, icon) {
-		if(icon == null && displayname != null){
+		if(icon === undefined && displayname){
 			icon = displayname;
 			displayname = null;
 		}
@@ -29,7 +29,7 @@
 
 			
         // portrait
-        let _img = characters.has(character) ? characters.get(character).image : null;        
+        var _img = characters.has(character) ? characters.get(character).image : null;        
         var $img = $(document.createElement('img'))
             .attr('src', imgSrc || _img || '');
 
@@ -38,10 +38,11 @@
         }
 
         // name and content boxes
-		let _name =  character.toUpperFirst();
-		if(characters.has(character) && characters.get(character).displayName){
+		var _name =  character.toUpperFirst();
+		if (characters.has(character) && characters.get(character).displayName) {
             _name = characters.get(character).displayName;
         }
+
         $box.append($(document.createElement('p'))
             .wiki(_name))
             .append($(document.createElement('p'))

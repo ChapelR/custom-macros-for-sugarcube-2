@@ -30,7 +30,7 @@ This macro associates a character name, which will automatically become a macro,
 **Arguments**:
 
 - `name`: a character name that can be used as a macro name. This is used to create a macro, and to fill in the name area on the generated speech box. The latter will be automatically capitalized, so if you pass `"lisa"`, the generated macro will be `<<lisa>>` and the name in the speech box will display as `Lisa`. If you pass `"Lisa"`, the name in the speech box will appear `Lisa`, but the macro will be `<<Lisa>>`.
-- `displayname`: optinal argument that will get used to be displayed instead of the `name`, this allows for naming such as `???` or `Maxine Delacroix`. If a display name is provided it will take priority over the above mentioned `name` argument, if none is provided then the `name` argument will be used like explained above. 
+- `displayname` (optional) : if provided, will be displayed instead of the `name` in the speech box heading. This allows for naming such as `???` or `Maxine Delacroix`, which would otherwise be invalid due to being unable to be used as macro names.
 - `imageSrc`: a URL to an image resource to be used as a character portrait. Portraits should generally be taller than they are wide, as the name suggests, though squares will work fine. Large images will be shrunk to a reasonable size, butvery  small images will not be enlarged to fit and may not look right.
 
 **Usage**:
@@ -41,8 +41,10 @@ This macro associates a character name, which will automatically become a macro,
 <<character 'bob' 'https://some.website.net/url/to/an/image_file.png'>>
 <<character 'billy' 'data:image/jpg;base64, [base64 encoded data]'>>
 <<character 'maxine' '???' 'images/portraits/unkown-person.jpg'>>
-/* using the generated macros */
+
+/* using the generated macros in passages */
 <<lisa>>Hey there!<</lisa>>
+
 <<maxine>>Do i know you?<</maxine>>
 
 <<billy>>You just use the name you passed into the {{{<<character>>}}} macro as its own macro to create speech boxes!<</billy>>
