@@ -1,10 +1,14 @@
 (function () {
-    // v1.0.1
+    // v1.1.1
     'use strict';
 
     var characters = new Map();
 
-    function addCharacter (name, icon) {
+    function addCharacter (name, displayname, icon) {
+		if(icon == null && displayname != null){
+			icon = displayname;
+			displayname = null;
+		}
         if (State.length) {
             throw new Error('addCharacter() -> must be called before story starts');
         }
@@ -15,7 +19,7 @@
         if (characters.has(name)) {
             console.error('addCharacter() -> overwriting character "' + name + '"');
         }
-        characters.set(name, icon);
+        characters.set(name, {displayName: displayname, image: icon});
     }
 
     function say ($output, character, text, imgSrc) {
@@ -23,17 +27,23 @@
         var $box = $(document.createElement('div'))
             .addClass(Util.slugify(character) + ' say');
 
+			
         // portrait
+        let _img = characters.has(character) ? characters.get(character).image : null;        
         var $img = $(document.createElement('img'))
-            .attr('src', imgSrc || characters.get(character) || '');
+            .attr('src', imgSrc || _img || '');
 
         if ($img.attr('src') && $img.attr('src').trim()) {
             $box.append($img);
         }
 
         // name and content boxes
+		let _name =  character.toUpperFirst();
+		if(characters.has(character) && characters.get(character).displayName){
+            _name = characters.get(character).displayName;
+        }
         $box.append($(document.createElement('p'))
-            .wiki(character.toUpperFirst()))
+            .wiki(_name))
             .append($(document.createElement('p'))
                 .wiki(text));
 
@@ -53,7 +63,7 @@
     Macro.add('character', {
         // character macro
         handler : function () {
-            addCharacter(this.args[0], this.args[1]);
+            addCharacter(this.args[0], this.args[1], this.args[2]);
         }
     });
 
