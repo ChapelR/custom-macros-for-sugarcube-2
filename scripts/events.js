@@ -64,6 +64,9 @@
                         if (payload[i].args.includes(e.which)) {
                             code = code + payload[i].contents;
                         }
+                        if ('used' == e.context && payload[i].args.includes(e.moved[0])) {
+                            code = code + payload[i].contents;
+                        }
                     }
                 }
                 new Wikifier(null, code);

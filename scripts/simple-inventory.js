@@ -179,6 +179,21 @@
             return this; // for chaining
         },
         
+        use : function () { // attempt to use this item
+            var items = [].slice.call(arguments).flatten(),
+                inventory = this; // we need to access this in the <array>.forEach()
+            if (items && items.length) {
+                var moved = [];
+                items.forEach(function (item) {
+                    if (inventory.has(item)) {
+                        moved.push(item); // for the event below
+                    }
+                });
+                _attachEvent(this, null, moved, 'used');
+            }
+            return this; // for chaining
+        },
+
         sort : function () { // sorts this inventory
             this.inv = this.inv.sort();
             _attachEvent(this, null, null, 'sort');
@@ -255,6 +270,12 @@
                 
                 // add click event handler
                 $link.ariaClick(function () {
+                    if ('Use' == drop)
+                    {
+                        inv.use(item);
+                        return;
+                    }
+
                     if (loc) {
                         inv.transfer(loc, item);
                     } else {
