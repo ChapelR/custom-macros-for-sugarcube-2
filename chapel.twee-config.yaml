@@ -224,13 +224,70 @@ sugarcube-2:
     # end meter macros
     
     # start speech box system
-    character: {}
+    character:
+      name: character
+      description: |-
+        *Syntax:* `<<character name [displayname] imageSrc>>`
+
+        This macro associates a character name, which will automatically become a macro, with an image resourcem provided as a URL (can be relative or absolute). This macro is essentially a macro factory—it creates other macros based on the arguments you pass. This means that the `name` argument must therefore follow the parameters of normal macros: it must not contain spaces or special characters outside what macro names ordiarily allow. If you need character names without these limitations, you can use the `<<say>>` macro (see below).
+
+        > [!DANGER] This macro will only function if run before the story starts, that is before the first passage is loaded. The `StoryInit` special passage is therefore the best place to define characters.
+
+        If you want your character(s) to have definitions like this one you'll have to add them yourself. They are defined in `chapel.twee-config.yaml`, there's a comment describing the format to use a bit further down than the definition that created this current tooltip.
+
+        *Arguments:*
+
+          * `name`: a character name that can be used as a macro name. This is used to create a macro, and to fill in the name area on the generated speech box. The latter will be automatically capitalized, so if you pass `"lisa"`, the generated macro will be `<<lisa>>` and the name in the speech box will display as `Lisa`. If you pass `"Lisa"`, the name in the speech box will appear `Lisa`, but the macro will be `<<Lisa>>`.
+          * `displayname` (optional) : if provided, will be displayed instead of the `name` in the speech box heading. This allows for naming such as `???` or `Maxine Delacroix`, which would otherwise be invalid due to being unable to be used as macro names.
+          * `imageSrc`: a URL to an image resource to be used as a character portrait. Portraits should generally be taller than they are wide, as the name suggests, though squares will work fine. Large images will be shrunk to a reasonable size, butvery small images will not be enlarged to fit and may not look right.
+
+        *Usage:*
+        ```
+        /* creating characters and associating them with images (goes in StoryInit) */
+        <<character 'lisa' 'images/portraits/lisa.jpg'>>
+        <<character 'bob' 'https://some.website.net/url/to/an/image_file.png'>>
+        <<character 'billy' 'data:image/jpg;base64, [base64 encoded data]'>>
+        <<character 'maxine' '???' 'images/portraits/unkown-person.jpg'>>
+
+        /* using the generated macros in passages */
+        <<lisa>>Hey there!<</lisa>>
+
+        <<maxine>>Do i know you?<</maxine>>
+
+        <<billy>>You just use the name you passed into the {{{<<character>>}}} macro as its own macro to create speech boxes!<</billy>>
+        ```
+      parameters:
+        - string |+ string |+ string # FIXME: I'm not sure how to make the displayName argument optional here and still require the icon argument so both are optional for now.
     say:
+      name: say
       container: true
-    ### you'll have to add your own character macros! use this format:
-    
+      description: |-
+        *Syntax:* `<<say name [imageSrc]>>...<</say>>`
+
+        This macro can be used to create speech boxes that aren't based on predefined characters, allowing you to use names that would be unsuitable as macro names, use bit characters that aren't worth defining, or change a character's name or image, or use characters that don't have associated images.
+
+        *Arguments:*
+
+          * `name`: a character name that can be used in the text box.
+          * `imageSrc`: (optional) a URL to an image resource to be used as a character portrait.
+
+        *Usage:*
+        ```
+        <<say 'Lisa' 'images/portraits/lisa.jpg'>>Hey there!<</say>>
+
+        /* without an image */
+        <<say 'Some Guy'>>You n'wah!<</say>>
+        ```
+      parameters:
+        - string |+ string
+    ### You'll have to add your own character macros for the characters you create with <<character>> or setup.addCharacter()!
+
+    ### Use this format:
     ### characterName:
+    ###   name: characterName
     ###   container: true
+
+    ### (Optional) If you for some reason want a description in the mouse-over tooltip you can add one to your character like it's done above in the say and character definitions.
     
     # end speech box system
     
