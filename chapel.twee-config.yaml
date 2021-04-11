@@ -528,7 +528,7 @@ sugarcube-2:
         <<billy>>You just use the name you passed into the {{{<<character>>}}} macro as its own macro to create speech boxes!<</billy>>
         ```
       parameters:
-        - string |+ string |+ string # FIXME: I'm not sure how to make the displayName argument optional here and still require the icon argument so both are optional for now.
+        - string |+ string |+ string # FIXME: I'm not sure how to make the displayName argument optional here and still require the icon argument so both are optional for now. If this doesn't get fixed, maybe add a note about it in the description so users can be aware of it.
     say:
       name: say
       container: true
