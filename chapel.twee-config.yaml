@@ -303,8 +303,6 @@ sugarcube-2:
     # end playtime system
     
     # start dialog api macros
-sugarcube-2:
-  macros:
     dialog:
       name: dialog
       container: true
