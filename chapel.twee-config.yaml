@@ -119,7 +119,7 @@ sugarcube-2:
         /% drops any item from _weaponList, if present %/
         ```
       parameters:
-        - string & ...text
+        - string &+ ...text
     dropall:
       name: dropall
       description: |-
@@ -283,7 +283,7 @@ sugarcube-2:
         <<linkedinventory 'Store' '$inventory' '$storage'>>
         ```
       parameters:
-        - string & string |+ string
+        - string &+ string |+ string
     # end simple inventory
     
     # start cycles system
