@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.7.2)
+## Chapel's Custom Macro Collection (v2.8.0)
 
 - [Try the demo!](https://macros.twinelab.net/demo) ([Sausage](https://github.com/ChapelR/custom-macros-demo))
 - [Downloads](./download ':ignore')
@@ -32,10 +32,9 @@
   - [The Articles (A/An) Macros](articles.md)
 - **Utilities and Other**
   - [The Preload Macro](preload.md)
-  - [The Done Macro](done-macro.md)
   - [The File System Macro Set](file-system-macros.md)
   - [The First Macro](first-macro.md)
-  - [Dice Roller and Fairmath Functions](operations-api.md)
+  - [Dice Roller, Between, and Fairmath](operations-api.md)
 
 ### Installation Guide
 

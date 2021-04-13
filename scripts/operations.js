@@ -61,7 +61,7 @@
         // remove all whitespace and trim
         string = string.trim().replace(/\s/g, '');
         // check for and return the parts of the roll (2 chunks: '1d6' and '+6')
-        parsed = string.match(/(\d+[d][\df]d*)(.*)/i);
+        parsed = string.match(/(\d+[d][\df]\d*)(.*)/i);
         return [parsed[1], Number(parsed[2])]; // send the data off as an array
     }
 
@@ -158,6 +158,31 @@
         });
     }
 
+    /* Number.between() */
+    if (!Number.prototype.between) {
+        Object.defineProperty(Number.prototype, 'between', {
+            configurable : true,
+            writable     : true,
+            
+            value : function (a, b) {
+                // errors
+                if (typeof a !== 'number' || typeof b !== 'number') {
+                    throw new TypeError('Number.between() -> both values must be numbers');
+                }
+                var n = Number(this);
+                if (a === b) {
+                    return n === a;
+                }
+                if (b < a) {
+                    var c = b;
+                    b = a;
+                    a = c;
+                }
+                return n >= a && n <= b;
+            }
+        });
+    }
+
     // Math.fairmath() method 
     if (!Math.fairmath) {
         Object.defineProperty(Math, 'fairmath', {
@@ -166,6 +191,18 @@
             
             value : function (base, val) { 
                 return base.fairmath(val);
+            }
+        });
+    }
+
+    /* Math.between() */
+    if (!Math.between) {
+        Object.defineProperty(Math, 'between', {
+            configurable : true,
+            writable     : true,
+            
+            value : function (base, a, b) { 
+                return base.between(a, b);
             }
         });
     }

@@ -57,6 +57,7 @@ Read more on what fairmath is [here](http://choicescriptdev.wikia.com/wiki/Arith
 * **change**: the number to add or subtract from the base value.
 
 **Usage**:
+
 ```
 <<set $stat to 90>>
 <<set $otherStat to 50>>
@@ -93,6 +94,28 @@ The same as `<number>.fairmath()` above, but on the `Math` object, which you may
 <<= $stat>> /% 72 %/
 <<= $otherStat>> /% 40 %/
 <<= $otherOtherStat>> /% 28 %/
+```
+
+### Method: `Number.prototype.between()` and `Math.between()`
+
+**Syntax**:`<value>.between(a, b)` or `Math.between(value, a, b)`
+
+Returns `true` if the value is *between* the numbers `a` and `b`, inclusive.
+
+* **value**: the base value to apply to check.
+* **a**: the lower bound.
+* **b**: the upper bound.
+
+**Usage**:
+
+```
+<<if $stat.between(50, 70)>>
+	Your stat is average.
+<</if>>
+
+<<if Math.between($grade, 80, 89)>>
+	You got a B in the class.
+<</if>>
 ```
 
 ## Other usage notes:

@@ -2,6 +2,15 @@
 
 [Back to the main page](./README.md).
 
+### April 13, 2021 (v2.8.0)
+
+- **[Retired]** Removed the `<<done>>` macro. 
+  - As of v2.35.0, SugarCube 2 now has a [built-in `<<done>>` macro](http://www.motoslave.net/sugarcube/2/docs/#macros-macro-done) that does the same thing.
+- **[Update]** Updated the operations API.
+  - Fixed dice roller regex.
+  - Added `between()` methods.
+- **[Meta]** Improvements to T3LT definitions courtesy of [HaleyScribe](https://github.com/HaleyScribe).
+
 ### February 25, 2021 (v2.7.2)
 
 - **[Update]** Added display name feature to speech box system, courtesy of [GwenTastic](https://github.com/GwenTastic).
