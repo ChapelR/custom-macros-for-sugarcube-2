@@ -83,7 +83,7 @@ You can use this child tag to run code when the dialog is closed.
 
 **Syntax**: `<<popup passageName [title] [classList]>>`
 
-The `<<popup>>` macro provides a similar result to what you might get by pairing a `<<dialog>>` macro and an `<<include>>` macro.  The macro is generally the same as `<<dialog>>`, but the first argument must be the name of a passage, and instead of rendering content from between tags, that passage's content will be rendered into the dialog box. This macr does not support the `<<onopen>>` and `<<onclose>>` feature; if you need it, use the `<<dialog>>` macro with `<<include>>`.
+The `<<popup>>` macro provides a similar result to what you might get by pairing a `<<dialog>>` macro and an `<<include>>` macro.  The macro is generally the same as `<<dialog>>`, but the first argument must be the name of a passage, and instead of rendering content from between tags, that passage's content will be rendered into the dialog box. This macro does not support the `<<onopen>>` and `<<onclose>>` feature; if you need it, use the `<<dialog>>` macro with `<<include>>`.
 
 **Arguments**:
 
