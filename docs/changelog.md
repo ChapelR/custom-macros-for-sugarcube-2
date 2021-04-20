@@ -2,6 +2,10 @@
 
 [Back to the main page](./README.md).
 
+### April 20, 2021 (v2.9.0)
+
+- **[Update]** The `<<typesim>>` macro is now mobile-friendly.
+
 ### April 13, 2021 (v2.8.0)
 
 - **[Retired]** Removed the `<<done>>` macro. 

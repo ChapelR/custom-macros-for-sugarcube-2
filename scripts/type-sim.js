@@ -1,55 +1,73 @@
-// typesim macro, by chapel; for sugarcube 2
-// version 1.0.1
+(function () {
+    'use strict';
+    // typesim macro, by chapel; for sugarcube 2
+    // version 2.0.0
 
-Macro.add('typesim', {
-       tags : null,
-    handler : function () {
-        
-        var $text    = $(document.createElement('textarea'));
-        var $wrapper = $(document.createElement('div'));
-        
-        // simple error checking
-        if (this.args.length !== 1) {
-            return this.error('incorrect number of arguments');
-        } if (typeof this.args[0] != 'string') {
-            return this.error('argument should be a string');
+    function typeSim (content, $target, callback) {
+        if (!content || typeof content !== 'string') {
+            return;
         }
-        
-        // get message parameters
-        var message = this.args[0],
-            shown   = '', 
-            length  = message.length,
-            i       = 0,
-            id      = 'typesim-output-' + message.replace(/[^A-Za-z0-9]/g, ''),
-            cls     = 'macro-' + this.name,
-            content = this.payload[0].contents;
-            
-        $text
-            .wiki(shown)
-            .attr({
-                id       : id,
-                readonly : true
-                })
-            .addClass(cls)
-            .appendTo(this.output);
-        
-        // listener
-        $(document).on('keydown', '#' + id, this.createShadowWrapper( function (e) {
-            
-            if (i < length) {
-                shown = shown + message.charAt(i);
-                $('#' + id).empty().wiki(shown);
-            }
-            
-            if (i === length) {
-                $wrapper
-                    .wiki(content)
-                    .addClass(cls)
-                    .insertAfter('#' + id);
-            }
-            
-            i++;
-        }));
-        
+
+        if ($target && !($target instanceof $)) {
+            $target = $($target);
+        }
+
+        var i = 0;
+        var arrayify = content.split('');
+        var message = [];
+
+        var $textarea = $(document.createElement('textarea'))
+            .addClass('type-sim')
+            .on('input.type-sim', function () {
+                var $self = $(this);
+                i = message.push(arrayify[i]);
+                $self.val(message.join(''));
+                if (content.length === message.length) {
+                    $self
+                        .off('input.type-sim')
+                        .ariaDisabled(true);
+                    if (callback && typeof callback === 'function') {
+                        callback(message.join(''));
+                    }
+                    $(document).trigger({ 
+                        type : ':type-sim-end',
+                        message : message.join('')
+                    });
+                }
+            });
+
+        if ($target && $target[0]) {
+            $target.append($textarea);
+        }
+
+        return $textarea;
     }
-});
+
+    Macro.add('typesim', {
+        tags : null,
+        handler : function () {
+            if (!this.args.length || !this.args[0] || typeof this.args[0] !== 'string') {
+                return this.error('no text to type out was provided');
+            }
+
+            var $wrapper = $(document.createElement('span')).addClass('macro' + this.name);
+            var $callbackOutput = $(document.createElement('div'));
+
+            var wiki;
+            if (this.payload[0].contents && this.payload[0].contents.trim()) {
+                wiki = this.payload[0].contents;
+            }
+
+            function callback () {
+                $callbackOutput.wiki(wiki);
+            }
+
+            typeSim(this.args[0], $wrapper, callback);
+
+            $wrapper
+                .append($callbackOutput)
+                .appendTo($(this.output));
+        }
+    });
+
+})();
