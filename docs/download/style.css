@@ -44,3 +44,9 @@ body {
     padding: 0 1em;
     user-select: none;
 }
+
+#checks label:hover,
+#checks label:active,
+#checks label:focus {
+    text-decoration: underline;
+}
