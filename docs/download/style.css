@@ -27,12 +27,20 @@ body {
     font-family: inherit;
     font-size: 14px;
     cursor: pointer;
+    box-shadow: 0 0 4px #555;
+    border: 1px solid transparent;
 }
 
 #submit:active, #submit:focus, #submit:hover {
-    opacity: 0.8; 
+    opacity: 0.8;
+    border-color: #333;
+    user-select: none;
 }
 
 #checks label {
     cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0.7em;
+    padding: 0 1em;
+    user-select: none;
 }
