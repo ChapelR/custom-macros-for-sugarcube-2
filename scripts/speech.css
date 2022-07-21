@@ -3,19 +3,19 @@
     overflow: auto;
 }
 
-.say img {
+.say > img {
     max-width: 20%;
     float: left;
     margin-right: 1em;
 }
 
-.say p:first-of-type {
+.say > p:first-of-type {
     font-weight: bold;
     margin: 0.2em 0;
     border-bottom: 1px solid #eee;
 }
 
-.say p:last-of-type {
+.say > p:last-of-type {
     padding: 0.5em;
     margin: 0;
 }

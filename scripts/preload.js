@@ -13,6 +13,9 @@
     function preloadAll (urls, cb) {
         var loaded = 0;
         var toBeLoaded = urls.length;
+        if (toBeLoaded === 0) {
+            throw new Error("No URLs to preload!");
+        }
         urls.forEach( function (url) {
             preloadImage( url, function () {
                 loaded++;

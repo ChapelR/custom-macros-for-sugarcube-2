@@ -2,6 +2,16 @@
 
 [Back to the main page](./README.md).
 
+### July 21, 2022 (v2.10.0)
+
+- **[Update]** A few small updates and fixes.
+  - The event macros are now shadow-wrapper aware, meaning they should now work with the `<<capture>>` macro.
+  - The `<<preload>>` macro and related functions now throw when called without any valid URLs.
+  - Updated the speech box macro set's built-in styles to avoid selecting potential user elements.
+- **[Meta]** Some small updates.
+  - Removed listing for `<<done>>` from the download utility and from the demo.
+  - Added Gwen to credits in README.
+
 ### April 20, 2021 (v2.9.0)
 
 - **[Update]** The `<<typesim>>` macro is now mobile-friendly.

@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.9.0)
+## Chapel's Custom Macro Collection (v2.10.0)
 
 - [Try the demo!](https://macros.twinelab.net/demo) ([Sausage](https://github.com/ChapelR/custom-macros-demo))
 - [Downloads](./download ':ignore')
@@ -110,11 +110,12 @@ This code is dedicated to the public domain.  You **don't** need to provide cred
 > [!TIP]
 > If you have any questions or concerns about this, refer to the [license](https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/LICENSE) or reach out to me.
 
-#### This macro set features contributions from these awesome folks:
+#### This macro set features contributions from these awesome folks, among others:
 
 - [Thomas M. Edwards](https://github.com/tmedwards)
 - [Matilde Park](https://github.com/matildepark)
 - [Zachary Chandler](https://github.com/Zachac)
+- [GwenTastic](https://github.com/GwenTastic)
 
 ### Donations
 
