@@ -3,7 +3,7 @@
 [Back to the main readme](./README.md).
 
 > [!NOTE]
-> A third version of the simple inventory is in development. You can take a look at it [here](https://github.com/ChapelR/simple-inventory). It is not finished yet. When it is ready, it will be its own project, separate from the custom macro collection. Feel free to open issues over in the new repo if you have ideas or suggestions!
+> [Simple Inventory v3](https://inventory.twinelab.net/) is currently in beta! Once it stabilizes, this version of the Simple Inventory will be retired and the simple inventory will no longer be part of this collection.
 
 The simple inventory allows Twine authors to create and manipulate array-based inventories for 'key' style items (as opposed to consumables or equipment).  This system provides a great deal of functionality, including sorting, displaying item lists (with drop / transfer links), and creating multiple inventories (for creating 'rooms' or other containers, or party members) and transfering items between them.  All of the functionality here has both a JavaScript API and a TwineScript Macro-based API, meaning the features are easily available from within your passages and inside scripts.
 
