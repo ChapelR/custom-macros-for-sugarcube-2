@@ -58,6 +58,7 @@
             evt = this.args[0];
             
             $(document)[method](evt + '.' + setup.eventMacroNamespace, sel, this.createShadowWrapper(function (e) {
+               if ($("input:focus").length === 0)) {
                 code = payload[0].contents;
                 if (payload.length > 1) {
                     for (i = 1; i < payload.length; i++) {
@@ -67,6 +68,7 @@
                     }
                 }
                 new Wikifier(null, code);
+              }      
             }));
             
         }
