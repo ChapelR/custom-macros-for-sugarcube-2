@@ -3,67 +3,67 @@
     // version 1.1.1
     // requires notify.css / notify.min.css
 
-    var DEFAULT_TIME = 2000; // default notification time (in MS)
+  	let isPending = false;
+  
+    const DEFAULT_TIME = 2000, // default notification time (in MS)
+    	ANIMATION_TIME = 300, // based on the .3s css transition
+		isCssTime = /\d+m?s$/,
+    	queue = [];
+  
+    function notify(message, time, classes) {
+     	let notifObject;
+      
+        if (Array.isArray(message)) {
+        	message.forEach(m => notify(m));
+            return;
+        } else if (typeof message === 'object') {
+          	notifObject = message;
+        } else {
+          	if (typeof message !== 'string' || !message.trim()) {
+            	return;
+            }
+          	
+          	if (Array.isArray(classes)) {classes = classes.join(' ')}
+          
+        	notifObject = {
+              	message : message.trim(),
+              	delay : typeof time === 'number' ? time : false,
+              	class : classes || ''
+            };
+        }
 
-    var isCssTime = /\d+m?s$/;
-
+      	if (isPending) {
+        	queue.push(notifObject);
+        } else {
+          	notifObject.type = ':notify';
+        	$(document).trigger(notifObject);
+        }
+    };
+  
     $(document.body).append("<div id='notify'></div>");
     $(document).on(':notify', function (ev) {
-        if (ev.message && typeof ev.message === 'string') {
-            // trim message
-            ev.message.trim();
-            // classes
-            if (ev.class) {
-                if (typeof ev.class === 'string') {
-                    ev.class = 'open macro-notify ' + ev.class;
-                } else if (Array.isArray(ev.class)) {
-                    ev.class = 'open macro-notify ' + ev.class.join(' ');
-                } else {
-                    ev.class = 'open macro-notify';
-                }
-            } else {
-                ev.class = 'open macro-notify';
-            }
-            
-            // delay
-            if (ev.delay) {
-                if (typeof ev.delay !== 'number') {
-                    ev.delay = Number(ev.delay);
-                }
-                if (Number.isNaN(ev.delay)) {
-                    ev.delay = DEFAULT_TIME;
-                }
-            } else {
-                ev.delay = DEFAULT_TIME;
-            }
-            
-            $('#notify')
-                .empty()
-                .wiki(ev.message)
-                .addClass(ev.class);
+      	isPending = true;
+  
+        if (!ev.delay || Number.isNaN(ev.delay)) {ev.delay = DEFAULT_TIME;}
+
+       	$('#notify')
+        	.wiki(ev.message)
+          	.addClass('open macro-notify '+ev.class);
                     
-            setTimeout(function () {
-                $('#notify').removeClass();
-            }, ev.delay);
-        }
+        setTimeout(e => {
+          	isPending = false;
+          
+        	$('#notify')
+            	.empty()
+            	.removeClass();
+
+          	if (queue.length) {
+            	setTimeout(e => {
+            		notify(queue.shift());
+                }, ANIMATION_TIME);
+        	}
+       	}, ev.delay);
     });
-
-    function notify (message, time, classes) {
-        if (typeof message !== 'string') {
-            return;
-        }
-
-        if (typeof time !== 'number') {
-            time = false;
-        }
-
-        $(document).trigger({
-            type    : ':notify',
-            message : message,
-            delay   : time,
-            class   : classes || ''
-        });
-    }
 
     // <<notify delay 'classes'>> message <</notify>>
     Macro.add('notify', {
@@ -85,12 +85,10 @@
                     classes = this.args.flatten().join(' ');
                 }
             }
-            
             // fire event
             notify(msg, time, classes);
             
         }
     });
-
     setup.notify = notify;
 }());
