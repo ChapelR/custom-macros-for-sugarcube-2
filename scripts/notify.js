@@ -3,43 +3,13 @@
     // version 1.1.1
     // requires notify.css / notify.min.css
 
-  	let isPending = false;
+	let isPending = false;
   
     const DEFAULT_TIME = 2000, // default notification time (in MS)
-    	ANIMATION_TIME = 300, // based on the .3s css transition
+		ANIMATION_TIME = 300, // based on the .3s css transition
 		isCssTime = /\d+m?s$/,
     	queue = [];
-  
-    function notify(message, time, classes) {
-     	let notifObject;
-      
-        if (Array.isArray(message)) {
-        	message.forEach(m => notify(m));
-            return;
-        } else if (typeof message === 'object') {
-          	notifObject = message;
-        } else {
-          	if (typeof message !== 'string' || !message.trim()) {
-            	return;
-            }
-          	
-          	if (Array.isArray(classes)) {classes = classes.join(' ')}
-          
-        	notifObject = {
-              	message : message.trim(),
-              	delay : typeof time === 'number' ? time : false,
-              	class : classes || ''
-            };
-        }
-
-      	if (isPending) {
-        	queue.push(notifObject);
-        } else {
-          	notifObject.type = ':notify';
-        	$(document).trigger(notifObject);
-        }
-    };
-  
+	
     $(document.body).append("<div id='notify'></div>");
     $(document).on(':notify', function (ev) {
       	isPending = true;
@@ -65,6 +35,38 @@
        	}, ev.delay);
     });
 
+    function notify(message, time, classes) {
+     	let notifObject;
+      
+        if (Array.isArray(message)) {
+        	message.forEach(m => notify(m));
+            return;
+        } else if (typeof message === 'object') {
+          	notifObject = message;
+        } else {
+          	if (typeof message !== 'string' || !message.trim()) {
+            	return;
+            }
+          	
+          	if (Array.isArray(classes)) {
+				classes = classes.join(' ');
+			}
+          
+        	notifObject = {
+              	message : message.trim(),
+              	delay : typeof time === 'number' ? time : false,
+              	class : classes || ''
+            };
+        }
+
+      	if (isPending) {
+        	queue.push(notifObject);
+        } else {
+          	notifObject.type = ':notify';
+        	$(document).trigger(notifObject);
+        }
+    };
+	
     // <<notify delay 'classes'>> message <</notify>>
     Macro.add('notify', {
            tags : null,
