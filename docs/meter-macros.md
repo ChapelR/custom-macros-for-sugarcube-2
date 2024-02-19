@@ -141,11 +141,11 @@ Renders the indicated meter into the passage, optionally setting the value. If y
 **Usage**:
 ```
 /* render the player's health bar */
-<<showmeter '$healthBar' `$health / $maxHealth`>>
+<<showmeter 'healthBar' `$health / $maxHealth`>>
 
 /* render the experience meter */
 <<set _xp to $exp / $neededForNextLevel>>
-<<showmeter '$xpBar' _xp>>
+<<showmeter 'xpBar' _xp>>
 
 /* create a timer meter */
 Given the following in StoryInit:
@@ -175,31 +175,31 @@ Changes the value of a meter; if the meter is on the page, it will be automatica
 **Usage**:
 ```
 Given the follwing in StoryInit:
-<<newmeter '$healthBar'>><<label '$health'>><</newmeter>>
-<<newmeter '$xpBar'>><</newmeter>>
+<<newmeter 'healthBar'>><<label '$health'>><</newmeter>>
+<<newmeter 'xpBar'>><</newmeter>>
 
 /* change the player's health */
 <<set $health to 23, $maxHealth to 130>>\
-<<showmeter '$healthBar' `$health / $maxHealth`>>
+<<showmeter 'healthBar' `$health / $maxHealth`>>
 
 <<link 'take a potion'>>
     <<set $health to Math.clamp($health + random(20, 35), 0, $maxHealth)>>
-    <<updatemeter '$healthBar' `$health / $maxHealth`>>
+    <<updatemeter 'healthBar' `$health / $maxHealth`>>
 <</link>>
 
 <<link 'take damage'>>
     <<set $health to Math.clamp($health - random(10, 25), 0, $maxHealth)>>
-    <<updatemeter '$healthBar' `$health / $maxHealth`>>
+    <<updatemeter 'healthBar' `$health / $maxHealth`>>
 <</link>>
     
 
 /* gain some experience */
-<<show '$xpBar'>>
+<<showmeter 'xpBar'>>
 
 You earned 100xp!
 <<set $xp += 100>>
 <<set _xp to $xp / $neededForNextLevel>>
-<<updatemeter '$xpBar' _xp>>
+<<updatemeter 'xpBar' _xp>>
 ```
 
 ## JavaScript API
