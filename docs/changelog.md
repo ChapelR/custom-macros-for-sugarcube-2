@@ -2,6 +2,11 @@
 
 [Back to the main page](./README.md).
 
+### February 20, 2024 (v2.11.0)
+
+- **[Retired]** Removed Simple Inventory 2 in favor of [Simple Inventory 3](https://inventory.twinelab.net/).
+- **[Docs]** Fixed several errors in the meter macro docs.
+
 ### July 21, 2022 (v2.10.0)
 
 - **[Update]** A few small updates and fixes.
