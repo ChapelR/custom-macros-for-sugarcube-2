@@ -1,13 +1,15 @@
 ## Chapel's Custom Macro Collection (v2.10.0)
 
 - [Try the demo!](https://macros.twinelab.net/demo) ([Sausage](https://github.com/ChapelR/custom-macros-demo))
-- [Downloads](./download ':ignore')
+- [Downloads](https://macros.twinelab.net/download)
 - [Changelog](changelog.md)
 - [Release Notes](https://twinelab.net/blog/tags/macros/)
 
+> [!NOTE]
+> The Simple Inventory has been split off into [it's own library](https://inventory.twinelab.net)!
+
 ### Documentation
 - **Gameplay Systems and Mechanics**
-  - [The Simple Inventory System](simple-inventory.md)
   - [The Cycles System](cycles-system.md) 
   - [The Playtime System](playtime-system.md)
 - **Interface and Style**
@@ -38,7 +40,7 @@
 
 ### Installation Guide
 
-To install these macros, all you need is the code. You can get the code by copy and pasting from the [repo](https://github.com/ChapelR/custom-macros-for-sugarcube-2/tree/master/scripts), or by generating a custom download using the [download utility](./download ':ignore'). If you use the downloader, select the scripts you want and click the `Create Download` button. Extract the files from the downloaded zip file and install the `bundle.js` and `bundle.css` files (see below).
+To install these macros, all you need is the code. You can get the code by copy and pasting from the [repo](https://github.com/ChapelR/custom-macros-for-sugarcube-2/tree/master/scripts), or by generating a custom download using the [download utility](https://macros.twinelab.net/download). If you use the downloader, select the scripts you want and click the `Create Download` button. Extract the files from the downloaded zip file and install the `bundle.js` and `bundle.css` files (see below).
 
 If you opt to get the files from GitHub, It is highly recommended that you install the minified versions (found in the `scripts/minified/` [directory of the repo](https://github.com/ChapelR/custom-macros-for-sugarcube-2/tree/master/scripts/minified)), as these versions will have improved performance.  You will only need the non-minified versions if you plan to edit the code in some way. Links to both the minified and pretty scripts are available on the individual documentation pages for each macro / system.
 
