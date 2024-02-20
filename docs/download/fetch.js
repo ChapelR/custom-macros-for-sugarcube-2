@@ -24,7 +24,6 @@
         'Dice Roller and Fairmath Functions' : 'operations',
         'Playtime System' : 'playtime',
         'Pronoun Templates' : 'pronouns',
-        'Simple Inventory' : 'simple-inventory',
         'The Speech Box System' : 'speech+css',
         'Swap Macro Set' : 'swap-macro-set',
         'The Typesim Macro' : 'type-sim',
