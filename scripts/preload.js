@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    // v1.0.0
+    // v1.1.0
     // preload images prior to story startup
 
     function preloadImage (url, cb) {
@@ -32,7 +32,7 @@
 
 
     function preload () {
-        var list = [].slice.call(arguments).flatten();
+        var list = [].slice.call(arguments).flat(Infinity);
         var id = isInit() ? LoadScreen.lock() : false;
         preloadAll( list, function () {
             if (id) {
@@ -51,7 +51,7 @@
             if (!isInit() && !setup.preload.force) {
                 return this.error("Attempting to preload images outside of `StoryInit` or similar can cause performance issues. Set `setup.preload.force` to `true` if you want to do it anyway.");
             }
-            preload(this.args.flatten().filter( function (url) {
+            preload(this.args.flat(Infinity).filter( function (url) {
                 return typeof url === 'string';
             }));
         }

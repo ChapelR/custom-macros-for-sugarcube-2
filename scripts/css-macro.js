@@ -39,7 +39,7 @@
 
     function cssChanger (/*element, args...*/) {
         try {
-            var args = [].slice.call(arguments).flatten(),
+            var args = [].slice.call(arguments).flat(Infinity),
                 $el = args.shift(),
                 map;
             if (typeof args[0] === 'string') {

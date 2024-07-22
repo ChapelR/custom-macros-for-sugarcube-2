@@ -11,7 +11,7 @@ Macro.add('dialog', {
         var errors = [];
         var content = '', onOpen = null, onClose = null;
         var title = (this.args.length > 0) ? this.args[0] : '';
-        var classes = (this.args.length > 1) ? this.args.slice(1).flatten() : [];
+        var classes = (this.args.length > 1) ? this.args.slice(1).flat(Infinity) : [];
 
         this.payload.forEach( function (pl, idx) {
             if (idx === 0) {
@@ -66,7 +66,7 @@ Macro.add('popup', {
         // passage name and title
         var psg   = this.args[0];
         var title = (this.args.length > 1) ? this.args[1] : '';
-        var classes = (this.args.length > 2) ? this.args.slice(2).flatten() : [];
+        var classes = (this.args.length > 2) ? this.args.slice(2).flat(Infinity) : [];
         
         // add the macro- class
         classes.push('macro-' + this.name);

@@ -1,4 +1,4 @@
-## Chapel's Custom Macro Collection (v2.11.0)
+## Chapel's Custom Macro Collection (v2.11.1)
 
 - [Try the demo!](https://macros.twinelab.net/demo) ([Sausage](https://github.com/ChapelR/custom-macros-demo))
 - [Downloads](https://macros.twinelab.net/download)

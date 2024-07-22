@@ -1,5 +1,5 @@
 (function () {
-    // ui macro, for SugarCube 2, by Chapel, v1.0.0
+    // ui macro, for SugarCube 2, by Chapel, v1.0.1
     
     var ui = {
         update : UIBar.setStoryElements,
@@ -87,7 +87,7 @@
                 this.error('No commands passed to macro.');
             }
 
-            var cmdList = this.args.flatten();
+            var cmdList = this.args.flat(Infinity);
 
             var ret = processCommandList(cmdList);
 

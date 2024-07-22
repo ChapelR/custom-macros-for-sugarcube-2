@@ -28,7 +28,7 @@
         if (State.length > 0) {
             return false;
         }
-        var args = [].slice.call(arguments).flatten();
+        var args = [].slice.call(arguments).flat(Infinity);
         ignored = ignored.concat(args);
         return true;
     }
@@ -56,7 +56,7 @@
     }
 
     function reset () {
-        var args = [].slice.call(arguments).flatten();
+        var args = [].slice.call(arguments).flat(Infinity);
         ignored = ignored.concat(args);
         $(document).off('.continue-macro');
         ignoreMe();

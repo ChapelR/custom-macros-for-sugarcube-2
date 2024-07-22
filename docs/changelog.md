@@ -2,6 +2,10 @@
 
 [Back to the main page](./README.md).
 
+### July 22, 2024 (v2.11.1)
+
+- **[Update]** SugarCube v2.37.0 dropped the `array#flatten()` polyfill, so all instances were replaced with `array#flat()`. I should have probably done this a while ago, but there's no time like the last possible second!
+
 ### February 20, 2024 (v2.11.0)
 
 - **[Retired]** Removed Simple Inventory 2 in favor of [Simple Inventory 3](https://inventory.twinelab.net/).

@@ -80,9 +80,9 @@
                 var cssTime = isCssTime.test(this.args[0]);
                 if (typeof this.args[0] === 'number' || cssTime) {
                     time    = cssTime ? Util.fromCssTime(this.args[0]) : this.args[0];
-                    classes = (this.args.length > 1) ? this.args.slice(1).flatten() : false;
+                    classes = (this.args.length > 1) ? this.args.slice(1).flat(Infinity) : false;
                 } else {
-                    classes = this.args.flatten().join(' ');
+                    classes = this.args.flat(Infinity).join(' ');
                 }
             }
             

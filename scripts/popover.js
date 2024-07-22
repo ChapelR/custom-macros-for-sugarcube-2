@@ -1,10 +1,10 @@
 (function () {
     'use strict';
     // popover macro, by chapel, for SugarCube 2
-    // v1.0.0
+    // v1.0.1
 
     function handleClasses () {
-        return [].slice.call(arguments).flatten().filter( function (c) {
+        return [].slice.call(arguments).flat(Infinity).filter( function (c) {
             return c && typeof c === 'string' && c.trim();
         }) || [];
     }

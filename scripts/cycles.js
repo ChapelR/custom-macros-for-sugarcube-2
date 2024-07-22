@@ -27,7 +27,7 @@
         if (pl.args.length < 1) {
             return null;
         }
-        var phases = pl.args.flatten();
+        var phases = pl.args.flat(Infinity);
         if (!phases.every(function (ph) {
             return typeof ph === 'string';
         })) {
@@ -141,7 +141,7 @@
         },
         check : function (name) {
             if (Cycle.has(name)) {
-                var phases = [].slice.call(arguments).flatten().slice(1);
+                var phases = [].slice.call(arguments).flat(Infinity).slice(1);
                 return Cycle.get(name).check(phases);
             }
         },
@@ -256,7 +256,7 @@
             return this.increment;
         },
         check : function () {
-            var phases = [].slice.call(arguments).flatten();
+            var phases = [].slice.call(arguments).flat(Infinity);
             return phases.includes(this.current());
         }
     });
@@ -317,7 +317,7 @@
             // render the payload tags' args as cycles
             var phases = this.payload.slice(1).map( function (pl) {
                 return _payloadMapper(pl);
-            }).flatten();
+            }).flat(Infinity);
 
             if (phases.includes(null)) {
                 // throw on junk phases
