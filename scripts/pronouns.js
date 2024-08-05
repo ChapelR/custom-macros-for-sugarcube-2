@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    // v1.1.0; by Chapel, for SugarCube 2 (>= v2.29.0)
+    // v1.2.0; by Chapel, for SugarCube 2 (>= v2.29.0)
 
     if (!Template || !Template.add || typeof Template.add !== 'function') {
         alert('Warning, this version of SugarCube does not include the Template API. Please upgrade to v2.29.0 or higher.');
@@ -158,6 +158,50 @@
 
     }
 
+    // modes
+    var storedGenders = new Map();
+    State.variables["%%gendermap_stateful"] = new Map();
+
+    function statefulMapping (name, val) {
+        var map = State.variables["%%gendermap_stateful"];
+        if (val !== undefined) {
+            map.set(name, val);
+        }
+        return map.get(name);
+    }
+
+    function setGenderMapping (character, gender, stateful) {
+        var genderOpts = ["female", "male", "other"];
+        var name, identity;
+        if (typeof gender === "string" && genderOpts.includes(gender)) {
+            identity = genderOpts.indexOf(gender);
+        } else if (typeof gender === "number" && [0, 1, 2].includes(gender)) {
+            identity = gender;
+        } else if (typeof gender === "object" && !!gender.subjective && typeof gender.subjective === "string") {
+            identity = clone(gender);
+        } else {
+            throw new Error("invalid type passed to setGenderMapping: must be an object containing pronouns, or a string or nimber correspoinding to a preset");
+        }
+
+        name = String(character);
+        if (stateful) {
+            statefulMapping(name, identity);
+        } else {
+            storedGenders.set(name, identity);
+        }
+    }
+
+    function getStoredGender (name) {
+        var stored = storedGenders.get(name);
+        if (stored === undefined || stored === null) {
+            stored = statefulMapping(name);
+        }
+        if (stored === undefined || stored === null) {
+            return null;
+        }
+        return stored;
+    }
+
     // CORE FUNCTIONS
 
     function handleGender () {
@@ -178,6 +222,17 @@
     }
 
     function getGender () {
+        // psm
+        var psm_setting = setup["%%psm_setting"];
+        if (psm_setting !== undefined) {
+            if (typeof psm_setting === "object" && psm_setting.subjective) {
+                return clone(psm_setting);
+            }
+            if (typeof psm_setting === "number") {
+                return getFromPreset(psm_setting);
+            }
+            // can't process psm context
+        }
         // get the player's gender (custom or grab the default)
         // custom
         if (State.variables[config.storyVar] && State.variables[config.storyVar].subjective) {
@@ -356,6 +411,53 @@
             this.output.append(pluralize(String(this.args[0]), (this.args[1]) ? String(this.args[1]) : null, !!pl));
         }
     });
+
+    // set gender map
+    // <<newpronounset name pronouns stateful>>
+    Macro.add("newpronounset", {
+        handler : function () {
+            if (this.args.length < 2) {
+                return this.error("Please pass at least two arguments, the name of the set and the pronoun configuration desired.");
+            }
+
+            var stateful = this.args[2];
+            if (stateful === undefined) {
+                // default to stateful outside storyinit or equivalent
+                var stateful = State.length > 0;
+            }
+
+            setGenderMapping(this.args[0], this.args[1], stateful);
+        }
+    });
+
+    // <<psm "name">> ?he <</psm>>
+    // <<pronounsetmode "name">> ?he <</pronounsetmode>>
+    Macro.add([ "pronounsetmode", "psm" ], {
+        tags : null,
+        handler : function () {
+            if (this.args.length < 1) {
+                return this.error("Please indicate the saved pronoun set to use.");
+            }
+
+            var psm = this.args[0];
+            var contents = this.payload[0].contents;
+            
+            var $out = $(document.createElement("span"))
+                .addClass("pronoun-set-mode")
+                .attr("data-psm-name", this.args[0])
+                .appendTo($(this.output));
+            
+            // deep closure??? magic
+            (function () {
+                setup["%%psm_context"] = psm;
+                setup["%%psm_setting"] = getStoredGender(psm);
+                $out.wiki(contents);
+                delete setup["%%psm_context"], setup["%%psm_setting"];
+            }());
+        }
+    });
+
+    // gendermap mode
 
     // JAVASCRIPT API
 
