@@ -44,6 +44,74 @@ This macro will attempt to pluralize verbs when the pronouns are set to `they/th
 ?She <<verb 'goes'>> to the beach all the time. /* -> 'They go to the beach all the time.' */
 ```
 
+### Macro: `<<newpronounset>>`
+
+**Syntax**: `<<newpronounset name pronouns [stateful]>>`
+
+This macro creates a "pronoun set," which is a set of pronouns different from the main set, for example to set the pronouns of NPCs or other additional characters. Each pronoun set must have a name and a set of associated pronouns&mdash;you can provide the name of a preset (`"female"`, `"male"`, or `"other"`) as a string, or pass an object in backticks (`\``) defining each value individually.
+
+By default, a new pronoun set is *stateful* when defined after startup (e.g. outside of `StoryInit`) and is non-stateful when defined in `StoryInit`. You can override this default behavior by passing `true` or `false` as the third argument to this macro. If this is confusing to you, all you need to remember is: if the pronoun set is not intended to change over the course of the story, such as by letting the player choose different values, you should define it in `StoryInit`, if the pronoun set will change over the course of the story, it should be fine to just alter it as you need later on.
+
+**Arguments**:
+- `name` the name of the pronoun set, so it can be references later.  
+- `pronouns` either a string value representing the preset that should be used (valid options are `"female"`, `"male"`, or `"other"`) or an object containing each pronoun to set, which should include all of the following properties:
+  - `subjective` for example "he" or "she"  
+  - `objective` for example "him" or "her"  
+  - `possessive` for example "his" or "hers"  
+  - `determiner` for example "his" or "her"  
+  - `reflexive` for example "himself" or "herself"  
+  - `noun` for example "man" or "woman"
+- `stateful` if `true` this pronoun set is stored as a story variable, meaning its initial values and any subsequent changes will be persisted as part of the player's saved games; if `false` the value is not persisted.
+
+**Usage**:
+```
+<<newpronounset "barry" "other">>
+<!-- creates a new prounoun set named "barry" and uses the "other" preset (i.e., they/them) -->
+
+<<newpronounset "main love interest" "female">>
+<!-- creates a new prounoun set named "main love interest" and uses the "female" preset -->
+<<newpronounset "main love interest" "male">>
+<!-- you can overwrite the same set later to change it, for example, to let the player choose the pronouns of the game's romantic lead -->
+
+<<newpronounset "dolan" `{
+	subjective : "ze",
+	objective : "zir",
+	possessive : "zirs",
+	determiner : "zir",
+	reflexive : "zirself",
+	noun : "person"
+}`>>
+<!-- you can pass an object to use custom pronouns in a set -->
+
+<<newpronounset "npc_1" "female" false>>
+<!-- you can pass the optional "stateful" argument to make a pronoun set stateful or not stateful -->
+<!-- in this example, we make sure the pronoun set is not stateful, making it similar in some ways to a temp variable -->
+```
+
+### Macro: `<<pronounsetmode>>` or `<<psm>>`
+
+**Syntax**:  
+`<<pronounsetmode name>>...<</pronounsetmode>>`  
+`<<psm name>>...<</psm>>`
+
+This macro creates a context within which pronoun templates will display the pronouns associated with the indicated **pronoun set** rather than the globally defined pronouns created by the `<<pronouns>>` macro or the equivalent setting/default pronoun set. This allows you to create secondary pronoun sets for additional characters, for example, then when referring to those characters, you use this macro to make the templates inside refer to that character's pronouns.
+
+**Arguments**:
+- `name` the name of a previously defined pronoun set
+
+**Usage**:
+```
+<!-- 
+  you can use the longer `<<pronounsetmode>>` macro if you wish, 
+  but the `<<psm>>` version is shorter, so it's my preference. 
+  just know the longer macro name works exactly the same! 
+-->
+
+?He ran down the steps and bumped into Barry near the door. 
+<<psm "barry">>Barry was, of course, dressed in overalls and chewing on the end of ?his pipe while pacing back and forth.<</psm>>
+<!-- the above uses the global pronoun set for the first `?He`, but the second sentence is in pronoun set mode for the set "barry" when the `?his` is encountered -->
+```
+
 ### Included Templates 
 
 See the [documentation](http://www.motoslave.net/sugarcube/2/docs/#markup-template) for more on template markup. Contractions `he's`, `she's` and `they're` are represented with a hyphen (e.g., `?he-s`) rather than an apostrophe.
