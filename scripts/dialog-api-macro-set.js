@@ -1,6 +1,6 @@
 // dialog API macro set, by chapel; for sugarcube 2
 // version 1.3.0
-// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2#dialog-api-macros
+// see the documentation: https://github.com/ChapelR/custom-macros-for-sugarcube-2/blob/master/docs/dialog-api-macro-set.md
 
 // <<dialog>> macro
 Macro.add('dialog', {
