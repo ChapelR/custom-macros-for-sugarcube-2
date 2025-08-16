@@ -31,7 +31,7 @@ Creates a link (or button) on the page.  When clicked, the content between the t
 // creates two messages with the same link text.  they must be given two different, unique IDs to appear in the same passage.
 ```
 
-## Othe Usage Notes:
+## Other Usage Notes:
 
 **Styling Options**:
 
