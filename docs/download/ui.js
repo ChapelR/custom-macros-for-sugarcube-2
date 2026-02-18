@@ -8,7 +8,7 @@ $( function () {
                         name : macro,
                         value : macro,
                         type : 'checkbox'
-                    })).append(macro));
+                    })).append("The" + macro));
     });
     $('#checks').append($checks);
     $(':checkbox').on('input', function () {

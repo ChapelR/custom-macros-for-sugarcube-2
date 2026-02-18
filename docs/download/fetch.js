@@ -1,34 +1,34 @@
 ( function () {
     'use strict';
 
-    var baseURL = 'https://cdn.jsdelivr.net/gh/chapelr/custom-macros-for-sugarcube-2@latest/scripts/minified/';
-    var extension = '.min.js';
-    var extensionCSS = '.min.css';
+    const baseURL = 'https://cdn.jsdelivr.net/gh/chapelr/custom-macros-for-sugarcube-2@latest/scripts/minified/';
+    const extension = '.min.js';
+    const extensionCSS = '.min.css';
 
-    var fileNameMap = {
-        'Articles (A/An) Macros' : 'articles',
-        'The Continue Macro Set': 'continue',
-        'The CSS Macro' : 'css-macro',
-        'Cyles System' : 'cycles',
-        'Dialog API Macros' : 'dialog-api-macro-set',
-        'The Event Macro Set' : 'events',
-        'The Fading Macro Set' : 'fading-macro-set',
-        'The Disable Macro' : 'disable',
-        'The First Macro' : 'first-macro',
-        'File System Macros' : 'fs',
-        'The Message Macro' : 'message-macro',
-        'The Meters Macro Set' : 'meters',
-        'The Mouseover Macro' : 'mouseover',
-        'The Popover Macro' : 'popover+css',
-        'The Notify Macro' : 'notify+css',
-        'Dice Roller and Fairmath Functions' : 'operations',
-        'Playtime System' : 'playtime',
-        'Pronoun Templates' : 'pronouns',
-        'The Speech Box System' : 'speech+css',
-        'Swap Macro Set' : 'swap-macro-set',
-        'The Typesim Macro' : 'type-sim',
-        'The UI Macro' : 'ui-macro',
-        'The Preload Macro' : 'preload'
+    const fileNameMap = {
+        'Articles (A/An) Macros': 'articles',
+        'CSS Macro': 'css-macro',
+        'Continue Macro Set': 'continue',
+        'Cycles System': 'cycles',
+        'Dialog API Macros': 'dialog-api-macro-set',
+        'Dice Roller and Fairmath Functions': 'operations',
+        'Disable Macro': 'disable',
+        'Event Macro Set': 'events',
+        'Fading Macro Set': 'fading-macro-set',
+        'File System Macros': 'fs',
+        'First Macro': 'first-macro',
+        'Message Macro': 'message-macro',
+        'Meters Macro Set': 'meters',
+        'Mouseover Macro': 'mouseover',
+        'Notify Macro': 'notify+css',
+        'Playtime System': 'playtime',
+        'Popover Macro': 'popover+css',
+        'Preload Macro': 'preload',
+        'Pronoun Templates': 'pronouns',
+        'Speech Box System': 'speech+css',
+        'Swap Macro Set': 'swap-macro-set',
+        'Typesim Macro': 'type-sim',
+        'UI Macro': 'ui-macro'
     };
 
     var macros = Object.keys(fileNameMap);
